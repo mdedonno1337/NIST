@@ -261,6 +261,7 @@ class NIST:
             if tagid == 3:
                 self.process_fileContent( value )
             
+            debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, value ), 2 )
             record01[ tagid ] = value
         
         self.data[ 1 ] = record01
