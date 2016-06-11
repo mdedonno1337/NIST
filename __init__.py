@@ -7,30 +7,30 @@ import logging
 class MyLogger:
     def __init__( self ):
         self.mode = logging.CRITICAL
-        self.format = '%(asctime)s -- %(levelname)s -- %(message)s'
+        self.format = "%(asctime)s -- %(levelname)s -- %(message)s"
         logging.basicConfig( level = self.mode, format = self.format )
-        self.log = logging.getLogger( 'NIST library' )
+        self.log = logging.getLogger( "NIST library" )
     
     def setMode( self, mode ):
         mode = mode.lower()
         
-        if mode == 'debug':
+        if mode == "debug":
             self.mode = logging.DEBUG
-        elif mode == 'info':
+        elif mode == "info":
             self.mode = logging.INFO
-        elif mode == 'warning':
+        elif mode == "warning":
             self.mode = logging.WARNING
-        elif mode == 'error':
+        elif mode == "error":
             self.mode = logging.ERROR
-        elif mode == 'critical':
+        elif mode == "critical":
             self.mode = logging.CRITICAL
         else:
-            raise Exception( 'debug level unknown : %s' % mode )
+            raise Exception( "debug level unknown : %s" % mode )
         
         self.log.setLevel( self.mode )
     
     def leveler( self, msg, level ):
-        return '\t' * level + msg
+        return "\t" * level + msg
     
     def debug( self, msg, level = 0 ):
         msg = self.leveler( msg, level )
@@ -59,7 +59,7 @@ debug = MyLogger()
 ################################################################################
 
 def bindump( data ):
-    return '%02x%02x%02x%02x ... %02x%02x%02x%02x (%d bytes)' % ( 
+    return "%02x%02x%02x%02x ... %02x%02x%02x%02x (%d bytes)" % ( 
         ord( data[0] ), ord( data[1] ), ord( data[2] ), ord( data[3] ),
         ord( data[-4] ), ord( data[-3] ), ord( data[-2] ), ord( data[-1] ), len( data )
     )
@@ -80,7 +80,7 @@ DO = '.'
 
 class NIST:
     def __init__( self ):
-        debug.info( 'initialization of the NIST object' )
+        debug.info( "initialization of the NIST object" )
         
         self.filename = None
         self.data = defaultdict( dict )
@@ -88,7 +88,7 @@ class NIST:
         return
     
     def loadFromFile( self, infile ):
-        debug.info( 'Reading from file : %s' % infile )
+        debug.info( "Reading from file : %s" % infile )
         
         self.filename = infile
     
@@ -98,7 +98,7 @@ class NIST:
         self.load( data )
     
     def load( self, data ):
-        debug.info( 'Loading object' )
+        debug.info( "Loading object" )
         
         records = data.split( FS )
         expected = []
@@ -107,7 +107,7 @@ class NIST:
         #    NIST Type01
         ########################################################################
         
-        debug.info( 'Type01 parsing', 1 )
+        debug.info( "Type01 parsing", 1 )
         
         t01 = records[0].split( GS )
         record01 = {}
@@ -131,10 +131,10 @@ class NIST:
         #    NIST Type02 and after
         ########################################################################
         
-        debug.debug( 'Expected Types : %s' % ', '.join( [ str( ntype ) for ntype, _ in expected[ 1: ] ] ), 1 )
+        debug.debug( "Expected Types : %s" % ", ".join( [ str( ntype ) for ntype, _ in expected[ 1: ] ] ), 1 )
         
         for ntype, _ in expected[ 1: ]:
-            debug.info( 'Type%02d parsing' % ntype, 1 )
+            debug.info( "Type%02d parsing" % ntype, 1 )
             LEN = 0
             
             if ntype in [ 2, 9, 13 ]:
