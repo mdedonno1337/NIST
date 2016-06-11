@@ -328,8 +328,15 @@ class NIST:
 #    Functions
 ################################################################################
 
-def fieldSplitter( f ):
-    tag, value = f.split( CO )
+def fieldSplitter( data ):
+    """
+        Split the input data in a ( tag, ntype, tagid, value ) tuple
+        
+        >>> fieldSplitter( "1.002:0501" )
+        ('1.002', 1, 2, '0501')
+        
+    """
+    tag, value = data.split( CO )
     ntype, tagid = tag.split( DO )
     ntype = int( ntype )
     tagid = int( tagid )
