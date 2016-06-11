@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from _collections import defaultdict
+from collections import OrderedDict
 import logging
 
 
@@ -208,7 +209,24 @@ class NIST:
         self.filename = None
         self.data = defaultdict( dict )
         
+        self.idcInOrder = []
+        self.idcByNType = defaultdict( list )
+        self.ntypeInOrder = []
+        self.nbLogicalRecords = 0
+        
         return
+    
+    def process_fileContent( self, data ):
+        data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+        
+        self.nbLogicalRecords = data[0][1]
+        
+        for ntype, idc in data[ 1: ]:
+            self.idcInOrder.append( ( ntype, idc ) )
+            self.idcByNType[ ntype ].append( idc )
+            self.ntypeInOrder.append( ntype )
+        
+        self.ntypeInOrder = set( self.ntypeInOrder )
     
     def loadFromFile( self, infile ):
         debug.info( "Reading from file : %s" % infile )
@@ -224,7 +242,6 @@ class NIST:
         debug.info( "Loading object" )
         
         records = data.split( FS )
-        expected = []
         
         ########################################################################
         #    NIST Type01
@@ -242,8 +259,7 @@ class NIST:
                 LEN = int( value )
             
             if tagid == 3:
-                for cnt in value.split( RS ):
-                    expected.append( map( int, cnt.split( US ) ) )
+                self.process_fileContent( value )
             
             record01[ tagid ] = value
         
@@ -254,9 +270,9 @@ class NIST:
         #    NIST Type02 and after
         ########################################################################
         
-        debug.debug( "Expected Types : %s" % ", ".join( [ str( ntype ) for ntype, _ in expected[ 1: ] ] ), 1 )
+        debug.debug( "Expected Types : %s" % ", ".join( map( str, self.ntypeInOrder ) ), 1 )
         
-        for ntype, _ in expected[ 1: ]:
+        for ntype in self.ntypeInOrder:
             debug.info( "Type%02d parsing" % ntype, 1 )
             LEN = 0
             
