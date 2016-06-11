@@ -91,7 +91,8 @@ class NIST:
                         
                         offset += len( tag ) + 1
                         
-                        recordx[ tagid ] = data[ offset : end ]
+                        value = data[ offset : end ]
+                        recordx[ tagid ] = value
                         data = data[ end: ]
                         break
                         
