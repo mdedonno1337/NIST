@@ -282,7 +282,52 @@ class NIST:
             self.ntypeInOrder.append( ntype )
         
         self.ntypeInOrder = set( self.ntypeInOrder )
+    
+    ############################################################################
+    # 
+    #    Dumping
+    # 
+    ############################################################################
+    
+    def dump_record( self, ntype, idc = -1, fullname = False ):
+        if idc < 0:
+            d = self.data[ ntype ]
+        else:
+            d = self.data[ ntype ][ idc ]
         
+        s = ""
+        for t in sorted( d.keys() ):
+            lab = get_label( ntype, t, fullname )
+            header = "%02d.%03d %s" % ( ntype, t, lab )
+            
+            if t == 999:
+                field = bindump( d[ t ] )
+            else:
+                field = d[ t ]
+            
+            debug.debug( "%s: %s" % ( header, field ), 2 )
+            s = s + leveler( "%s: %s\n" % ( header, field ), 1 )
+        
+        return s
+    
+    def dump( self, fullname = False ):
+        debug.info( "Dumping NIST" )
+        
+        s = ""
+        
+        for ntype in self.get_ntype():
+            debug.debug( "NIST Type-%02d" % ntype, 1 )
+            
+            if ntype == 1:
+                s += "NIST Type-%02d\n" % ntype
+                s += self.dump_record( ntype, -1, fullname ) 
+            else:
+                for idc in self.get_idc( ntype ):
+                    s += "NIST Type-%02d (IDC %d)\n" % ( ntype, idc )
+                    s += self.dump_record( ntype, idc, fullname )
+        
+        return s
+    
     ############################################################################
     # 
     #    Generic functions
