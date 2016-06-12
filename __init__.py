@@ -342,6 +342,9 @@ def get_label( ntype, tagid, fullname = False ):
     else:
         return void
 
+def leveler( msg, level ):
+    return "\t" * level + msg
+    
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
