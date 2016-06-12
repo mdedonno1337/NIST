@@ -283,6 +283,18 @@ class NIST:
         
         self.ntypeInOrder = set( self.ntypeInOrder )
         
+    ############################################################################
+    # 
+    #    Generic functions
+    # 
+    ############################################################################
+    
+    def get_ntype( self ):
+        return sorted( self.data.keys() )
+    
+    def get_idc( self, ntype ):
+        return sorted( self.data[ ntype ].keys() )
+    
 ################################################################################
 #
 #    Generic functions
