@@ -198,7 +198,7 @@ class NIST:
         records = data.split( FS )
         
         #    NIST Type01
-        debug.info( "Type01 parsing", 1 )
+        debug.debug( "Type-01 parsing", 1 )
         
         t01 = records[0].split( GS )
         record01 = {}
@@ -222,7 +222,7 @@ class NIST:
         debug.debug( "Expected Types : %s" % ", ".join( map( str, self.ntypeInOrder ) ), 1 )
         
         for ntype in self.ntypeInOrder:
-            debug.info( "Type%02d parsing" % ntype, 1 )
+            debug.debug( "Type-%02d parsing" % ntype, 1 )
             LEN = 0
             
             if ntype in [ 2, 9, 13 ]:
