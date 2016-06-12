@@ -56,17 +56,15 @@ class MyLogger:
 debug = MyLogger()
 
 ################################################################################
-# 
-################################################################################
-
-def bindump( data ):
-    return "%02x%02x%02x%02x ... %02x%02x%02x%02x (%d bytes)" % ( 
-        ord( data[0] ), ord( data[1] ), ord( data[2] ), ord( data[3] ),
-        ord( data[-4] ), ord( data[-3] ), ord( data[-2] ), ord( data[-1] ), len( data )
-    )
-
-################################################################################
-# 
+#
+#    Record type specifications
+#
+#        Abbreviation and full name of all Record type. 
+#        Based on the publication of the NIST:
+#
+#            ANSI/NIST-ITL 1-2011:
+#                UPDATE 2013 NIST Special Publication 500-290 Version 2 (2013) 
+#
 ################################################################################
 
 LABEL = {
@@ -188,7 +186,9 @@ FULLLABEL = {
 }
 
 ################################################################################
-# 
+#
+#    Special delimiters
+#
 ################################################################################
 
 FS = chr( 28 )
@@ -200,10 +200,15 @@ DO = '.'
 
 ################################################################################
 # 
+#    NIST object class
+# 
 ################################################################################
 
 class NIST:
     def __init__( self ):
+        """
+            Initialization of the NIST Object.
+        """
         debug.info( "initialization of the NIST object" )
         
         self.filename = None
@@ -216,19 +221,14 @@ class NIST:
         
         return
     
-    def process_fileContent( self, data ):
-        data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
-        
-        self.nbLogicalRecords = data[0][1]
-        
-        for ntype, idc in data[ 1: ]:
-            self.idcInOrder.append( ( ntype, idc ) )
-            self.idcByNType[ ntype ].append( idc )
-            self.ntypeInOrder.append( ntype )
-        
-        self.ntypeInOrder = set( self.ntypeInOrder )
+    ############################################################################
+    #    Loading functions
+    ############################################################################
     
     def loadFromFile( self, infile ):
+        """
+            Open the 'infile' file and transmit the data to the 'load' function.
+        """
         debug.info( "Reading from file : %s" % infile )
         
         self.filename = infile
@@ -237,16 +237,16 @@ class NIST:
             data = fp.read()
         
         self.load( data )
-    
+
     def load( self, data ):
+        """
+            Load from the data passed in parameter, and populate all internal dictionnaries.
+        """
         debug.info( "Loading object" )
         
         records = data.split( FS )
         
-        ########################################################################
         #    NIST Type01
-        ########################################################################
-        
         debug.info( "Type01 parsing", 1 )
         
         t01 = records[0].split( GS )
@@ -267,10 +267,7 @@ class NIST:
         self.data[ 1 ] = record01
         data = data[ LEN: ]
         
-        ########################################################################
         #    NIST Type02 and after
-        ########################################################################
-        
         debug.debug( "Expected Types : %s" % ", ".join( map( str, self.ntypeInOrder ) ), 1 )
         
         for ntype in self.ntypeInOrder:
@@ -318,16 +315,42 @@ class NIST:
             
             data = data[ LEN: ]
             
-        ########################################################################
-        # 
-        ########################################################################
-        
         return
-
+    
+    def process_fileContent( self, data ):
+        """
+            Function to process the 1.003 field passed in parameter.
+        """
+        data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+        
+        self.nbLogicalRecords = data[0][1]
+        
+        for ntype, idc in data[ 1: ]:
+            self.idcInOrder.append( ( ntype, idc ) )
+            self.idcByNType[ ntype ].append( idc )
+            self.ntypeInOrder.append( ntype )
+        
+        self.ntypeInOrder = set( self.ntypeInOrder )
+        
 ################################################################################
-#    Functions
+#
+#    Generic functions
+#
 ################################################################################
 
+def bindump( data ):
+    """
+        Return the first and last 4 bytes of a binary data.
+        
+        >>> bindump( chr(255) * 250000 )
+        'ffffffff ... ffffffff (250000 bytes)'
+        
+    """
+    return "%02x%02x%02x%02x ... %02x%02x%02x%02x (%d bytes)" % ( 
+        ord( data[0] ), ord( data[1] ), ord( data[2] ), ord( data[3] ),
+        ord( data[-4] ), ord( data[-3] ), ord( data[-2] ), ord( data[-1] ), len( data )
+    )
+    
 def fieldSplitter( data ):
     """
         Split the input data in a ( tag, ntype, tagid, value ) tuple
@@ -342,3 +365,8 @@ def fieldSplitter( data ):
     tagid = int( tagid )
     
     return tag, ntype, tagid, value
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod()
+    
