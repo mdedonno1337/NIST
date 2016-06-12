@@ -329,6 +329,19 @@ def fieldSplitter( data ):
     
     return tag, ntype, tagid, value
 
+def get_label( ntype, tagid, fullname = False ):
+    if fullname == False:
+        lab = LABEL
+        void = "   "
+    else:
+        lab = FULLLABEL
+        void = ""
+    
+    if lab.has_key( ntype ) and lab[ ntype ].has_key( tagid ):
+        return lab[ ntype ][ tagid ]
+    else:
+        return void
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
