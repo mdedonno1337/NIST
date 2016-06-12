@@ -345,6 +345,12 @@ def get_label( ntype, tagid, fullname = False ):
 def leveler( msg, level ):
     return "\t" * level + msg
     
+################################################################################
+#
+#    Main
+#
+################################################################################
+
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
