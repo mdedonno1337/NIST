@@ -4,56 +4,8 @@ from _collections import defaultdict
 from collections import OrderedDict
 import logging
 
+from lib.misc.logger import debug
 
-class MyLogger:
-    def __init__( self ):
-        self.mode = logging.CRITICAL
-        self.format = "%(asctime)s -- %(levelname)s -- %(message)s"
-        logging.basicConfig( level = self.mode, format = self.format )
-        self.log = logging.getLogger( "NIST library" )
-    
-    def setMode( self, mode ):
-        mode = mode.lower()
-        
-        if mode == "debug":
-            self.mode = logging.DEBUG
-        elif mode == "info":
-            self.mode = logging.INFO
-        elif mode == "warning":
-            self.mode = logging.WARNING
-        elif mode == "error":
-            self.mode = logging.ERROR
-        elif mode == "critical":
-            self.mode = logging.CRITICAL
-        else:
-            raise Exception( "debug level unknown : %s" % mode )
-        
-        self.log.setLevel( self.mode )
-    
-    def leveler( self, msg, level ):
-        return "\t" * level + msg
-    
-    def debug( self, msg, level = 0 ):
-        msg = self.leveler( msg, level )
-        self.log.debug( msg )
-    
-    def info( self, msg, level = 0 ):
-        msg = self.leveler( msg, level )
-        self.log.info( msg )
-    
-    def warning( self, msg, level = 0 ):
-        msg = self.leveler( msg, level )
-        self.log.warning( msg )
-        
-    def error( self, msg, level = 0 ):
-        msg = self.leveler( msg, level )
-        self.log.error( msg )
-    
-    def critical( self, msg, level = 0 ):
-        msg = self.leveler( msg, level )
-        self.log.critical( msg )
-    
-debug = MyLogger()
 
 ################################################################################
 #
@@ -66,7 +18,6 @@ debug = MyLogger()
 #                UPDATE 2013 NIST Special Publication 500-290 Version 2 (2013) 
 #
 ################################################################################
-
 LABEL = {
     1: {
         1: "LEN",
