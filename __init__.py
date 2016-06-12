@@ -20,135 +20,71 @@ from lib.misc.logger import debug
 ################################################################################
 LABEL = {
     1: {
-        1: "LEN",
-        2: "VER",
-        3: "CNT",
-        4: "TOT",
-        5: "DAT",
-        6: "PRY",
-        7: "DAI",
-        8: "ORI",
-        9: "TCN",
-        10: "TCR",
-        11: "NSR",
-        12: "NTR",
-        13: "DOM",
-        14: "GMT",
-        15: "DCS",
+        1:   ( 'LEN', 'Logical record length' ),
+        2:   ( 'VER', 'Version number' ),
+        3:   ( 'CNT', 'File content' ),
+        4:   ( 'TOT', 'Type of transaction' ),
+        5:   ( 'DAT', 'Date' ),
+        6:   ( 'PRY', 'Priority' ),
+        7:   ( 'DAI', 'Destination agency identifier' ),
+        8:   ( 'ORI', 'Originating agency identifier' ),
+        9:   ( 'TCN', 'Transaction control number' ),
+        10:  ( 'TCR', 'Transaction control reference' ),
+        11:  ( 'NSR', 'Native scanning resolution' ),
+        12:  ( 'NTR', 'Nominal transmitting resolution' ),
+        13:  ( 'DOM', 'Domain name' ),
+        14:  ( 'GMT', 'Greenwich mean time' ),
+        15:  ( 'DCS', 'Directory of character sets' )
     },
+    
     2: {
-        1: "LEN",
-        2: "IDC",
+        1:   ( 'LEN', 'Logical record length' ),
+        2:   ( 'IDC', 'Image designation character' )
     },
+    
     9: {
-        1: "LEN",
-        2: "IDC",
-        3: "IMP",
-        4: "FMT",
-        5: "OFR",
-        6: "FGP",
-        7: "FPC",
-        8: "CRP",
-        9: "DLT",
-        10: "MIN",
-        11: "RDG",
-        12: "MRC",
-        128: "HLL",
-        129: "VLL",
-        130: "SLC",
-        131: "HPS",
-        132: "VPS",
-        134: "FGP",
-        999: "DAT",
+        1:   ( 'LEN', 'Logical record length' ),
+        2:   ( 'IDC', 'Image designation character' ),
+        3:   ( 'IMP', 'Impression type' ),
+        4:   ( 'FMT', 'Minutiae format' ),
+        5:   ( 'OFR', 'Originating fingerprint reading system' ),
+        6:   ( 'FGP', 'Finger position' ),
+        7:   ( 'FPC', 'Fingerprint pattern classification' ),
+        8:   ( 'CRP', 'Core position' ),
+        9:   ( 'DLT', 'Delta(s) position' ),
+        10:  ( 'MIN', 'Number of minutiae' ),
+        11:  ( 'RDG', 'Minutiae ridge count indicator' ),
+        12:  ( 'MRC', 'Minutiae and ridge count data' ),
+        128: ( 'HLL', 'M1 horizontal line length' ),
+        129: ( 'VLL', 'M1 vertical line length' ),
+        130: ( 'SLC', 'M1 scale units' ),
+        131: ( 'HPS', 'M1 transmitted horizontal pixel scale' ),
+        132: ( 'VPS', 'M1 transmitted vertical pixel scale' ),
+        134: ( 'FGP', 'M1 friction ridge generalized position' ),
+        999: ( 'DAT', 'Plantar image / DATA' )
     },
+    
     13: {
-        1: "LEN",
-        2: "IDC",
-        3: "IMP",
-        4: "SRC",
-        5: "LCD",
-        6: "HLL",
-        7: "VLL",
-        8: "SLC",
-        9: "HPS",
-        10: "VPS",
-        11: "GCA",
-        12: "BPX",
-        13: "FGP",
-        14: "SPD",
-        15: "PPC",
-        16: "SHPS",
-        17: "SVPS",
-        20: "COM",
-        24: "LQM",
-        999: "DAT",
-    }
-}
-
-FULLLABEL = {
-    1: {
-        1: "Logical record length",
-        2: "Version number",
-        3: "File content",
-        4: "Type of transaction",
-        5: "Date",
-        6: "Priority",
-        7: "Destination agency identifier",
-        8: "Originating agency identifier",
-        9: "Transaction control number",
-        10: "Transaction control reference",
-        11: "Native scanning resolution",
-        12: "Nominal transmitting resolution",
-        13: "Domain name",
-        14: "Greenwich mean time",
-        15: "Directory of character sets"
-    },
-    2: {
-        1: "Logical record length",
-        2: "Image designation character"
-    },
-    9: {
-        1: "Logical record length",
-        2: "Image designation character",
-        3: "Impression type",
-        4: "Minutiae format",
-        5: "Originating fingerprint reading system",
-        6: "Finger position",
-        7: "Fingerprint pattern classification",
-        8: "Core position",
-        9: "Delta(s) position",
-        10: "Number of minutiae",
-        11: "Minutiae ridge count indicator",
-        12: "Minutiae and ridge count data",
-        128: "M1 horizontal line length",
-        129: "M1 vertical line length",
-        130: "M1 scale units",
-        131: "M1 transmitted horizontal pixel scale",
-        132: "M1 transmitted vertical pixel scale",
-        134: "M1 friction ridge generalized position",
-        999: "Plantar image / DATA",
-    },
-    13: {
-        1: "Logical record length",
-        2: "Image designation character",
-        3: "Impression type",
-        4: "Source agency / ORI",
-        5: "Latent capture date",
-        6: "Horizontal line length",
-        7: "Vertical line length",
-        8: "Scale units",
-        9: "Scale units",
-        10: "Scale units",
-        11: "Compression algorithm",
-        12: "Bits per pixel",
-        13: "Finger / palm position",
-        14: "Search Position Descriptors",
-        15: "Print Position Coordinates",
-        16: "Scanned horizontal pixel scale",
-        17: "Scanned vertical pixel scale",
-        20: "Comment",
-        24: "Latent quality metric",
-        999: "Image data",
+        1:   ( 'LEN', 'Logical record length' ),
+        2:   ( 'IDC', 'Image designation character' ),
+        3:   ( 'IMP', 'Impression type' ),
+        4:   ( 'SRC', 'Source agency / ORI' ),
+        5:   ( 'LCD', 'Latent capture date' ),
+        6:   ( 'HLL', 'Horizontal line length' ),
+        7:   ( 'VLL', 'Vertical line length' ),
+        8:   ( 'SLC', 'Scale units' ),
+        9:   ( 'HPS', 'Scale units' ),
+        10:  ( 'VPS', 'Scale units' ),
+        11:  ( 'GCA', 'Compression algorithm' ),
+        12:  ( 'BPX', 'Bits per pixel' ),
+        13:  ( 'FGP', 'Finger / palm position' ),
+        14:  ( 'SPD', 'Search Position Descriptors' ),
+        15:  ( 'PPC', 'Print Position Coordinates' ),
+        16:  ( 'SHPS', 'Scanned horizontal pixel scale' ),
+        17:  ( 'SVPS', 'Scanned vertical pixel scale' ),
+        20:  ( 'COM', 'Comment' ),
+        24:  ( 'LQM', 'Latent quality metric' ),
+        999: ( 'DAT', 'Image data' )
     }
 }
 
@@ -395,14 +331,14 @@ def fieldSplitter( data ):
 
 def get_label( ntype, tagid, fullname = False ):
     if fullname == False:
-        lab = LABEL
+        index = 0
         void = "   "
     else:
-        lab = FULLLABEL
+        index = 1
         void = ""
     
-    if lab.has_key( ntype ) and lab[ ntype ].has_key( tagid ):
-        return lab[ ntype ][ tagid ]
+    if LABEL.has_key( ntype ) and LABEL[ ntype ].has_key( tagid ):
+        return LABEL[ ntype ][ tagid ][ index ]
     else:
         return void
 
