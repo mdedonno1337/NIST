@@ -39,13 +39,20 @@ LABEL = {
     2: {
         1: "LEN",
         2: "IDC",
-        3: "SYS",
     },
     9: {
         1: "LEN",
         2: "IDC",
         3: "IMP",
         4: "FMT",
+        5: "OFR",
+        6: "FGP",
+        7: "FPC",
+        8: "CRP",
+        9: "DLT",
+        10: "MIN",
+        11: "RDG",
+        12: "MRC",
         128: "HLL",
         129: "VLL",
         130: "SLC",
@@ -70,6 +77,8 @@ LABEL = {
         13: "FGP",
         14: "SPD",
         15: "PPC",
+        16: "SHPS",
+        17: "SVPS",
         20: "COM",
         24: "LQM",
         999: "DAT",
@@ -110,7 +119,14 @@ FULLLABEL = {
         9: "Delta(s) position",
         10: "Number of minutiae",
         11: "Minutiae ridge count indicator",
-        12: "Minutiae and ridge count data"
+        12: "Minutiae and ridge count data",
+        128: "M1 horizontal line length",
+        129: "M1 vertical line length",
+        130: "M1 scale units",
+        131: "M1 transmitted horizontal pixel scale",
+        132: "M1 transmitted vertical pixel scale",
+        134: "M1 friction ridge generalized position",
+        999: "Plantar image / DATA",
     },
     13: {
         1: "Logical record length",
@@ -333,6 +349,9 @@ class NIST:
     #    Generic functions
     # 
     ############################################################################
+    
+    def clean( self ):
+        return
     
     def get_ntype( self ):
         return sorted( self.data.keys() )
