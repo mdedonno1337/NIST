@@ -290,20 +290,12 @@ class NIST:
         debug.info( "Cleaning the NIST object" )
         
         for ntype in self.get_ntype():
-            if ntype == 1:
-                for tagid in self.data[ ntype ].keys():
-                    value = self.data[ ntype ][ tagid ]
+            for idc in self.data[ ntype ].keys():
+                for tagid in self.data[ ntype ][ idc ].keys():
+                    value = self.data[ ntype ][ idc ][ tagid ]
                     if value == "" or value == None:
-                        debug.debug( "Field %02d.%03d deleted" % ( ntype, tagid ), 2 )
-                        del( self.data[ ntype ][ tagid ] )
-                        
-            else:
-                for idc in self.data[ ntype ].keys():
-                    for tagid in self.data[ ntype ][ idc ].keys():
-                        value = self.data[ ntype ][ idc ][ tagid ]
-                        if value == "" or value == None:
-                            debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 2 )
-                            del( self.data[ ntype ][ idc ][ tagid ] )
+                        debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 2 )
+                        del( self.data[ ntype ][ idc ][ tagid ] )
     
     def get_ntype( self ):
         return sorted( self.data.keys() )
