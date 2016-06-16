@@ -114,6 +114,9 @@ class needIDC( BaseException ):
 class intIDC( BaseException ):
     pass
 
+class needString( BaseException ):
+    pass
+
 ################################################################################
 # 
 #    NIST object class
