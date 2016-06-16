@@ -505,6 +505,15 @@ def tagger( ntype, tagid ):
     """
     return "%d.%03d:" % ( ntype, tagid )
 
+def tagSplitter( tag ):
+    """
+        Split a tag in a list of [ ntype, tagid ]
+        
+        >>> tagSplitter( "1.002" )
+        [1, 2]
+    """
+    return map( int, tag.split( DO ) )
+
 ################################################################################
 #
 #    Main
