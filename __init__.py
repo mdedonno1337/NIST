@@ -123,6 +123,9 @@ class needString( BaseException ):
 class nonexistingIDC( BaseException ):
     pass
 
+class minutiaeFormatNotSupported( BaseException ):
+    pass
+
 ################################################################################
 # 
 #    NIST object class
@@ -447,56 +450,68 @@ class NIST( object ):
     # 
     ############################################################################
     
-    def get_minutiae( self, idc = -1 ):
-        minutiae = self.get_field( "9.012", idc )
+    def get_minutiae( self, format = "ixytdq", idc = -1 ):
+        """
+            Get the minutiae information from the field 9.012.
+            
+            The parameter 'format' allow to select the data to extact:
+            
+                i: Index number
+                x: X coordinate
+                y: Y coordinate
+                t: Angle theta
+                d: Type designation
+                q: Quality
+        """
+        minutiae = self.get_field( "9.012", idc )[ :-1 ]
         
-        if type( minutiae ) != str:
+        if minutiae == None:
             return []
         else:
             ret = []
 
             for m in minutiae.split( RS ):
-                m = m.split( US )
-                
-                if len( m ) == 4:
-                    tmp = [
-                        m[0],
-                        int( m[1][0:4] ) / 100.0,
-                        int( m[1][4:8] ) / 100.0,
-                        int( m[1][8:11] ),
-                        m[2],
-                        m[3]
-                    ]
-    
+                try:
+                    id, xyt, d, q = m.split( US )
+                    
+                    tmp = []
+                    
+                    for c in format:
+                        if c == "i":
+                            tmp.append( id )
+                        
+                        if c == "x":
+                            tmp.append( int( xyt[0:4] ) / 100.0 )
+                        
+                        if c == "y":
+                            tmp.append( int( xyt[4:8] ) / 100.0 )
+                        
+                        if c == "t":
+                            tmp.append( int( xyt[8:11] ) )
+                        
+                        if c == "d":
+                            tmp.append( d )
+                        
+                        if c == "q":
+                            tmp.append( q )
+        
                     ret.append( tmp )
-                else:
-                    continue
+                except:
+                    raise minutiaeFormatNotSupported
                 
             return ret
     
+    @deprecated( "use the get_minutiae( 'xy' ) instead" )
     def get_minutiaeXY( self, idc = -1 ):
-        ret = []
-
-        for id, x, y, theta, quality, type in self.get_minutiae( idc ):
-            ret.append( ( x, y ) )
-
-        return ret
+        return self.get_minutiae( "xy", idc )
     
+    @deprecated( "use the get_minutiae( 'xyt' ) instead" )
     def get_minutiaeXYT( self, idc = -1 ):
-        ret = []
-
-        for id, x, y, theta, quality, type in self.get_minutiae( idc ):
-            ret.append( ( x, y, theta ) )
-
-        return ret
+        return self.get_minutiae( "xyt", idc )
     
+    @deprecated( "use the get_minutiae( 'xytq' ) instead" )
     def get_minutiaeXYTQ( self, idc = -1 ):
-        ret = []
-
-        for id, x, y, theta, quality, type in self.get_minutiae( idc ):
-            ret.append( ( x, y, theta, quality ) )
-
-        return ret
+        return self.get_minutiae( "xytq", idc )
     
     ############################################################################
     # 
