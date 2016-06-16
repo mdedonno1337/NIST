@@ -3,9 +3,9 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
-import logging
-
 from lib.misc.logger import debug
+import logging  
+from string import join
 
 
 ################################################################################
@@ -281,6 +281,23 @@ class NIST:
         
         return s
     
+    def dumpbin( self ):
+        debug.info( "Dumping NIST in binary" )
+        
+        self.clean()
+        self.patch_to_standard()
+        
+        outnist = ""
+        
+        for ntype in self.get_ntype():
+            for idc in self.get_idc( ntype ):
+                self.reset_alpha_length( ntype, idc )
+                
+                od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
+                outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
+        
+        return outnist
+        
     ############################################################################
     # 
     #    Cleaning and resetting functions
@@ -332,6 +349,25 @@ class NIST:
             else:
                 debug.debug( "minutiae are formatted in vendor-specific or M1- 378 terms" )
                 self.data[ 9 ][ idc ][ 4 ] = "U"
+        
+        return
+    
+    def reset_alpha_length( self, ntype, idc = 0 ):
+        debug.info( "Resetting the length of Type-%02d" % ntype )
+        
+        self.data[ ntype ][ idc ][ 1 ] = "%08d" % 0
+        
+        # %d.%03d:<data><GS>
+        lentag = len( "%d" % ntype ) + 6
+        
+        recordsize = 0
+        for t in self.data[ ntype ][ idc ].keys():
+            recordsize += len( self.data[ ntype ][ idc ][ t ] ) + lentag
+        
+        diff = 8 - len( str( recordsize ) )
+        recordsize -= diff
+        
+        self.data[ ntype ][ idc ][ 1 ] = "%d" % recordsize
         
         return
     
