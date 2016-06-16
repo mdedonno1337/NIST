@@ -512,7 +512,10 @@ class NIST( object ):
         
         idc = self.checkIDC( ntype, idc )
     
-        return self.data[ ntype ][ idc ][ tagid ]
+        try:
+            return self.data[ ntype ][ idc ][ tagid ]
+        except:
+            return None
     
     def set_field( self, tag, value, idc = -1 ):
         """
