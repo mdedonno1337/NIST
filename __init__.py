@@ -417,6 +417,28 @@ class NIST:
     
     ############################################################################
     # 
+    #    Access to the fields value
+    # 
+    ############################################################################
+    
+    def get_field( self, tag, idc = -1 ):
+        ntype, tagid = tagSplitter( tag )
+        
+        if idc < 0:
+            idc = self.get_idc( ntype )
+            
+            if len( idc ) > 1:
+                raise needIDC
+            else:
+                idc = idc[ 0 ]
+            
+        if type( idc ) != int:
+            raise intIDC
+    
+        return self.data[ ntype ][ idc ][ tagid ]
+    
+    ############################################################################
+    # 
     #    Generic functions
     # 
     ############################################################################
