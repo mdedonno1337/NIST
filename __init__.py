@@ -353,7 +353,17 @@ def get_label( ntype, tagid, fullname = False ):
 
 def leveler( msg, level ):
     return "\t" * level + msg
-    
+
+def tagger( ntype, tagid ):
+    """
+        Return the tag value from a ntype and tag value in parameter
+        
+        >>> tagger( 1, 1 )
+        '1.001:'
+        
+    """
+    return "%d.%03d:" % ( ntype, tagid )
+
 ################################################################################
 #
 #    Main
