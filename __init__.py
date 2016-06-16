@@ -117,9 +117,6 @@ class needIDC( BaseException ):
 class intIDC( BaseException ):
     pass
 
-class needString( BaseException ):
-    pass
-
 class nonexistingIDC( BaseException ):
     pass
 
@@ -541,7 +538,7 @@ class NIST( object ):
         idc = self.checkIDC( ntype, idc )
         
         if type( value ) != str:
-            raise needString
+            value = str( value )
         
         self.data[ ntype ][ idc ][ tagid ] = value
         
