@@ -5,6 +5,7 @@ from _collections import defaultdict
 from collections import OrderedDict
 from lib.misc.logger import debug
 import logging  
+import os
 from string import join
 
 
@@ -329,6 +330,10 @@ class NIST:
             Write the NIST object to a specific file.
         """
         debug.info( "Write the NIST object to '%s'" % outfile )
+        
+        if not os.path.isdir( os.path.dirname( os.path.realpath( outfile ) ) ):
+            os.makedirs( os.path.dirname( os.path.realpath( outfile ) ) )
+        
         with open( outfile, "wb+" ) as fp:
             fp.write( self.dumpbin() )
     
