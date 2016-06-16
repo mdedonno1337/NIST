@@ -3,6 +3,7 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
+from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
 import logging  
 import os
@@ -150,7 +151,11 @@ class NIST:
     #
     ############################################################################
     
+    @deprecated( "user the read() function instead" )
     def loadFromFile( self, infile ):
+        return self.read( infile )
+    
+    def read( self, infile ):
         """
             Open the 'infile' file and transmit the data to the 'load' function.
         """
@@ -324,6 +329,10 @@ class NIST:
                 outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
         
         return outnist
+    
+    @deprecated( "use the write() function instead" )
+    def saveToFile( self, outfile ):
+        return self.write( outfile )
     
     def write( self, outfile ):
         """
