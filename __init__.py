@@ -474,6 +474,30 @@ class NIST( object ):
                 
             return ret
     
+    def get_minutiaeXY( self, idc = -1 ):
+        ret = []
+
+        for id, x, y, theta, quality, type in self.get_minutiae( idc ):
+            ret.append( ( x, y ) )
+
+        return ret
+    
+    def get_minutiaeXYT( self, idc = -1 ):
+        ret = []
+
+        for id, x, y, theta, quality, type in self.get_minutiae( idc ):
+            ret.append( ( x, y, theta ) )
+
+        return ret
+    
+    def get_minutiaeXYTQ( self, idc = -1 ):
+        ret = []
+
+        for id, x, y, theta, quality, type in self.get_minutiae( idc ):
+            ret.append( ( x, y, theta, quality ) )
+
+        return ret
+    
     ############################################################################
     # 
     #    Access to the fields value
