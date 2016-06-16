@@ -347,7 +347,7 @@ class NIST:
         for ntype in self.get_ntype():
             for idc in self.data[ ntype ].keys():
                 for tagid in self.data[ ntype ][ idc ].keys():
-                    value = self.data[ ntype ][ idc ][ tagid ]
+                    value = self.get_field( "%d.%03d" % ( ntype, tagid ), idc )
                     if value == "" or value == None:
                         debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 2 )
                         del( self.data[ ntype ][ idc ][ tagid ] )
@@ -369,15 +369,15 @@ class NIST:
         #        0501 : ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding
         #        0502 : ANSI/NIST-ITL 1-2011 Update: 2015 Traditional Encoding
         debug.debug( "set version to 0501 (ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding)", 1 )
-        self.data[ 1 ][ 0 ][ 2 ] = "0501"
+        self.set_field( "1.002", "0501" )
         
         #    1.011 and 1.012
         #        For transactions that do not contain Type-3 through Type-7
         #        fingerprint image records, this field shall be set to "00.00")
         if not 4 in self.get_ntype():
             debug.debug( "Fields 1.011 and 1.012 patched: no Type04 in this NIST file", 1 )
-            self.data[ 1 ][ 0 ][ 11 ] = "00.00"
-            self.data[ 1 ][ 0 ][ 12 ] = "00.00"
+            self.set_field( "1.011", "00.00" )
+            self.set_field( "1.012", "00.00" )
         
         #    Type-09
         for idc in self.get_idc( 9 ):
@@ -389,10 +389,10 @@ class NIST:
             #        vendor-specific or M1- 378 terms
             if any( x in [ 5, 6, 7, 8, 9, 10, 11, 12 ] for x in self.data[ 9 ][ idc ].keys() ):
                 debug.debug( "minutiae are formatted as specified by the standard Type-9 logical record field descriptions", 1 )
-                self.data[ 9 ][ idc ][ 4 ] = "S"
+                self.set_field( "9.004", "S", idc )
             else:
                 debug.debug( "minutiae are formatted in vendor-specific or M1- 378 terms" )
-                self.data[ 9 ][ idc ][ 4 ] = "U"
+                self.set_field( "9.004", "U", idc )
         
         return
     
@@ -402,7 +402,7 @@ class NIST:
         """
         debug.info( "Resetting the length of Type-%02d" % ntype )
         
-        self.data[ ntype ][ idc ][ 1 ] = "%08d" % 0
+        self.set_field( "%d.001" % ntype, "%08d" % 0, idc )
         
         # %d.%03d:<data><GS>
         lentag = len( "%d" % ntype ) + 6
@@ -414,7 +414,7 @@ class NIST:
         diff = 8 - len( str( recordsize ) )
         recordsize -= diff
         
-        self.data[ ntype ][ idc ][ 1 ] = "%d" % recordsize
+        self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
         
         return
     
