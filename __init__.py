@@ -443,6 +443,39 @@ class NIST( object ):
     
     ############################################################################
     # 
+    #    Minutiae functions
+    # 
+    ############################################################################
+    
+    def get_minutiae( self, idc = -1 ):
+        minutiae = self.get_field( "9.012", idc )
+        
+        if type( minutiae ) != str:
+            return []
+        else:
+            ret = []
+
+            for m in minutiae.split( RS ):
+                m = m.split( US )
+                
+                if len( m ) == 4:
+                    tmp = [
+                        m[0],
+                        int( m[1][0:4] ) / 100.0,
+                        int( m[1][4:8] ) / 100.0,
+                        int( m[1][8:11] ),
+                        m[2],
+                        m[3]
+                    ]
+    
+                    ret.append( tmp )
+                else:
+                    continue
+                
+            return ret
+    
+    ############################################################################
+    # 
     #    Access to the fields value
     # 
     ############################################################################
