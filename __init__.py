@@ -298,6 +298,43 @@ class NIST:
                         debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 2 )
                         del( self.data[ ntype ][ idc ][ tagid ] )
     
+    def patch_to_standard( self ):
+        debug.info( "Patch some fields regaring the ANSI/NIST-ITL standard" )
+        
+        #    1.002 : Standard version:
+        #        0300 : ANSI/NIST-ITL 1-2000
+        #        0400 : ANSI/NIST-ITL 1-2007
+        #        0500 : ANSI/NIST-ITL 1-2011
+        #        0501 : ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding
+        #        0502 : ANSI/NIST-ITL 1-2011 Update: 2015 Traditional Encoding
+        debug.debug( "set version to 0501 (ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding)", 1 )
+        self.data[ 1 ][ 0 ][ 2 ] = "0501"
+        
+        #    1.011 and 1.012
+        #        For transactions that do not contain Type-3 through Type-7
+        #        fingerprint image records, this field shall be set to "00.00")
+        if not 4 in self.get_ntype():
+            debug.debug( "Fields 1.011 and 1.012 patched: no Type04 in this NIST file", 1 )
+            self.data[ 1 ][ 0 ][ 11 ] = "00.00"
+            self.data[ 1 ][ 0 ][ 12 ] = "00.00"
+        
+        #    Type-09
+        for idc in self.get_idc( 9 ):
+            #    9.004
+            #        This field shall contain an "S" to indicate that the
+            #        minutiae are formatted as specified by the standard Type-9
+            #        logical record field descriptions. This field shall contain
+            #        a "U" to indicate that the minutiae are formatted in
+            #        vendor-specific or M1- 378 terms
+            if any( x in [ 5, 6, 7, 8, 9, 10, 11, 12 ] for x in self.data[ 9 ][ idc ].keys() ):
+                debug.debug( "minutiae are formatted as specified by the standard Type-9 logical record field descriptions", 1 )
+                self.data[ 9 ][ idc ][ 4 ] = "S"
+            else:
+                debug.debug( "minutiae are formatted in vendor-specific or M1- 378 terms" )
+                self.data[ 9 ][ idc ][ 4 ] = "U"
+        
+        return
+    
     def get_ntype( self ):
         return sorted( self.data.keys() )
     
