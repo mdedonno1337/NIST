@@ -641,17 +641,15 @@ def get_label( ntype, tagid, fullname = False ):
         >>> get_label( 1, 2 )
         'VER'
     """
-    if fullname == False:
-        index = 0
-        void = "   "
-    else:
-        index = 1
-        void = ""
+    index = int( fullname )
     
-    if LABEL.has_key( ntype ) and LABEL[ ntype ].has_key( tagid ):
+    try:
         return LABEL[ ntype ][ tagid ][ index ]
-    else:
-        return void
+    except:
+        if not fullname:
+            return "   "
+        else:
+            return ""
 
 def leveler( msg, level = 1 ):
     """
