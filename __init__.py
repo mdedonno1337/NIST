@@ -167,7 +167,7 @@ class NIST:
             debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, value ), 2 )
             record01[ tagid ] = value
         
-        self.data[ 1 ] = record01
+        self.data[ 1 ][ 0 ] = record01  # Store in IDC = 0 even if the standard implies no IDC for Type-01
         data = data[ LEN: ]
         
         #    NIST Type02 and after
@@ -272,7 +272,7 @@ class NIST:
             
             if ntype == 1:
                 s += "NIST Type-%02d\n" % ntype
-                s += self.dump_record( ntype, -1, fullname ) 
+                s += self.dump_record( ntype, 0, fullname ) 
             else:
                 for idc in self.get_idc( ntype ):
                     s += "NIST Type-%02d (IDC %d)\n" % ( ntype, idc )
