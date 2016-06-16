@@ -306,7 +306,15 @@ class NIST:
                 outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
         
         return outnist
-        
+    
+    def write( self, outfile ):
+        """
+            Write the NIST object to a specific file.
+        """
+        debug.info( "Write the NIST object to '%s'" % outfile )
+        with open( outfile, "wb+" ) as fp:
+            fp.write( self.dumpbin() )
+    
     ############################################################################
     # 
     #    Cleaning and resetting functions
