@@ -425,6 +425,9 @@ class NIST:
     ############################################################################
     
     def get_field( self, tag, idc = -1 ):
+        """
+            Get the content of a specific tag in the NIST object.
+        """
         ntype, tagid = tagSplitter( tag )
         
         idc = self.checkIDC( ntype, idc )
@@ -432,6 +435,9 @@ class NIST:
         return self.data[ ntype ][ idc ][ tagid ]
     
     def set_field( self, tag, value, idc = -1 ):
+        """
+            Set the value of a specific tag in the NIST object.
+        """
         ntype, tagid = tagSplitter( tag )
         
         idc = self.checkIDC( ntype, idc )
