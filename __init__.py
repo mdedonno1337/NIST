@@ -128,7 +128,7 @@ class nonexistingIDC( BaseException ):
 # 
 ################################################################################
 
-class NIST:
+class NIST( object ):
     def __init__( self ):
         """
             Initialization of the NIST Object.
