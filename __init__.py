@@ -1,14 +1,12 @@
 #!/usr/bin/env python
 #  *-* coding: utf-8 *-*
 
-from __builtin__ import list
 from _collections import defaultdict
 from collections import OrderedDict
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
 from string import join
 import inspect
-import logging  
 import os
 
 
