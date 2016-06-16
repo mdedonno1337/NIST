@@ -540,6 +540,32 @@ class NIST( object ):
     def get_height( self, idc = -1 ):
         return int( self.get_field( "13.007", idc ) )
     
+    #    Resolution
+    def get_resolution( self, idc = -1 ):
+        return self.get_horizontalResolution( idc )
+
+    def get_horizontalResolution( self, idc = -1 ):
+        if self.get_field( "13.008", idc ) == '1':
+            return int( self.get_field( "13.009" ) )
+        elif self.get_field( "13.008", idc ) == '2':
+            return int( self.get_field( "13.009" ) / 10.0 * 25.4 )
+
+    def get_verticalResolution( self, idc = -1 ):
+        if self.get_field( "13.008", idc ) == '1':
+            return int( self.get_field( "13.010" ) )
+        elif self.get_field( "13.008", idc ) == '2':
+            return int( self.get_field( "13.010" ) / 10.0 * 25.4 )
+    
+    def set_resolution( self, res, idc = -1 ):
+        self.set_horizontalResolution( res, idc )
+        self.set_verticalResolution( res, idc )
+
+    def set_horizontalResolution( self, value, idc = -1 ):
+        self.set_field( "13.009", value, idc )
+        
+    def set_verticalResolution( self, value, idc = -1 ):
+        self.set_field( "13.010", value, idc )
+        
     #    Image
     def get_image( self, idc = -1 ):
         return self.get_field( "13.999", idc )
