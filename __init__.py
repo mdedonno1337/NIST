@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #  *-* coding: utf-8 *-*
 
+from __builtin__ import list
 from _collections import defaultdict
 from collections import OrderedDict
 import inspect
@@ -510,6 +511,16 @@ class NIST( object ):
     def get_minutiaeXYTQ( self, idc = -1 ):
         return self.get_minutiae( "xytq", idc )
     
+    def set_minutiae( self, data ):
+        if type( data ) == list:
+            data = lstTo012( data )
+            
+        self.set_field( "9.012", data )
+        self.set_field( "9.010", len( data.split( RS ) ) - 1 )
+        
+        
+        return
+    
     ############################################################################
     # 
     #    Access to the fields value
@@ -669,6 +680,25 @@ def tagSplitter( tag ):
         [1, 2]
     """
     return map( int, tag.split( DO ) )
+
+def lstTo012field( lst ):
+    id, x, y, theta, quality, t = lst
+    
+    return join( 
+        [
+            id,
+            "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ),
+            quality,
+            t
+        ],
+        US
+    )
+
+def lstTo012( lst ):
+    lst = map( lstTo012field, lst )
+    lst = join( lst, RS )
+     
+    return lst
 
 ################################################################################
 #
