@@ -530,6 +530,7 @@ class NIST( object ):
     # 
     ############################################################################
     
+    #    Size
     def get_size( self, idc = -1 ):
         return ( self.get_width( idc ), self.get_height( idc ) )
     
@@ -539,6 +540,7 @@ class NIST( object ):
     def get_height( self, idc = -1 ):
         return int( self.get_field( "13.007", idc ) )
     
+    #    Image
     def get_image( self, idc = -1 ):
         return self.get_field( "13.999", idc )
     
