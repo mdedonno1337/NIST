@@ -117,6 +117,9 @@ class intIDC( BaseException ):
 class needString( BaseException ):
     pass
 
+class nonexistingIDC( BaseException ):
+    pass
+
 ################################################################################
 # 
 #    NIST object class
@@ -427,32 +430,14 @@ class NIST:
     def get_field( self, tag, idc = -1 ):
         ntype, tagid = tagSplitter( tag )
         
-        if idc < 0:
-            idc = self.get_idc( ntype )
-            
-            if len( idc ) > 1:
-                raise needIDC
-            else:
-                idc = idc[ 0 ]
-            
-        if type( idc ) != int:
-            raise intIDC
+        idc = self.checkIDC( ntype, idc )
     
         return self.data[ ntype ][ idc ][ tagid ]
     
     def set_field( self, tag, value, idc = -1 ):
         ntype, tagid = tagSplitter( tag )
         
-        if idc < 0:
-            idc = self.get_idc( ntype )
-            
-            if len( idc ) > 1:
-                raise needIDC
-            else:
-                idc = idc[ 0 ]
-            
-        if type( idc ) != int:
-            raise intIDC
+        idc = self.checkIDC( ntype, idc )
         
         if type( value ) != str:
             raise needString
@@ -476,6 +461,23 @@ class NIST:
             Return all IDC for a specific ntype.
         """
         return sorted( self.data[ ntype ].keys() )
+    
+    def checkIDC( self, ntype, idc ):
+        if idc < 0:
+            idc = self.get_idc( ntype )
+            
+            if len( idc ) > 1:
+                raise needIDC
+            else:
+                idc = idc[ 0 ]
+            
+        if type( idc ) != int:
+            raise intIDC
+        
+        if not idc in self.get_idc( ntype ):
+            raise nonexistingIDC
+        
+        return idc
     
     def __str__( self ):
         """
