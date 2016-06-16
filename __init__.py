@@ -419,6 +419,18 @@ class NIST:
         """
         return sorted( self.data[ ntype ].keys() )
     
+    def __str__( self ):
+        """
+            Return the printable version of the NIST object.
+        """
+        return self.dump()
+    
+    def __repr__( self ):
+        """
+            Return unambiguous description.
+        """
+        return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() if x > 2 ] )
+    
 ################################################################################
 #
 #    Generic functions
