@@ -243,6 +243,9 @@ class NIST:
     ############################################################################
     
     def dump_record( self, ntype, idc = -1, fullname = False ):
+        """
+            Dump a specific ntype - IDC record.
+        """
         if idc < 0:
             d = self.data[ ntype ]
         else:
@@ -264,6 +267,9 @@ class NIST:
         return s
     
     def dump( self, fullname = False ):
+        """
+            Return a readable version of the NIST object. Printable on screen.
+        """
         debug.info( "Dumping NIST" )
         
         s = ""
@@ -282,6 +288,9 @@ class NIST:
         return s
     
     def dumpbin( self ):
+        """
+            Return a binary dump of the NIST object. Writable in a file ("wb" mode).
+        """
         debug.info( "Dumping NIST in binary" )
         
         self.clean()
@@ -305,6 +314,9 @@ class NIST:
     ############################################################################
     
     def clean( self ):
+        """
+            Function to clean all unused fields in the self.data variable.
+        """
         debug.info( "Cleaning the NIST object" )
         
         for ntype in self.get_ntype():
@@ -316,6 +328,13 @@ class NIST:
                         del( self.data[ ntype ][ idc ][ tagid ] )
     
     def patch_to_standard( self ):
+        """
+            Check some requirements for the NIST file. Fields checked:
+                1.002
+                1.011
+                1.012
+                9.004
+        """
         debug.info( "Patch some fields regaring the ANSI/NIST-ITL standard" )
         
         #    1.002 : Standard version:
@@ -353,6 +372,9 @@ class NIST:
         return
     
     def reset_alpha_length( self, ntype, idc = 0 ):
+        """
+            Recalculate the LEN field of the ntype passed in parameter.
+        """
         debug.info( "Resetting the length of Type-%02d" % ntype )
         
         self.data[ ntype ][ idc ][ 1 ] = "%08d" % 0
@@ -378,9 +400,15 @@ class NIST:
     ############################################################################
     
     def get_ntype( self ):
+        """
+            Return all ntype presents in the NIST object.
+        """
         return sorted( self.data.keys() )
     
     def get_idc( self, ntype ):
+        """
+            Return all IDC for a specific ntype.
+        """
         return sorted( self.data[ ntype ].keys() )
     
 ################################################################################
@@ -418,6 +446,12 @@ def fieldSplitter( data ):
     return tag, ntype, tagid, value
 
 def get_label( ntype, tagid, fullname = False ):
+    """
+        Return the name of a specific field.
+        
+        >>> get_label( 1, 2 )
+        'VER'
+    """
     if fullname == False:
         index = 0
         void = "   "
@@ -430,15 +464,21 @@ def get_label( ntype, tagid, fullname = False ):
     else:
         return void
 
-def leveler( msg, level ):
-    return "\t" * level + msg
+def leveler( msg, level = 1 ):
+    """
+        Return an indented string.
+        
+        >>> leveler( "1.002" )
+        '    1.002'
+    """
+    return "    " * level + msg
 
 def tagger( ntype, tagid ):
     """
         Return the tag value from a ntype and tag value in parameter
         
-        >>> tagger( 1, 1 )
-        '1.001:'
+        >>> tagger( 1, 2 )
+        '1.002:'
         
     """
     return "%d.%03d:" % ( ntype, tagid )
@@ -452,4 +492,3 @@ def tagger( ntype, tagid ):
 if __name__ == "__main__":
     import doctest
     doctest.testmod()
-    
