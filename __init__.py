@@ -9,6 +9,8 @@ from string import join
 import inspect
 import os
 
+from PIL import Image
+
 
 ################################################################################
 #
@@ -120,6 +122,9 @@ class nonexistingIDC( BaseException ):
     pass
 
 class minutiaeFormatNotSupported( BaseException ):
+    pass
+
+class notImplemented( BaseException ):
     pass
 
 ################################################################################
@@ -518,6 +523,30 @@ class NIST( object ):
         
         
         return
+    
+    ############################################################################
+    # 
+    #    Image processing
+    # 
+    ############################################################################
+    
+    def get_size( self, idc = -1 ):
+        return ( self.get_width( idc ), self.get_height( idc ) )
+    
+    def get_width( self, idc = -1 ):
+        return int( self.get_field( "13.006", idc ) )
+        
+    def get_height( self, idc = -1 ):
+        return int( self.get_field( "13.007", idc ) )
+    
+    def get_image( self, idc = -1 ):
+        return self.get_field( "13.999", idc )
+    
+    def get_PIL( self, idc = -1 ):
+        if 13 in self.get_ntype():
+            return Image.frombytes( "L", self.get_size( idc ), self.get_image( idc ) )
+        else:
+            raise notImplemented
     
     ############################################################################
     # 
