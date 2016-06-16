@@ -566,6 +566,11 @@ class NIST( object ):
     def set_verticalResolution( self, value, idc = -1 ):
         self.set_field( "13.010", value, idc )
         
+    #    Compression
+    def get_compression( self, idc = -1 ):
+        gca = self.get_field( "13.011", idc )
+        return decode_gca( gca )
+    
     #    Image
     def get_image( self, idc = -1 ):
         return self.get_field( "13.999", idc )
@@ -660,6 +665,21 @@ class NIST( object ):
 #    Generic functions
 #
 ################################################################################
+
+#    Grayscale Compression Algorithm
+GCA = {
+    'NONE': "RAW",
+    '0': "RAW",
+    '1': "WSQ",
+    '2': "JPEGB",
+    '3': "JPEGL",
+    '4': "JP2",
+    '5': "JP2L",
+    '6': "PNG"
+}
+
+def decode_gca( code ):
+    return GCA[ code ]
 
 #    Binary print
 def bindump( data ):
