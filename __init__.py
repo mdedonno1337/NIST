@@ -440,6 +440,25 @@ class NIST:
     
         return self.data[ ntype ][ idc ][ tagid ]
     
+    def set_field( self, tag, value, idc = -1 ):
+        ntype, tagid = tagSplitter( tag )
+        
+        if idc < 0:
+            idc = self.get_idc( ntype )
+            
+            if len( idc ) > 1:
+                raise needIDC
+            else:
+                idc = idc[ 0 ]
+            
+        if type( idc ) != int:
+            raise intIDC
+        
+        if type( value ) != str:
+            raise needString
+        
+        self.data[ ntype ][ idc ][ tagid ] = value
+        
     ############################################################################
     # 
     #    Generic functions
