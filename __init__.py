@@ -3,6 +3,7 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
+import inspect
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
 import logging  
@@ -167,7 +168,15 @@ class NIST( object ):
             data = fp.read()
         
         self.load( data )
-
+    
+    def load_auto( self, p ):
+        if type( p ) == str:
+            self.read( p )
+        elif isinstance( p, NIST ):
+            attributes = inspect.getmembers( p, lambda a:not( inspect.isroutine( a ) ) )
+            for name, value in [a for a in attributes if not( a[0].startswith( '__' ) and a[0].endswith( '__' ) )]:
+                super( NIST, self ).__setattr__( name, value )
+    
     def load( self, data ):
         """
             Load from the data passed in parameter, and populate all internal dictionnaries.
