@@ -661,6 +661,7 @@ class NIST( object ):
 #
 ################################################################################
 
+#    Binary print
 def bindump( data ):
     """
         Return the first and last 4 bytes of a binary data.
@@ -673,7 +674,8 @@ def bindump( data ):
         ord( data[0] ), ord( data[1] ), ord( data[2] ), ord( data[3] ),
         ord( data[-4] ), ord( data[-3] ), ord( data[-2] ), ord( data[-1] ), len( data )
     )
-    
+
+#    Field split
 def fieldSplitter( data ):
     """
         Split the input data in a ( tag, ntype, tagid, value ) tuple
@@ -689,6 +691,7 @@ def fieldSplitter( data ):
     
     return tag, ntype, tagid, value
 
+#    Get label name
 def get_label( ntype, tagid, fullname = False ):
     """
         Return the name of a specific field.
@@ -706,6 +709,7 @@ def get_label( ntype, tagid, fullname = False ):
         else:
             return ""
 
+#    Alignement function
 def leveler( msg, level = 1 ):
     """
         Return an indented string.
@@ -715,6 +719,7 @@ def leveler( msg, level = 1 ):
     """
     return "    " * level + msg
 
+#    Tag function
 def tagger( ntype, tagid ):
     """
         Return the tag value from a ntype and tag value in parameter
@@ -734,6 +739,7 @@ def tagSplitter( tag ):
     """
     return map( int, tag.split( DO ) )
 
+#    Field 9.012 to list (and reverse)
 def lstTo012field( lst ):
     id, x, y, theta, quality, t = lst
     
