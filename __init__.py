@@ -262,14 +262,11 @@ class NIST:
     # 
     ############################################################################
     
-    def dump_record( self, ntype, idc = -1, fullname = False ):
+    def dump_record( self, ntype, idc = 0, fullname = False ):
         """
             Dump a specific ntype - IDC record.
         """
-        if idc < 0:
-            d = self.data[ ntype ]
-        else:
-            d = self.data[ ntype ][ idc ]
+        d = self.data[ ntype ][ idc ]
         
         s = ""
         for t in sorted( d.keys() ):
