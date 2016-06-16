@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+#  *-* coding: utf-8 *-*
 
 from _collections import defaultdict
 from collections import OrderedDict
