@@ -628,7 +628,7 @@ class NIST( object ):
         return decode_gca( gca )
     
     #    Image
-    def get_image( self, idc = -1 ):
+    def get_RAW( self, idc = -1 ):
         """
             Return the image stored (no transformation).
         """
@@ -639,7 +639,7 @@ class NIST( object ):
             Convert the image stored in PIL format.
         """
         if 13 in self.get_ntype():
-            return Image.frombytes( "L", self.get_size( idc ), self.get_image( idc ) )
+            return Image.frombytes( "L", self.get_size( idc ), self.get_RAW( idc ) )
         else:
             raise notImplemented
     
