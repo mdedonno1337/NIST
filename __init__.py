@@ -183,7 +183,7 @@ class NIST( object ):
     
     def load( self, data ):
         """
-            Load from the data passed in parameter, and populate all internal dictionnaries.
+            Load from the data passed in parameter, and populate all internal dictionaries.
         """
         debug.info( "Loading object" )
         
@@ -455,7 +455,7 @@ class NIST( object ):
         """
             Get the minutiae information from the field 9.012.
             
-            The parameter 'format' allow to select the data to extact:
+            The parameter 'format' allow to select the data to extract:
             
                 i: Index number
                 x: X coordinate
@@ -515,6 +515,9 @@ class NIST( object ):
         return self.get_minutiae( "xytq", idc )
     
     def get_center( self, idc = -1 ):
+        """
+            Process and return the center coordinate.
+        """
         c = self.get_field( "9.008", idc )
 
         if c == None:
@@ -526,6 +529,11 @@ class NIST( object ):
             return ( x, y )
     
     def set_minutiae( self, data ):
+        """
+            Set the minutiae in the field 9.012.
+            The 'data' parameter can be a minutiae-table (id, x, y, theta, quality, type) or
+            the final string.
+        """
         if type( data ) == list:
             data = lstTo012( data )
             
@@ -544,52 +552,92 @@ class NIST( object ):
     
     #    Size
     def get_size( self, idc = -1 ):
+        """
+            Get a python-tuple representing the size of the image.
+        """
         return ( self.get_width( idc ), self.get_height( idc ) )
     
     def get_width( self, idc = -1 ):
+        """
+            Return the width of the Type-13 image.
+        """
         return int( self.get_field( "13.006", idc ) )
         
     def get_height( self, idc = -1 ):
+        """
+            Return the height of the Type-13 image.
+        """
         return int( self.get_field( "13.007", idc ) )
     
     #    Resolution
     def get_resolution( self, idc = -1 ):
+        """
+            Return the (horizontal) resolution of the Type-13 image in dpi.
+        """
         return self.get_horizontalResolution( idc )
 
     def get_horizontalResolution( self, idc = -1 ):
+        """
+            Return the horizontal resolution of the Type-13 image.
+            If the resolution is stored in px/cm, the conversion to dpi is done.
+        """
         if self.get_field( "13.008", idc ) == '1':
             return int( self.get_field( "13.009" ) )
         elif self.get_field( "13.008", idc ) == '2':
             return int( self.get_field( "13.009" ) / 10.0 * 25.4 )
 
     def get_verticalResolution( self, idc = -1 ):
+        """
+            Return the vertical resolution of the Type-13 image.
+            If the resolution is stored in px/cm, the conversion to dpi is done.
+        """
         if self.get_field( "13.008", idc ) == '1':
             return int( self.get_field( "13.010" ) )
         elif self.get_field( "13.008", idc ) == '2':
             return int( self.get_field( "13.010" ) / 10.0 * 25.4 )
     
     def set_resolution( self, res, idc = -1 ):
+        """
+            Set the resolution in dpi.
+        """
+        res = int( res )
+        
         self.set_horizontalResolution( res, idc )
         self.set_verticalResolution( res, idc )
         
         self.set_field( "13.008", "1", idc )
 
     def set_horizontalResolution( self, value, idc = -1 ):
+        """
+            Set the horizontal resolution.
+        """
         self.set_field( "13.009", value, idc )
         
     def set_verticalResolution( self, value, idc = -1 ):
+        """
+            Set the vertical resolution.
+        """
         self.set_field( "13.010", value, idc )
         
     #    Compression
     def get_compression( self, idc = -1 ):
+        """
+            Get the compression used in the latent image.
+        """
         gca = self.get_field( "13.011", idc )
         return decode_gca( gca )
     
     #    Image
     def get_image( self, idc = -1 ):
+        """
+            Return the image stored (no transformation).
+        """
         return self.get_field( "13.999", idc )
     
     def get_PIL( self, idc = -1 ):
+        """
+            Convert the image stored in PIL format.
+        """
         if 13 in self.get_ntype():
             return Image.frombytes( "L", self.get_size( idc ), self.get_image( idc ) )
         else:
@@ -634,6 +682,9 @@ class NIST( object ):
     ############################################################################
     
     def get_caseName( self ):
+        """
+            Return the case name.
+        """
         return self.get_field( "2.007" )
     
     ############################################################################
@@ -655,6 +706,13 @@ class NIST( object ):
         return sorted( self.data[ ntype ].keys() )
     
     def checkIDC( self, ntype, idc ):
+        """
+            Check if the IDC passed in parameter exists for the specific ntype,
+            and if the value is numeric. If the IDC is negative, then the value
+            is searched in the ntype field and returned only if the value is
+            unique; if multiple IDC are stored for the specific ntype, an
+            exception is raised.
+        """
         if idc < 0:
             idc = self.get_idc( ntype )
             
@@ -702,6 +760,13 @@ GCA = {
 }
 
 def decode_gca( code ):
+    """
+        Function to decode the 'Grayscale Compression Algorithm' value passed in
+        parameter.
+        
+        >>> decode_gca( 'NONE' )
+        'RAW'
+    """
     return GCA[ code ]
 
 #    Binary print
@@ -721,7 +786,7 @@ def bindump( data ):
 #    Field split
 def fieldSplitter( data ):
     """
-        Split the input data in a ( tag, ntype, tagid, value ) tuple
+        Split the input data in a ( tag, ntype, tagid, value ) tuple.
         
         >>> fieldSplitter( "1.002:0501" )
         ('1.002', 1, 2, '0501')
@@ -765,7 +830,7 @@ def leveler( msg, level = 1 ):
 #    Tag function
 def tagger( ntype, tagid ):
     """
-        Return the tag value from a ntype and tag value in parameter
+        Return the tag value from a ntype and tag value in parameter.
         
         >>> tagger( 1, 2 )
         '1.002:'
@@ -775,7 +840,7 @@ def tagger( ntype, tagid ):
 
 def tagSplitter( tag ):
     """
-        Split a tag in a list of [ ntype, tagid ]
+        Split a tag in a list of [ ntype, tagid ].
         
         >>> tagSplitter( "1.002" )
         [1, 2]
@@ -784,6 +849,9 @@ def tagSplitter( tag ):
 
 #    Field 9.012 to list (and reverse)
 def lstTo012field( lst ):
+    """
+        Function to convert a minutiae from the minutiae-table to a 9.012 sub-field.
+    """
     id, x, y, theta, quality, t = lst
     
     return join( 
@@ -797,6 +865,9 @@ def lstTo012field( lst ):
     )
 
 def lstTo012( lst ):
+    """
+        Convert the entire minutiae-table to the 9.012 field format.
+    """
     lst = map( lstTo012field, lst )
     lst = join( lst, RS )
      
