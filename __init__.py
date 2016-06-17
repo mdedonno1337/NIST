@@ -305,7 +305,7 @@ class NIST( object ):
                     _, _, _, LEN = fieldSplitter( data[ 0 : data.find( GS ) ] )
                     LEN = int( LEN )
                 else:
-                    LEN = binstring_to_int( iter.take( 4 ) )
+                    LEN = binstring_to_int( data[ 0 : 4 ] )
             
             data = data[ LEN: ]
             
