@@ -3,8 +3,10 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
+from lib.misc.binary import binstring_to_int
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
+from lib.misc.stringIterator import stringIterator
 from string import join, upper
 import inspect
 import os
@@ -256,6 +258,45 @@ class NIST( object ):
                     
                 self.data[ ntype ][ idc ] = recordx
             
+            elif ntype == 4:
+                iter = stringIterator( data )
+                
+                LEN = binstring_to_int( iter.take( 4 ) )
+                IDC = binstring_to_int( iter.take( 1 ) )
+                IMP = binstring_to_int( iter.take( 1 ) )
+                FGP = binstring_to_int( iter.take( 1 ) )
+                iter.take( 5 )
+                ISR = binstring_to_int( iter.take( 1 ) )
+                HLL = binstring_to_int( iter.take( 2 ) )
+                VLL = binstring_to_int( iter.take( 2 ) )
+                GCA = binstring_to_int( iter.take( 1 ) )
+                DAT = iter.take( LEN - 18 )
+                
+                debug.debug( "Parsing Type-04 IDC %d" % IDC, 2 )
+                debug.debug( "LEN: %s" % LEN, 3 )
+                debug.debug( "IDC: %s" % IDC, 3 )
+                debug.debug( "IMP: %s" % IMP, 3 )
+                debug.debug( "FGP: %s" % FGP, 3 )
+                debug.debug( "ISR: %s" % ISR, 3 )
+                debug.debug( "HLL: %s" % HLL, 3 )
+                debug.debug( "VLL: %s" % VLL, 3 )
+                debug.debug( "GCA: %s (%s)" % ( GCA, decode_gca( GCA ) ), 3 )
+                debug.debug( "DAT: %s" % bindump( DAT ), 3 )
+                
+                nist04 = {
+                    1: LEN,
+                    2: IDC,
+                    3: IMP,
+                    4: FGP,
+                    5: ISR,
+                    6: HLL,
+                    7: VLL,
+                    8: GCA,
+                    999:DAT
+                }
+                
+                self.data[ ntype ][ IDC ] = nist04
+
             data = data[ LEN: ]
             
         return
