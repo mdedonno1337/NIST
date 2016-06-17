@@ -792,7 +792,7 @@ def decode_gca( code ):
         >>> decode_gca( 'NONE' )
         'RAW'
     """
-    return GCA[ code ]
+    return GCA[ str( code ) ]
 
 #    Binary print
 def bindump( data ):
