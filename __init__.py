@@ -401,8 +401,12 @@ class NIST( object ):
             for idc in self.get_idc( ntype ):
                 self.reset_alpha_length( ntype, idc )
                 
-                od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
-                outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
+                if ntype == 4:
+                    # TODO: reverse the lines 265ss
+                    pass
+                else:
+                    od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
+                    outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
         
         return outnist
     
