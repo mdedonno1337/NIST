@@ -282,6 +282,7 @@ class NIST( object ):
                 VLL = str( VLL )
                 GCA = str( GCA )
                 
+                debug.debug( "Parsing Type-04 IDC %s" % IDC, 2 )
                 debug.debug( "LEN: %s" % LEN, 3 )
                 debug.debug( "IDC: %s" % IDC, 3 )
                 debug.debug( "IMP: %s" % IMP, 3 )
