@@ -514,6 +514,17 @@ class NIST( object ):
     def get_minutiaeXYTQ( self, idc = -1 ):
         return self.get_minutiae( "xytq", idc )
     
+    def get_center( self, idc = -1 ):
+        c = self.get_field( "9.008", idc )
+
+        if c == None:
+            return None
+        else:
+            x = int( c[ 0:4 ] ) / 100.0
+            y = int( c[ 4:8 ] ) / 100.0
+
+            return ( x, y )
+    
     def set_minutiae( self, data ):
         if type( data ) == list:
             data = lstTo012( data )
