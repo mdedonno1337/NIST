@@ -5,7 +5,7 @@ from _collections import defaultdict
 from collections import OrderedDict
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
-from string import join
+from string import join, upper
 import inspect
 import os
 
@@ -628,20 +628,45 @@ class NIST( object ):
         return decode_gca( gca )
     
     #    Image
+    @deprecated( "use the get_image( 'RAW', idc ) function instead" )
     def get_RAW( self, idc = -1 ):
-        """
-            Return the image stored (no transformation).
-        """
-        return self.get_field( "13.999", idc )
+        return self.get_image( "RAW", idc )
     
+    @deprecated( "use the get_image( 'PIL', idc ) function instead" )
     def get_PIL( self, idc = -1 ):
+        return self.get_image( "PIL", idc )
+    
+    def get_image( self, format = 'RAW', idc = -1 ):
         """
-            Convert the image stored in PIL format.
+            Return the image in the format passed in parameter (RAW or PIL)
         """
-        if 13 in self.get_ntype():
-            return Image.frombytes( "L", self.get_size( idc ), self.get_RAW( idc ) )
+        format = upper( format )
+        
+        raw = self.get_field( "13.999", idc )
+        
+        if format == "RAW":
+            return raw
+        elif format == "PIL":
+            return Image.frombytes( "L", self.get_size( idc ), raw )
         else:
-            raise notImplemented
+            raise NotImplemented
+    
+    def set_image( self, data, idc = -1 ):
+        """
+            Detect the type of image passed in parameter and store it in the
+            13.999 field.
+        """
+        if type( data ) == str:
+            self.set_field( "13.999", data, idc )
+            
+        elif isinstance( data, Image.Image ):
+            self.set_RAW( PILToRAW( data ) )
+            self.set_size( data.size )
+            
+            try:
+                self.set_resolution( data.info[ 'dpi' ][ 0 ] )
+            except:
+                self.set_resolution( 500 )
     
     ############################################################################
     # 
