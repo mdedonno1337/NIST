@@ -571,6 +571,8 @@ class NIST( object ):
     def set_resolution( self, res, idc = -1 ):
         self.set_horizontalResolution( res, idc )
         self.set_verticalResolution( res, idc )
+        
+        self.set_field( "13.008", "1", idc )
 
     def set_horizontalResolution( self, value, idc = -1 ):
         self.set_field( "13.009", value, idc )
