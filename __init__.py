@@ -273,7 +273,15 @@ class NIST( object ):
                 GCA = binstring_to_int( iter.take( 1 ) )
                 DAT = iter.take( LEN - 18 )
                 
-                debug.debug( "Parsing Type-04 IDC %d" % IDC, 2 )
+                LEN = str( LEN )
+                IDC = str( IDC )
+                IMP = str( IMP )
+                FGP = str( FGP )
+                ISR = str( ISR )
+                HLL = str( HLL )
+                VLL = str( VLL )
+                GCA = str( GCA )
+                
                 debug.debug( "LEN: %s" % LEN, 3 )
                 debug.debug( "IDC: %s" % IDC, 3 )
                 debug.debug( "IMP: %s" % IMP, 3 )
@@ -296,7 +304,10 @@ class NIST( object ):
                     999:DAT
                 }
                 
+                IDC = int( IDC )
                 self.data[ ntype ][ IDC ] = nist04
+                
+                LEN = int( LEN )
             
             else:
                 debug.critical( boxer( "Unknown Type-%02d" % ntype, "The Type-%02d is not supported. It will be skipped in the pasing process. Contact the developer for more information." % ntype ) )
