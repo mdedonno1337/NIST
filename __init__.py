@@ -4,6 +4,7 @@
 from _collections import defaultdict
 from collections import OrderedDict
 from lib.misc.binary import binstring_to_int
+from lib.misc.boxer import boxer
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
 from lib.misc.stringIterator import stringIterator
@@ -296,7 +297,16 @@ class NIST( object ):
                 }
                 
                 self.data[ ntype ][ IDC ] = nist04
-
+            
+            else:
+                debug.critical( boxer( "Unknown Type-%02d" % ntype, "The Type-%02d is not supported. It will be skipped in the pasing process. Contact the developer for more information." % ntype ) )
+                
+                if data.startswith( str( ntype ) ):
+                    _, _, _, LEN = fieldSplitter( data[ 0 : data.find( GS ) ] )
+                    LEN = int( LEN )
+                else:
+                    LEN = binstring_to_int( iter.take( 4 ) )
+            
             data = data[ LEN: ]
             
         return
