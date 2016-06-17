@@ -273,7 +273,7 @@ class NIST( object ):
             self.idcByNType[ ntype ].append( idc )
             self.ntypeInOrder.append( ntype )
         
-        self.ntypeInOrder = set( self.ntypeInOrder )
+        self.ntypeInOrder = sorted( self.ntypeInOrder )
     
     ############################################################################
     # 
