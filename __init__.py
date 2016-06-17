@@ -519,10 +519,11 @@ class NIST( object ):
             data = lstTo012( data )
             
         self.set_field( "9.012", data )
-        self.set_field( "9.010", len( data.split( RS ) ) - 1 )
         
+        minnum = len( data.split( RS ) ) - 1
+        self.set_field( "9.010", minnum )
         
-        return
+        return minnum
     
     ############################################################################
     # 
