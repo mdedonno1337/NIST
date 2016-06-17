@@ -612,7 +612,16 @@ class NIST( object ):
             value = str( value )
         
         self.data[ ntype ][ idc ][ tagid ] = value
-        
+    
+    ############################################################################
+    # 
+    #    Get specific information
+    # 
+    ############################################################################
+    
+    def get_caseName( self ):
+        return self.get_field( "2.007" )
+    
     ############################################################################
     # 
     #    Generic functions
