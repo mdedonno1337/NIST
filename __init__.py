@@ -516,7 +516,7 @@ class NIST( object ):
             Recalculate the LEN field of the ntype passed in parameter.
             Only for ASCII ntype.
         """
-        debug.info( "Resetting the length of Type-%02d" % ntype )
+        debug.debug( "Resetting the length of Type-%02d" % ntype )
         
         self.set_field( "%d.001" % ntype, "%08d" % 0, idc )
         
@@ -539,7 +539,7 @@ class NIST( object ):
             Recalculate the LEN field of the ntype passed in parameter.
             Only for binary ntype.
         """
-        debug.info( "Resetting the length of Type-%02d" % ntype )
+        debug.debug( "Resetting the length of Type-%02d" % ntype )
         
         if ntype == 4:
             recordsize = 18
