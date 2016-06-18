@@ -434,7 +434,10 @@ class NIST( object ):
             if t == 999:
                 field = bindump( d[ t ] )
             else:
-                field = d[ t ]
+                if ntype == 18 and t == 19:
+                    field = bindump( d[ t ] )
+                else:
+                    field = d[ t ]
             
             debug.debug( "%s: %s" % ( header, field ), 2 )
             s = s + leveler( "%s: %s\n" % ( header, field ), 1 )
