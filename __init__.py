@@ -557,7 +557,8 @@ class NIST( object ):
     
     def get_minutiae( self, format = "ixytdq", idc = -1 ):
         """
-            Get the minutiae information from the field 9.012.
+            Get the minutiae information from the field 9.012 for the IDC passed
+            in argument.
             
             The parameter 'format' allow to select the data to extract:
             
@@ -567,7 +568,18 @@ class NIST( object ):
                 t: Angle theta
                 d: Type designation
                 q: Quality
+            
+            The 'format' parameter is optional. The IDC value can be passed in
+            parameter even without format. The default format ('ixytdq') will be
+            used.
         """
+        # If the 'format' value is an int, then the function is called without
+        # the 'format' argument, but the IDC is passed instead.
+        if type( format ) == int:
+            idc = format
+            format = "ixytdq"
+        
+        # Get the minutiae string, without the final <FS> character.                
         minutiae = self.get_field( "9.012", idc )[ :-1 ]
         
         if minutiae == None:
