@@ -14,18 +14,12 @@ import os
 
 from PIL import Image
 
+################################################################################
+#
+#    Abbreviation and full name of all Record type. 
+#
+################################################################################
 
-################################################################################
-#
-#    Record type specifications
-#
-#        Abbreviation and full name of all Record type. 
-#        Based on the publication of the NIST:
-#
-#            ANSI/NIST-ITL 1-2011:
-#                UPDATE 2013 NIST Special Publication 500-290 Version 2 (2013) 
-#
-################################################################################
 LABEL = {
     1: {
         1:   ( 'LEN', 'Logical record length' ),
@@ -149,6 +143,14 @@ class NIST( object ):
     def __init__( self, init = None ):
         """
             Initialization of the NIST Object.
+            
+            All biometric information are stored in the self.data recursive
+            default dictionary object. The information is stored as following:
+            
+                self.data[ ntype ][ idc ][ tagid ]
+            
+            To get and set data, use the self.get_field() and self_set_field()
+            functions.
         """
         debug.info( "Initialization of the NIST object" )
         
