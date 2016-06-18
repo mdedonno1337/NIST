@@ -1080,25 +1080,6 @@ def tagSplitter( tag ):
     return map( int, tag.split( DO ) )
 
 #    Field 9.012 to list (and reverse)
-def lstTo012field( lst ):
-    """
-        Function to convert a minutiae from the minutiae-table to a 9.012 sub-field.
-        
-        >>> lstTo012field( ['000',  7.85,  7.05, 290, '00', 'A'] )
-        '000\\x1f07850705290\\x1f00\\x1fA'
-    """
-    id, x, y, theta, quality, t = lst
-    
-    return join( 
-        [
-            id,
-            "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ),
-            quality,
-            t
-        ],
-        US
-    )
-
 def lstTo012( lst ):
     """
         Convert the entire minutiae-table to the 9.012 field format.
@@ -1121,6 +1102,25 @@ def lstTo012( lst ):
     lst = join( lst, RS )
      
     return lst
+
+def lstTo012field( lst ):
+    """
+        Function to convert a minutiae from the minutiae-table to a 9.012 sub-field.
+        
+        >>> lstTo012field( ['000',  7.85,  7.05, 290, '00', 'A'] )
+        '000\\x1f07850705290\\x1f00\\x1fA'
+    """
+    id, x, y, theta, quality, t = lst
+    
+    return join( 
+        [
+            id,
+            "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ),
+            quality,
+            t
+        ],
+        US
+    )
 
 ################################################################################
 # 
