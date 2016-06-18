@@ -268,7 +268,6 @@ class NIST( object ):
                         value = data[ offset : end ]
                         debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, bindump( value ) ), 2 )
                         recordx[ tagid ] = value
-                        data = data[ end: ]
                         break
                         
                     debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, value ), 2 )
