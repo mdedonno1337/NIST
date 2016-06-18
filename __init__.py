@@ -141,7 +141,7 @@ class NIST( object ):
         """
             Initialization of the NIST Object.
         """
-        debug.info( "initialization of the NIST object" )
+        debug.info( "Initialization of the NIST object" )
         
         self.filename = None
         self.data = defaultdict( dict )
@@ -177,10 +177,19 @@ class NIST( object ):
         self.load( data )
     
     def load_auto( self, p ):
+        """
+            Function to detect and load automatically the 'p' value passed in
+            parameter. The argument 'p' can be a string (URI to the file to
+            load) or a NIST object (a copy will be done in the current object).
+        """
         if type( p ) == str:
             self.read( p )
+            
         elif isinstance( p, NIST ):
-            attributes = inspect.getmembers( p, lambda a:not( inspect.isroutine( a ) ) )
+            # Get the list of all attributes stored in the NIST object.
+            attributes = inspect.getmembers( p, lambda a: not( inspect.isroutine( a ) ) )
+            
+            # Copy all the values to the current NIST object. 
             for name, value in [ a for a in attributes if not( a[ 0 ].startswith( '__' ) and a[ 0 ].endswith( '__' ) ) ]:
                 super( NIST, self ).__setattr__( name, value )
     
@@ -462,6 +471,7 @@ class NIST( object ):
                 1.002
                 1.011
                 1.012
+                4.005
                 9.004
         """
         debug.info( "Patch some fields regaring the ANSI/NIST-ITL standard" )
@@ -984,7 +994,7 @@ def tagSplitter( tag ):
         Split a tag in a list of [ ntype, tagid ].
         
         >>> tagSplitter( "1.002" )
-        [ 1, 2 ]
+        [1, 2]
     """
     return map( int, tag.split( DO ) )
 
@@ -992,6 +1002,9 @@ def tagSplitter( tag ):
 def lstTo012field( lst ):
     """
         Function to convert a minutiae from the minutiae-table to a 9.012 sub-field.
+        
+        >>> lstTo012field( ['000',  7.85,  7.05, 290, '00', 'A'] )
+        '000\\x1f07850705290\\x1f00\\x1fA'
     """
     id, x, y, theta, quality, t = lst
     
@@ -1008,6 +1021,20 @@ def lstTo012field( lst ):
 def lstTo012( lst ):
     """
         Convert the entire minutiae-table to the 9.012 field format.
+        
+        >>> lstTo012( \
+            [['000',  7.85,  7.05, 290, '00', 'A'], \
+             ['001', 13.80, 15.30, 155, '00', 'A'], \
+             ['002', 11.46, 22.32, 224, '00', 'A'], \
+             ['003', 22.61, 25.17, 194, '00', 'A'], \
+             ['004',  6.97,  8.48, 153, '00', 'A'], \
+             ['005', 12.58, 19.88, 346, '00', 'A'], \
+             ['006', 19.69, 19.80, 111, '00', 'A'], \
+             ['007', 12.31,  3.87, 147, '00', 'A'], \
+             ['008', 13.88, 14.29, 330, '00', 'A'], \
+             ['009', 15.47, 22.49, 271, '00', 'A']] \
+        )
+        '000\\x1f07850705290\\x1f00\\x1fA\\x1e001\\x1f13801530155\\x1f00\\x1fA\\x1e002\\x1f11462232224\\x1f00\\x1fA\\x1e003\\x1f22612517194\\x1f00\\x1fA\\x1e004\\x1f06970848153\\x1f00\\x1fA\\x1e005\\x1f12581988346\\x1f00\\x1fA\\x1e006\\x1f19691980111\\x1f00\\x1fA\\x1e007\\x1f12310387147\\x1f00\\x1fA\\x1e008\\x1f13881429330\\x1f00\\x1fA\\x1e009\\x1f15472249271\\x1f00\\x1fA'
     """
     lst = map( lstTo012field, lst )
     lst = join( lst, RS )
