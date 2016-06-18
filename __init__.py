@@ -399,12 +399,12 @@ class NIST( object ):
         
         for ntype in self.get_ntype():
             for idc in self.get_idc( ntype ):
-                self.reset_alpha_length( ntype, idc )
-                
                 if ntype == 4:
                     # TODO: reverse the lines 265ss
                     pass
                 else:
+                    self.reset_alpha_length( ntype, idc )
+                    
                     od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
                     outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
         
