@@ -1008,7 +1008,6 @@ def bindump( data ):
         
         >>> bindump( chr(255) * 250000 )
         'ffffffff ... ffffffff (250000 bytes)'
-        
     """
     return "%02x%02x%02x%02x ... %02x%02x%02x%02x (%d bytes)" % ( 
         ord( data[ 0 ] ), ord( data[ 1 ] ), ord( data[ 2 ] ), ord( data[ 3 ] ),
@@ -1022,7 +1021,6 @@ def fieldSplitter( data ):
         
         >>> fieldSplitter( "1.002:0501" )
         ('1.002', 1, 2, '0501')
-        
     """
     tag, value = data.split( CO )
     ntype, tagid = tag.split( DO )
@@ -1038,6 +1036,9 @@ def get_label( ntype, tagid, fullname = False ):
         
         >>> get_label( 1, 2 )
         'VER'
+        
+        >>> get_label( 1, 2, True )
+        'Version number'
     """
     index = int( fullname )
     
@@ -1049,12 +1050,12 @@ def get_label( ntype, tagid, fullname = False ):
         else:
             return ""
 
-#    Alignement function
+#    Alignment function
 def leveler( msg, level = 1 ):
     """
         Return an indented string.
         
-        >>> leveler( "1.002" )
+        >>> leveler( "1.002", 1 )
         '    1.002'
     """
     return "    " * level + msg
@@ -1066,7 +1067,6 @@ def tagger( ntype, tagid ):
         
         >>> tagger( 1, 2 )
         '1.002:'
-        
     """
     return "%d.%03d:" % ( ntype, tagid )
 
@@ -1129,9 +1129,28 @@ def lstTo012field( lst ):
 ################################################################################
 
 def RAWToPIL( raw, size = ( 500, 500 ) ):
+    """
+        Convert a RAW string to PIL object.
+        
+        >>> p = RAWToPIL( chr( 255 ) * 250000, ( 500, 500 ) )
+        >>> isinstance( p, Image.Image )
+        True
+        >>> p.size
+        (500, 500)
+    """
     return Image.frombytes( 'L', size, raw )
 
 def PILToRAW( pil ):
+    """
+        Convert a PIL object to RAW string.
+        
+        >>> p = Image.new( '1', ( 5, 5 ) )
+        >>> r = PILToRAW( p )
+        >>> r
+        '\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00\\x00'
+        >>> len( r )
+        25
+    """
     return pil.convert( 'L' ).tobytes()
 
 ################################################################################
