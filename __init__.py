@@ -3,7 +3,7 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
-from lib.misc.binary import binstring_to_int
+from lib.misc.binary import binstring_to_int, int_to_binstring
 from lib.misc.boxer import boxer
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
@@ -400,8 +400,18 @@ class NIST( object ):
         for ntype in self.get_ntype():
             for idc in self.get_idc( ntype ):
                 if ntype == 4:
-                    # TODO: reverse the lines 265ss
-                    pass
+                    self.reset_binary_length( ntype, idc )
+                    
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 1 ] ), 4 * 8 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 2 ] ), 1 * 8 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 3 ] ), 1 * 8 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 4 ] ), 1 * 8 )
+                    outnist += ( chr( 0xFF ) * 5 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 5 ] ), 1 * 8 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 6 ] ), 2 * 8 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 7 ] ), 2 * 8 )
+                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 8 ] ), 1 * 8 )
+                    outnist += self.data[ ntype ][ idc ][ 999 ]
                 else:
                     self.reset_alpha_length( ntype, idc )
                     
@@ -511,6 +521,21 @@ class NIST( object ):
         self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
         
         return
+    
+    def reset_binary_length( self, ntype, idc = 0 ):
+        """
+            Recalculate the LEN field of the ntype passed in parameter.
+            Only for binary ntype.
+        """
+        debug.info( "Resetting the length of Type-%02d" % ntype )
+        
+        if ntype == 4:
+            recordsize = 18
+            
+            if self.data[ ntype ][ idc ].has_key( 999 ):
+                recordsize += len( self.data[ ntype ][ idc ][999] )
+                
+        self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
     
     ############################################################################
     # 
