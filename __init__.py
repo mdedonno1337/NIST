@@ -130,6 +130,15 @@ class minutiaeFormatNotSupported( BaseException ):
 class notImplemented( BaseException ):
     pass
 
+class ntypeNotFound( BaseException ):
+    pass
+
+class idcNotFound( BaseException ):
+    pass
+
+class tagNotFound( BaseException ):
+    pass
+
 ################################################################################
 # 
 #    NIST object class
@@ -344,6 +353,69 @@ class NIST( object ):
             self.ntypeInOrder.append( ntype )
 
         self.ntypeInOrder = sorted( self.ntypeInOrder )
+    
+    ############################################################################
+    # 
+    #    Content delete
+    # 
+    ############################################################################
+    
+    def delete( self, ntype = None, idc = -1 ):
+        """
+            Function to delete a specific Type-'ntype', IDC or field.
+            
+            To delete the Type-09 record:
+                n.delete( 9 )
+            
+            To delete the Type-09 IDC 0:
+                n.delete( 9, 0 )
+            
+            To delete the field "9.012":
+                n.delete( "9.012" )
+            
+            To delete the field "9.012" IDC 0:
+                n.delete( "9.012", 0 )
+            
+        """
+        if type( ntype ) == str:
+            tag = ntype
+            self.delete_tag( tag, idc )
+        else:
+            if idc < 0:
+                self.delete_ntype( ntype )
+            else:
+                self.delete_idc( ntype, idc )
+        
+    def delete_ntype( self, ntype ):
+        """
+            Delete the 'ntype' record.
+        """
+        if self.data.has_key( ntype ):
+            del( self.data[ ntype ] )
+        else:
+            raise ntypeNotFound
+    
+    def delete_idc( self, ntype, idc ):
+        """
+            Delete the specific IDC passed in parameter from 'ntype' record.
+        """
+        if self.data.has_key( ntype ) and self.data[ ntype ].has_key( idc ):
+            del( self.data[ ntype ][ idc ] )
+        else:
+            raise idcNotFound
+    
+    def delete_tag( self, tag, idc = -1 ):
+        """
+            Delete the field 'tag' from the specific IDC.
+        """
+        ntype, tagid = tagSplitter( tag )
+        
+        idc = self.checkIDC( ntype, idc )
+        
+        if self.data.has_key( ntype ) and self.data[ ntype ].has_key( idc ):
+            del( self.data[ ntype ][ idc ][ tagid ] )
+        else:
+            raise tagNotFound
     
     ############################################################################
     # 
