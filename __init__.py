@@ -137,7 +137,7 @@ class notImplemented( BaseException ):
 ################################################################################
 
 class NIST( object ):
-    def __init__( self ):
+    def __init__( self, init = None ):
         """
             Initialization of the NIST Object.
         """
@@ -147,6 +147,9 @@ class NIST( object ):
         self.data = defaultdict( dict )
         
         self.ntypeInOrder = []
+        
+        if init != None:
+            self.load_auto( init )
         
         return
     
