@@ -350,8 +350,6 @@ class NIST( object ):
         
         for ntype, idc in data[ 1: ]:
             self.ntypeInOrder.append( ntype )
-
-        self.ntypeInOrder = sorted( self.ntypeInOrder )
     
     ############################################################################
     # 
