@@ -503,6 +503,7 @@ class NIST( object ):
     def reset_alpha_length( self, ntype, idc = 0 ):
         """
             Recalculate the LEN field of the ntype passed in parameter.
+            Only for ASCII ntype.
         """
         debug.info( "Resetting the length of Type-%02d" % ntype )
         
