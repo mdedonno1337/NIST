@@ -483,6 +483,17 @@ class NIST( object ):
             self.set_field( "1.011", "00.00" )
             self.set_field( "1.012", "00.00" )
         
+        #    Type-04
+        for idc in self.get_idc( 4 ):
+            #    4.005
+            #        If the image scanning resolution corresponds to the
+            #        Appendix F certification level, a 0 shall be entered in
+            #        this field. A value of 1 is entered if the actual scanning
+            #        resolution (outside of the Appendix certification range) is
+            #        specified in Field 1.011 Native scanning resolution / NSR.
+            debug.debug( "Set Appendix F certification level to 0 (certified) for the Type-04 image", 1 )
+            self.set_field( "4.005", "0", idc )
+        
         #    Type-09
         for idc in self.get_idc( 9 ):
             #    9.004
