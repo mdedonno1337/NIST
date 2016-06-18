@@ -1,0 +1,71 @@
+﻿v0.8
+----
+
+* Function to delete a ntype, idc or field
+* Updater for the File Content field (1.003) based on the content of the NIST object
+* Field 4.005 checker (conformation to the standard)
+* Type-04 dumper
+* Patch the type for the Type-04 data
+* Bug fix for the unsupported Type (allowing to skip the record)
+* Bug fix for the data in 999 tagid
+* Bug fix for the order of the excepted ntype
+
+v0.7
+----
+
+* Warning for unsupported Type
+* Type-04 parser
+* get_caseName, get_center
+* 'Grayscale Compression Algorithm' field decoder
+* Functions for image format transform (PIL <-> RAW)
+* Get and set the latent friction ridge image (Type-13) in PIL and RAW format
+
+v0.6
+---
+
+* Parser between the 9.012 field and the minutiae table
+* Function to return the minutiae table
+
+v0.5
+----
+
+* Autoloader (to detect the type (NIST object or URI to file) and load it in memory
+* @deprecated decorator for sort deprecation (backward compatibility)
+* Function to check and return the IDC (if unique) of a ntype
+* Function to get the content of a field via the field-tag
+* tagSplitter function
+
+v0.4
+----
+
+* __str__ and __repr__ functions
+* Function to write the NIST object to disk
+* Function do dump the content of the NIST object in binary (ready to write to disk)
+* Function to check some errors possible in the content of the NIST object
+* Function to return the tag from a ntype and a tagid
+* Set an IDC for Type-01, even if the standard says nothing about it. For simplification of the code later
+* Function to clean the self.data (deletion of empty fields)
+* Add some fields in the LABEL variable
+
+v0.3
+----
+
+* Function to dump the content of the NIST object in a string variable
+* Add the leveler function
+* Function to get the abbreviation and description of fields
+* Functions to get the list of ntype and idc's
+* Move the Logger class to the misc library.
+
+v0.2
+----
+
+* Function to process the File Content (field 1.003)
+* LABEL of some fields
+* Debug information
+* Binary onscreen dumper
+
+v0.1
+----
+
+* First version of the parser for Type-01, Type-02, Type-09 and Type-13
+* Initial commit
