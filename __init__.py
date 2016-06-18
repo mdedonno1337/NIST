@@ -452,12 +452,13 @@ class NIST( object ):
         """
         debug.info( "Cleaning the NIST object" )
         
+        #     Delete all empty fields.
         for ntype in self.get_ntype():
             for idc in self.data[ ntype ].keys():
                 for tagid in self.data[ ntype ][ idc ].keys():
                     value = self.get_field( "%d.%03d" % ( ntype, tagid ), idc )
                     if value == "" or value == None:
-                        debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 2 )
+                        debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 1 )
                         del( self.data[ ntype ][ idc ][ tagid ] )
     
     def patch_to_standard( self ):
