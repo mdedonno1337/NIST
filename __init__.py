@@ -460,7 +460,17 @@ class NIST( object ):
                     if value == "" or value == None:
                         debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 1 )
                         del( self.data[ ntype ][ idc ][ tagid ] )
-    
+        
+        #    Recheck the content of the NIST object and udpate the 1.003 field
+        content = []
+        for ntype in self.get_ntype()[ 1: ]:
+            for idc in self.get_idc( ntype ):
+                debug.debug( "Type-%02d, IDC %d present" % ( ntype, idc ), 1 )
+                content.append( "%s%s%s" % ( ntype, US, idc ) )
+                
+        content.insert( 0, "%s%s%s" % ( 1, US, len( content ) ) )
+        self.set_field( "1.003", join( content, RS ) )
+        
     def patch_to_standard( self ):
         """
             Check some requirements for the NIST file. Fields checked:
