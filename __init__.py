@@ -604,7 +604,7 @@ class NIST( object ):
                 debug.debug( "minutiae are formatted as specified by the standard Type-9 logical record field descriptions", 1 )
                 self.set_field( "9.004", "S", idc )
             else:
-                debug.debug( "minutiae are formatted in vendor-specific or M1- 378 terms" )
+                debug.debug( "minutiae are formatted in vendor-specific or M1-378 terms", 1 )
                 self.set_field( "9.004", "U", idc )
         
         return
