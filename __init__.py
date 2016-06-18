@@ -181,7 +181,7 @@ class NIST( object ):
             self.read( p )
         elif isinstance( p, NIST ):
             attributes = inspect.getmembers( p, lambda a:not( inspect.isroutine( a ) ) )
-            for name, value in [a for a in attributes if not( a[0].startswith( '__' ) and a[0].endswith( '__' ) )]:
+            for name, value in [ a for a in attributes if not( a[ 0 ].startswith( '__' ) and a[ 0 ].endswith( '__' ) ) ]:
                 super( NIST, self ).__setattr__( name, value )
     
     def load( self, data ):
@@ -195,7 +195,7 @@ class NIST( object ):
         #    NIST Type01
         debug.debug( "Type-01 parsing", 1 )
         
-        t01 = records[0].split( GS )
+        t01 = records[ 0 ].split( GS )
         record01 = {}
         
         for field in t01:
@@ -223,7 +223,7 @@ class NIST( object ):
             if ntype in [ 2, 9, 13 ]:
                 current_type = data.split( FS )
                 
-                tx = current_type[0].split( GS )
+                tx = current_type[ 0 ].split( GS )
                 
                 recordx = {}
                 offset = 0
@@ -329,7 +329,7 @@ class NIST( object ):
         """
         data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
         
-        self.nbLogicalRecords = data[0][1]
+        self.nbLogicalRecords = data[ 0 ][ 1 ]
         
         for ntype, idc in data[ 1: ]:
             self.idcInOrder.append( ( ntype, idc ) )
@@ -545,7 +545,7 @@ class NIST( object ):
             recordsize = 18
             
             if self.data[ ntype ][ idc ].has_key( 999 ):
-                recordsize += len( self.data[ ntype ][ idc ][999] )
+                recordsize += len( self.data[ ntype ][ idc ][ 999 ] )
                 
         self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
     
@@ -586,13 +586,13 @@ class NIST( object ):
                             tmp.append( id )
                         
                         if c == "x":
-                            tmp.append( int( xyt[0:4] ) / 100.0 )
+                            tmp.append( int( xyt[ 0:4 ] ) / 100.0 )
                         
                         if c == "y":
-                            tmp.append( int( xyt[4:8] ) / 100.0 )
+                            tmp.append( int( xyt[ 4:8 ] ) / 100.0 )
                         
                         if c == "t":
-                            tmp.append( int( xyt[8:11] ) )
+                            tmp.append( int( xyt[ 8:11 ] ) )
                         
                         if c == "d":
                             tmp.append( d )
@@ -908,8 +908,8 @@ def bindump( data ):
         
     """
     return "%02x%02x%02x%02x ... %02x%02x%02x%02x (%d bytes)" % ( 
-        ord( data[0] ), ord( data[1] ), ord( data[2] ), ord( data[3] ),
-        ord( data[-4] ), ord( data[-3] ), ord( data[-2] ), ord( data[-1] ), len( data )
+        ord( data[ 0 ] ), ord( data[ 1 ] ), ord( data[ 2 ] ), ord( data[ 3 ] ),
+        ord( data[ -4 ] ), ord( data[ -3 ] ), ord( data[ -2 ] ), ord( data[ -1 ] ), len( data )
     )
 
 #    Field split
@@ -972,7 +972,7 @@ def tagSplitter( tag ):
         Split a tag in a list of [ ntype, tagid ].
         
         >>> tagSplitter( "1.002" )
-        [1, 2]
+        [ 1, 2 ]
     """
     return map( int, tag.split( DO ) )
 
