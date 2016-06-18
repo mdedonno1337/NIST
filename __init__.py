@@ -238,7 +238,7 @@ class NIST( object ):
             debug.debug( "Type-%02d parsing" % ntype, 1 )
             LEN = 0
             
-            if ntype in [ 2, 9, 13, 14 ]:
+            if ntype in [ 2, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 98, 99 ]:
                 current_type = data.split( FS )
                 
                 tx = current_type[ 0 ].split( GS )
