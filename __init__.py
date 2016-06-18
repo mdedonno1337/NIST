@@ -574,13 +574,20 @@ class NIST( object ):
         #    Type-04
         for idc in self.get_idc( 4 ):
             #    4.005
-            #        If the image scanning resolution corresponds to the
-            #        Appendix F certification level, a 0 shall be entered in
-            #        this field. A value of 1 is entered if the actual scanning
-            #        resolution (outside of the Appendix certification range) is
-            #        specified in Field 1.011 Native scanning resolution / NSR.
-            debug.debug( "Set Appendix F certification level to 0 (certified) for the Type-04 image", 1 )
-            self.set_field( "4.005", "0", idc )
+            #        The minimum scanning resolution was defined in ANSI/NIST-
+            #        ITL 1-2007 as "19.69 ppmm plus or minus 0.20 ppmm (500 ppi
+            #        plus or minus 5 ppi)." Therefore, if the image scanning
+            #        resolution corresponds to the Appendix F certification
+            #        level (See Table 14 Class resolution with defined
+            #        tolerance), a 0 shall be entered in this field.
+            #        
+            #        If the resolution of the Type-04 is in 500DPI +- 1%, then
+            #        the 4.005 then field is set to 0, otherwise 1.
+            debug.debug( "Set the conformity with the Appendix F certification level for Type-04 image", 1 )
+            if 19.49 < float( self.get_field( "1.011" ) ) < 19.89:
+                self.set_field( "4.005", "0", idc )
+            else:
+                self.set_field( "4.005", "1", idc )
         
         #    Type-09
         for idc in self.get_idc( 9 ):
