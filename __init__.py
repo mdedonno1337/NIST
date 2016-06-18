@@ -1168,4 +1168,4 @@ def PILToRAW( pil ):
 
 if __name__ == "__main__":
     import doctest
-    doctest.testmod( extraglobs = { 'n': NIST() } )
+    doctest.testmod( extraglobs = { 'n': NIST() }, verbose = True )
