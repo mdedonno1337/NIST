@@ -294,15 +294,15 @@ class NIST( object ):
                 debug.debug( "DAT: %s" % bindump( DAT ), 3 )
                 
                 nist04 = {
-                    1: LEN,
-                    2: IDC,
-                    3: IMP,
-                    4: FGP,
-                    5: ISR,
-                    6: HLL,
-                    7: VLL,
-                    8: GCA,
-                    999:DAT
+                    1:   LEN,
+                    2:   IDC,
+                    3:   IMP,
+                    4:   FGP,
+                    5:   ISR,
+                    6:   HLL,
+                    7:   VLL,
+                    8:   GCA,
+                    999: DAT
                 }
                 
                 IDC = int( IDC )
