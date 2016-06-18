@@ -146,10 +146,7 @@ class NIST( object ):
         self.filename = None
         self.data = defaultdict( dict )
         
-        self.idcInOrder = []
-        self.idcByNType = defaultdict( list )
         self.ntypeInOrder = []
-        self.nbLogicalRecords = 0
         
         return
     
@@ -341,10 +338,8 @@ class NIST( object ):
         self.nbLogicalRecords = data[ 0 ][ 1 ]
         
         for ntype, idc in data[ 1: ]:
-            self.idcInOrder.append( ( ntype, idc ) )
-            self.idcByNType[ ntype ].append( idc )
             self.ntypeInOrder.append( ntype )
-        
+
         self.ntypeInOrder = sorted( self.ntypeInOrder )
     
     ############################################################################
