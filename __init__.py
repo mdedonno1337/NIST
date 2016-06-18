@@ -162,8 +162,6 @@ class NIST( object ):
         if init != None:
             self.load_auto( init )
         
-        return
-    
     ############################################################################
     #
     #    Loading functions
@@ -340,8 +338,6 @@ class NIST( object ):
             
             data = data[ LEN: ]
             
-        return
-    
     def process_fileContent( self, data ):
         """
             Function to process the 1.003 field passed in parameter.
@@ -609,8 +605,6 @@ class NIST( object ):
                 debug.debug( "minutiae are formatted in vendor-specific or M1-378 terms", 1 )
                 self.set_field( "9.004", "U", idc )
         
-        return
-    
     def reset_alpha_length( self, ntype, idc = 0 ):
         """
             Recalculate the LEN field of the ntype passed in parameter.
@@ -632,8 +626,6 @@ class NIST( object ):
         
         self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
         
-        return
-    
     def reset_binary_length( self, ntype, idc = 0 ):
         """
             Recalculate the LEN field of the ntype passed in parameter.
