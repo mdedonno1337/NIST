@@ -14,7 +14,10 @@ import os
 
 from PIL import Image
 
-from labels import LABEL
+try:
+    from .labels import LABEL
+except:
+    from labels import LABEL
 
 ################################################################################
 #
