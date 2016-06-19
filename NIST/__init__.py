@@ -375,7 +375,7 @@ class NIST( object ):
         """
         d = self.data[ ntype ][ idc ]
         
-        s = ""
+        ret = []
         for t in sorted( d.keys() ):
             lab = get_label( ntype, t, fullname )
             header = "%02d.%03d %s" % ( ntype, t, lab )
@@ -389,9 +389,9 @@ class NIST( object ):
                     field = d[ t ]
             
             debug.debug( "%s: %s" % ( header, field ), 2 )
-            s = s + leveler( "%s: %s\n" % ( header, field ), 1 )
+            ret.append( leveler( "%s: %s\n" % ( header, field ), 1 ) )
         
-        return s
+        return "".join( ret )
     
     def dump( self, fullname = False ):
         """
@@ -399,20 +399,20 @@ class NIST( object ):
         """
         debug.info( "Dumping NIST" )
         
-        s = ""
+        ret = []
         
         for ntype in self.get_ntype():
             debug.debug( "NIST Type-%02d" % ntype, 1 )
             
             if ntype == 1:
-                s += "NIST Type-%02d\n" % ntype
-                s += self.dump_record( ntype, 0, fullname ) 
+                ret.append( "NIST Type-%02d\n" % ntype )
+                ret.append( self.dump_record( ntype, 0, fullname ) ) 
             else:
                 for idc in self.get_idc( ntype ):
-                    s += "NIST Type-%02d (IDC %d)\n" % ( ntype, idc )
-                    s += self.dump_record( ntype, idc, fullname )
+                    ret.append( "NIST Type-%02d (IDC %d)\n" % ( ntype, idc ) )
+                    ret.append( self.dump_record( ntype, idc, fullname ) )
         
-        return s
+        return "".join( ret )
     
     def dumpbin( self ):
         """
@@ -423,30 +423,30 @@ class NIST( object ):
         self.clean()
         self.patch_to_standard()
         
-        outnist = ""
+        outnist = []
         
         for ntype in self.get_ntype():
             for idc in self.get_idc( ntype ):
                 if ntype == 4:
                     self.reset_binary_length( ntype, idc )
                     
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 1 ] ), 4 * 8 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 2 ] ), 1 * 8 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 3 ] ), 1 * 8 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 4 ] ), 1 * 8 )
-                    outnist += ( chr( 0xFF ) * 5 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 5 ] ), 1 * 8 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 6 ] ), 2 * 8 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 7 ] ), 2 * 8 )
-                    outnist += int_to_binstring( int( self.data[ ntype ][ idc ][ 8 ] ), 1 * 8 )
-                    outnist += self.data[ ntype ][ idc ][ 999 ]
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 1 ] ), 4 * 8 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 2 ] ), 1 * 8 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 3 ] ), 1 * 8 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 4 ] ), 1 * 8 ) )
+                    outnist.append( ( chr( 0xFF ) * 5 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 5 ] ), 1 * 8 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 6 ] ), 2 * 8 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 7 ] ), 2 * 8 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 8 ] ), 1 * 8 ) )
+                    outnist.append( self.data[ ntype ][ idc ][ 999 ] )
                 else:
                     self.reset_alpha_length( ntype, idc )
                     
                     od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
-                    outnist += join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS
+                    outnist.append( join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS )
         
-        return outnist
+        return "".join( outnist )
     
     @deprecated( "use the write() function instead" )
     def saveToFile( self, outfile ):
