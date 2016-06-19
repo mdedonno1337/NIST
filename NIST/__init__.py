@@ -1,5 +1,5 @@
-#!/usr/bin/env python
-#  *-* coding: utf-8 *-*
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
 from _collections import defaultdict
 from collections import OrderedDict
