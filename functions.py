@@ -46,7 +46,7 @@ def decode_gca( code ):
     return GCA[ str( code ) ]
 
 def hexformat( x ):
-    return format( x, '02x' )
+    return format( x, '02X' )
 
 #    Binary print
 def bindump( data, n = 8 ):
@@ -54,7 +54,10 @@ def bindump( data, n = 8 ):
         Return the first and last n bytes of a binary data.
         
         >>> bindump( chr(255) * 250000 )
-        'ffffffff ... ffffffff (250000 bytes)'
+        'FFFFFFFF ... FFFFFFFF (250000 bytes)'
+        
+        >>> bindump( chr(255) * 250000, 16 )
+        'FFFFFFFFFFFFFFFF ... FFFFFFFFFFFFFFFF (250000 bytes)'
     """
     pre = [ data[ i ] for i in xrange( n / 2 ) ]
     post = [ data[ -i ] for i in xrange( n / 2 ) ]
