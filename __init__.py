@@ -1,3 +1,4 @@
 from __future__ import absolute_import
 
-from .NIST import __init__, functions
+from .NIST.__init__ import NIST
+from .NIST.functions import *
