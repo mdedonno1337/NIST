@@ -793,6 +793,19 @@ class NIST( object ):
         
         self.data[ ntype ][ idc ][ tagid ] = value
     
+    def get_fields( self, tags, idc = -1 ):
+        """
+            Get the content of multiples fields at the same time.
+        """
+        return [ self.get_field( tag, idc ) for tag in tags ]
+    
+    def set_fields( self, fields, value, idc = -1 ):
+        """
+            Set the value of multiples fields to the same value.
+        """
+        for field in fields:
+            self.set_field( field, value, idc )
+    
     ############################################################################
     # 
     #    Get specific information
