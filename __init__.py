@@ -1079,13 +1079,3 @@ def PILToRAW( pil ):
         25
     """
     return pil.convert( 'L' ).tobytes()
-
-################################################################################
-#
-#    Main
-#
-################################################################################
-
-if __name__ == "__main__":
-    import doctest
-    doctest.testmod( extraglobs = { 'n': NIST() }, verbose = True )
