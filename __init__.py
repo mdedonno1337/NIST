@@ -3,16 +3,18 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
-from lib.misc.binary import binstring_to_int, int_to_binstring
-from lib.misc.boxer import boxer
-from lib.misc.deprecated import deprecated
-from lib.misc.logger import debug
-from lib.misc.stringIterator import stringIterator
 from string import join, upper
 import inspect
 import os
 
 from PIL import Image
+
+from lib.misc.binary import binstring_to_int, int_to_binstring
+from lib.misc.boxer import boxer
+from lib.misc.deprecated import deprecated
+from lib.misc.logger import debug
+from lib.misc.stringIterator import stringIterator
+
 
 try:
     from .labels import LABEL
