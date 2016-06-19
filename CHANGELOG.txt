@@ -1,4 +1,13 @@
-﻿v0.8
+﻿v0.9
+----
+
+* Change in the structure of the package, and addition of the __init__ file to load the NIST package
+* Rewriting of the doctest.py module.
+* get_fields() and set_fields() to get and set multiples fields at once
+* Documentation of all fields (name and abbreviation) 
+* Type-14, Type-10, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98 and Type-99 parser
+
+v0.8
 ----
 
 * Function to delete a ntype, idc or field
