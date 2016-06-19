@@ -7,15 +7,9 @@ from PIL import Image
 
 from lib.misc.multimap import multimap
 
-try:
-    from .config import *
-    from .exceptions import *
-    from .labels import LABEL
-except:
-    pass
-#     from config import *
-#     from exceptions import *
-#     from labels import LABEL
+from .config import *
+from .exceptions import *
+from .labels import LABEL
 
 ################################################################################
 #
