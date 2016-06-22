@@ -427,8 +427,6 @@ class NIST( object ):
         for ntype in self.get_ntype():
             for idc in self.get_idc( ntype ):
                 if ntype == 4:
-                    self.reset_binary_length( ntype, idc )
-                    
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 1 ] ), 4 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 2 ] ), 1 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 3 ] ), 1 * 8 ) )
@@ -440,8 +438,6 @@ class NIST( object ):
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 8 ] ), 1 * 8 ) )
                     outnist.append( self.data[ ntype ][ idc ][ 999 ] )
                 else:
-                    self.reset_alpha_length( ntype, idc )
-                    
                     od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
                     outnist.append( join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS )
         
@@ -493,6 +489,14 @@ class NIST( object ):
                 
         content.insert( 0, "%s%s%s" % ( 1, US, len( content ) ) )
         self.set_field( "1.003", join( content, RS ) )
+        
+        #    Reset the length of each ntype record (n.001 fields)
+        for ntype in self.get_ntype():
+            for idc in self.get_idc( ntype ):
+                if ntype == 4:
+                    self.reset_binary_length( ntype, idc )
+                else:
+                    self.reset_alpha_length( ntype, idc )
         
     def patch_to_standard( self ):
         """
