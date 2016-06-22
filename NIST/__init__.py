@@ -524,37 +524,39 @@ class NIST( object ):
             self.set_field( "1.012", "00.00" )
         
         #    Type-04
-        for idc in self.get_idc( 4 ):
-            #    4.005
-            #        The minimum scanning resolution was defined in ANSI/NIST-
-            #        ITL 1-2007 as "19.69 ppmm plus or minus 0.20 ppmm (500 ppi
-            #        plus or minus 5 ppi)." Therefore, if the image scanning
-            #        resolution corresponds to the Appendix F certification
-            #        level (See Table 14 Class resolution with defined
-            #        tolerance), a 0 shall be entered in this field.
-            #        
-            #        If the resolution of the Type-04 is in 500DPI +- 1%, then
-            #        the 4.005 then field is set to 0, otherwise 1.
-            debug.debug( "Set the conformity with the Appendix F certification level for Type-04 image", 1 )
-            if 19.49 < float( self.get_field( "1.011" ) ) < 19.89:
-                self.set_field( "4.005", "0", idc )
-            else:
-                self.set_field( "4.005", "1", idc )
+        if 4 in self.get_ntype():
+            for idc in self.get_idc( 4 ):
+                #    4.005
+                #        The minimum scanning resolution was defined in ANSI/NIST-
+                #        ITL 1-2007 as "19.69 ppmm plus or minus 0.20 ppmm (500 ppi
+                #        plus or minus 5 ppi)." Therefore, if the image scanning
+                #        resolution corresponds to the Appendix F certification
+                #        level (See Table 14 Class resolution with defined
+                #        tolerance), a 0 shall be entered in this field.
+                #        
+                #        If the resolution of the Type-04 is in 500DPI +- 1%, then
+                #        the 4.005 then field is set to 0, otherwise 1.
+                debug.debug( "Set the conformity with the Appendix F certification level for Type-04 image", 1 )
+                if 19.49 < float( self.get_field( "1.011" ) ) < 19.89:
+                    self.set_field( "4.005", "0", idc )
+                else:
+                    self.set_field( "4.005", "1", idc )
         
         #    Type-09
-        for idc in self.get_idc( 9 ):
-            #    9.004
-            #        This field shall contain an "S" to indicate that the
-            #        minutiae are formatted as specified by the standard Type-9
-            #        logical record field descriptions. This field shall contain
-            #        a "U" to indicate that the minutiae are formatted in
-            #        vendor-specific or M1- 378 terms
-            if any( x in [ 5, 6, 7, 8, 9, 10, 11, 12 ] for x in self.data[ 9 ][ idc ].keys() ):
-                debug.debug( "minutiae are formatted as specified by the standard Type-9 logical record field descriptions", 1 )
-                self.set_field( "9.004", "S", idc )
-            else:
-                debug.debug( "minutiae are formatted in vendor-specific or M1-378 terms", 1 )
-                self.set_field( "9.004", "U", idc )
+        if 9 in self.get_ntype():
+            for idc in self.get_idc( 9 ):
+                #    9.004
+                #        This field shall contain an "S" to indicate that the
+                #        minutiae are formatted as specified by the standard Type-9
+                #        logical record field descriptions. This field shall contain
+                #        a "U" to indicate that the minutiae are formatted in
+                #        vendor-specific or M1- 378 terms
+                if any( x in [ 5, 6, 7, 8, 9, 10, 11, 12 ] for x in self.data[ 9 ][ idc ].keys() ):
+                    debug.debug( "minutiae are formatted as specified by the standard Type-9 logical record field descriptions", 1 )
+                    self.set_field( "9.004", "S", idc )
+                else:
+                    debug.debug( "minutiae are formatted in vendor-specific or M1-378 terms", 1 )
+                    self.set_field( "9.004", "U", idc )
         
     def reset_alpha_length( self, ntype, idc = 0 ):
         """
