@@ -7,9 +7,6 @@ class needIDC( BaseException ):
 class intIDC( BaseException ):
     pass
 
-class nonexistingIDC( BaseException ):
-    pass
-
 class minutiaeFormatNotSupported( BaseException ):
     pass
 
@@ -23,4 +20,10 @@ class idcNotFound( BaseException ):
     pass
 
 class tagNotFound( BaseException ):
+    pass
+
+class ntypeAlreadyExisting( BaseException ):
+    pass
+
+class idcAlreadyExisting( BaseException ):
     pass

@@ -924,7 +924,7 @@ class NIST( object ):
             raise intIDC
         
         if not idc in self.get_idc( ntype ):
-            raise nonexistingIDC
+            raise idcNotFound
         
         return idc
     
