@@ -404,13 +404,12 @@ class NIST( object ):
         for ntype in self.get_ntype():
             debug.debug( "NIST Type-%02d" % ntype, 1 )
             
-            if ntype == 1:
-                ret.append( "NIST Type-%02d\n" % ntype )
-                ret.append( self.dump_record( ntype, 0, fullname ) ) 
-            else:
-                for idc in self.get_idc( ntype ):
-                    ret.append( "NIST Type-%02d (IDC %d)\n" % ( ntype, idc ) )
-                    ret.append( self.dump_record( ntype, idc, fullname ) )
+            for idc in self.get_idc( ntype ):
+                ret.append( "NIST Type-%02d" % ntype )
+                if ntype != 1:
+                    ret.append( " (IDC %d)" % idc )
+                ret.append( "\n" )
+                ret.append( self.dump_record( ntype, idc, fullname ) )
         
         return "".join( ret )
     
