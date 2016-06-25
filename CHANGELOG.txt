@@ -1,8 +1,11 @@
 ﻿v0.10
 -----
 
-* Checker for the 9.012 field.
+* Update from distutils.core to setuptools
+* Count the number of minuatiae present in the NIST object (field 9.010).
+* Checker for the minutiae field (all minutiae have to be on the image).
 * Function to add default empty records (Type-01, Type-02, Type-09 and Type-13).
+* Code cleaning.
 
 v0.9
 ----
