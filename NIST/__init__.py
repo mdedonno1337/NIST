@@ -953,7 +953,6 @@ class NIST( object ):
             Add the Type-09 record to the NIST object, and set the Date.
         """
         ntype = 9
-        idc = 0
         
         self.add_default( ntype, idc )
         
