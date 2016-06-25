@@ -948,6 +948,20 @@ class NIST( object ):
         
         return
     
+    def add_Type09( self, minutiae, idc ):
+        """
+            Add the Type-09 record to the NIST object, and set the Date.
+        """
+        ntype = 9
+        idc = 0
+        
+        self.add_default( ntype, idc )
+        
+        self.set_field( "9.010", minutiae.count( RS ), idc )
+        self.set_field( "9.012", minutiae, idc )
+        
+        return
+    
     def add_Type13( self, size, res, idc ):
         """
             Add an empty Type-13 record to the NIST object, and set the

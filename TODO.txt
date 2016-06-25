@@ -1,0 +1,5 @@
+tuples -> namedtuples
+tuples unpacking
+a, b, c = ( a*b, b*b, c*b )
+% -> format
+dependency injection ?
