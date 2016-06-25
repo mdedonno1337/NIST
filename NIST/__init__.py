@@ -1000,6 +1000,18 @@ class NIST( object ):
         return self.get_field( "2.007" )
     
     ############################################################################
+    #    
+    #    Coordinates system
+    #    
+    ############################################################################
+    
+    def mm2px( self, data ):
+        return mm2px( data, self.get_resolution() )
+    
+    def px2mm( self, data ):
+        return px2mm( data, self.get_resolution() )
+    
+    ############################################################################
     # 
     #    Generic functions
     # 

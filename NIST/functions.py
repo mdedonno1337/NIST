@@ -198,3 +198,21 @@ def PILToRAW( pil ):
         25
     """
     return pil.convert( 'L' ).tobytes()
+
+################################################################################
+#    
+#    Coordinates changes
+#    
+################################################################################
+
+def mm2px( data, res ):
+    if hasattr( data, '__iter__' ):
+        return map( lambda x: mm2px( x, res ), data )
+    else:
+        return data / 25.4 * float( res )
+
+def px2mm( data, res ):
+    if hasattr( data, '__iter__' ):
+        return map( lambda x: px2mm( x, res ), data )
+    else:
+        return data / float( res ) * 25.4
