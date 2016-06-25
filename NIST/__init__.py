@@ -4,8 +4,10 @@
 from _collections import defaultdict
 from collections import OrderedDict
 from string import join, upper
+import datetime
 import inspect
 import os
+import time
  
 from lib.misc.binary import binstring_to_int, int_to_binstring
 from lib.misc.boxer import boxer
@@ -17,6 +19,7 @@ from .labels import LABEL
 from .config import *
 from .functions import *
 from .exceptions import *
+from .voidType import voidType
 
 ################################################################################
 #
@@ -109,6 +112,9 @@ class NIST( object ):
         self.data = defaultdict( dict )
         
         self.ntypeInOrder = []
+        
+        self.date = datetime.datetime.now().strftime( "%Y%m%d" )
+        self.timestamp = int( time.time() )
         
         if init != None:
             self.load_auto( init )
@@ -876,6 +882,96 @@ class NIST( object ):
         """
         for field in fields:
             self.set_field( field, value, idc )
+    
+    ############################################################################
+    # 
+    #    Add ntype and idc
+    # 
+    ############################################################################
+    
+    def add_ntype( self, ntype ):
+        if not ntype in self.get_ntype():
+            self.data[ ntype ] = {}
+    
+    def add_idc( self, ntype, idc ):
+        if not ntype in self.get_ntype():
+            raise idcNotFound
+        elif idc in self.get_idc( ntype ):
+            raise idcAlreadyExisting
+        else:
+            self.data[ ntype ][ idc ] = { 1: '' }
+    
+    def update_idc( self, ntype, idc, value ):
+        self.data[ ntype ][ idc ].update( value )
+    
+    ############################################################################
+    # 
+    #    Add empty records to the NIST object
+    # 
+    ############################################################################
+    
+    def add_default( self, ntype, idc ):
+        """
+            Add the default values in the ntype record.
+        """
+        self.add_ntype( ntype )
+        self.add_idc( ntype, idc )
+        
+        self.update_idc( ntype, idc, voidType[ ntype ] )
+        
+    def add_Type01( self ):
+        """
+            Add the Type-01 record to the NIST object, and set the Date,
+            Originating Agency Identifier and the Transaction Control Number
+        """
+        ntype = 1
+        idc = 0
+        
+        self.add_default( ntype, idc )
+        
+        self.set_field( "1.005", self.date, idc )
+        self.set_field( "1.008", default_origin, idc )
+        self.set_field( "1.009", self.timestamp, idc )
+        
+        return
+    
+    def add_Type02( self ):
+        """
+            Add the Type-02 record to the NIST object, and set the Date.
+        """
+        ntype = 2
+        idc = 0
+        
+        self.add_default( ntype, idc )
+        
+        self.set_field( "2.004", self.date, idc )
+        
+        return
+    
+    def add_Type13( self, size, res, idc ):
+        """
+            Add an empty Type-13 record to the NIST object, and set the
+            Resolution (in dpi) to a white image.
+        """
+        ntype = 13
+
+        self.add_default( ntype, idc )
+        
+        self.set_field( "13.002", idc, idc )
+        self.set_field( "13.005", self.date, idc )
+        
+        self.set_field( "13.004", default_origin, idc )
+        
+        self.set_field( "13.008", 1, idc )
+        self.set_field( "13.009", res, idc )
+        self.set_field( "13.010", res, idc )
+        
+        w, h = size
+        self.set_field( "13.999", chr( 255 ) * w * h, idc )
+        self.set_field( "13.006", w, idc )
+        self.set_field( "13.007", h, idc )
+        
+        return
     
     ############################################################################
     # 
