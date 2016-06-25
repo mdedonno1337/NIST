@@ -7,11 +7,26 @@ import unittest
 import NIST.traditional.__init__
 import NIST.traditional.functions
 
+import NIST.fingerprint.__init__
+import NIST.fingerprint.functions
+
 def NISTtests():
     tests = unittest.TestSuite()
     
-    tests.addTests( doctest.DocTestSuite( NIST.traditional.__init__, { 'n': NIST.traditional.__init__.NIST() } ) )
+    nt = NIST.traditional.__init__.NIST()
+    nt.add_Type01()
+    nt.add_Type02()
+    
+    tests.addTests( doctest.DocTestSuite( NIST.traditional.__init__, { 'n': nt } ) )
     tests.addTests( doctest.DocTestSuite( NIST.traditional.functions ) )
+    
+    nf = NIST.fingerprint.__init__.NISTf()
+    nf.add_Type01()
+    nf.add_Type02()
+    nf.add_Type09( 1 )
+    
+    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'n': nf } ) )
+    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
     
     return tests
 
