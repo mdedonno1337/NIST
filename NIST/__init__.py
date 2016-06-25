@@ -684,6 +684,12 @@ class NIST( object ):
     def get_minutiaeXYTQ( self, idc = -1 ):
         return self.get_minutiae( "xytq", idc )
     
+    def get_minutiaeCount( self, idc = -1 ):
+        try:
+            return int( self.get_field( "9.010", idc ) )
+        except:
+            return 0
+    
     def get_center( self, idc = -1 ):
         """
             Process and return the center coordinate.
