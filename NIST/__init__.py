@@ -685,6 +685,9 @@ class NIST( object ):
         return self.get_minutiae( "xytq", idc )
     
     def get_minutiaeCount( self, idc = -1 ):
+        """
+            Return the number of minutiae stored.
+        """
         try:
             return int( self.get_field( "9.010", idc ) )
         except:
