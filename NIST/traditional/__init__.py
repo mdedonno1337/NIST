@@ -323,17 +323,17 @@ class NIST( object ):
             ret.append( " (IDC %d)" % idc )
         ret.append( "\n" )
                 
-        for t in sorted( d.keys() ):
-            lab = get_label( ntype, t, fullname )
-            header = "%02d.%03d %s" % ( ntype, t, lab )
+        for tagid, value in d.iteritems():
+            lab = get_label( ntype, tagid, fullname )
+            header = "%02d.%03d %s" % ( ntype, tagid, lab )
             
-            if t == 999:
-                field = bindump( d[ t ] )
+            if tagid == 999:
+                field = bindump( value )
             else:
-                if ntype == 18 and t == 19:
-                    field = bindump( d[ t ] )
+                if ntype == 18 and tagid == 19:
+                    field = bindump( value )
                 else:
-                    field = d[ t ]
+                    field = value
             
             debug.debug( "%s: %s" % ( header, field ), 2 )
             ret.append( leveler( "%s: %s\n" % ( header, field ), 1 ) )
@@ -480,8 +480,8 @@ class NIST( object ):
         lentag = len( "%d" % ntype ) + 6
         
         recordsize = 0
-        for t in self.data[ ntype ][ idc ].keys():
-            recordsize += len( self.data[ ntype ][ idc ][ t ] ) + lentag
+        for tagid, value in self.data[ ntype ][ idc ].iteritems():
+            recordsize += len( value ) + lentag
         
         diff = 8 - len( str( recordsize ) )
         recordsize -= diff
