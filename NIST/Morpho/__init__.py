@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from ..Fingerprint import NIST
+from ..fingerprint import NIST
 
 class NIST( NIST ):
     ############################################################################
