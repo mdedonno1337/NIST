@@ -367,16 +367,20 @@ class NISTf( NIST ):
     # 
     ############################################################################
      
-    def add_Type09( self, minutiae, idc ):
+    def add_Type09( self, minutiae = None, idc = -1 ):
         """
             Add the Type-09 record to the NIST object, and set the Date.
         """
         ntype = 9
-         
+        
+        if type( minutiae ) == int:
+            idc, minutiae = minutiae, None
+        
         self.add_default( ntype, idc )
-         
-        self.set_field( "9.010", minutiae.count( RS ), idc )
-        self.set_field( "9.012", minutiae, idc )
+        
+        if minutiae != None:
+            self.set_field( "9.010", minutiae.count( RS ), idc )
+            self.set_field( "9.012", minutiae, idc )
          
         return
      
