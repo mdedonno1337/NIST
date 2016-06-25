@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from exceptions import minutiaeFormatNotSupported
+from __future__ import absolute_import
+
 from string import upper
 
 from PIL import Image
@@ -14,8 +15,10 @@ from ..traditional.config import RS, US, default_origin
 from ..traditional.exceptions import needIDC
 from ..traditional.functions import decode_gca
 
-from .functions import *
+from .exceptions import minutiaeFormatNotSupported
+from .functions import lstTo012, PILToRAW, mm2px, px2mm
 from .voidType import voidType
+
 
 voidType.update( voidType )
 
