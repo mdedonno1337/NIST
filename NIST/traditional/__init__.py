@@ -317,6 +317,12 @@ class NIST( object ):
         d = self.data[ ntype ][ idc ]
         
         ret = []
+        
+        ret.append( "NIST Type-%02d" % ntype )
+        if ntype != 1:
+            ret.append( " (IDC %d)" % idc )
+        ret.append( "\n" )
+                
         for t in sorted( d.keys() ):
             lab = get_label( ntype, t, fullname )
             header = "%02d.%03d %s" % ( ntype, t, lab )
@@ -346,10 +352,6 @@ class NIST( object ):
             debug.debug( "NIST Type-%02d" % ntype, 1 )
             
             for idc in self.get_idc( ntype ):
-                ret.append( "NIST Type-%02d" % ntype )
-                if ntype != 1:
-                    ret.append( " (IDC %d)" % idc )
-                ret.append( "\n" )
                 ret.append( self.dump_record( ntype, idc, fullname ) )
         
         return "".join( ret )
