@@ -752,9 +752,9 @@ class NIST( object ):
             If the resolution is stored in px/cm, the conversion to dpi is done.
         """
         if self.get_field( "13.008", idc ) == '1':
-            return int( self.get_field( "13.009" ) )
+            return int( self.get_field( "13.009", idc ) )
         elif self.get_field( "13.008", idc ) == '2':
-            return int( self.get_field( "13.009" ) / 10.0 * 25.4 )
+            return int( self.get_field( "13.009", idc ) / 10.0 * 25.4 )
 
     def get_verticalResolution( self, idc = -1 ):
         """
@@ -1004,11 +1004,11 @@ class NIST( object ):
     #    
     ############################################################################
     
-    def mm2px( self, data ):
-        return mm2px( data, self.get_resolution() )
+    def mm2px( self, data, idc = -1 ):
+        return mm2px( data, self.get_resolution( idc ) )
     
-    def px2mm( self, data ):
-        return px2mm( data, self.get_resolution() )
+    def px2mm( self, data, idc = -1 ):
+        return px2mm( data, self.get_resolution( idc ) )
     
     ############################################################################
     # 
