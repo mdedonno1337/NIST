@@ -6,17 +6,17 @@ from string import upper
 
 from PIL import Image
 
-from functions import lstTo012, PILToRAW, mm2px, \
-    px2mm
 from lib.misc.deprecated import deprecated
 from lib.misc.logger import debug
 
+from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
 from ..traditional.exceptions import needIDC
 from ..traditional.functions import decode_gca
-from ..traditional import NIST
 
-from voidType import voidType
+from .functions import *
+from .voidType import voidType
+
 voidType.update( voidType )
 
 class NISTf( NIST ):

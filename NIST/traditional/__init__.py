@@ -22,6 +22,7 @@ from .labels import LABEL
 from .voidType import voidType
 
 
+
 ################################################################################
 # 
 #    NIST object class
@@ -509,6 +510,9 @@ class NIST( object ):
     def get_field( self, tag, idc = -1 ):
         """
             Get the content of a specific tag in the NIST object.
+            
+            >>> n.get_field( "1.002")
+            '0501'
         """
         ntype, tagid = tagSplitter( tag )
         
@@ -535,6 +539,9 @@ class NIST( object ):
     def get_fields( self, tags, idc = -1 ):
         """
             Get the content of multiples fields at the same time.
+            
+            >>> n.get_fields( [ "1.002", "1.004" ] )
+            ['0501', 'USA']
         """
         return [ self.get_field( tag, idc ) for tag in tags ]
     
@@ -619,12 +626,18 @@ class NIST( object ):
     def get_ntype( self ):
         """
             Return all ntype presents in the NIST object.
+            
+            >>> n.get_ntype()
+            [1, 2]
         """
         return sorted( self.data.keys() )
     
     def get_idc( self, ntype ):
         """
             Return all IDC for a specific ntype.
+            
+            >>> n.get_idc( 2 ) # doctest: +NORMALIZE_WHITESPACE
+            [0]
         """
         return sorted( self.data[ ntype ].keys() )
     
@@ -635,6 +648,16 @@ class NIST( object ):
             is searched in the ntype field and returned only if the value is
             unique; if multiple IDC are stored for the specific ntype, an
             exception is raised.
+            
+            >>> n.checkIDC( 1, 0 )
+            0
+            
+            >>> n.checkIDC( 1, -1 )
+            0
+            
+            >>> n.checkIDC( 1, 1 ) # doctest: +IGNORE_EXCEPTION_DETAIL
+            Traceback (most recent call last):
+            idcNotFound
         """
         if idc < 0:
             idc = self.get_idc( ntype )
@@ -655,11 +678,36 @@ class NIST( object ):
     def __str__( self ):
         """
             Return the printable version of the NIST object.
+            
+            >>> print n # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+            NIST Type-01
+                01.001 LEN: 0
+                01.002 VER: 0501
+                01.003 CNT: 1120
+                01.004 TOT: USA
+                01.005 DAT: ...
+                01.006 PRY: 1
+                01.007 DAI: FILE
+                01.008 ORI: UNIL
+                01.009 TCN: ...
+                01.011 NSR: 00.00
+                01.012 NTR: 00.00
+            NIST Type-02 (IDC 0)
+                02.001 LEN: 0
+                02.002 IDC: 0
+                02.003    : 0300
+                02.004    : ...
+                02.005    : 
+                02.007    : 
+                02.054    : 0300
         """
         return self.dump()
     
     def __repr__( self ):
         """
             Return unambiguous description.
+            
+            >>> n
+            NIST object, Type-01, Type-02
         """
-        return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() if x > 2 ] )
+        return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] )
