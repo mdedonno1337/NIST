@@ -496,6 +496,10 @@ class NIST( object ):
         content.insert( 0, "%s%s%s" % ( 1, US, len( content ) ) )
         self.set_field( "1.003", join( content, RS ) )
         
+        #    Check the minutiae
+        if 9 in self.get_ntype():
+            self.checkMinutiae()
+        
         #    Reset the length of each ntype record (n.001 fields)
         for ntype in self.get_ntype():
             for idc in self.get_idc( ntype ):
@@ -722,6 +726,37 @@ class NIST( object ):
         self.set_field( "9.010", minnum )
         
         return minnum
+    
+    def checkMinutiae( self, idc = -1 ):
+        """
+            Check if all minutiae are on the image. If a minutiae is outside the
+            image, it will be removed.
+        """
+        try:
+            idc = self.checkIDC( 9, idc )
+        except needIDC:
+            for idc in self.get_idc( 9 ):
+                self.checkMinutiae( idc )
+        else:
+            if self.get_minutiaeCount( idc ) == 0:
+                return
+            else:
+                lst = []
+                
+                w = self.px2mm( self.get_width( idc ), idc )
+                h = self.px2mm( self.get_height( idc ), idc )
+
+                id = 0
+                
+                for x, y, theta, quality, t in self.get_minutiae( "xytqd", idc ):
+                    if ( not x < 0 and not x > w ) and ( not y < 0 and not y > h ):
+                        id += 1
+                        lst.append( [ "%03d" % id, x, y, theta, quality, t ] )
+                            
+                lst = lstTo012( lst )    
+                
+                self.set_field( "9.010", id, idc )
+                self.set_field( "9.012", lst, idc )
     
     ############################################################################
     # 
