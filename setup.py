@@ -3,9 +3,12 @@
 
 from setuptools import setup
 
+import versioneer
+commands = versioneer.get_cmdclass().copy()
+
 setup( 
     name = 'NIST',
-    version = "0.10.0",
+    version = versioneer.get_version(),
     description = 'Python library for manipulating NIST files (Data Format for the Interchange of Fingerprint, Facial & Other Biometric Information)',
     author = 'Marco De Donno',
     author_email = 'Marco.DeDonno@unil.ch; mdedonno1337@gmail.com',
