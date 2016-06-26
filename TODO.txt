@@ -2,4 +2,5 @@ tuples -> namedtuples
 tuples unpacking
 a, b, c = ( a*b, b*b, c*b )
 % -> format
-dependency injection ?
+dependency injection via multiple inheritence ?
+change the compatibility to python 3 (join and char to change)
