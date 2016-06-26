@@ -1,4 +1,12 @@
-﻿v0.10
+﻿v0.11
+-----
+
+* Add the versioneer module to manage the version name in the setup file produced. 
+* Modification of the structure of the module: separation of the traditional module from the fingerprint functions.
+* Change the parameter 'minutiae' in NIST.fingerprint.NISTf.add_Type09() to optional.
+* Misc optimizations.
+
+v0.10
 -----
 
 * Update from distutils.core to setuptools
