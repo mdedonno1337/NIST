@@ -68,3 +68,5 @@
 
 from .traditional import NIST
 from .fingerprint import NISTf
+
+from .version import __version__
