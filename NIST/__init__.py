@@ -66,7 +66,11 @@
 # 
 ################################################################################
 
-from .traditional import NIST
 from .fingerprint import NISTf
+from .traditional import NIST
 
-from .version import __version__
+
+try:
+    from .version import __version__
+except:
+    __version__ = "dev"
