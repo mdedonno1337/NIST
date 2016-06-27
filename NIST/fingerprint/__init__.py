@@ -92,7 +92,7 @@ class NISTf( NIST ):
     # 
     ############################################################################
      
-    def get_minutiae( self, format = "ixytdq", idc = -1 ):
+    def get_minutiae( self, format = "ixytqd", idc = -1 ):
         """
             Get the minutiae information from the field 9.012 for the IDC passed
             in argument.
@@ -126,7 +126,7 @@ class NISTf( NIST ):
  
             for m in minutiae.split( RS ):
                 try:
-                    id, xyt, d, q = m.split( US )
+                    id, xyt, q, d = m.split( US )
                      
                     tmp = []
                      
