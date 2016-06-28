@@ -369,6 +369,16 @@ class NISTf( NIST ):
             except:
                 self.set_resolution( 500 )
     
+    def get_print( self, format = 'WSQ', idc = -1 ):
+        format = upper( format )
+        
+        wsq = self.get_field( "4.999", idc )
+        
+        if format == "WSQ":
+            return wsq
+        else:
+            raise NotImplemented
+    
     ############################################################################
     # 
     #    Add empty records to the NIST object
