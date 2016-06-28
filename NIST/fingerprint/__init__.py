@@ -2,9 +2,11 @@
 # -*- coding: UTF-8 -*-
 
 from MDmisc.deprecated import deprecated
+from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.logger import debug
 from MDmisc.string import upper
 from PIL import Image
+from WSQ import WSQ
 from future.builtins.misc import super
 
 from ..traditional import NIST
@@ -368,10 +370,14 @@ class NISTf( NIST ):
     def get_print( self, format = 'WSQ', idc = -1 ):
         format = upper( format )
         
-        wsq = self.get_field( "4.999", idc )
+        data = self.get_field( "4.999", idc )
         
         if format == "WSQ":
-            return wsq
+            return data
+        
+        elif format == "PIL":
+            return RAWToPIL( WSQ().decode( data ), ( 512, 512 ) )
+            
         else:
             raise notImplemented
     
