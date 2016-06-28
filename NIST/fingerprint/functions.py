@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from string import join
+from MDmisc.string import join
 
 from PIL import Image
 

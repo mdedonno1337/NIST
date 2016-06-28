@@ -3,24 +3,22 @@
 
 from _collections import defaultdict
 from collections import OrderedDict
-from string import join, upper
 import datetime
 import inspect
 import os
 import time
 
-from lib.misc.binary import binstring_to_int, int_to_binstring
-from lib.misc.boxer import boxer
-from lib.misc.deprecated import deprecated
-from lib.misc.logger import debug
-from lib.misc.stringIterator import stringIterator
+from MDmisc.binary import binstring_to_int, int_to_binstring
+from MDmisc.boxer import boxer
+from MDmisc.deprecated import deprecated
+from MDmisc.logger import debug
+from MDmisc.string import join, upper, stringIterator
 
 from .config import *
 from .exceptions import *
 from .functions import *
 from .labels import LABEL
 from .voidType import voidType
-
 
 
 ################################################################################

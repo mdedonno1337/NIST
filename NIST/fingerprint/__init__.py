@@ -1,20 +1,17 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from future.builtins.misc import super
-
-from string import upper
+from MDmisc.deprecated import deprecated
+from MDmisc.logger import debug
+from MDmisc.string import upper
 
 from PIL import Image
-
-from lib.misc.deprecated import deprecated
-from lib.misc.logger import debug
+from future.builtins.misc import super
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
 from ..traditional.exceptions import needIDC
 from ..traditional.functions import decode_gca
-
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, PILToRAW, mm2px, px2mm
 from .voidType import voidType

@@ -1,11 +1,10 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from string import join
-
 from PIL import Image
 
-from lib.misc.multimap import multimap
+from MDmisc.multimap import multimap
+from MDmisc.string import join
 
 from .config import *
 from .exceptions import *
