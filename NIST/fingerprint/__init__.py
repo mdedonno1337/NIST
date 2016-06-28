@@ -4,13 +4,12 @@
 from MDmisc.deprecated import deprecated
 from MDmisc.logger import debug
 from MDmisc.string import upper
-
 from PIL import Image
 from future.builtins.misc import super
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
-from ..traditional.exceptions import needIDC
+from ..traditional.exceptions import needIDC, notImplemented
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, PILToRAW, mm2px, px2mm
@@ -374,7 +373,7 @@ class NISTf( NIST ):
         if format == "WSQ":
             return wsq
         else:
-            raise NotImplemented
+            raise notImplemented
     
     ############################################################################
     # 
