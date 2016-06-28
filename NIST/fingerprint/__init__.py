@@ -321,15 +321,19 @@ class NISTf( NIST ):
         return decode_gca( gca )
      
     #    Image
-    @deprecated( "use the get_image( 'RAW', idc ) function instead" )
+    @deprecated( "use the get_latent( 'RAW', idc ) function instead" )
     def get_RAW( self, idc = -1 ):
-        return self.get_image( "RAW", idc )
+        return self.get_latent( "RAW", idc )
      
-    @deprecated( "use the get_image( 'PIL', idc ) function instead" )
+    @deprecated( "use the get_latent( 'PIL', idc ) function instead" )
     def get_PIL( self, idc = -1 ):
-        return self.get_image( "PIL", idc )
-     
+        return self.get_latent( "PIL", idc )
+    
+    @deprecated( "use the get_latent( format, idc ) function instead" )
     def get_image( self, format = 'RAW', idc = -1 ):
+        return self.get_latent( format, idc )
+    
+    def get_latent( self, format = 'RAW', idc = -1 ):
         """
             Return the image in the format passed in parameter (RAW or PIL)
         """
@@ -344,7 +348,11 @@ class NISTf( NIST ):
         else:
             raise NotImplemented
      
+    @deprecated( "use the set_latent( data, idc ) function instead" )
     def set_image( self, data, idc = -1 ):
+        return self.set_latent( data, idc )
+    
+    def set_latent( self, data, idc = -1 ):
         """
             Detect the type of image passed in parameter and store it in the
             13.999 field.
@@ -360,7 +368,7 @@ class NISTf( NIST ):
                 self.set_resolution( data.info[ 'dpi' ][ 0 ] )
             except:
                 self.set_resolution( 500 )
-     
+    
     ############################################################################
     # 
     #    Add empty records to the NIST object
