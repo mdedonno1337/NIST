@@ -28,7 +28,7 @@ def lstTo012( lst ):
         '000\\x1f07850705290\\x1f00\\x1fA\\x1e001\\x1f13801530155\\x1f00\\x1fA\\x1e002\\x1f11462232224\\x1f00\\x1fA\\x1e003\\x1f22612517194\\x1f00\\x1fA\\x1e004\\x1f06970848153\\x1f00\\x1fA\\x1e005\\x1f12581988346\\x1f00\\x1fA\\x1e006\\x1f19691980111\\x1f00\\x1fA\\x1e007\\x1f12310387147\\x1f00\\x1fA\\x1e008\\x1f13881429330\\x1f00\\x1fA\\x1e009\\x1f15472249271\\x1f00\\x1fA'
     """
     lst = map( lstTo012field, lst )
-    lst = join( lst, RS )
+    lst = join( RS, lst )
      
     return lst
 
@@ -42,13 +42,13 @@ def lstTo012field( lst ):
     id, x, y, theta, quality, t = lst
     
     return join( 
+        US,
         [
             id,
             "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ),
             quality,
             t
-        ],
-        US
+        ]
     )
 
 ################################################################################

@@ -60,7 +60,7 @@ def bindump( data, n = 8 ):
     
     post = reversed( post )
     
-    return "%s ... %s (%d bytes)" % ( join( pre, "" ), join( post, "" ), len( data ) )
+    return "%s ... %s (%d bytes)" % ( join( "", pre ), join( "", post ), len( data ) )
 
 #    Field split
 def fieldSplitter( data ):
