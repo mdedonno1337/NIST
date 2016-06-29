@@ -1,4 +1,12 @@
-﻿v0.11
+﻿v0.12
+-----
+
+* Update the names of the imports.
+* Deprecation of the get_image() function.
+* First version of the function to work with fingerprints (get_print() to get the PIL or WSQ image) from 4.999 WSQ encoded image.
+* Patch the get_minutiae() function (order of values).
+
+v0.11
 -----
 
 * Add the versioneer module to manage the version name in the setup file produced. 
