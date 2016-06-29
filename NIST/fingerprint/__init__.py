@@ -252,13 +252,23 @@ class NISTf( NIST ):
         """
             Return the width of the Type-13 image.
         """
-        return int( self.get_field( "13.006", idc ) )
+        if 13 in self.get_ntype():
+            return int( self.get_field( "13.006", idc ) )
+        elif 4 in self.get_ntype():
+            return int( self.get_field( "4.006", idc ) )
+        else:
+            raise notImplemented
          
     def get_height( self, idc = -1 ):
         """
             Return the height of the Type-13 image.
         """
-        return int( self.get_field( "13.007", idc ) )
+        if 13 in self.get_ntype():
+            return int( self.get_field( "13.007", idc ) )
+        elif 4 in self.get_ntype():
+            return int( self.get_field( "4.007", idc ) )
+        else:
+            raise notImplemented
      
     #    Resolution
     def get_resolution( self, idc = -1 ):
@@ -272,10 +282,17 @@ class NISTf( NIST ):
             Return the horizontal resolution of the Type-13 image.
             If the resolution is stored in px/cm, the conversion to dpi is done.
         """
-        if self.get_field( "13.008", idc ) == '1':
-            return int( self.get_field( "13.009", idc ) )
-        elif self.get_field( "13.008", idc ) == '2':
-            return int( self.get_field( "13.009", idc ) / 10.0 * 25.4 )
+        if 13 in self.get_ntype():
+            if self.get_field( "13.008", idc ) == '1':
+                return int( self.get_field( "13.009", idc ) )
+            elif self.get_field( "13.008", idc ) == '2':
+                return int( self.get_field( "13.009", idc ) / 10.0 * 25.4 )
+            
+        elif 4 in self.get_ntype():
+            return float( self.get_field( "1.011" ) ) * 25.4
+        
+        else:
+            raise notImplemented
  
     def get_verticalResolution( self, idc = -1 ):
         """
