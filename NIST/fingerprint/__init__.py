@@ -339,8 +339,10 @@ class NISTf( NIST ):
          
         if format == "RAW":
             return raw
+        
         elif format == "PIL":
-            return Image.frombytes( "L", self.get_size( idc ), raw )
+            return RAWToPIL( raw, self.get_size( idc ), self.get_resolution( idc ) )
+
         else:
             raise NotImplemented
     
