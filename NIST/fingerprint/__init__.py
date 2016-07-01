@@ -324,35 +324,12 @@ class NISTf( NIST ):
         """
         gca = self.get_field( "13.011", idc )
         return decode_gca( gca )
-     
+    
     ############################################################################
     # 
-    #    Latent processing
+    #    Misc image processing
     # 
     ############################################################################
-    
-    def get_latent( self, format = 'RAW', idc = -1 ):
-        """
-            Return the image in the format passed in parameter (RAW or PIL)
-        """
-        format = upper( format )
-         
-        raw = self.get_field( "13.999", idc )
-         
-        if format == "RAW":
-            return raw
-        
-        elif format == "PIL":
-            return RAWToPIL( raw, self.get_size( idc ), self.get_resolution( idc ) )
-
-        else:
-            raise NotImplemented
-    
-    def get_latent_annotated( self, idc = -1 ):
-        img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
-        img = self.annotate( img, self.get_center( idc ), "center" )
-        
-        return img
     
     def annotate( self, img, data, type = "minutiae", res = None ):
         width, height = img.size
@@ -413,7 +390,35 @@ class NISTf( NIST ):
             raise notImplemented
         
         return img
+    
+    ############################################################################
+    # 
+    #    Latent processing
+    # 
+    ############################################################################
+    
+    def get_latent( self, format = 'RAW', idc = -1 ):
+        """
+            Return the image in the format passed in parameter (RAW or PIL)
+        """
+        format = upper( format )
+         
+        raw = self.get_field( "13.999", idc )
+         
+        if format == "RAW":
+            return raw
+        
+        elif format == "PIL":
+            return RAWToPIL( raw, self.get_size( idc ), self.get_resolution( idc ) )
 
+        else:
+            raise NotImplemented
+    
+    def get_latent_annotated( self, idc = -1 ):
+        img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
+        img = self.annotate( img, self.get_center( idc ), "center" )
+        
+        return img
     
     def set_latent( self, data, idc = -1 ):
         """
