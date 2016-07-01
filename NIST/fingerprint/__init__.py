@@ -421,7 +421,7 @@ class NISTf( NIST ):
          
         return
      
-    def add_Type13( self, size, res, idc ):
+    def add_Type13( self, size = ( 500, 500 ), res = 500, idc = -1 ):
         """
             Add an empty Type-13 record to the NIST object, and set the
             Resolution (in dpi) to a white image.
