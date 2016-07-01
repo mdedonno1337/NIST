@@ -452,6 +452,9 @@ class NISTf( NIST ):
         else:
             raise notImplemented
     
+    def get_print_annotated( self, idc = -1 ):
+        return self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", 500 )
+    
     ############################################################################
     # 
     #    Add empty records to the NIST object
