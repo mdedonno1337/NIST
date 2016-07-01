@@ -354,9 +354,11 @@ class NISTf( NIST ):
         
         return img
     
-    def annotate( self, img, data, type = "minutiae" ):
+    def annotate( self, img, data, type = "minutiae", res = None ):
         width, height = img.size
-        res, _ = img.info[ 'dpi' ]
+        
+        if res == None:
+            res, _ = img.info[ 'dpi' ]
         
         pointSize = res / 50
         fontsize = int( 0.8 * pointSize )
