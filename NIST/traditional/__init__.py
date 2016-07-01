@@ -429,7 +429,7 @@ class NIST( object ):
                 content.append( "%s%s%s" % ( ntype, US, idc ) )
                 
         content.insert( 0, "%s%s%s" % ( 1, US, len( content ) ) )
-        self.set_field( "1.003", join( content, RS ) )
+        self.set_field( "1.003", join( RS, content ) )
         
         #    Reset the length of each ntype record (n.001 fields)
         for ntype in self.get_ntype():
