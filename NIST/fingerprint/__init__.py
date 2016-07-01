@@ -5,8 +5,10 @@ from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.logger import debug
 from MDmisc.string import upper
-from PIL import Image
 from WSQ import WSQ
+from math import cos, pi, sin
+
+from PIL import Image, ImageDraw, ImageFont
 from future.builtins.misc import super
 
 from ..traditional import NIST
@@ -345,6 +347,71 @@ class NISTf( NIST ):
 
         else:
             raise NotImplemented
+    
+    def get_latent_annotated( self, idc = -1 ):
+        img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
+        img = self.annotate( img, self.get_center( idc ), "center" )
+        
+        return img
+    
+    def annotate( self, img, data, type = "minutiae" ):
+        width, height = img.size
+        res, _ = img.info[ 'dpi' ]
+        
+        pointSize = res / 50
+        fontsize = int( 0.8 * pointSize )
+    
+        # Image
+        img = img.convert( "RGB" )
+        font = ImageFont.truetype( "arial.ttf", fontsize )
+        draw = ImageDraw.Draw( img )
+        
+        if type == "minutiae":
+            # Minutiae
+            i = 0
+            if len( data ) != 0:
+                 
+                for x, y, theta in data: 
+                    x = x / 25.4 * res
+                    y = y / 25.4 * res
+                     
+                    y = height - y
+                     
+                    i += 1
+                     
+                    xc = int( x ) - ( pointSize / 2 )
+                    yc = int( y ) - ( pointSize / 2 )
+                     
+                    theta = -theta + 180
+                     
+                    x2 = x + 2 * pointSize * cos( theta / 180.0 * pi )
+                    y2 = y + 2 * pointSize * sin( theta / 180.0 * pi )
+                     
+                    txt = Image.new( 'RGB', ( pointSize, pointSize ), ( 255, 0, 0 ) )
+                    d = ImageDraw.Draw( txt )
+                    d.text( ( 0, 0 ), "%s" % i, font = font, fill = ( 255, 255, 255 ) )
+                    img.paste( txt, ( xc, yc ) )
+    
+                    draw.line( ( x, y, x2, y2 ), fill = ( 255, 0, 0 ), width = 3 )
+
+        elif type == "center":
+            # Center
+            if data != None:
+                cx, cy = data
+                 
+                cx = cx / 25.4 * res
+                cy = cy / 25.4 * res
+                cy = height - cy
+                 
+                yellow = Image.new( "RGB", ( pointSize, pointSize ), ( 255, 255, 0 ) )
+                 
+                img.paste( yellow, ( int( data[0] ) - 5, int( data[1] ) - 5 ) )
+        
+        else:
+            raise notImplemented
+        
+        return img
+
     
     def set_latent( self, data, idc = -1 ):
         """
