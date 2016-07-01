@@ -470,7 +470,10 @@ class NISTf( NIST ):
         """
             Function to return the annotated print.
         """
-        return self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", 500 )
+        img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", 500 )
+        img = self.annotate( img, self.get_center( idc ), "center", 500 )
+        
+        return img
     
     ############################################################################
     # 
