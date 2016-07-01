@@ -332,6 +332,9 @@ class NISTf( NIST ):
     ############################################################################
     
     def annotate( self, img, data, type = "minutiae", res = None ):
+        """
+            Function to annotate the image with the data passed in argument.
+        """
         width, height = img.size
         
         if res == None:
@@ -415,6 +418,9 @@ class NISTf( NIST ):
             raise NotImplemented
     
     def get_latent_annotated( self, idc = -1 ):
+        """
+            Function to return the annotated latent.
+        """
         img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
         img = self.annotate( img, self.get_center( idc ), "center" )
         
@@ -444,6 +450,9 @@ class NISTf( NIST ):
     ############################################################################
     
     def get_print( self, format = 'WSQ', idc = -1 ):
+        """
+            Return the print image, WSQ or PIL format.
+        """
         format = upper( format )
         
         data = self.get_field( "4.999", idc )
@@ -458,6 +467,9 @@ class NISTf( NIST ):
             raise notImplemented
     
     def get_print_annotated( self, idc = -1 ):
+        """
+            Function to return the annotated print.
+        """
         return self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", 500 )
     
     ############################################################################
@@ -515,9 +527,15 @@ class NISTf( NIST ):
     ############################################################################
      
     def mm2px( self, data, idc = -1 ):
+        """
+            Transformation the coordinates from pixel to millimeters
+        """
         return mm2px( data, self.get_resolution( idc ) )
      
     def px2mm( self, data, idc = -1 ):
+        """
+            Transformation the coordinates from pixels to millimeters
+        """
         return px2mm( data, self.get_resolution( idc ) )
 
 ################################################################################
