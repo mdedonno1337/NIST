@@ -348,6 +348,16 @@ class NISTf( NIST ):
     def get_image( self, format = 'RAW', idc = -1 ):
         return self.get_latent( format, idc )
     
+    @deprecated( "use the set_latent( data, idc ) function instead" )
+    def set_image( self, data, idc = -1 ):
+        return self.set_latent( data, idc )
+    
+    ############################################################################
+    # 
+    #    Latent processing
+    # 
+    ############################################################################
+    
     def get_latent( self, format = 'RAW', idc = -1 ):
         """
             Return the image in the format passed in parameter (RAW or PIL)
@@ -362,10 +372,6 @@ class NISTf( NIST ):
             return Image.frombytes( "L", self.get_size( idc ), raw )
         else:
             raise NotImplemented
-     
-    @deprecated( "use the set_latent( data, idc ) function instead" )
-    def set_image( self, data, idc = -1 ):
-        return self.set_latent( data, idc )
     
     def set_latent( self, data, idc = -1 ):
         """
@@ -383,6 +389,12 @@ class NISTf( NIST ):
                 self.set_resolution( data.info[ 'dpi' ][ 0 ] )
             except:
                 self.set_resolution( 500 )
+    
+    ############################################################################
+    # 
+    #    Print processing
+    # 
+    ############################################################################
     
     def get_print( self, format = 'WSQ', idc = -1 ):
         format = upper( format )
