@@ -379,7 +379,7 @@ class NIST( object ):
                     outnist.append( self.data[ ntype ][ idc ][ 999 ] )
                 else:
                     od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
-                    outnist.append( join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS )
+                    outnist.append( join( GS, [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ] ) + FS )
         
         return "".join( outnist )
     
