@@ -125,33 +125,34 @@ class NISTf( NIST ):
             ret = []
  
             for m in minutiae.split( RS ):
-                try:
-                    id, xyt, q, d = m.split( US )
-                     
-                    tmp = []
-                     
-                    for c in format:
-                        if c == "i":
-                            tmp.append( id )
+                if len( m ) != 0:
+                    try:
+                        id, xyt, q, d = m.split( US )
                          
-                        if c == "x":
-                            tmp.append( int( xyt[ 0:4 ] ) / 100.0 )
+                        tmp = []
                          
-                        if c == "y":
-                            tmp.append( int( xyt[ 4:8 ] ) / 100.0 )
-                         
-                        if c == "t":
-                            tmp.append( int( xyt[ 8:11 ] ) )
-                         
-                        if c == "d":
-                            tmp.append( d )
-                         
-                        if c == "q":
-                            tmp.append( q )
-         
-                    ret.append( tmp )
-                except:
-                    raise minutiaeFormatNotSupported
+                        for c in format:
+                            if c == "i":
+                                tmp.append( id )
+                             
+                            if c == "x":
+                                tmp.append( int( xyt[ 0:4 ] ) / 100.0 )
+                             
+                            if c == "y":
+                                tmp.append( int( xyt[ 4:8 ] ) / 100.0 )
+                             
+                            if c == "t":
+                                tmp.append( int( xyt[ 8:11 ] ) )
+                             
+                            if c == "d":
+                                tmp.append( d )
+                             
+                            if c == "q":
+                                tmp.append( q )
+             
+                        ret.append( tmp )
+                    except:
+                        raise minutiaeFormatNotSupported
                  
             return ret
      
