@@ -117,7 +117,7 @@ class NISTf( NIST ):
             format = "ixytdq"
          
         # Get the minutiae string, without the final <FS> character.                
-        minutiae = self.get_field( "9.012", idc )[ :-1 ]
+        minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
          
         if minutiae == None:
             return []
