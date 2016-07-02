@@ -22,7 +22,7 @@ try:
         
         def ULWLQMetric_encode( self, idc = -1 ):
             idc = self.checkIDC( 9, idc )
-            self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode() )
+            self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
             self.clean()
             
 except:
