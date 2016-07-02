@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from _collections import defaultdict
-from collections import OrderedDict
 import datetime
 import inspect
 import os
 import time
+
+from _collections import defaultdict
+from collections import OrderedDict
 
 from MDmisc.binary import binstring_to_int, int_to_binstring
 from MDmisc.boxer import boxer
@@ -17,9 +18,7 @@ from MDmisc.string import join, upper, stringIterator
 from .config import *
 from .exceptions import *
 from .functions import *
-from .labels import LABEL
 from .voidType import voidType
-
 
 ################################################################################
 # 

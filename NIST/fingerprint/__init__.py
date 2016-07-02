@@ -1,13 +1,15 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from future.builtins.misc import super
+from PIL import Image
+
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.logger import debug
 from MDmisc.string import upper
-from PIL import Image
+from NIST.traditional.config import FS
 from WSQ import WSQ
-from future.builtins.misc import super
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
