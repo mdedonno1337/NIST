@@ -431,6 +431,21 @@ class NISTf( NIST ):
         
         return img
     
+    def get_latent_diptych( self, idc = -1 ):
+        """
+            Function to return the diptych of the latent fingermark (latent and
+            annotated latent)
+        """
+        img = self.get_latent( 'PIL', idc )
+        anno = self.get_latent_annotated( idc )
+        
+        new = Image.new( "RGB", ( img.size[ 0 ] * 2, img.size[ 1 ] ), "white" )
+        
+        new.paste( img, ( 0, 0 ) )
+        new.paste( anno, ( img.size[ 0 ], 0 ) )
+        
+        return new
+    
     def set_latent( self, data, idc = -1 ):
         """
             Detect the type of image passed in parameter and store it in the
