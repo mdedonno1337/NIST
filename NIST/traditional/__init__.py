@@ -117,7 +117,7 @@ class NIST( object ):
             debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, value ), 2 )
             record01[ tagid ] = value
         
-        self.data[ 1 ][ 0 ] = record01  # Store in IDC = 0 even if the standard implies no IDC for Type-01
+        self.data[ 1 ][ 0 ] = record01 # Store in IDC = 0 even if the standard implies no IDC for Type-01
         data = data[ LEN: ]
         
         #    NIST Type02 and after
