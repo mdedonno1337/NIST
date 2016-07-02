@@ -1,10 +1,14 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from future.builtins.misc import super
+from PIL import Image
+
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.logger import debug
 from MDmisc.string import upper
+from NIST.traditional.config import FS
 from WSQ import WSQ
 from math import cos, pi, sin
 
@@ -117,7 +121,7 @@ class NISTf( NIST ):
             format = "ixytdq"
          
         # Get the minutiae string, without the final <FS> character.                
-        minutiae = self.get_field( "9.012", idc )[ :-1 ]
+        minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
          
         if minutiae == None:
             return []
@@ -125,33 +129,34 @@ class NISTf( NIST ):
             ret = []
  
             for m in minutiae.split( RS ):
-                try:
-                    id, xyt, q, d = m.split( US )
-                     
-                    tmp = []
-                     
-                    for c in format:
-                        if c == "i":
-                            tmp.append( id )
+                if len( m ) != 0:
+                    try:
+                        id, xyt, q, d = m.split( US )
                          
-                        if c == "x":
-                            tmp.append( int( xyt[ 0:4 ] ) / 100.0 )
+                        tmp = []
                          
-                        if c == "y":
-                            tmp.append( int( xyt[ 4:8 ] ) / 100.0 )
-                         
-                        if c == "t":
-                            tmp.append( int( xyt[ 8:11 ] ) )
-                         
-                        if c == "d":
-                            tmp.append( d )
-                         
-                        if c == "q":
-                            tmp.append( q )
-         
-                    ret.append( tmp )
-                except:
-                    raise minutiaeFormatNotSupported
+                        for c in format:
+                            if c == "i":
+                                tmp.append( id )
+                             
+                            if c == "x":
+                                tmp.append( int( xyt[ 0:4 ] ) / 100.0 )
+                             
+                            if c == "y":
+                                tmp.append( int( xyt[ 4:8 ] ) / 100.0 )
+                             
+                            if c == "t":
+                                tmp.append( int( xyt[ 8:11 ] ) )
+                             
+                            if c == "d":
+                                tmp.append( d )
+                             
+                            if c == "q":
+                                tmp.append( q )
+             
+                        ret.append( tmp )
+                    except:
+                        raise minutiaeFormatNotSupported
                  
             return ret
      

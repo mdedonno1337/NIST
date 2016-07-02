@@ -1,9 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from ..fingerprint import NIST
+from ..fingerprint import NISTf
 
-class NIST( NIST ):
+class NIST( NISTf ):
     ############################################################################
     # 
     #    Get specific information

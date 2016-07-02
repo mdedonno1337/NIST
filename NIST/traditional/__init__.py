@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from _collections import defaultdict
-from collections import OrderedDict
 import datetime
 import inspect
 import os
 import time
+
+from _collections import defaultdict
+from collections import OrderedDict
 
 from MDmisc.binary import binstring_to_int, int_to_binstring
 from MDmisc.boxer import boxer
@@ -17,9 +18,7 @@ from MDmisc.string import join, upper, stringIterator
 from .config import *
 from .exceptions import *
 from .functions import *
-from .labels import LABEL
 from .voidType import voidType
-
 
 ################################################################################
 # 
@@ -118,7 +117,7 @@ class NIST( object ):
             debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, value ), 2 )
             record01[ tagid ] = value
         
-        self.data[ 1 ][ 0 ] = record01  # Store in IDC = 0 even if the standard implies no IDC for Type-01
+        self.data[ 1 ][ 0 ] = record01 # Store in IDC = 0 even if the standard implies no IDC for Type-01
         data = data[ LEN: ]
         
         #    NIST Type02 and after
@@ -380,7 +379,7 @@ class NIST( object ):
                     outnist.append( self.data[ ntype ][ idc ][ 999 ] )
                 else:
                     od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
-                    outnist.append( join( [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ], GS ) + FS )
+                    outnist.append( join( GS, [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ] ) + FS )
         
         return "".join( outnist )
     
@@ -429,7 +428,7 @@ class NIST( object ):
                 content.append( "%s%s%s" % ( ntype, US, idc ) )
                 
         content.insert( 0, "%s%s%s" % ( 1, US, len( content ) ) )
-        self.set_field( "1.003", join( content, RS ) )
+        self.set_field( "1.003", join( RS, content ) )
         
         #    Reset the length of each ntype record (n.001 fields)
         for ntype in self.get_ntype():

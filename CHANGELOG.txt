@@ -1,4 +1,10 @@
-﻿v0.12
+﻿v0.13
+-----
+
+* Extend the NIST-fingerprint library to work with the ULWLQMetric module.
+* Misc patches.
+
+v0.12
 -----
 
 * Update the names of the imports.

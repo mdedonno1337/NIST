@@ -38,7 +38,8 @@ setup(
     packages = [
         'NIST',
         'NIST.traditional',
-        'NIST.fingerprint'
+        'NIST.fingerprint',
+        'NIST.ULWLQMetric'
     ],
     install_requires = [
         'future',
