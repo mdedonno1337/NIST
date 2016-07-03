@@ -32,13 +32,18 @@ try:
             
             qmap = super().ULWLQMetric_encode( "image" )
             
+            qmap = qmap.chroma( ( 0, 0, 0 ) )
+            qmap = qmap.transparency( 0.5 )
             qmap = qmap.scale( 4 )
             
+            latentqmap = self.get_latent( 'PIL', idc )
+            latentqmap = latentqmap.convert( "RGBA" )
+            latentqmap.paste( qmap, ( 0, 0 ), mask = qmap )
             
             new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
             
             new.paste( diptych, ( 0, 0 ) )
-            new.paste( qmap, ( diptych.size[ 0 ], 0 ) )
+            new.paste( latentqmap, ( diptych.size[ 0 ], 0 ) )
             
             return new
             
