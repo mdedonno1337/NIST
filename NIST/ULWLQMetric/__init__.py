@@ -27,17 +27,19 @@ try:
             self.clean()
         
         def get_latent_triptych( self, idc = -1 ):
-            img = self.get_latent( 'PIL', idc )
-            anno = self.get_latent_annotated( idc )
+            diptych = self.get_latent_diptych( idc )
+            
             qmap = super().ULWLQMetric_encode( "image" )
             
-            qmap = qmap.resize( img.size, Image.ANTIALIAS )
+            w, h = qmap.size
+            w, h = 4 * w, 4 * h
             
-            new = Image.new( "RGB", ( img.size[ 0 ] * 3, img.size[ 1 ] ), "white" )
+            qmap = qmap.resize( ( w, h ), Image.ANTIALIAS )
             
-            new.paste( img, ( 0, 0 ) )
-            new.paste( anno, ( img.size[ 0 ], 0 ) )
-            new.paste( qmap, ( img.size[ 0 ] * 2, 0 ) )
+            new = Image.new( "RGB", ( w * 3, h ), "white" )
+            
+            new.paste( diptych, ( 0, 0 ) )
+            new.paste( qmap, ( diptych.size[ 0 ], 0 ) )
             
             return new
             
