@@ -23,11 +23,18 @@ try:
             return self.get_latent( 'PIL' )
         
         def ULWLQMetric_encode( self, idc = -1 ):
+            """
+                Encode the quality of the image, and update the correspondings
+                filds in the NIST object.
+            """
             idc = self.checkIDC( 9, idc )
             self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
             self.clean()
         
         def get_latent_triptych( self, idc = -1 ):
+            """
+                Get the triptych : latent, annotated latent, quality map (ULW).
+            """
             diptych = self.get_latent_diptych( idc )
             
             qmap = super().ULWLQMetric_encode( "image" )
