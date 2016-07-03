@@ -6,6 +6,7 @@ from PIL import Image
 
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
+from SoftPillow import Image
     
 from ..fingerprint import NISTf
     
@@ -31,12 +32,10 @@ try:
             
             qmap = super().ULWLQMetric_encode( "image" )
             
-            w, h = qmap.size
-            w, h = 4 * w, 4 * h
+            qmap = qmap.scale( 4 )
             
-            qmap = qmap.resize( ( w, h ), Image.ANTIALIAS )
             
-            new = Image.new( "RGB", ( w * 3, h ), "white" )
+            new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
             
             new.paste( diptych, ( 0, 0 ) )
             new.paste( qmap, ( diptych.size[ 0 ], 0 ) )
