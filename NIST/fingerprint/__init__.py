@@ -478,8 +478,7 @@ class NISTf( NIST ):
             return data
         
         elif format == "PIL":
-            # TODO: patch the resolution
-            return RAWToPIL( WSQ().decode( data ), ( 512, 512 ) )
+            return RAWToPIL( WSQ().decode( data ), self.get_size( idc ), self.get_resolution( idc ) )
             
         else:
             raise notImplemented
@@ -488,9 +487,8 @@ class NISTf( NIST ):
         """
             Function to return the annotated print.
         """
-        # TODO: to be patched (resolution)
-        img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", 500 )
-        img = self.annotate( img, self.get_center( idc ), "center", 500 )
+        img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", self.get_resolution( idc ) )
+        img = self.annotate( img, self.get_center( idc ), "center", self.get_resolution( idc ) )
         
         return img
     
