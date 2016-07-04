@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-#  *-* coding: cp850 *-*
+# -*- coding: UTF-8 -*-
 
 from future.builtins import super
 from PIL import Image
