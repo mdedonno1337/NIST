@@ -289,10 +289,10 @@ class NISTf( NIST ):
             if self.get_field( "13.008", idc ) == '1':
                 return int( self.get_field( "13.009", idc ) )
             elif self.get_field( "13.008", idc ) == '2':
-                return int( self.get_field( "13.009", idc ) / 10.0 * 25.4 )
+                return int( round( self.get_field( "13.009", idc ) / 10.0 * 25.4 ) )
             
         elif 4 in self.get_ntype():
-            return float( self.get_field( "1.011" ) ) * 25.4
+            return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
         
         else:
             raise notImplemented
