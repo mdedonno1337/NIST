@@ -508,24 +508,24 @@ class NISTf( NIST ):
             self.set_field( "13.999", data, idc )
              
         elif isinstance( data, Image.Image ):
-            self.set_latent( PILToRAW( data ) )
-            self.set_size( data.size )
+            self.set_latent( PILToRAW( data ), res, idc )
+            self.set_size( data.size, idc )
             
-        self.set_resolution( res )
+        self.set_resolution( res, idc )
     
-    def set_width( self, value ):
+    def set_width( self, value, idc = -1 ):
         if 13 in self.get_ntype():
-            self.set_field( "13.006", value )
+            self.set_field( "13.006", value, idc )
 
-    def set_height( self, value ):
+    def set_height( self, value, idc = -1 ):
         if 13 in self.get_ntype():
-            self.set_field( "13.007", value )
+            self.set_field( "13.007", value, idc )
     
-    def set_size( self, value ):
+    def set_size( self, value, idc = -1 ):
         if 13 in self.get_ntype():
             w, h = value
-            self.set_width( w )
-            self.set_height( h )
+            self.set_width( w, idc )
+            self.set_height( h, idc )
         else:
             raise notImplemented    
         
