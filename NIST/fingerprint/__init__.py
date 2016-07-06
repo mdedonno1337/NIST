@@ -6,6 +6,7 @@ from PIL import Image
 
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
+from MDmisc.elist import ifany
 from MDmisc.logger import debug
 from MDmisc.string import upper
 from NIST.traditional.config import FS
@@ -157,7 +158,7 @@ class NISTf( NIST ):
             return ret
     
     def get_minutiae_all( self, format, idc = -1 ):
-        if 4 in self.get_ntype() or 14 in self.get_ntype():
+        if ifany( [ 4, 14 ], self.get_ntype() ):
             ret = []
             
             for idc in xrange( 1, 11 ):
