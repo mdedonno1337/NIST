@@ -12,8 +12,10 @@ from collections import OrderedDict
 from MDmisc.binary import binstring_to_int, int_to_binstring
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
+from MDmisc.elist import replace_r
 from MDmisc.logger import debug
-from MDmisc.string import join, upper, stringIterator
+from MDmisc.map_r import map_r
+from MDmisc.string import join, upper, stringIterator, split_r
 
 from .config import *
 from .exceptions import *
@@ -231,7 +233,11 @@ class NIST( object ):
         """
             Function to process the 1.003 field passed in parameter.
         """
-        data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+        try:
+            data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+        except:
+            data = replace_r( split_r( [ RS, US ], data ), '', '1' )
+            data = map_r( int, data )
         
         self.nbLogicalRecords = data[ 0 ][ 1 ]
         
