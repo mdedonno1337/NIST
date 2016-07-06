@@ -42,6 +42,8 @@ class NIST( object ):
         """
         debug.info( "Initialization of the NIST object" )
         
+        self.stdver = "0501"
+        
         self.filename = None
         self.data = defaultdict( dict )
         
@@ -460,7 +462,7 @@ class NIST( object ):
         #        0501 : ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding
         #        0502 : ANSI/NIST-ITL 1-2011 Update: 2015 Traditional Encoding
         debug.debug( "set version to 0501 (ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding)", 1 )
-        self.set_field( "1.002", "0501" )
+        self.set_field( "1.002", self.stdver )
         
         #    1.011 and 1.012
         #        For transactions that do not contain Type-3 through Type-7
