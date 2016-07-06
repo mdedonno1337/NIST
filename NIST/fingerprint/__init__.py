@@ -155,6 +155,17 @@ class NISTf( NIST ):
                         raise minutiaeFormatNotSupported
                  
             return ret
+    
+    def get_minutiae_all( self, format, idc = -1 ):
+        if 4 in self.get_ntype() or 14 in self.get_ntype():
+            ret = []
+            
+            for idc in xrange( 1, 11 ):
+                ret.append( self.get_minutiae( format, idc ) )
+                
+            return ret
+        else:
+            raise notImplemented
      
     def get_minutiaeCount( self, idc = -1 ):
         """
