@@ -508,7 +508,7 @@ class NISTf( NIST ):
             self.set_field( "13.999", data, idc )
              
         elif isinstance( data, Image.Image ):
-            self.set_RAW( PILToRAW( data ) )
+            self.set_latent( PILToRAW( data ) )
             self.set_size( data.size )
              
             try:
