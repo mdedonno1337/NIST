@@ -499,7 +499,7 @@ class NISTf( NIST ):
         
         return new
     
-    def set_latent( self, data, idc = -1 ):
+    def set_latent( self, data, res = 500, idc = -1 ):
         """
             Detect the type of image passed in parameter and store it in the
             13.999 field.
@@ -510,11 +510,8 @@ class NISTf( NIST ):
         elif isinstance( data, Image.Image ):
             self.set_latent( PILToRAW( data ) )
             self.set_size( data.size )
-             
-            try:
-                self.set_resolution( data.info[ 'dpi' ][ 0 ] )
-            except:
-                self.set_resolution( 500 )
+            
+        self.set_resolution( res )
     
     def set_width( self, value ):
         if 13 in self.get_ntype():
