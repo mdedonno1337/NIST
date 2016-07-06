@@ -159,6 +159,9 @@ class NISTf( NIST ):
             return ret
     
     def get_minutiae_all( self, format, idc = -1 ):
+        """
+            Return the minutiae for all 10 fingers.
+        """
         if ifany( [ 4, 14 ], self.get_ntype() ):
             ret = []
             
@@ -249,28 +252,41 @@ class NISTf( NIST ):
     def get_size( self, idc = -1 ):
         """
             Get a python-tuple representing the size of the image.
+            
+            >>> n.get_size()
+            (500, 500)
         """
         return ( self.get_width( idc ), self.get_height( idc ) )
      
     def get_width( self, idc = -1 ):
         """
             Return the width of the Type-13 image.
+            
+            >>> n.get_width()
+            500
         """
         if 13 in self.get_ntype():
             return int( self.get_field( "13.006", idc ) )
+        
         elif 4 in self.get_ntype():
             return int( self.get_field( "4.006", idc ) )
+        
         else:
             raise notImplemented
          
     def get_height( self, idc = -1 ):
         """
             Return the height of the Type-13 image.
+            
+            >>> n.get_height()
+            500
         """
         if 13 in self.get_ntype():
             return int( self.get_field( "13.007", idc ) )
+        
         elif 4 in self.get_ntype():
             return int( self.get_field( "4.007", idc ) )
+        
         else:
             raise notImplemented
      
@@ -278,6 +294,9 @@ class NISTf( NIST ):
     def get_resolution( self, idc = -1 ):
         """
             Return the (horizontal) resolution of the Type-13 image in dpi.
+            
+            >>> n.get_resolution()
+            500
         """
         return self.get_horizontalResolution( idc )
  
@@ -285,6 +304,9 @@ class NISTf( NIST ):
         """
             Return the horizontal resolution of the Type-13 image.
             If the resolution is stored in px/cm, the conversion to dpi is done.
+            
+            >>> n.get_horizontalResolution()
+            500
         """
         if 13 in self.get_ntype():
             if self.get_field( "13.008", idc ) == '1':
@@ -302,6 +324,9 @@ class NISTf( NIST ):
         """
             Return the vertical resolution of the Type-13 image.
             If the resolution is stored in px/cm, the conversion to dpi is done.
+            
+            >>> n.get_verticalResolution()
+            500
         """
         if self.get_field( "13.008", idc ) == '1':
             return int( self.get_field( "13.010" ) )
@@ -335,6 +360,9 @@ class NISTf( NIST ):
     def get_compression( self, idc = -1 ):
         """
             Get the compression used in the latent image.
+            
+            >>> n.get_compression()
+            'RAW'
         """
         gca = self.get_field( "13.011", idc )
         return decode_gca( gca )
@@ -348,6 +376,9 @@ class NISTf( NIST ):
     def annotate( self, img, data, type = "minutiae", res = None ):
         """
             Function to annotate the image with the data passed in argument.
+            
+            >>> n.annotate( n.get_latent( 'PIL' ), n.get_minutiae() ) # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         width, height = img.size
         
@@ -416,7 +447,14 @@ class NISTf( NIST ):
     
     def get_latent( self, format = 'RAW', idc = -1 ):
         """
-            Return the image in the format passed in parameter (RAW or PIL)
+            Return the image in the format passed in parameter (RAW or PIL).
+            
+            >>> n.get_latent( 'PIL' ) # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=L size=500x500 at ...>
+            
+            >>> raw = n.get_latent( 'RAW' ) # doctest: +ELLIPSIS
+            >>> raw == '\\xFF' * 250000
+            True
         """
         format = upper( format )
          
@@ -434,6 +472,9 @@ class NISTf( NIST ):
     def get_latent_annotated( self, idc = -1 ):
         """
             Function to return the annotated latent.
+            
+            >>> n.get_latent_annotated() # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
         img = self.annotate( img, self.get_center( idc ), "center" )
@@ -444,6 +485,9 @@ class NISTf( NIST ):
         """
             Function to return the diptych of the latent fingermark (latent and
             annotated latent)
+            
+            >>> n.get_latent_diptych() # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=RGB size=1000x500 at ...>
         """
         img = self.get_latent( 'PIL', idc )
         anno = self.get_latent_annotated( idc )
@@ -524,8 +568,6 @@ class NISTf( NIST ):
         if minutiae != None:
             self.set_field( "9.010", minutiae.count( RS ), idc )
             self.set_field( "9.012", minutiae, idc )
-         
-        return
      
     def add_Type13( self, size = ( 500, 500 ), res = 500, idc = -1 ):
         """
@@ -535,22 +577,20 @@ class NISTf( NIST ):
         ntype = 13
  
         self.add_default( ntype, idc )
-         
+        
         self.set_field( "13.002", idc, idc )
         self.set_field( "13.005", self.date, idc )
-         
+        
         self.set_field( "13.004", default_origin, idc )
-         
+        
         self.set_field( "13.008", 1, idc )
         self.set_field( "13.009", res, idc )
         self.set_field( "13.010", res, idc )
-         
+        
         w, h = size
         self.set_field( "13.999", chr( 255 ) * w * h, idc )
         self.set_field( "13.006", w, idc )
         self.set_field( "13.007", h, idc )
-         
-        return
      
     ############################################################################
     #    
@@ -561,12 +601,18 @@ class NISTf( NIST ):
     def mm2px( self, data, idc = -1 ):
         """
             Transformation the coordinates from pixel to millimeters
+            
+            >>> n.mm2px( ( 12.7, 12.7 ) )
+            [250.0, 250.0]
         """
         return mm2px( data, self.get_resolution( idc ) )
      
     def px2mm( self, data, idc = -1 ):
         """
             Transformation the coordinates from pixels to millimeters
+            
+            >>> n.px2mm( ( 250.0, 250.0 ) )
+            [12.7, 12.7]
         """
         return px2mm( data, self.get_resolution( idc ) )
 
@@ -609,4 +655,3 @@ class NISTf_deprecated( NISTf ):
     @deprecated( "use the set_latent( data, idc ) function instead" )
     def set_image( self, data, idc = -1 ):
         return self.set_latent( data, idc )
-    

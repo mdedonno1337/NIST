@@ -314,6 +314,21 @@ class NIST( object ):
     def dump_record( self, ntype, idc = 0, fullname = False ):
         """
             Dump a specific ntype - IDC record.
+            
+            >>> dump = n.dump_record( 1, 0 )
+            >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+            NIST Type-01
+                01.001 LEN: 0
+                01.002 VER: 0501
+                01.003 CNT: 1<US>1<RS>2<US>0
+                01.004 TOT: USA
+                01.005 DAT: ...
+                01.006 PRY: 1
+                01.007 DAI: FILE
+                01.008 ORI: UNIL
+                01.009 TCN: ...
+                01.011 NSR: 00.00
+                01.012 NTR: 00.00
         """
         d = self.data[ ntype ][ idc ]
         
@@ -350,6 +365,29 @@ class NIST( object ):
     def dump( self, fullname = False ):
         """
             Return a readable version of the NIST object. Printable on screen.
+            
+            >> dump = n.dump()
+            >> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+            NIST Type-01
+                01.001 LEN: 0
+                01.002 VER: 0501
+                01.003 CNT: 1120
+                01.004 TOT: USA
+                01.005 DAT: ...
+                01.006 PRY: 1
+                01.007 DAI: FILE
+                01.008 ORI: UNIL
+                01.009 TCN: ...
+                01.011 NSR: 00.00
+                01.012 NTR: 00.00
+            NIST Type-02 (IDC 0)
+                02.001 LEN: 0
+                02.002 IDC: 0
+                02.003    : 0300
+                02.004    : ...
+                02.005    : 
+                02.007    : 
+                02.054    : 0300
         """
         debug.info( "Dumping NIST" )
         
@@ -688,7 +726,7 @@ class NIST( object ):
             NIST Type-01
                 01.001 LEN: 0
                 01.002 VER: 0501
-                01.003 CNT: 1120
+                01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
                 01.005 DAT: ...
                 01.006 PRY: 1
@@ -704,7 +742,7 @@ class NIST( object ):
                 02.004    : ...
                 02.005    : 
                 02.007    : 
-                02.054    : 0300
+                02.054    : 0300<US><US>
         """
         return self.dump()
     

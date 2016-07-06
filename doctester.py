@@ -24,6 +24,7 @@ def NISTtests():
     nf.add_Type01()
     nf.add_Type02()
     nf.add_Type09( 1 )
+    nf.add_Type13( ( 500, 500 ), 500, 1 )
     
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'n': nf } ) )
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
