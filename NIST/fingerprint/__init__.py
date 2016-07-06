@@ -516,6 +516,22 @@ class NISTf( NIST ):
             except:
                 self.set_resolution( 500 )
     
+    def set_width( self, value ):
+        if 13 in self.get_ntype():
+            self.set_field( "13.006", value )
+
+    def set_height( self, value ):
+        if 13 in self.get_ntype():
+            self.set_field( "13.007", value )
+    
+    def set_size( self, value ):
+        if 13 in self.get_ntype():
+            w, h = value
+            self.set_width( w )
+            self.set_height( h )
+        else:
+            raise notImplemented    
+        
     ############################################################################
     # 
     #    Print processing
