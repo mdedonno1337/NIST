@@ -12,8 +12,10 @@ from collections import OrderedDict
 from MDmisc.binary import binstring_to_int, int_to_binstring
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
+from MDmisc.elist import replace_r
 from MDmisc.logger import debug
-from MDmisc.string import join, upper, stringIterator
+from MDmisc.map_r import map_r
+from MDmisc.string import join, upper, stringIterator, split_r
 
 from .config import *
 from .exceptions import *
@@ -39,6 +41,8 @@ class NIST( object ):
             functions.
         """
         debug.info( "Initialization of the NIST object" )
+        
+        self.stdver = "0501"
         
         self.filename = None
         self.data = defaultdict( dict )
@@ -231,7 +235,11 @@ class NIST( object ):
         """
             Function to process the 1.003 field passed in parameter.
         """
-        data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+        try:
+            data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+        except:
+            data = replace_r( split_r( [ RS, US ], data ), '', '1' )
+            data = map_r( int, data )
         
         self.nbLogicalRecords = data[ 0 ][ 1 ]
         
@@ -383,10 +391,6 @@ class NIST( object ):
         
         return "".join( outnist )
     
-    @deprecated( "use the write() function instead" )
-    def saveToFile( self, outfile ):
-        return self.write( outfile )
-    
     def write( self, outfile ):
         """
             Write the NIST object to a specific file.
@@ -454,7 +458,7 @@ class NIST( object ):
         #        0501 : ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding
         #        0502 : ANSI/NIST-ITL 1-2011 Update: 2015 Traditional Encoding
         debug.debug( "set version to 0501 (ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding)", 1 )
-        self.set_field( "1.002", "0501" )
+        self.set_field( "1.002", self.stdver )
         
         #    1.011 and 1.012
         #        For transactions that do not contain Type-3 through Type-7
@@ -710,3 +714,13 @@ class NIST( object ):
             NIST object, Type-01, Type-02
         """
         return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] )
+
+class NIST_deprecated( NIST ):
+    """
+        This class define all the deprecated functions (for backward
+        compatibility). To use it, load the NISTf_deprecated class instead of
+        the NISTf super class.
+    """
+    @deprecated( "use the write() function instead" )
+    def saveToFile( self, outfile ):
+        return self.write( outfile )

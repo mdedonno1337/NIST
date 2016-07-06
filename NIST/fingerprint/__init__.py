@@ -7,6 +7,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
+from MDmisc.elist import ifany
 from MDmisc.logger import debug
 from MDmisc.string import upper
 from NIST.traditional.config import FS
@@ -156,6 +157,17 @@ class NISTf( NIST ):
                         raise minutiaeFormatNotSupported
                  
             return ret
+    
+    def get_minutiae_all( self, format, idc = -1 ):
+        if ifany( [ 4, 14 ], self.get_ntype() ):
+            ret = []
+            
+            for idc in xrange( 1, 11 ):
+                ret.append( self.get_minutiae( format, idc ) )
+                
+            return ret
+        else:
+            raise notImplemented
      
     def get_minutiaeCount( self, idc = -1 ):
         """

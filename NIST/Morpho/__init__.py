@@ -16,3 +16,8 @@ class NIST( NISTf ):
         """
         return self.get_field( "2.007" )
     
+    def set_caseName( self, name ):
+        """
+            Set the case name field.
+        """
+        self.set_field( "2.007", name )
