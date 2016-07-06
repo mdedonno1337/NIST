@@ -61,10 +61,6 @@ class NIST( object ):
     #
     ############################################################################
     
-    @deprecated( "user the read() function instead" )
-    def loadFromFile( self, infile ):
-        return self.read( infile )
-    
     def read( self, infile ):
         """
             Open the 'infile' file and transmit the data to the 'load' function.
@@ -727,6 +723,10 @@ class NIST_deprecated( NIST ):
         compatibility). To use it, load the NISTf_deprecated class instead of
         the NISTf super class.
     """
+    @deprecated( "user the read() function instead" )
+    def loadFromFile( self, infile ):
+        return self.read( infile )
+    
     @deprecated( "use the write() function instead" )
     def saveToFile( self, outfile ):
         return self.write( outfile )
