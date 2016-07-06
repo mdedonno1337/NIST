@@ -391,10 +391,6 @@ class NIST( object ):
         
         return "".join( outnist )
     
-    @deprecated( "use the write() function instead" )
-    def saveToFile( self, outfile ):
-        return self.write( outfile )
-    
     def write( self, outfile ):
         """
             Write the NIST object to a specific file.
@@ -718,3 +714,13 @@ class NIST( object ):
             NIST object, Type-01, Type-02
         """
         return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] )
+
+class NIST_deprecated( NIST ):
+    """
+        This class define all the deprecated functions (for backward
+        compatibility). To use it, load the NISTf_deprecated class instead of
+        the NISTf super class.
+    """
+    @deprecated( "use the write() function instead" )
+    def saveToFile( self, outfile ):
+        return self.write( outfile )
