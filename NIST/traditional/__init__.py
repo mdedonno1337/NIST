@@ -343,7 +343,13 @@ class NIST( object ):
             debug.debug( "%s: %s" % ( header, field ), 2 )
             ret.append( leveler( "%s: %s\n" % ( header, field ), 1 ) )
         
-        return "".join( ret )
+        ret = "".join( ret )
+        ret = ret.replace( FS, "<FS>" )
+        ret = ret.replace( GS, "<GS>" )
+        ret = ret.replace( RS, "<RS>" )
+        ret = ret.replace( US, "<US>" )
+        
+        return ret
     
     def dump( self, fullname = False ):
         """
