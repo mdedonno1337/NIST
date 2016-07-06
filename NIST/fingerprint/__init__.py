@@ -156,18 +156,6 @@ class NISTf( NIST ):
                  
             return ret
      
-    @deprecated( "use the get_minutiae( 'xy' ) instead" )
-    def get_minutiaeXY( self, idc = -1 ):
-        return self.get_minutiae( "xy", idc )
-     
-    @deprecated( "use the get_minutiae( 'xyt' ) instead" )
-    def get_minutiaeXYT( self, idc = -1 ):
-        return self.get_minutiae( "xyt", idc )
-     
-    @deprecated( "use the get_minutiae( 'xytq' ) instead" )
-    def get_minutiaeXYTQ( self, idc = -1 ):
-        return self.get_minutiae( "xytq", idc )
-     
     def get_minutiaeCount( self, idc = -1 ):
         """
             Return the number of minutiae stored.
@@ -338,18 +326,11 @@ class NISTf( NIST ):
         gca = self.get_field( "13.011", idc )
         return decode_gca( gca )
      
-    #    Image
-    @deprecated( "use the get_latent( 'RAW', idc ) function instead" )
-    def get_RAW( self, idc = -1 ):
-        return self.get_latent( "RAW", idc )
-     
-    @deprecated( "use the get_latent( 'PIL', idc ) function instead" )
-    def get_PIL( self, idc = -1 ):
-        return self.get_latent( "PIL", idc )
-    
-    @deprecated( "use the get_latent( format, idc ) function instead" )
-    def get_image( self, format = 'RAW', idc = -1 ):
-        return self.get_latent( format, idc )
+    ############################################################################
+    # 
+    #    Latent processing
+    # 
+    ############################################################################
     
     def get_latent( self, format = 'RAW', idc = -1 ):
         """
@@ -365,10 +346,6 @@ class NISTf( NIST ):
             return Image.frombytes( "L", self.get_size( idc ), raw )
         else:
             raise NotImplemented
-     
-    @deprecated( "use the set_latent( data, idc ) function instead" )
-    def set_image( self, data, idc = -1 ):
-        return self.set_latent( data, idc )
     
     def set_latent( self, data, idc = -1 ):
         """
@@ -386,6 +363,12 @@ class NISTf( NIST ):
                 self.set_resolution( data.info[ 'dpi' ][ 0 ] )
             except:
                 self.set_resolution( 500 )
+    
+    ############################################################################
+    # 
+    #    Print processing
+    # 
+    ############################################################################
     
     def get_print( self, format = 'WSQ', idc = -1 ):
         format = upper( format )
@@ -460,3 +443,44 @@ class NISTf( NIST ):
      
     def px2mm( self, data, idc = -1 ):
         return px2mm( data, self.get_resolution( idc ) )
+
+################################################################################
+# 
+#    Deprecated class
+# 
+################################################################################
+
+class NISTf_deprecated( NISTf ):
+    """
+        This class define all the deprecated functions (for backward
+        compatibility). To use it, load the NISTf_deprecated class instead of
+        the NISTf super class.
+    """
+    @deprecated( "use the get_minutiae( 'xy' ) instead" )
+    def get_minutiaeXY( self, idc = -1 ):
+        return self.get_minutiae( "xy", idc )
+     
+    @deprecated( "use the get_minutiae( 'xyt' ) instead" )
+    def get_minutiaeXYT( self, idc = -1 ):
+        return self.get_minutiae( "xyt", idc )
+     
+    @deprecated( "use the get_minutiae( 'xytq' ) instead" )
+    def get_minutiaeXYTQ( self, idc = -1 ):
+        return self.get_minutiae( "xytq", idc )
+    
+    @deprecated( "use the get_latent( 'RAW', idc ) function instead" )
+    def get_RAW( self, idc = -1 ):
+        return self.get_latent( "RAW", idc )
+     
+    @deprecated( "use the get_latent( 'PIL', idc ) function instead" )
+    def get_PIL( self, idc = -1 ):
+        return self.get_latent( "PIL", idc )
+    
+    @deprecated( "use the get_latent( format, idc ) function instead" )
+    def get_image( self, format = 'RAW', idc = -1 ):
+        return self.get_latent( format, idc )
+    
+    @deprecated( "use the set_latent( data, idc ) function instead" )
+    def set_image( self, data, idc = -1 ):
+        return self.set_latent( data, idc )
+    
