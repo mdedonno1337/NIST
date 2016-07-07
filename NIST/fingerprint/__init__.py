@@ -328,10 +328,18 @@ class NISTf( NIST ):
             >>> n.get_verticalResolution()
             500
         """
-        if self.get_field( "13.008", idc ) == '1':
-            return int( self.get_field( "13.010" ) )
-        elif self.get_field( "13.008", idc ) == '2':
-            return int( self.get_field( "13.010" ) / 10.0 * 25.4 )
+        
+        if 13 in self.get_ntype():
+            if self.get_field( "13.008", idc ) == '1':
+                return int( self.get_field( "13.010", idc ) )
+            elif self.get_field( "13.008", idc ) == '2':
+                return int( round( self.get_field( "13.010", idc ) / 10.0 * 25.4 ) )
+            
+        elif 4 in self.get_ntype():
+            return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
+        
+        else:
+            raise notImplemented
      
     def set_resolution( self, res, idc = -1 ):
         """
