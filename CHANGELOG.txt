@@ -1,8 +1,18 @@
-﻿v0.13
+﻿v0.14
 -----
 
-* Extend the NIST-fingerprint library to work with the ULWLQMetric module.
+* Add the functions related to the image processing (get the latent annotated, quality map, ...).
+
+v0.13
+-----
+
+* Extend the NIST-fingerprint library to work with the ULWLQMetric module (added in the default installer).
 * Misc patches.
+* Bug around : if the 1.003 field is malformed (an IDC is missing), the missing value is replaced with a 1.
+* Move deprecated methods in the NISTf_deprecated. Need to import this class instead of NISTf if you want to use deprecated functions with old code (not recommended !).
+* Function to add the case name (field 2.007) for Morpho NIST objects.
+* Move the version of the standard in a class attribute (changeable on the fly).
+* Add the function get_minutiae_all() to get the minutiae from all fingers in one list of lists.
 
 v0.12
 -----
@@ -24,7 +34,7 @@ v0.10
 -----
 
 * Update from distutils.core to setuptools
-* Count the number of minuatiae present in the NIST object (field 9.010).
+* Count the number of minutiae present in the NIST object (field 9.010).
 * Checker for the minutiae field (all minutiae have to be on the image).
 * Function to add default empty records (Type-01, Type-02, Type-09 and Type-13).
 * Code cleaning.
@@ -34,7 +44,7 @@ v0.9
 
 * Change in the structure of the package, and addition of the __init__ file to load the NIST package
 * Rewriting of the doctest.py module.
-* get_fields() and set_fields() to get and set multiples fields at once
+* get_fields() and set_fields() to get and set multiple fields at once
 * Documentation of all fields (name and abbreviation) 
 * Type-14, Type-10, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98 and Type-99 parser
 
@@ -109,3 +119,4 @@ v0.1
 
 * First version of the parser for Type-01, Type-02, Type-09 and Type-13
 * Initial commit
+
