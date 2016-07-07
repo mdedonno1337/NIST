@@ -54,7 +54,29 @@ class NIST( object ):
         
         if init != None:
             self.load_auto( init )
-        
+    
+    ############################################################################
+    # 
+    #    Changing the class type
+    # 
+    ############################################################################
+    
+    def changeClassTo( self, newclass ):
+        """
+            Change on the fly the class of the current object. The functions
+            associated with the new class are, of course, available in the
+            current object after the change.
+            
+            >>> type( n )
+            <class 'NIST.traditional.__init__.NIST'>
+            
+            >>> from NIST import NISTf
+            >>> n.changeClassTo( NISTf )
+            >>> type( n )
+            <class 'NIST.fingerprint.NISTf'>
+        """
+        self.__class__ = newclass
+    
     ############################################################################
     #
     #    Loading functions
