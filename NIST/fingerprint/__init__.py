@@ -379,7 +379,15 @@ class NISTf( NIST ):
             >>> n.get_compression()
             'RAW'
         """
-        gca = self.get_field( "13.011", idc )
+        if 13 in self.get_ntype():
+            gca = self.get_field( "13.011", idc )
+            
+        elif 4 in self.get_ntype():
+            gca = self.get_field( "4.008", idc )
+        
+        else:
+            raise notImplemented
+        
         return decode_gca( gca )
     
     ############################################################################
