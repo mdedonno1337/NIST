@@ -575,6 +575,24 @@ class NISTf( NIST ):
         
         return img
     
+    def get_print_diptych( self, idc = -1 ):
+        """
+            Function to return the diptych of the latent fingermark (latent and
+            annotated latent)
+            
+            >>> n.get_latent_diptych() # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+        """
+        img = self.get_print( 'PIL', idc )
+        anno = self.get_print_annotated( idc )
+        
+        new = Image.new( "RGB", ( img.size[ 0 ] * 2, img.size[ 1 ] ), "white" )
+        
+        new.paste( img, ( 0, 0 ) )
+        new.paste( anno, ( img.size[ 0 ], 0 ) )
+        
+        return new
+    
     def set_print( self, data, res = 500, size = ( 512, 512 ), idc = -1 ):
         """
             Function to set an print image to the 4.999 field, and set the size.
