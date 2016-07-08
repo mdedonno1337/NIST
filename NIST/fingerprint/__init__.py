@@ -537,22 +537,12 @@ class NISTf( NIST ):
         self.set_field( "13.011", "0", idc )
         self.set_resolution( res, idc )
     
-    def set_width( self, value, idc = -1 ):
-        if 13 in self.get_ntype():
-            self.set_field( "13.006", value, idc )
-
-    def set_height( self, value, idc = -1 ):
-        if 13 in self.get_ntype():
-            self.set_field( "13.007", value, idc )
-    
-    def set_size( self, value, idc = -1 ):
-        if 13 in self.get_ntype():
-            w, h = value
-            self.set_width( w, idc )
-            self.set_height( h, idc )
-        else:
-            raise notImplemented    
+    def set_latent_size( self, value, idc = -1 ):
+        width, height = value
         
+        self.set_width( 13, width, idc )
+        self.set_height( 13, height, idc )
+    
     ############################################################################
     # 
     #    Print processing
@@ -584,6 +574,34 @@ class NISTf( NIST ):
         img = self.annotate( img, self.get_center( idc ), "center", self.get_resolution( idc ) )
         
         return img
+    
+    def set_print_size( self, value, idc = -1 ):
+        width, height = value
+        
+        self.set_width( 4, width, idc )
+        self.set_height( 4, height, idc )
+        
+    ############################################################################
+    # 
+    #    Latent and print generic functions
+    # 
+    ############################################################################
+    
+    def set_width( self, ntype, value, idc = -1 ):
+        self.set_field( ( ntype, "006" ), value, idc )
+ 
+    def set_height( self, ntype, value, idc = -1 ):
+        self.set_field( ( ntype, "007" ), value, idc )
+    
+    def set_size( self, value, idc = -1 ):
+        if 13 in self.get_ntype():
+            self.set_latent_size( value, idc )
+        
+        elif 4 in self.get_ntype():
+            self.set_print_size( value, idc )
+        
+        else:
+            raise notImplemented    
     
     ############################################################################
     # 
