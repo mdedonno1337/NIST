@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from __future__ import absolute_import
+
 from future.builtins.misc import super
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont
@@ -15,9 +17,9 @@ from WSQ import WSQ
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
-from ..traditional.exceptions import needIDC, notImplemented
+from ..traditional.exceptions import needIDC, notImplemented, idcNotFound
 from ..traditional.functions import decode_gca
-from .exceptions import minutiaeFormatNotSupported, idcNotFound
+from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, PILToRAW, mm2px, px2mm
 from .voidType import voidType
 
