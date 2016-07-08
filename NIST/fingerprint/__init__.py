@@ -17,7 +17,7 @@ from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
 from ..traditional.exceptions import needIDC, notImplemented
 from ..traditional.functions import decode_gca
-from .exceptions import minutiaeFormatNotSupported
+from .exceptions import minutiaeFormatNotSupported, idcNotFound
 from .functions import lstTo012, PILToRAW, mm2px, px2mm
 from .voidType import voidType
 
@@ -160,13 +160,18 @@ class NISTf( NIST ):
     
     def get_minutiae_all( self, format, idc = -1 ):
         """
-            Return the minutiae for all 10 fingers.
+            Return the minutiae for all 10 fingers. If the idc is not present in
+            the NIST object, i.e. the finger is missing, an empty list of
+            minutiae is returned, to complete the tenprint card.
         """
         if ifany( [ 4, 14 ], self.get_ntype() ):
             ret = []
             
             for idc in xrange( 1, 11 ):
-                ret.append( self.get_minutiae( format, idc ) )
+                try:
+                    ret.append( self.get_minutiae( format, idc ) )
+                except idcNotFound:
+                    ret.append( [] )
                 
             return ret
         else:
