@@ -575,6 +575,26 @@ class NISTf( NIST ):
         
         return img
     
+    def set_print( self, data, res = 500, size = ( 512, 512 ), idc = -1 ):
+        """
+            Function to set an print image to the 4.999 field, and set the size.
+        """
+        if isinstance( data, Image.Image ):
+            try:
+                res, _ = data.info[ 'dpi' ]
+            
+            finally:
+                width, height = data.size
+                data = WSQ().encode( data, data.size, res )
+        
+        else:
+            width, height = size
+            
+        self.set_field( "4.999", data, idc )
+        self.set_field( "4.008", "0", idc )
+        
+        self.set_print_size( ( width, height ), idc )
+    
     def set_print_size( self, value, idc = -1 ):
         width, height = value
         
