@@ -633,8 +633,13 @@ class NIST( object ):
     def add_idc( self, ntype, idc ):
         if not ntype in self.get_ntype():
             raise idcNotFound
+        
         elif idc in self.get_idc( ntype ):
             raise idcAlreadyExisting
+        
+        elif idc < 0:
+            raise needIDC
+        
         else:
             self.data[ ntype ][ idc ] = { 1: '' }
     
