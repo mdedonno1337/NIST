@@ -592,7 +592,10 @@ class NIST( object ):
         """
             Set the value of a specific tag in the NIST object.
         """
-        ntype, tagid = tagSplitter( tag )
+        if type( tag ) == str:
+            ntype, tagid = tagSplitter( tag )
+        else:
+            ntype, tagid = map( int, tag )
         
         idc = self.checkIDC( ntype, idc )
         
