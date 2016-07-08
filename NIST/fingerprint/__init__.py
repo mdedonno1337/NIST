@@ -608,7 +608,20 @@ class NISTf( NIST ):
     #    Add empty records to the NIST object
     # 
     ############################################################################
-     
+    
+    def add_Type04( self, idc = -1 ):
+        """
+            Add the Type-04 record to the NIST object.
+        """
+        ntype = 4
+        
+        if type( idc ) == list:
+            for i in idc:
+                self.add_default( ntype, i )
+        
+        else:
+            self.add_default( ntype, idc )
+    
     def add_Type09( self, minutiae = None, idc = -1 ):
         """
             Add the Type-09 record to the NIST object, and set the Date.
