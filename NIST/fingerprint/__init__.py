@@ -534,6 +534,7 @@ class NISTf( NIST ):
             self.set_latent( PILToRAW( data ), res, idc )
             self.set_size( data.size, idc )
             
+        self.set_field( "13.011", "0", idc )
         self.set_resolution( res, idc )
     
     def set_width( self, value, idc = -1 ):
