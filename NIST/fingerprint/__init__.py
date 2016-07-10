@@ -543,6 +543,31 @@ class NISTf( NIST ):
         self.set_width( 13, width, idc )
         self.set_height( 13, height, idc )
     
+    def changeResolution( self, res, idc = -1 ):
+        """
+            Change the resolution of the latent fingermark. The minutiae are not
+            affected because they are stored in mm, not px.
+        """
+        if 13 in self.get_ntype():
+            res = float( res )
+            
+            if res != self.get_resolution():
+                fac = res / self.get_resolution()
+                
+                # Change resolution
+                self.set_resolution( res )
+                
+                # Image resizing
+                w, h = self.get_size()
+                
+                img = self.get_latent( "PIL", idc )
+                img = img.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
+                
+                self.set_size( img.size )
+                self.set_field( "13.999", PILToRAW( img ) )
+        else:
+            raise notImplemented
+    
     ############################################################################
     # 
     #    Print processing
