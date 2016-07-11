@@ -661,6 +661,9 @@ class NIST( object ):
         
         self.update_idc( ntype, idc, voidType[ ntype ] )
         
+        if ntype != 1:
+            self.set_field( ( ntype, 2 ), idc, idc )
+        
     def add_Type01( self ):
         """
             Add the Type-01 record to the NIST object, and set the Date,
