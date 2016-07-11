@@ -79,6 +79,51 @@ def PILToRAW( pil ):
     """
     return pil.convert( 'L' ).tobytes()
 
+def tetraptych( mark, pr, pridc = -1 ):
+    """
+        Return an image with the mark and the print in the first row, and the
+        corresponding images annotated in the second row.
+        
+                    +++++++++++++++++++++++++++++++++++++++
+                    +                  +                  +
+                    +                  +                  +
+                    +                  +                  +
+                    +       mark       +       print      +
+                    +                  +                  +
+                    +                  +                  +
+                    +                  +                  +
+                    +++++++++++++++++++++++++++++++++++++++
+                    +                  +                  +
+                    +                  +                  +
+                    +                  +                  +
+                    +       mark       +       print      +
+                    +    annotated     +     annotated    +
+                    +                  +                  +
+                    +                  +                  +
+                    +                  +                  +
+                    +++++++++++++++++++++++++++++++++++++++
+        
+    """
+    mark_img = mark.get_latent( "PIL" )
+    mark_annotated = mark.get_latent_annotated()
+    
+    pr_img = pr.get_print( "PIL", pridc )
+    pr_annotated = pr.get_print_annotated( pridc )
+    
+    markwidth, markheight = mark.get_size()
+    prwidth, prheight = pr.get_size( pridc )
+    
+    maxheight = max( markheight, prheight )
+    
+    new = Image.new( "RGB", ( markwidth + prwidth, 2 * maxheight ), "white" )
+    
+    new.paste( mark_img, ( 0, 0 ) )
+    new.paste( pr_img, ( markwidth, 0 ) )
+    new.paste( mark_annotated, ( 0, maxheight ) )
+    new.paste( pr_annotated, ( markwidth, maxheight ) )
+    
+    return new
+
 ################################################################################
 #    
 #    Coordinates changes
