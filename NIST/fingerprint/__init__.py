@@ -93,7 +93,7 @@ class NISTf( NIST ):
                     debug.debug( "minutiae are formatted in vendor-specific or M1-378 terms", 1 )
                     self.set_field( "9.004", "U", idc )
         
-        #    Call the super().patch_to_standard()
+        #    Generic functino to patch to standard
         super().patch_to_standard()
         
     ############################################################################
@@ -493,7 +493,9 @@ class NISTf( NIST ):
             True
         """
         format = upper( format )
-         
+        
+        idc = self.checkIDC( 13, idc )
+        
         raw = self.get_field( "13.999", idc )
          
         if format == "RAW":
