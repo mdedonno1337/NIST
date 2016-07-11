@@ -480,7 +480,9 @@ class NISTf( NIST ):
             True
         """
         format = upper( format )
-         
+        
+        idc = self.checkIDC( 13, idc )
+        
         raw = self.get_field( "13.999", idc )
          
         if format == "RAW":
