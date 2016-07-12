@@ -41,7 +41,7 @@ try:
             
             qmap = qmap.chroma( ( 0, 0, 0 ) )
             qmap = qmap.transparency( 0.5 )
-            qmap = qmap.scale( 4 )
+            qmap = qmap.scale( self.get_resolution( idc ) * 4 / 500.0 )
             
             latentqmap = self.get_latent( 'PIL', idc )
             latentqmap = latentqmap.convert( "RGBA" )
