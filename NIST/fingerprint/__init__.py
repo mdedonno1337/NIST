@@ -32,7 +32,29 @@ class NISTf( NIST ):
     def __init__( self, *args ):
         self.imgdir = os.path.split( os.path.abspath( __file__ ) )[ 0 ] + "/images"
         super().__init__( *args )
-        
+    
+    ############################################################################
+    # 
+    #    General informations
+    # 
+    ############################################################################
+    
+    def set_name( self, name ):
+        """
+            Set the name of the current NIST object. Not stored in the NIST file
+            if written to disk.
+        """
+        self.name = name
+    
+    def get_name( self ):
+        """
+            Get the name of the current object.
+        """
+        try:
+            return self.name
+        except:
+            return None
+    
     ############################################################################
     # 
     #    Cleaning and resetting functions
