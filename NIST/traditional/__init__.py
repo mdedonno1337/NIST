@@ -735,6 +735,11 @@ class NIST( object ):
             Traceback (most recent call last):
             idcNotFound
         """
+        try:
+            idc = int( idc )
+        except:
+            raise intIDC
+        
         if idc < 0:
             idc = self.get_idc( ntype )
             
@@ -743,9 +748,6 @@ class NIST( object ):
             else:
                 idc = idc[ 0 ]
             
-        if type( idc ) != int:
-            raise intIDC
-        
         if not idc in self.get_idc( ntype ):
             raise idcNotFound
         
