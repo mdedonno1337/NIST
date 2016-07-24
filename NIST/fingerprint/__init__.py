@@ -22,7 +22,7 @@ from ..traditional.config import RS, US, default_origin
 from ..traditional.exceptions import needIDC, notImplemented, idcNotFound
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, PILToRAW, mm2px, px2mm
+from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm
 from .voidType import voidType
 
 
@@ -870,6 +870,25 @@ class NIST_M1( NISTf ):
             return int( self.get_field( "9.136", idc ) )
         except:
             return 0
+    
+    def set_minutiae( self, data, idc = -1 ):
+        """
+            Set the minutiae in the field 9.012.
+            The 'data' parameter can be a minutiae-table (id, x, y, theta, quality, type) or
+            the final string.
+        """
+        idc = self.checkIDC( 9, idc )
+        
+        if type( data ) == list:
+            data = lstTo137( data, self.get_resolution( idc ) )
+        
+        self.set_field( "9.137", data )
+        
+        minnum = len( data.split( RS ) ) - 1
+        self.set_field( "9.136", minnum )
+        
+        return minnum
+    
     
 ################################################################################
 # 
