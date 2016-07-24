@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from MDmisc.string import join
+from MDmisc.string import join, join_r
 
 from PIL import Image
 
@@ -27,29 +27,12 @@ def lstTo012( lst ):
         ... )
         '000\\x1f07850705290\\x1f00\\x1fA\\x1e001\\x1f13801530155\\x1f00\\x1fA\\x1e002\\x1f11462232224\\x1f00\\x1fA\\x1e003\\x1f22612517194\\x1f00\\x1fA\\x1e004\\x1f06970848153\\x1f00\\x1fA\\x1e005\\x1f12581988346\\x1f00\\x1fA\\x1e006\\x1f19691980111\\x1f00\\x1fA\\x1e007\\x1f12310387147\\x1f00\\x1fA\\x1e008\\x1f13881429330\\x1f00\\x1fA\\x1e009\\x1f15472249271\\x1f00\\x1fA'
     """
-    lst = map( lstTo012field, lst )
-    lst = join( RS, lst )
-     
-    return lst
-
-def lstTo012field( lst ):
-    """
-        Function to convert a minutiae from the minutiae-table to a 9.012 sub-field.
-        
-        >>> lstTo012field( ['000',  7.85,  7.05, 290, '00', 'A'] )
-        '000\\x1f07850705290\\x1f00\\x1fA'
-    """
-    id, x, y, theta, quality, t = lst
+    ret = [
+        [ id, "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ), q, d ]
+        for id, x, y, theta, q, d in lst
+    ]
     
-    return join( 
-        US,
-        [
-            id,
-            "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ),
-            quality,
-            t
-        ]
-    )
+    return join_r( [ US, RS ], ret )
 
 ################################################################################
 # 
