@@ -11,9 +11,9 @@ import os
 
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
-from MDmisc.elist import ifany
+from MDmisc.elist import ifany, map_r
 from MDmisc.logger import debug
-from MDmisc.string import upper
+from MDmisc.string import upper, split_r
 from NIST.traditional.config import FS
 from WSQ import WSQ
 
@@ -783,6 +783,85 @@ class NISTf( NIST ):
             [12.7, 12.7]
         """
         return px2mm( data, self.get_resolution( idc ) )
+
+################################################################################
+# 
+#    Overload of the NISTf class to use the 'int INCITS 378' standard developed
+#    by the INCITS Technical Committee M1. The term 'M1' is used in lieu of
+#    INCITS 378 to shorten the field names.
+# 
+################################################################################
+
+class NIST_M1( NISTf ):
+    def get_minutiae( self, format = "ixytdq", idc = -1, unit = "mm" ):
+        """
+            Get the minutiae information from the field 9.137 for the IDC passed
+            in argument.
+             
+            The parameter 'format' allow to select the data to extract:
+             
+                i: Index number
+                x: X coordinate
+                y: Y coordinate
+                t: Angle theta
+                d: Type designation
+                q: Quality
+             
+            The 'format' parameter is optional. The IDC value can be passed in
+            parameter even without format. The default format ('ixytdq') will be
+            used.
+        """
+        if not unit in [ 'mm', 'px' ]:
+            raise notImplemented
+        
+        else:
+            # If the 'format' value is an int, then the function is called without
+            # the 'format' argument, but the IDC is passed instead.
+            if type( format ) == int:
+                idc, format = format, "ixytdq"
+            
+            # Check the IDC value
+            idc = self.checkIDC( 9, idc )
+            
+            # Get and process the M1 finger minutiae data field
+            data = self.get_field( "9.137", idc )
+            data = split_r( [ RS, US ], data )
+            data = map_r( int, data )
+            
+            # Select the information to retrun
+            ret = []
+            for i, x, y, t, d, q in data:
+                tmp = []
+                
+                t = ( 2 * t + 180 ) % 360
+                y = self.get_height( idc ) - y
+                
+                if unit == "mm":
+                    x = self.px2mm( x, idc )
+                    y = self.px2mm( y, idc )
+                
+                for c in format:
+                    if c == "i":
+                        tmp.append( i )
+                    
+                    elif c == "x":
+                        tmp.append( x )
+                    
+                    elif c == "y":
+                        tmp.append( y )
+                    
+                    elif c == "t":
+                        tmp.append( t )
+                    
+                    elif c == "d":
+                        tmp.append( d )
+                    
+                    elif c == "q":
+                        tmp.append( q )
+                    
+                ret.append( tmp )
+            
+            return ret
 
 ################################################################################
 # 
