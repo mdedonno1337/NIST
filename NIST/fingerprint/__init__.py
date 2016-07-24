@@ -145,9 +145,8 @@ class NISTf( NIST ):
         # If the 'format' value is an int, then the function is called without
         # the 'format' argument, but the IDC is passed instead.
         if type( format ) == int:
-            idc = format
-            format = "ixytdq"
-         
+            idc, format = format, "ixytdq"
+        
         # Get the minutiae string, without the final <FS> character.                
         minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
          
