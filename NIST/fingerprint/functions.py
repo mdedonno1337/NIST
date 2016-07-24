@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from MDmisc.elist import flatten
+from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
 
 from PIL import Image
@@ -33,6 +35,36 @@ def lstTo012( lst ):
     ]
     
     return join_r( [ US, RS ], ret )
+
+def lstTo137( lst, res = None ):
+    """
+        Convert the entire minutiae-table to the 9.137 field format.
+        
+        >>> lstTo137(
+        ...    [[ 1,  7.85,  7.05, 290, '0', '100' ], 
+        ...     [ 2, 13.80, 15.30, 155, '0', '100' ], 
+        ...     [ 3, 11.46, 22.32, 224, '0', '100' ], 
+        ...     [ 4, 22.61, 25.17, 194, '0', '100' ], 
+        ...     [ 5,  6.97,  8.48, 153, '0', '100' ], 
+        ...     [ 6, 12.58, 19.88, 346, '0', '100' ], 
+        ...     [ 7, 19.69, 19.80, 111, '0', '100' ], 
+        ...     [ 8, 12.31,  3.87, 147, '0', '100' ], 
+        ...     [ 9, 13.88, 14.29, 330, '0', '100' ], 
+        ...     [10, 15.47, 22.49, 271, '0', '100' ]],
+        ...    500
+        ... )
+        '1\\x1f154\\x1f138\\x1f290\\x1f0\\x1f100\\x1e2\\x1f271\\x1f301\\x1f155\\x1f0\\x1f100\\x1e3\\x1f225\\x1f439\\x1f224\\x1f0\\x1f100\\x1e4\\x1f445\\x1f495\\x1f194\\x1f0\\x1f100\\x1e5\\x1f137\\x1f166\\x1f153\\x1f0\\x1f100\\x1e6\\x1f247\\x1f391\\x1f346\\x1f0\\x1f100\\x1e7\\x1f387\\x1f389\\x1f111\\x1f0\\x1f100\\x1e8\\x1f242\\x1f76\\x1f147\\x1f0\\x1f100\\x1e9\\x1f273\\x1f281\\x1f330\\x1f0\\x1f100\\x1e10\\x1f304\\x1f442\\x1f271\\x1f0\\x1f100'
+    """
+    
+    if float in map( type, flatten( lst ) ) or res:
+        lst = [
+            [ id, mm2px( x , res ), mm2px( y, res ), theta, q, d ]
+            for id, x, y, theta, q, d in lst
+        ]
+    
+    lst = map_r( int, lst )
+    
+    return join_r( [ US, RS ], lst )
 
 ################################################################################
 # 
