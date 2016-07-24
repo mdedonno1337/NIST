@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 from future.builtins import super
-from PIL import Image
 
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
