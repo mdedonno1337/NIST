@@ -862,7 +862,16 @@ class NIST_M1( NISTf ):
                 ret.append( tmp )
             
             return ret
-
+        
+    def get_minutiaeCount( self, idc = -1 ):
+        """
+            Return the number of minutiae stored.
+        """
+        try:
+            return int( self.get_field( "9.136", idc ) )
+        except:
+            return 0
+    
 ################################################################################
 # 
 #    Deprecated class
