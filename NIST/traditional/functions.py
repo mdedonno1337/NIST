@@ -126,3 +126,11 @@ def tagSplitter( tag ):
         [1, 2]
     """
     return map( int, tag.split( DO ) )
+
+def printableFieldSeparator( ret ):
+    ret = ret.replace( FS, "<FS>" )
+    ret = ret.replace( GS, "<GS>" )
+    ret = ret.replace( RS, "<RS>" )
+    ret = ret.replace( US, "<US>" )
+    
+    return ret
