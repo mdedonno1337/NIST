@@ -356,10 +356,10 @@ class NIST( object ):
         
         ret = []
         
-        ret.append( "NIST Type-%02d" % ntype )
         if ntype != 1:
-            ret.append( " (IDC %d)" % idc )
-        ret.append( "\n" )
+            ret.append( "NIST Type-%02d (IDC %d)" % ( ntype, idc ) )
+        else:
+            ret.append( "NIST Type-%02d" % ntype )
                 
         for tagid, value in iter( sorted( d.iteritems() ) ):
             lab = get_label( ntype, tagid, fullname )
@@ -374,9 +374,9 @@ class NIST( object ):
                     field = value
             
             debug.debug( "%s: %s" % ( header, field ), 2 )
-            ret.append( leveler( "%s: %s\n" % ( header, field ), 1 ) )
+            ret.append( leveler( "%s: %s" % ( header, field ), 1 ) )
         
-        return printableFieldSeparator( join( ret ) )
+        return printableFieldSeparator( join( "\n", ret ) )
     
     def dump( self, fullname = False ):
         """
@@ -415,7 +415,7 @@ class NIST( object ):
             for idc in self.get_idc( ntype ):
                 ret.append( self.dump_record( ntype, idc, fullname ) )
         
-        return "".join( ret )
+        return join( "\n", ret )
     
     def dumpbin( self ):
         """
