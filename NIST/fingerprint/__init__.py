@@ -713,8 +713,7 @@ class NISTf( NIST ):
         self.add_default( ntype, idc )
         
         if minutiae != None:
-            self.set_field( "9.010", minutiae.count( RS ), idc )
-            self.set_field( "9.012", minutiae, idc )
+            self.set_minutiae( minutiae, idc )
     
     def add_Type13( self, size = ( 500, 500 ), res = 500, idc = -1 ):
         """
