@@ -435,10 +435,16 @@ class NIST( object ):
         
         ret = [
             "Informations about the NIST object:",
+        ]
+        
+        if self.get_identifier() != None:
+            ret.append( leveler( "Obj ID:  " + self.get_identifier(), 1 ) )
+        
+        ret.extend( [
             leveler( "Records: " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] ), 1 ),
             leveler( "Class:   " + self.__class__.__name__, 1 ),
             ""
-        ]
+        ] )
         
         for ntype in self.get_ntype():
             debug.debug( "NIST Type-%02d" % ntype, 1 )
