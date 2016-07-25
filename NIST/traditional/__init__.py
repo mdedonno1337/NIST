@@ -382,12 +382,12 @@ class NIST( object ):
         """
             Return a readable version of the NIST object. Printable on screen.
             
-            >> dump = n.dump()
-            >> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+            >>> dump = n.dump()
+            >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
             NIST Type-01
                 01.001 LEN: 0
                 01.002 VER: 0501
-                01.003 CNT: 1120
+                01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
                 01.005 DAT: ...
                 01.006 PRY: 1
@@ -403,7 +403,7 @@ class NIST( object ):
                 02.004    : ...
                 02.005    : 
                 02.007    : 
-                02.054    : 0300
+                02.054    : 0300<US><US>
         """
         debug.info( "Dumping NIST" )
         
