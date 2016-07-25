@@ -361,7 +361,7 @@ class NIST( object ):
             ret.append( " (IDC %d)" % idc )
         ret.append( "\n" )
                 
-        for tagid, value in d.iteritems():
+        for tagid, value in iter( sorted( d.iteritems() ) ):
             lab = get_label( ntype, tagid, fullname )
             header = "%02d.%03d %s" % ( ntype, tagid, lab )
             
