@@ -207,12 +207,14 @@ class NISTf( NIST ):
             
             return ( x, y )
     
-    def set_minutiae( self, data ):
+    def set_minutiae( self, data, idc = -1 ):
         """
             Set the minutiae in the field 9.012.
             The 'data' parameter can be a minutiae-table (id, x, y, theta, quality, type) or
             the final string.
         """
+        idc = self.checkIDC( 9, idc )
+        
         if type( data ) == list:
             data = lstTo012( data )
         
