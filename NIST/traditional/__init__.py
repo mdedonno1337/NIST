@@ -384,6 +384,10 @@ class NIST( object ):
             
             >>> dump = n.dump()
             >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+            Informations about the NIST object:
+                Records: Type-01, Type-02
+                Class:   NISTf
+            <BLANKLINE>
             NIST Type-01
                 01.001 LEN: 0
                 01.002 VER: 0501
@@ -407,7 +411,12 @@ class NIST( object ):
         """
         debug.info( "Dumping NIST" )
         
-        ret = []
+        ret = [
+            "Informations about the NIST object:",
+            leveler( "Records: " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] ), 1 ),
+            leveler( "Class:   " + self.__class__.__name__, 1 ),
+            ""
+        ]
         
         for ntype in self.get_ntype():
             debug.debug( "NIST Type-%02d" % ntype, 1 )
@@ -752,6 +761,10 @@ class NIST( object ):
             Return the printable version of the NIST object.
             
             >>> print n # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+            Informations about the NIST object:
+                Records: Type-01, Type-02
+                Class:   NIST
+            <BLANKLINE>
             NIST Type-01
                 01.001 LEN: 0
                 01.002 VER: 0501
