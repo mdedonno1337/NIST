@@ -57,6 +57,28 @@ class NIST( object ):
     
     ############################################################################
     # 
+    #    General informations
+    # 
+    ############################################################################
+    
+    def set_identifier( self, id ):
+        """
+            Set the identifier of the current NIST object. Not stored in the
+            NIST file if written to disk.
+        """
+        self.id = id
+    
+    def get_identifier( self ):
+        """
+            Get the identifier of the current object.
+        """
+        try:
+            return self.id
+        except:
+            return None
+    
+    ############################################################################
+    # 
     #    Changing the class type
     # 
     ############################################################################

@@ -35,28 +35,6 @@ class NISTf( NIST ):
     
     ############################################################################
     # 
-    #    General informations
-    # 
-    ############################################################################
-    
-    def set_name( self, name ):
-        """
-            Set the name of the current NIST object. Not stored in the NIST file
-            if written to disk.
-        """
-        self.name = name
-    
-    def get_name( self ):
-        """
-            Get the name of the current object.
-        """
-        try:
-            return self.name
-        except:
-            return None
-    
-    ############################################################################
-    # 
     #    Cleaning and resetting functions
     # 
     ############################################################################
@@ -902,6 +880,14 @@ class NISTf_deprecated( NISTf ):
         compatibility). To use it, load the NISTf_deprecated class instead of
         the NISTf super class.
     """
+    @deprecated( "use the set_identifier( 'name' ) instead" )
+    def set_name( self, name ):
+        return self.set_identifier( name )
+    
+    @deprecated( "use the get_identifier() instead" )
+    def get_name( self ):
+        return self.get_identifier()
+    
     @deprecated( "use the get_minutiae( 'xy' ) instead" )
     def get_minutiaeXY( self, idc = -1 ):
         return self.get_minutiae( "xy", idc )
