@@ -14,6 +14,7 @@ def NISTtests():
     tests = unittest.TestSuite()
     
     nt = NIST.traditional.__init__.NIST()
+    nt.set_identifier( "Doctester NIST object" )
     nt.add_Type01()
     nt.add_Type02()
     

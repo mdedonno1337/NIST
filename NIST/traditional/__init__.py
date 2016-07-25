@@ -407,6 +407,7 @@ class NIST( object ):
             >>> dump = n.dump()
             >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
             Informations about the NIST object:
+                Obj ID:  Doctester NIST object
                 Records: Type-01, Type-02
                 Class:   NISTf
             <BLANKLINE>
@@ -790,6 +791,7 @@ class NIST( object ):
             
             >>> print n # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
             Informations about the NIST object:
+                Obj ID:  Doctester NIST object
                 Records: Type-01, Type-02
                 Class:   NIST
             <BLANKLINE>
