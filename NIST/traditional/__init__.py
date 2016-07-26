@@ -111,7 +111,8 @@ class NIST( object ):
         """
         debug.info( "Reading from file : %s" % infile )
         
-        self.filename = infile
+        self.fileuri = infile
+        self.filename = os.path.splitext( os.path.basename( infile ) )[ 0 ]
     
         with open( infile, "rb" ) as fp:
             data = fp.read()
