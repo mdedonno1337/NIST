@@ -440,6 +440,9 @@ class NIST( object ):
             "Informations about the NIST object:",
         ]
         
+        if self.fileuri != None:
+            ret.append( leveler( "File:    " + self.fileuri, 1 ) )
+        
         if self.get_identifier() != None:
             ret.append( leveler( "Obj ID:  " + self.get_identifier(), 1 ) )
         
