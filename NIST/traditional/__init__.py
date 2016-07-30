@@ -44,6 +44,7 @@ class NIST( object ):
         
         self.stdver = "0501"
         
+        self.fileuri = None
         self.filename = None
         self.data = defaultdict( dict )
         
