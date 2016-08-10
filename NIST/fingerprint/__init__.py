@@ -3,6 +3,7 @@
 
 from __future__ import absolute_import
 
+from cStringIO import StringIO
 from future.builtins.misc import super
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont
@@ -500,15 +501,32 @@ class NISTf( NIST ):
         
         idc = self.checkIDC( 13, idc )
         
+        gca = decode_gca( self.get_field( "13.011" ) )
         
-        if format == "RAW":
-            return self.get_field( "13.999", idc )
+        imgdata = self.get_field( "13.999" )
         
-        elif format == "PIL":
-            return RAWToPIL( self.get_field( "13.999", idc ), self.get_size( idc ), self.get_resolution( idc ) )
+        if gca == "JP2":
+            buff = StringIO( imgdata )
+            img = Image.open( buff )
+            
+            if format == "PIL":
+                return img
+            
+            elif format == "RAW":
+                return PILToRAW( img )
+            
+            elif format == "JP2":
+                return buff
         
-        else:
-            raise NotImplemented
+        elif gca == "RAW":
+            if format == "RAW":
+                return imgdata
+            
+            elif format == "PIL":
+                return RAWToPIL( imgdata, self.get_size( idc ), self.get_resolution( idc ) )
+            
+            else:
+                raise NotImplemented
     
     def get_latent_annotated( self, idc = -1 ):
         """
