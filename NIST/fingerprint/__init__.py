@@ -413,7 +413,10 @@ class NISTf( NIST ):
         width, height = img.size
         
         if res == None:
-            res, _ = img.info[ 'dpi' ]
+            try:
+                res, _ = img.info[ 'dpi' ]
+            except:
+                res = self.get_resolution()
         
         # Resize factor for the minutiae
         fac = res / 2000.0
