@@ -497,13 +497,12 @@ class NISTf( NIST ):
         
         idc = self.checkIDC( 13, idc )
         
-        raw = self.get_field( "13.999", idc )
         
         if format == "RAW":
-            return raw
+            return self.get_field( "13.999", idc )
         
         elif format == "PIL":
-            return RAWToPIL( raw, self.get_size( idc ), self.get_resolution( idc ) )
+            return RAWToPIL( self.get_field( "13.999", idc ), self.get_size( idc ), self.get_resolution( idc ) )
         
         else:
             raise NotImplemented
