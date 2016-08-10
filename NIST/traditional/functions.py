@@ -35,8 +35,25 @@ def decode_gca( code ):
         
         >>> decode_gca( 'NONE' )
         'RAW'
+        
+        >>> decode_gca( 'JP2' )
+        'JP2'
+        
+        >>> decode_gca( 'HighCompression' )
+        Traceback (most recent call last):
+            ...
+        KeyError
     """
-    return GCA[ str( code ) ]
+    code = str( code )
+    
+    if code in GCA:
+        return GCA[ code ]
+    
+    elif code in GCA.values():
+        return code
+    
+    else:
+        raise KeyError
 
 def hexformat( x ):
     return format( x, '02X' )
