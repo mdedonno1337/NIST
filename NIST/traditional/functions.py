@@ -44,7 +44,7 @@ def decode_gca( code ):
             ...
         KeyError
     """
-    code = str( code )
+    code = str( code ).upper()
     
     if code in GCA:
         return GCA[ code ]
