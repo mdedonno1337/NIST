@@ -501,9 +501,9 @@ class NISTf( NIST ):
         
         idc = self.checkIDC( 13, idc )
         
-        gca = decode_gca( self.get_field( "13.011" ) )
+        gca = decode_gca( self.get_field( "13.011", idc ) )
         
-        imgdata = self.get_field( "13.999" )
+        imgdata = self.get_field( "13.999", idc )
         
         if gca == "JP2":
             buff = StringIO( imgdata )
