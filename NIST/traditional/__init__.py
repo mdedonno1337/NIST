@@ -613,10 +613,17 @@ class NIST( object ):
         """
             Get the content of a specific tag in the NIST object.
             
-            >>> n.get_field( "1.002")
+            >>> n.get_field( "1.002" )
             '0501'
         """
-        ntype, tagid = tagSplitter( tag )
+        if type( tag ) == str:
+            ntype, tagid = tagSplitter( tag )
+            
+        elif type( tag ) == tuple:
+            ntype, tagid = tag
+        
+        else:
+            raise notImplemented
         
         idc = self.checkIDC( ntype, idc )
     
