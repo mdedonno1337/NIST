@@ -357,6 +357,26 @@ class NIST( object ):
     # 
     ############################################################################
     
+    def format_field( self, ntype, tagid, idc = -1 ):
+        """
+            Return the value or the hexadecimal representation of the value for
+            binary fields.
+            
+            >>> n.format_field( 1, 8 )
+            'UNIL'
+            
+        """
+        value = self.get_field( ( ntype, tagid ), idc )
+        
+        if tagid == 999:
+            return bindump( value )
+        
+        elif ntype == 18 and tagid == 19:
+            return bindump( value )
+            
+        else:
+            return value
+    
     def dump_record( self, ntype, idc = 0, fullname = False ):
         """
             Dump a specific ntype - IDC record.
@@ -389,13 +409,7 @@ class NIST( object ):
             lab = get_label( ntype, tagid, fullname )
             header = "%02d.%03d %s" % ( ntype, tagid, lab )
             
-            if tagid == 999:
-                field = bindump( value )
-            else:
-                if ntype == 18 and tagid == 19:
-                    field = bindump( value )
-                else:
-                    field = value
+            field = self.format_field( ntype, tagid, idc )
             
             debug.debug( "%s: %s" % ( header, field ), 2 )
             ret.append( leveler( "%s: %s" % ( header, field ), 1 ) )
