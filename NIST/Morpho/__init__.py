@@ -3,7 +3,7 @@
 
 from ..fingerprint import NISTf
 
-class NIST( NISTf ):
+class NIST_Morpho( NISTf ):
     ############################################################################
     # 
     #    Get specific information
