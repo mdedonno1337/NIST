@@ -604,6 +604,48 @@ class NISTf( NIST ):
         else:
             raise notImplemented
     
+    def crop_latent( self, size, center = None, idc = -1 ):
+        """
+            Crop an latent image.
+        """
+        if 13 in self.get_ntype():
+            idc = self.checkIDC( 13, idc )
+            
+            if center == None:
+                center = self.get_size( idc )
+                center = map( lambda x: int( 0.5 * x ), center )
+                center = map( int, center )
+            
+            img = self.get_latent( "PIL", idc )
+            
+            offset = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( size[ 1 ] / 2 ) - center[ 1 ] )
+            offset = tuple( map( int, offset ) )
+            
+            offsetmin = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - center[ 1 ] - size[ 1 ] ) ) )
+            
+            # Image cropping
+            new = Image.new( 'L', size, 255 )
+            new.paste( img, offset )
+            
+            self.set_field( "13.006", new.size[ 0 ], idc )
+            self.set_field( "13.007", new.size[ 1 ], idc )
+    
+            offset = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
+            
+            self.set_field( "13.999", PILToRAW( new ), idc )
+            
+            # Minutiae cropping
+            minu = self.get_minutiae( "ixytqd", idc )
+            
+            for i, value in enumerate( minu ):
+                minu[ i ][ 1 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
+                minu[ i ][ 2 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
+            
+            self.set_minutiae( minu, idc )
+            
+        else:
+            raise notImplemented
+    
     ############################################################################
     # 
     #    Print processing
@@ -901,6 +943,10 @@ class NISTf_deprecated( NISTf ):
         compatibility). To use it, load the NISTf_deprecated class instead of
         the NISTf super class.
     """
+    @deprecated( "use crop_latent( size, center, idc ) instead" )
+    def crop( self, size, center = None, idc = -1 ):
+        return self.crop_latent( self, size, center, idc )
+    
     @deprecated( "use the set_identifier( 'name' ) instead" )
     def set_name( self, name ):
         return self.set_identifier( name )
