@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from __future__ import absolute_import
+from __future__ import absolute_import, division
 
 from cStringIO import StringIO
 from future.builtins.misc import super
@@ -146,10 +146,10 @@ class NISTf( NIST ):
                                 tmp.append( id )
                             
                             if c == "x":
-                                tmp.append( int( xyt[ 0:4 ] ) / 100.0 )
+                                tmp.append( int( xyt[ 0:4 ] ) / 100 )
                             
                             if c == "y":
-                                tmp.append( int( xyt[ 4:8 ] ) / 100.0 )
+                                tmp.append( int( xyt[ 4:8 ] ) / 100 )
                             
                             if c == "t":
                                 tmp.append( int( xyt[ 8:11 ] ) )
@@ -203,8 +203,8 @@ class NISTf( NIST ):
         if c == None:
             return None
         else:
-            x = int( c[ 0:4 ] ) / 100.0
-            y = int( c[ 4:8 ] ) / 100.0
+            x = int( c[ 0:4 ] ) / 100
+            y = int( c[ 4:8 ] ) / 100
             
             return ( x, y )
     
@@ -327,7 +327,7 @@ class NISTf( NIST ):
             if self.get_field( "13.008", idc ) == '1':
                 return int( self.get_field( "13.009", idc ) )
             elif self.get_field( "13.008", idc ) == '2':
-                return int( round( self.get_field( "13.009", idc ) / 10.0 * 25.4 ) )
+                return int( round( self.get_field( "13.009", idc ) / 10 * 25.4 ) )
         
         elif 4 in self.get_ntype():
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
@@ -348,7 +348,7 @@ class NISTf( NIST ):
             if self.get_field( "13.008", idc ) == '1':
                 return int( self.get_field( "13.010", idc ) )
             elif self.get_field( "13.008", idc ) == '2':
-                return int( round( self.get_field( "13.010", idc ) / 10.0 * 25.4 ) )
+                return int( round( self.get_field( "13.010", idc ) / 10 * 25.4 ) )
         
         elif 4 in self.get_ntype():
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
@@ -420,7 +420,7 @@ class NISTf( NIST ):
                 res = self.get_resolution()
         
         # Resize factor for the minutiae
-        fac = res / 2000.0
+        fac = res / 2000
         
         # Colors
         red = ( 250, 0, 0 )
@@ -445,8 +445,8 @@ class NISTf( NIST ):
                     y = int( y )
                     
                     end2 = endmark.rotate( theta, Image.BICUBIC, True )
-                    offsetx = end2.size[ 0 ] / 2
-                    offsety = end2.size[ 1 ] / 2
+                    offsetx = int( end2.size[ 0 ] / 2 )
+                    offsety = int( end2.size[ 1 ] / 2 )
                     
                     endcolor = Image.new( 'RGBA', end2.size, red )
                     
