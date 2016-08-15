@@ -695,6 +695,11 @@ class NISTf( NIST ):
             else:
                 raise notImplemented
     
+    def export_print( self, f, idc = -1 ):
+        idc = self.checkIDC( 4, idc )
+        
+        return self.get_print( "PIL", idc ).save( f )
+    
     def get_print_annotated( self, idc = -1 ):
         """
             Function to return the annotated print.
