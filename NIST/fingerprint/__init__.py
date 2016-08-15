@@ -625,42 +625,44 @@ class NISTf( NIST ):
             Crop an latent image.
         """
         if 13 in self.get_ntype():
-            idc = self.checkIDC( 13, idc )
-            
-            if center == None:
-                center = self.get_size( idc )
-                center = map( lambda x: int( 0.5 * x ), center )
-                center = map( int, center )
-            
-            img = self.get_latent( "PIL", idc )
-            
-            offset = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( size[ 1 ] / 2 ) - center[ 1 ] )
-            offset = tuple( map( int, offset ) )
-            
-            offsetmin = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - center[ 1 ] - size[ 1 ] ) ) )
-            
-            # Image cropping
-            new = Image.new( 'L', size, 255 )
-            new.paste( img, offset )
-            
-            self.set_field( "13.006", new.size[ 0 ], idc )
-            self.set_field( "13.007", new.size[ 1 ], idc )
-    
-            offset = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
-            
-            self.set_field( "13.999", PILToRAW( new ), idc )
-            
-            # Minutiae cropping
-            minu = self.get_minutiae( "ixytqd", idc )
-            
-            for i, value in enumerate( minu ):
-                minu[ i ][ 1 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
-                minu[ i ][ 2 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
-            
-            self.set_minutiae( minu, idc )
-            
+            ntype = 13
+        elif 4 in self.get_ntype():
+            ntype = 4
         else:
             raise notImplemented
+        
+        idc = self.checkIDC( ntype, idc )
+        
+        if center == None:
+            center = self.get_size( idc )
+            center = map( lambda x: int( 0.5 * x ), center )
+            center = map( int, center )
+        
+        img = self.get_image( "PIL", idc )
+        
+        offset = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( size[ 1 ] / 2 ) - center[ 1 ] )
+        offset = tuple( map( int, offset ) )
+        
+        offsetmin = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - center[ 1 ] - size[ 1 ] ) ) )
+        
+        # Image cropping
+        new = Image.new( 'L', size, 255 )
+        new.paste( img, offset )
+        
+        self.set_size( new.size, idc )
+
+        offset = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
+        
+        self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
+        
+        # Minutiae cropping
+        minu = self.get_minutiae( "ixytqd", idc )
+        
+        for i, value in enumerate( minu ):
+            minu[ i ][ 1 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
+            minu[ i ][ 2 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
+        
+        self.set_minutiae( minu, idc )
     
     ############################################################################
     # 
