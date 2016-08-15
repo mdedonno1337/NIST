@@ -219,10 +219,10 @@ class NISTf( NIST ):
         if type( data ) == list:
             data = lstTo012( data )
         
-        self.set_field( "9.012", data )
+        self.set_field( "9.012", data, idc )
         
         minnum = len( data.split( RS ) ) - 1
-        self.set_field( "9.010", minnum )
+        self.set_field( "9.010", minnum, idc )
         
         return minnum
     
