@@ -127,7 +127,11 @@ class NIST( object ):
             load) or a NIST object (a copy will be done in the current object).
         """
         if type( p ) == str:
-            self.read( p )
+            try:
+                if os.path.isfile( p ):
+                    self.read( p )
+            except:
+                self.load( p )
             
         elif isinstance( p, NIST ):
             # Get the list of all attributes stored in the NIST object.
