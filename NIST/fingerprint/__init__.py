@@ -620,9 +620,9 @@ class NISTf( NIST ):
                 else:
                     raise ValueError
     
-    def crop_latent( self, size, center = None, idc = -1 ):
+    def crop( self, size, center = None, idc = -1 ):
         """
-            Crop an latent image.
+            Crop an latent of print image.
         """
         if 13 in self.get_ntype():
             ntype = 13
