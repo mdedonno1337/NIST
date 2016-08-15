@@ -660,14 +660,22 @@ class NISTf( NIST ):
         
         data = self.get_field( "4.999", idc )
         
-        if format == "WSQ":
-            return data
-        
-        elif format == "PIL":
-            return RAWToPIL( WSQ().decode( data ), self.get_size( idc ), self.get_resolution( idc ) )
+        if self.get_field( "4.008", idc ) == "0":
+            if format == "RAW":
+                return data
+            
+            else:
+                return RAWToPIL( data, self.get_size( idc ), self.get_resolution( idc ) )
         
         else:
-            raise notImplemented
+            if format == "WSQ":
+                return data
+            
+            elif format == "PIL":
+                return RAWToPIL( WSQ().decode( data ), self.get_size( idc ), self.get_resolution( idc ) )
+            
+            else:
+                raise notImplemented
     
     def get_print_annotated( self, idc = -1 ):
         """
