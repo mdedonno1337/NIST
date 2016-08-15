@@ -764,9 +764,9 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def get_image(self, format = "PIL", idc = -1):
+    def get_image( self, format = "PIL", idc = -1 ):
         if 13 in self.get_ntype():
-            return self.get_latent(format, idc)
+            return self.get_latent( format, idc )
         
         elif 4 in self.get_ntype():
             return self.get_print( format, idc )
