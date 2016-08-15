@@ -317,7 +317,7 @@ class NISTf( NIST ):
     
     def get_horizontalResolution( self, idc = -1 ):
         """
-            Return the horizontal resolution of the Type-13 image.
+            Return the horizontal resolution.
             If the resolution is stored in px/cm, the conversion to dpi is done.
             
             >>> n.get_horizontalResolution()
