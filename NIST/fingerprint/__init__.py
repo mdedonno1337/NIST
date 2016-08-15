@@ -528,6 +528,11 @@ class NISTf( NIST ):
             else:
                 raise NotImplemented
     
+    def export_latent( self, f, idc = -1 ):
+        idc = self.checkIDC( 13, idc )
+        
+        return self.get_latent( "PIL", idc ).save( f )
+    
     def get_latent_annotated( self, idc = -1 ):
         """
             Function to return the annotated latent.
