@@ -736,6 +736,16 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
+    def get_image(self, format = "PIL", idc = -1):
+        if 13 in self.get_ntype():
+            return self.get_latent(format, idc)
+        
+        elif 4 in self.get_ntype():
+            return self.get_print( format, idc )
+        
+        else:
+            raise notImplemented
+        
     def set_width( self, ntype, value, idc = -1 ):
         self.set_field( ( ntype, "006" ), value, idc )
     
