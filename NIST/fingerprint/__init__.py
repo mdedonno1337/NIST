@@ -584,25 +584,36 @@ class NISTf( NIST ):
             Change the resolution of the latent fingermark. The minutiae are not
             affected because they are stored in mm, not px.
         """
-        if 13 in self.get_ntype():
+        if not ifany( [ 4, 13 ], self.get_ntype() ):
+            raise notImplemented
+        
+        else:
             res = float( res )
             
-            if res != self.get_resolution():
-                fac = res / self.get_resolution()
+            if res != self.get_resolution( idc ):
+                fac = res / self.get_resolution( idc )
                 
-                # Change resolution
-                self.set_resolution( res )
                 
                 # Image resizing
                 w, h = self.get_size()
                 
-                img = self.get_latent( "PIL", idc )
+                img = self.get_image( "PIL", idc )
                 img = img.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
                 
                 self.set_size( img.size )
-                self.set_field( "13.999", PILToRAW( img ) )
-        else:
-            raise notImplemented
+                
+                if 4 in self.get_ntype():
+                    self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
+                    self.set_field( "4.999", PILToRAW( img ) )
+                    
+                elif 13 in self.get_ntype():
+                    # Change resolution
+                    self.set_resolution( res )
+                
+                    self.set_field( "13.999", PILToRAW( img ) )
+                    
+                else:
+                    raise ValueError
     
     def crop_latent( self, size, center = None, idc = -1 ):
         """
