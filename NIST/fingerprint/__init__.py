@@ -166,7 +166,7 @@ class NISTf( NIST ):
             
             return ret
     
-    def get_minutiae_all( self, format, idc = -1 ):
+    def get_minutiae_all( self, format ):
         """
             Return the minutiae for all 10 fingers. If the idc is not present in
             the NIST object, i.e. the finger is missing, an empty list of
