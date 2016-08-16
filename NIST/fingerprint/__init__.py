@@ -532,6 +532,10 @@ class NISTf( NIST ):
         idc = self.checkIDC( 13, idc )
         return self.get_latent( "PIL", idc ).save( f )
     
+    def export_latent_annotated( self, f, idc = -1 ):
+        idc = self.checkIDC( 13, idc )
+        return self.get_latent_annotated( idc ).save( f )
+    
     def get_latent_annotated( self, idc = -1 ):
         """
             Function to return the annotated latent.
@@ -697,6 +701,10 @@ class NISTf( NIST ):
     def export_print( self, f, idc = -1 ):
         idc = self.checkIDC( 4, idc )
         return self.get_print( "PIL", idc ).save( f )
+    
+    def export_print_annotated( self, f, idc = -1 ):
+        idc = self.checkIDC( 4, idc )
+        return self.get_print_annotated( idc ).save( f )
     
     def get_print_annotated( self, idc = -1 ):
         """
