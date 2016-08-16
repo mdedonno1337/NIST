@@ -94,7 +94,7 @@ def PILToRAW( pil ):
     """
     return pil.convert( 'L' ).tobytes()
 
-def tetraptych( mark, pr, pridc = -1 ):
+def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
     """
         Return an image with the mark and the print in the first row, and the
         corresponding images annotated in the second row.
@@ -119,13 +119,17 @@ def tetraptych( mark, pr, pridc = -1 ):
                     +++++++++++++++++++++++++++++++++++++++
         
     """
-    mark_img = mark.get_latent( "PIL" )
-    mark_annotated = mark.get_latent_annotated()
+    
+    markidc = mark.checkIDC( 13, markidc )
+    pridc = pr.checkIDC( 4, pridc )
+    
+    mark_img = mark.get_latent( "PIL", markidc )
+    mark_annotated = mark.get_latent_annotated( markidc )
     
     pr_img = pr.get_print( "PIL", pridc )
     pr_annotated = pr.get_print_annotated( pridc )
     
-    markwidth, markheight = mark.get_size()
+    markwidth, markheight = mark.get_size( markidc )
     prwidth, prheight = pr.get_size( pridc )
     
     maxheight = max( markheight, prheight )
