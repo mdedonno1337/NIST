@@ -194,7 +194,7 @@ class NISTf( NIST ):
         except:
             return 0
     
-    def get_center( self, idc = -1 ):
+    def get_core( self, idc = -1 ):
         """
             Process and return the center coordinate.
         """
@@ -544,7 +544,7 @@ class NISTf( NIST ):
             <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
-        img = self.annotate( img, self.get_center( idc ), "center" )
+        img = self.annotate( img, self.get_core( idc ), "center" )
         
         return img
     
@@ -711,7 +711,7 @@ class NISTf( NIST ):
             Function to return the annotated print.
         """
         img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", self.get_resolution( idc ) )
-        img = self.annotate( img, self.get_center( idc ), "center", self.get_resolution( idc ) )
+        img = self.annotate( img, self.get_core( idc ), "center", self.get_resolution( idc ) )
         
         return img
     
@@ -1000,6 +1000,11 @@ class NISTf_deprecated( NISTf ):
         compatibility). To use it, load the NISTf_deprecated class instead of
         the NISTf super class.
     """
+    
+    @deprecated( "use crop_core( size, idc ) instead" )
+    def get_center( self, idc = -1 ):
+        return self.get_core( idc )
+    
     @deprecated( "use crop_latent( size, center, idc ) instead" )
     def crop( self, size, center = None, idc = -1 ):
         return self.crop_latent( self, size, center, idc )
