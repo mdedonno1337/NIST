@@ -468,8 +468,8 @@ class NISTf( NIST ):
                 newsize = ( int( centermark.size[ 0 ] * fac ), int( centermark.size[ 1 ] * fac ) )
                 centermark = centermark.resize( newsize, Image.BICUBIC )
                 
-                offsetx = centermark.size[ 0 ] / 2
-                offsety = centermark.size[ 1 ] / 2
+                offsetx = int( centermark.size[ 0 ] / 2 )
+                offsety = int( centermark.size[ 1 ] / 2 )
                 
                 centercolor = Image.new( 'RGBA', centermark.size, red )
                 
