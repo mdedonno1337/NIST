@@ -12,7 +12,7 @@ from collections import OrderedDict
 from MDmisc.binary import binstring_to_int, int_to_binstring
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
-from MDmisc.elist import replace_r
+from MDmisc.elist import replace_r, ifany
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r
 from MDmisc.string import join, upper, stringIterator, split_r
@@ -127,11 +127,12 @@ class NIST( object ):
             load) or a NIST object (a copy will be done in the current object).
         """
         if type( p ) == str:
-            try:
+            if ifany( [ FS, GS, RS, US ], p ):
+                self.load( p )
+                
+            else:
                 if os.path.isfile( p ):
                     self.read( p )
-            except:
-                self.load( p )
             
         elif isinstance( p, NIST ):
             # Get the list of all attributes stored in the NIST object.
