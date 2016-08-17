@@ -104,7 +104,7 @@ def RAWToPIL( raw, size = ( 500, 500 ) ):
     """
         Convert a RAW string to PIL object.
         
-        >>> RAWToPIL( chr( 255 ) * 250000, ( 500, 500 ) ) #doctest: +ELLIPSIS
+        >>> RAWToPIL( chr( 255 ) * ( 500 * 500 ), ( 500, 500 ) ) #doctest: +ELLIPSIS
         <PIL.Image.Image image mode=L size=500x500 at 0x...>
     """
     return Image.frombytes( 'L', size, raw )
@@ -113,12 +113,10 @@ def PILToRAW( pil ):
     r"""
         Convert a PIL object to RAW string.
         
-        >>> p = Image.new( '1', ( 5, 5 ) )
+        >>> p = Image.new( '1', ( 500, 500 ) )
         >>> r = PILToRAW( p )
-        >>> r
-        '\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
-        >>> len( r )
-        25
+        >>> r == '\x00' * ( 500 * 500 )
+        True
     """
     return pil.convert( 'L' ).tobytes()
 
