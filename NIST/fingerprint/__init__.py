@@ -671,6 +671,11 @@ class NISTf( NIST ):
             center = self.get_size( idc )
             center = map( lambda x: int( 0.5 * x ), center )
             center = map( int, center )
+        else:
+            cx, cy = mm2px( center, self.get_resolution( idc ) )
+            cy = self.get_height( idc ) - cy
+            center = ( cx, cy )
+            center = map( int, center )
         
         img = self.get_image( "PIL", idc )
         
