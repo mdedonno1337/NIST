@@ -49,10 +49,18 @@ def lstTo012( lst ):
         '1\x1f07850705290\x1f00\x1fA\x1e2\x1f13801530155\x1f00\x1fA\x1e3\x1f11462232224\x1f00\x1fA\x1e4\x1f22612517194\x1f00\x1fA\x1e5\x1f06970848153\x1f00\x1fA\x1e6\x1f12581988346\x1f00\x1fA\x1e7\x1f19691980111\x1f00\x1fA\x1e8\x1f12310387147\x1f00\x1fA\x1e9\x1f13881429330\x1f00\x1fA\x1e10\x1f15472249271\x1f00\x1fA'
         
     """
-    ret = [
-        [ id, "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ), q, d ]
-        for id, x, y, theta, q, d in lst
-    ]
+    try:
+        ret = [
+            [ id, "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ), q, d ]
+            for id, x, y, theta, q, d in lst
+        ]
+    
+    except:
+        ret = []
+        i = 1
+        for x, y, theta in lst:
+            ret.append( [ i, "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ), '00', 'A' ] )
+            i += 1
     
     return join_r( [ US, RS ], ret )
 
