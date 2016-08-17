@@ -14,7 +14,7 @@ from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.elist import ifany, map_r
 from MDmisc.logger import debug
-from MDmisc.string import upper, split_r
+from MDmisc.string import upper, split_r, join
 from NIST.traditional.config import FS
 from WSQ import WSQ
 
@@ -207,6 +207,37 @@ class NISTf( NIST ):
             y = int( c[ 4:8 ] ) / 100
             
             return ( x, y )
+    
+    def set_core( self, data, idc = -1 ):
+        """
+            Set the core position in field 9.008. The data passed in parameter
+            can be a single core position, or a list of cores (the cores will be
+            stored in the field 9.008, separated by a RS separator).
+        """
+        idc = self.checkIDC( 9, idc )
+        
+        def format( data ):
+            x, y = data
+            x *= 100
+            y *= 100
+            
+            x = int( x )
+            y = int( y )
+            
+            return "%04d%04d" % ( x, y )
+        
+        if data == None:
+            return
+        
+        elif type( data[ 0 ] ) == list:
+            data = map( format, data )
+        
+        else:
+            data = format( data )
+        
+        data = join( RS, data )
+        
+        self.set_field( "9.008", data, idc )
     
     def set_minutiae( self, data, idc = -1 ):
         """
