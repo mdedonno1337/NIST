@@ -640,7 +640,7 @@ class NISTf( NIST ):
                 
                 
                 # Image resizing
-                w, h = self.get_size()
+                w, h = self.get_size( idc )
                 
                 img = self.get_image( "PIL", idc )
                 img = img.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
