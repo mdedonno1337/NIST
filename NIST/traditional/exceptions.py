@@ -16,6 +16,9 @@ class notImplemented( BaseException ):
 class ntypeNotFound( BaseException ):
     pass
 
+class recordNotFound( BaseException ):
+    pass
+
 class idcNotFound( BaseException ):
     pass
 

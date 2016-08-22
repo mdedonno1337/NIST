@@ -808,8 +808,10 @@ class NIST( object ):
             
             if len( idc ) > 1:
                 raise needIDC
+            elif len( idc ) == 1:
+                return idc[ 0 ]
             else:
-                idc = idc[ 0 ]
+                raise recordNotFound
             
         if not idc in self.get_idc( ntype ):
             raise idcNotFound
