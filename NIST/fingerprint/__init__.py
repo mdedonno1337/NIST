@@ -232,7 +232,7 @@ class NISTf( NIST ):
             
             return "%04d%04d" % ( x, y )
         
-        if data == None:
+        if data == None or data == []:
             return
         
         elif type( data[ 0 ] ) == list:
