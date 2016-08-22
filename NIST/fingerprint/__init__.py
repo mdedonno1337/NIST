@@ -492,25 +492,24 @@ class NISTf( NIST ):
         elif type == "center":
             # Center
             if data != None:
-                cx, cy = data
-                
-                cx = cx / 25.4 * res
-                cy = cy / 25.4 * res
-                cy = height - cy
-                
-                cx = int( cx )
-                cy = int( cy )
-                
-                centermark = Image.open( self.imgdir + "/center.png" )
-                newsize = ( int( centermark.size[ 0 ] * fac ), int( centermark.size[ 1 ] * fac ) )
-                centermark = centermark.resize( newsize, Image.BICUBIC )
-                
-                offsetx = int( centermark.size[ 0 ] / 2 )
-                offsety = int( centermark.size[ 1 ] / 2 )
-                
-                centercolor = Image.new( 'RGBA', centermark.size, red )
-                
-                img.paste( centercolor, ( cx - offsetx, cy - offsety ), mask = centermark )
+                for cx, cy in data:
+                    cx = cx / 25.4 * res
+                    cy = cy / 25.4 * res
+                    cy = height - cy
+                    
+                    cx = int( cx )
+                    cy = int( cy )
+                    
+                    centermark = Image.open( self.imgdir + "/center.png" )
+                    newsize = ( int( centermark.size[ 0 ] * fac ), int( centermark.size[ 1 ] * fac ) )
+                    centermark = centermark.resize( newsize, Image.BICUBIC )
+                    
+                    offsetx = int( centermark.size[ 0 ] / 2 )
+                    offsety = int( centermark.size[ 1 ] / 2 )
+                    
+                    centercolor = Image.new( 'RGBA', centermark.size, red )
+                    
+                    img.paste( centercolor, ( cx - offsetx, cy - offsety ), mask = centermark )
         
         else:
             raise notImplemented
