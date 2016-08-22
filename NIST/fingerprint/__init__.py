@@ -20,7 +20,7 @@ from WSQ import WSQ
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, default_origin
-from ..traditional.exceptions import needIDC, notImplemented, idcNotFound
+from ..traditional.exceptions import *
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm
