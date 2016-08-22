@@ -678,6 +678,9 @@ class NISTf( NIST ):
             center = map( lambda x: int( 0.5 * x ), center )
             center = map( int, center )
         else:
+            if type( center[ 0 ] ) == list:
+                center = center[ 0 ]
+                
             cx, cy = mm2px( center, self.get_resolution( idc ) )
             cy = self.get_height( idc ) - cy
             center = ( cx, cy )
@@ -708,7 +711,16 @@ class NISTf( NIST ):
             minu[ i ][ 2 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
         
         self.set_minutiae( minu, idc )
-    
+        
+        # Core cropping
+        cores = self.get_cores( idc )
+        if cores != None:
+            for i, value in enumerate( cores ):
+                cores[ i ][ 0 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
+                cores[ i ][ 1 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
+            
+            self.set_cores( cores, idc )
+        
     ############################################################################
     # 
     #    Print processing
