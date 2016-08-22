@@ -194,21 +194,27 @@ class NISTf( NIST ):
         except:
             return 0
     
-    def get_core( self, idc = -1 ):
+    def get_cores( self, idc = -1 ):
         """
             Process and return the center coordinate.
         """
-        c = self.get_field( "9.008", idc )
-        
-        if c == None:
-            return None
-        else:
-            x = int( c[ 0:4 ] ) / 100
-            y = int( c[ 4:8 ] ) / 100
+        try:
+            cores = self.get_field( "9.008", idc ).split( RS )
+            if cores == None:
+                raise Exception
             
-            return ( x, y )
-    
-    def set_core( self, data, idc = -1 ):
+            ret = []
+            for c in cores:
+                x = int( c[ 0:4 ] ) / 100
+                y = int( c[ 4:8 ] ) / 100
+                
+                ret.append( [ x, y ] )
+            
+            return ret
+        except:
+            return None
+        
+    def set_cores( self, data, idc = -1 ):
         """
             Set the core position in field 9.008. The data passed in parameter
             can be a single core position, or a list of cores (the cores will be
@@ -575,7 +581,7 @@ class NISTf( NIST ):
             <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
-        img = self.annotate( img, self.get_core( idc ), "center" )
+        img = self.annotate( img, self.get_cores( idc ), "center" )
         
         return img
     
@@ -747,7 +753,7 @@ class NISTf( NIST ):
             Function to return the annotated print.
         """
         img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", self.get_resolution( idc ) )
-        img = self.annotate( img, self.get_core( idc ), "center", self.get_resolution( idc ) )
+        img = self.annotate( img, self.get_cores( idc ), "center", self.get_resolution( idc ) )
         
         return img
     
@@ -1039,7 +1045,7 @@ class NISTf_deprecated( NISTf ):
     
     @deprecated( "use crop_core( size, idc ) instead" )
     def get_center( self, idc = -1 ):
-        return self.get_core( idc )
+        return self.get_cores( idc )
     
     @deprecated( "use crop_latent( size, center, idc ) instead" )
     def crop( self, size, center = None, idc = -1 ):
