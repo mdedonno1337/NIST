@@ -408,30 +408,30 @@ class NISTf( NIST ):
             >>> n.annotate( n.get_latent( 'PIL' ), n.get_minutiae() ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        width, height = img.size
-        
-        if res == None:
-            try:
-                res, _ = img.info[ 'dpi' ]
-            except:
-                res = self.get_resolution()
-        
-        # Resize factor for the minutiae
-        fac = res / 2000
-        
-        # Colors
-        red = ( 250, 0, 0 )
-        
-        # Image
-        img = img.convert( "RGB" )
-        
-        if type == "minutiae":
-            # Minutiae
-            endmark = Image.open( self.imgdir + "/end.png" )
-            newsize = ( int( endmark.size[ 0 ] * fac ), int( endmark.size[ 1 ] * fac ) )
-            endmark = endmark.resize( newsize, Image.BICUBIC )
+        if data != None and len( data ) != 0:
+            width, height = img.size
             
-            if len( data ) != 0:
+            if res == None:
+                try:
+                    res, _ = img.info[ 'dpi' ]
+                except:
+                    res = self.get_resolution()
+            
+            # Resize factor for the minutiae
+            fac = res / 2000
+            
+            # Colors
+            red = ( 250, 0, 0 )
+            
+            # Image
+            img = img.convert( "RGB" )
+            
+            if type == "minutiae":
+                # Minutiae
+                endmark = Image.open( self.imgdir + "/end.png" )
+                newsize = ( int( endmark.size[ 0 ] * fac ), int( endmark.size[ 1 ] * fac ) )
+                endmark = endmark.resize( newsize, Image.BICUBIC )
+                
                 for x, y, theta in data: 
                     x = x / 25.4 * res
                     y = y / 25.4 * res
@@ -448,10 +448,9 @@ class NISTf( NIST ):
                     endcolor = Image.new( 'RGBA', end2.size, red )
                     
                     img.paste( endcolor, ( x - offsetx, y - offsety ), mask = end2 )
-        
-        elif type == "center":
-            # Center
-            if data != None:
+            
+            elif type == "center":
+                # Center
                 for cx, cy in data:
                     cx = cx / 25.4 * res
                     cy = cy / 25.4 * res
@@ -470,10 +469,10 @@ class NISTf( NIST ):
                     centercolor = Image.new( 'RGBA', centermark.size, red )
                     
                     img.paste( centercolor, ( cx - offsetx, cy - offsety ), mask = centermark )
-        
-        else:
-            raise notImplemented
-        
+            
+            else:
+                raise notImplemented
+            
         return img
     
     ############################################################################
