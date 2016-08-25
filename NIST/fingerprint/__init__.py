@@ -374,7 +374,7 @@ class NISTf( NIST ):
             self.set_field( "13.010", res, idc )
         
         elif 4 in self.get_ntype():
-            self.set_fields( [ "1.011", "1.012" ], "%2.2f" % ( res / 25.4 ), idc )
+            self.set_fields( [ "1.011", "1.012" ], "%2.2f" % ( res / 25.4 ) )
         
     #    Compression
     def get_compression( self, idc = -1 ):
