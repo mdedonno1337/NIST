@@ -350,42 +350,11 @@ class NISTf( NIST ):
             >>> n.get_resolution()
             500
         """
-        return self.get_horizontalResolution( idc )
-    
-    def get_horizontalResolution( self, idc = -1 ):
-        """
-            Return the horizontal resolution.
-            If the resolution is stored in px/cm, the conversion to dpi is done.
-            
-            >>> n.get_horizontalResolution()
-            500
-        """
         if 13 in self.get_ntype():
             if self.get_field( "13.008", idc ) == '1':
                 return int( self.get_field( "13.009", idc ) )
             elif self.get_field( "13.008", idc ) == '2':
                 return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
-        
-        elif 4 in self.get_ntype():
-            return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
-        
-        else:
-            raise notImplemented
-    
-    def get_verticalResolution( self, idc = -1 ):
-        """
-            Return the vertical resolution of the Type-13 image.
-            If the resolution is stored in px/cm, the conversion to dpi is done.
-            
-            >>> n.get_verticalResolution()
-            500
-        """
-        
-        if 13 in self.get_ntype():
-            if self.get_field( "13.008", idc ) == '1':
-                return int( self.get_field( "13.010", idc ) )
-            elif self.get_field( "13.008", idc ) == '2':
-                return int( round( self.get_field( "13.010", idc ) / 10 * 25.4 ) )
         
         elif 4 in self.get_ntype():
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
