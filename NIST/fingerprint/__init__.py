@@ -539,8 +539,13 @@ class NISTf( NIST ):
             >>> n.get_latent_annotated() # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = self.annotate( self.get_latent( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae" )
-        img = self.annotate( img, self.get_cores( idc ), "center" )
+        img = self.get_latent( 'PIL', idc )
+        
+        try:
+            img = self.annotate( img, self.get_minutiae( "xyt", idc ), "minutiae" )
+            img = self.annotate( img, self.get_cores( idc ), "center" )
+        except recordNotFound:
+            pass
         
         return img
     
