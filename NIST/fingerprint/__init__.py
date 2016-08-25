@@ -854,6 +854,12 @@ class NISTf( NIST ):
         else:
             raise notImplemented    
     
+    def get_diptych( self, idc = -1 ):
+        if 13 in self.get_ntype():
+            return self.get_latent_diptych( idc )
+        elif ifany( [ 4, 14 ], self.get_ntype() ):
+            return self.get_print_diptych( idc )
+    
     ############################################################################
     # 
     #    Add empty records to the NIST object
