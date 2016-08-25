@@ -295,6 +295,24 @@ class NIST( object ):
     
     ############################################################################
     # 
+    #    Update NIST object
+    # 
+    ############################################################################
+    
+    def update( self, b ):
+        """
+            Update the fields from the current NIST object with a NIST object
+            passed in parameter.
+        """
+        for ntype in b.get_ntype():
+            for idc in b.get_idc( ntype ):
+                for tagid, value in b.data[ ntype ][ idc ].iteritems():
+                    self.data[ ntype ][ idc ][ tagid ] = value
+        
+        self.clean()
+    
+    ############################################################################
+    # 
     #    Content delete
     # 
     ############################################################################
