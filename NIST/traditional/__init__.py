@@ -6,7 +6,6 @@ import inspect
 import os
 import time
 
-from _collections import defaultdict
 from collections import OrderedDict
 
 from MDmisc.binary import binstring_to_int, int_to_binstring
@@ -15,6 +14,7 @@ from MDmisc.deprecated import deprecated
 from MDmisc.elist import replace_r, ifany
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r
+from MDmisc.RecursiveDefaultDict import defDict
 from MDmisc.string import join, upper, stringIterator, split_r
 
 from .config import *
@@ -46,7 +46,7 @@ class NIST( object ):
         
         self.fileuri = None
         self.filename = None
-        self.data = defaultdict( dict )
+        self.data = defDict()
         
         self.ntypeInOrder = []
         
