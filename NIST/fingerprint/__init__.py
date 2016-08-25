@@ -408,6 +408,8 @@ class NISTf( NIST ):
             >>> n.annotate( n.get_latent( 'PIL' ), n.get_minutiae() ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
+        img = img.convert( "RGB" )
+        
         if data != None and len( data ) != 0:
             width, height = img.size
             
@@ -422,9 +424,6 @@ class NISTf( NIST ):
             
             # Colors
             red = ( 250, 0, 0 )
-            
-            # Image
-            img = img.convert( "RGB" )
             
             if type == "minutiae":
                 # Minutiae
