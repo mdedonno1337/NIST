@@ -473,6 +473,8 @@ class NIST( object ):
         """
         debug.info( "Dumping NIST" )
         
+        self.clean()
+        
         ret = [
             "Informations about the NIST object:",
         ]
