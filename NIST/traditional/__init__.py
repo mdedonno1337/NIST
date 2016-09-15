@@ -732,6 +732,9 @@ class NIST( object ):
         else:
             self.data[ ntype ][ idc ] = { 1: '' }
     
+    def get_idc_dict( self, ntype, idc ):
+        return self.data[ ntype ][ idc ]
+    
     def update_idc( self, ntype, idc, value ):
         self.data[ ntype ][ idc ].update( value )
     
