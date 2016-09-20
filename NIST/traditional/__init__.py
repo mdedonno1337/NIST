@@ -131,8 +131,7 @@ class NIST( object ):
                 self.load( p )
                 
             else:
-                if os.path.isfile( p ):
-                    self.read( p )
+                self.read( p )
             
         elif isinstance( p, NIST ):
             # Get the list of all attributes stored in the NIST object.
