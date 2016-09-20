@@ -624,17 +624,31 @@ class NISTf( NIST ):
                 else:
                     raise ValueError
     
-    def crop( self, size, center = None, idc = -1 ):
+    def crop_latent( self, size, center = None, idc = -1 ):
         """
-            Crop an latent of print image.
+            Crop the latent image.
         """
         if 13 in self.get_ntype():
-            ntype = 13
-        elif 4 in self.get_ntype():
-            ntype = 4
+            return self.crop( size, center, 13, idc )
+        
         else:
             raise notImplemented
-        
+    
+    def crop_print( self, size, center = None, idc = -1 ):
+        """
+            Crop the print image.
+        """
+        for ntype in [ 4, 14 ]:
+            if ntype in self.get_ntype():
+                return self.crop( size, center, ntype, idc )
+            
+        else:
+            raise notImplemented
+    
+    def crop( self, size, center = None, ntype = None, idc = -1 ):
+        """
+            Crop the latent or the print image.
+        """
         idc = self.checkIDC( ntype, idc )
         
         if center == None:
