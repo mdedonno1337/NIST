@@ -406,7 +406,7 @@ class NIST( object ):
             >>> dump = n.dump_record( 1, 0 )
             >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
             NIST Type-01
-                01.001 LEN: 0
+                01.001 LEN: 131
                 01.002 VER: 0501
                 01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
@@ -450,7 +450,7 @@ class NIST( object ):
                 Class:   NISTf
             <BLANKLINE>
             NIST Type-01
-                01.001 LEN: 0
+                01.001 LEN: 131
                 01.002 VER: 0501
                 01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
@@ -462,12 +462,10 @@ class NIST( object ):
                 01.011 NSR: 00.00
                 01.012 NTR: 00.00
             NIST Type-02 (IDC 0)
-                02.001 LEN: 0
+                02.001 LEN: 56
                 02.002 IDC: 0
                 02.003    : 0300
                 02.004    : ...
-                02.005    : 
-                02.007    : 
                 02.054    : 0300<US><US>
         """
         debug.info( "Dumping NIST" )
@@ -857,7 +855,7 @@ class NIST( object ):
                 Class:   NIST
             <BLANKLINE>
             NIST Type-01
-                01.001 LEN: 0
+                01.001 LEN: 131
                 01.002 VER: 0501
                 01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
@@ -869,12 +867,10 @@ class NIST( object ):
                 01.011 NSR: 00.00
                 01.012 NTR: 00.00
             NIST Type-02 (IDC 0)
-                02.001 LEN: 0
+                02.001 LEN: 56
                 02.002 IDC: 0
                 02.003    : 0300
                 02.004    : ...
-                02.005    : 
-                02.007    : 
                 02.054    : 0300<US><US>
         """
         return self.dump()
