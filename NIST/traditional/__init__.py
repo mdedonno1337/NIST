@@ -550,15 +550,27 @@ class NIST( object ):
         """
         debug.info( "Cleaning the NIST object" )
         
-        #     Delete all empty fields.
+        #     Delete all empty data.
         for ntype in self.get_ntype():
             for idc in self.data[ ntype ].keys():
+                
+                #    Fields
                 for tagid in self.data[ ntype ][ idc ].keys():
                     value = self.get_field( "%d.%03d" % ( ntype, tagid ), idc )
                     if value == "" or value == None:
                         debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 1 )
                         del( self.data[ ntype ][ idc ][ tagid ] )
-        
+                
+                #    IDC
+                if len( self.data[ ntype ][ idc ] ) == 0:
+                    debug.debug( "%02d IDC %d deleted" % ( ntype, idc ), 1 )
+                    del( self.data[ ntype ][ idc ] )
+            
+            #    ntype
+            if len( self.data[ ntype ] ) == 0:
+                debug.debug( "%02d deleted" % ( ntype ), 1 )
+                del( self.data[ ntype ] )
+                
         #    Recheck the content of the NIST object and udpate the 1.003 field
         content = []
         for ntype in self.get_ntype()[ 1: ]:
