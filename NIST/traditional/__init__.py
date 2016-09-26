@@ -584,7 +584,7 @@ class NIST( object ):
         #    Check the IDC values for all records
         for ntype in self.get_ntype()[ 1: ]:
             for idc in self.get_idc( ntype ):
-                debug.debug( "Type-%02d, IDC %d: update the IDC field (%02d.%03d)" % ( ntype, idc, ntype, idc ), 1 )
+                debug.debug( "Type-%02d, IDC %d: update the IDC field (%02d.%03d)" % ( ntype, idc, ntype, 2 ), 1 )
                 self.set_field( ( ntype, 2 ), idc, idc )
                         
         #    Reset the length of each ntype record (n.001 fields)
