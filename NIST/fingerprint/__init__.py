@@ -898,6 +898,31 @@ class NISTf( NIST ):
         self.set_field( "13.999", chr( 255 ) * w * h, idc )
         self.set_field( "13.006", w, idc )
         self.set_field( "13.007", h, idc )
+        
+    def add_Type14( self, size = ( 500, 500 ), res = 500, idc = 1 ):
+        """
+            Add the Type-14 record to the NIST object.
+        """
+        ntype = 14
+        
+        if type( idc ) == list:
+            for i in idc:
+                self.add_default( ntype, i )
+        
+        else:
+            self.add_default( ntype, idc )
+            
+            self.set_field( "14.005", self.date, idc )
+            
+            w, h = size
+            self.set_field( "14.006", w, idc )
+            self.set_field( "14.007", h, idc )
+            self.set_field( "14.999", chr( 255 ) * h * w, idc )
+            
+            self.set_field( "14.009", res, idc )
+            self.set_field( "14.010", res, idc )
+            
+            self.set_field( "14.013", idc, idc )
     
     ############################################################################
     #    
