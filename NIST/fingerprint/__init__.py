@@ -849,7 +849,7 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def add_Type04( self, idc = -1 ):
+    def add_Type04( self, idc = 1 ):
         """
             Add the Type-04 record to the NIST object.
         """
@@ -862,7 +862,7 @@ class NISTf( NIST ):
         else:
             self.add_default( ntype, idc )
     
-    def add_Type09( self, minutiae = None, idc = -1 ):
+    def add_Type09( self, minutiae = None, idc = 0 ):
         """
             Add the Type-09 record to the NIST object, and set the Date.
         """
@@ -876,7 +876,7 @@ class NISTf( NIST ):
         if minutiae != None:
             self.set_minutiae( minutiae, idc )
     
-    def add_Type13( self, size = ( 500, 500 ), res = 500, idc = -1 ):
+    def add_Type13( self, size = ( 500, 500 ), res = 500, idc = 0 ):
         """
             Add an empty Type-13 record to the NIST object, and set the
             Resolution (in dpi) to a white image.
