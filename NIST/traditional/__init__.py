@@ -628,14 +628,19 @@ class NIST( object ):
         """
         debug.debug( "Resetting the length of Type-%02d" % ntype )
         
+        debug.debug( "Resseting %d.001 to %08d" % ( ntype, 0 ), 1 )
         self.set_field( "%d.001" % ntype, "%08d" % 0, idc )
         
         # %d.%03d:<data><GS>
         lentag = len( "%d" % ntype ) + 6
+        debug.debug( "Taglen %d : %d" % ( ntype, lentag ), 1 )
         
+        # Iteration over all IDC
+        debug.debug( "Iterate over fields in the IDC-%d" % idc, 1 )
         recordsize = 0
         for tagid, value in self.data[ ntype ][ idc ].iteritems():
             recordsize += len( value ) + lentag
+            debug.debug( "Field %d.%03d : added % 9d to the recordsize (now %d)" % ( ntype, tagid, len( value ) + lentag, recordsize ), 2 )
         
         diff = 8 - len( str( recordsize ) )
         recordsize -= diff
