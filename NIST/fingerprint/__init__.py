@@ -303,7 +303,7 @@ class NISTf( NIST ):
         
         self.set_field( "9.012", data, idc )
         
-        minnum = len( data.split( RS ) ) - 1
+        minnum = len( data.split( RS ) )
         self.set_field( "9.010", minnum, idc )
         
         return minnum
