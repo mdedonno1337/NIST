@@ -13,14 +13,26 @@ import NIST.fingerprint.functions
 def NISTtests():
     tests = unittest.TestSuite()
     
-    nt = NIST.traditional.__init__.NIST()
-    nt.set_identifier( "Doctester NIST object" )
-    nt.add_Type01()
-    nt.add_Type02()
+    ############################################################################
+    # 
+    #    Test for empty NIST object
+    # 
+    ############################################################################
     
-    tests.addTests( doctest.DocTestSuite( NIST.traditional.__init__, { 'n': nt } ) )
+    n = NIST.traditional.__init__.NIST()
+    n.set_identifier( "Doctester NIST object" )
+    n.add_Type01()
+    n.add_Type02()
+    
+    tests.addTests( doctest.DocTestSuite( NIST.traditional.__init__, { 'n': n } ) )
     tests.addTests( doctest.DocTestSuite( NIST.traditional.functions ) )
     
+    ############################################################################
+    # 
+    #    Test for Mark and Print NIST object
+    # 
+    ############################################################################
+
     minutiae = [
         [  1, 7.85, 7.05, 290, 0, 'A' ],
         [  2, 13.80, 15.30, 155, 0, 'A' ],
@@ -34,23 +46,31 @@ def NISTtests():
         [ 10, 15.47, 22.49, 271, 0, 'A' ]
     ]
     
+    ############################################################################
+    
     mark = NIST.fingerprint.__init__.NISTf()
     mark.add_Type01()
     mark.add_Type02()
-    mark.add_Type09( 1 )
-    mark.add_Type13( ( 500, 500 ), 500, 1 )
     
+    mark.add_Type09( 1 )
     mark.set_minutiae( minutiae, 1 )
     mark.set_cores( [ [ 12.5, 18.7 ] ], 1 )
+    
+    mark.add_Type13( ( 500, 500 ), 500, 1 )
+    
+    ############################################################################
     
     pr = NIST.fingerprint.__init__.NISTf()
     pr.add_Type01()
     pr.add_Type02()
+
     pr.add_Type04( 1 )
     pr.set_print( "\x00" * ( 500 * 500 ), 500, ( 500, 500 ), "RAW", 1 )
+
     pr.add_Type09( 1 )
-    
     pr.set_minutiae( minutiae, 1 )
+    
+    ############################################################################
     
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'mark': mark, 'pr': pr } ) )
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
