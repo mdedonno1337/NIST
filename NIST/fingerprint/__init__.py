@@ -32,6 +32,9 @@ voidType.update( voidType )
 class NISTf( NIST ):
     def __init__( self, *args ):
         self.imgdir = os.path.split( os.path.abspath( __file__ ) )[ 0 ] + "/images"
+        
+        self.minutiaeformat = "ixytqd"
+        
         super().__init__( *args )
     
     ############################################################################
@@ -103,7 +106,7 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def get_minutiae( self, format = "ixytqd", idc = -1 ):
+    def get_minutiae( self, format = None, idc = -1 ):
         """
             Get the minutiae information from the field 9.012 for the IDC passed
             in argument.
@@ -139,50 +142,56 @@ class NISTf( NIST ):
             And so on...
             
         """
-        # If the 'format' value is an int, then the function is called without
-        # the 'format' argument, but the IDC is passed instead.
-        if type( format ) == int:
-            idc, format = format, "ixytdq"
-        
         # Get the minutiae string, without the final <FS> character.                
         minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
         
-        if minutiae == None:
-            return []
-        else:
-            ret = []
+        lst = []
+        for m in split_r( [ RS, US ], minutiae ):
+            try:
+                id, xyt, q, d = m
+                
+                x = int( xyt[ 0:4 ] ) / 100
+                y = int( xyt[ 4:8 ] ) / 100
+                t = int( xyt[ 8:11 ] )
+                
+                lst.append( [ id, x, y, t, q, d ] )
+                
+            except:
+                pass
+        
+        if format != None:
+            # If the 'format' value is an int, then the function is called
+            # without the 'format' argument, but the IDC is passed instead.
+            if type( format ) == int:
+                idc, format = format, self.minutiaeformat
             
-            for m in minutiae.split( RS ):
-                if len( m ) != 0:
-                    try:
-                        id, xyt, q, d = m.split( US )
-                        
-                        tmp = []
-                        
-                        for c in format:
-                            if c == "i":
-                                tmp.append( id )
-                            
-                            if c == "x":
-                                tmp.append( int( xyt[ 0:4 ] ) / 100 )
-                            
-                            if c == "y":
-                                tmp.append( int( xyt[ 4:8 ] ) / 100 )
-                            
-                            if c == "t":
-                                tmp.append( int( xyt[ 8:11 ] ) )
-                            
-                            if c == "d":
-                                tmp.append( d )
-                            
-                            if c == "q":
-                                tmp.append( q )
-                        
-                        ret.append( tmp )
-                    except:
-                        raise minutiaeFormatNotSupported
+            lst = self.minutiae_filter( lst, format )
+        
+        return lst
+        
+    def minutiae_filter( self, minutiae, format ):
+        """
+            Select the fields as required in the 'format' parameter.
             
-            return ret
+            Only get the x, y coordinate:
+                
+                >>> minutiae = n.get_minutiae()
+                >>> n.minutiae_filter( minutiae, 'xy' )
+                [[7.85, 7.05], [13.8, 15.3], [11.46, 22.32], [22.61, 25.17], [6.97, 8.48], [12.58, 19.88], [19.69, 19.8], [12.31, 3.87], [13.88, 14.29], [15.47, 22.49]]
+            
+            Only get the identifier and the designation:
+                 
+                >>> n.minutiae_filter( minutiae, 'id' )
+                [['1', 'A'], ['2', 'A'], ['3', 'A'], ['4', 'A'], ['5', 'A'], ['6', 'A'], ['7', 'A'], ['8', 'A'], ['9', 'A'], ['10', 'A']]
+            
+            And so on...
+            
+        """
+        try:
+            return [ [ m[ self.minutiaeformat.index( c ) ] for c in format ] for m in minutiae ]
+        
+        except ValueError:
+            raise minutiaeFormatNotSupported
     
     def get_minutiae_all( self, format ):
         """
@@ -700,7 +709,7 @@ class NISTf( NIST ):
         self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
         
         # Minutiae cropping
-        minu = self.get_minutiae( "ixytqd", idc )
+        minu = self.get_minutiae( self.minutiaeformat, idc )
         
         for i, value in enumerate( minu ):
             minu[ i ][ 1 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
