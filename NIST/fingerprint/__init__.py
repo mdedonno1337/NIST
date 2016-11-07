@@ -193,13 +193,16 @@ class NISTf( NIST ):
         except ValueError:
             raise minutiaeFormatNotSupported
     
-    def get_minutiae_all( self, format ):
+    def get_minutiae_all( self, format = None ):
         """
             Return the minutiae for all 10 fingers. If the idc is not present in
             the NIST object, i.e. the finger is missing, an empty list of
             minutiae is returned, to complete the tenprint card.
         """
         if ifany( [ 4, 14 ], self.get_ntype() ):
+            if format == None:
+                format = self.minutiaeformat
+                
             ret = []
             
             for idc in xrange( 1, 11 ):
