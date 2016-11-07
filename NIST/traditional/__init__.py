@@ -642,10 +642,7 @@ class NIST( object ):
             recordsize += len( value ) + lentag
             debug.debug( "Field %d.%03d : added % 9d to the recordsize (now %d)" % ( ntype, tagid, len( value ) + lentag, recordsize ), 2 )
         
-        diff = 8 - len( str( recordsize ) )
-        recordsize -= diff
-        
-        self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
+        self.set_field( "%d.001" % ntype, "%08d" % recordsize, idc )
         
     def reset_binary_length( self, ntype, idc = 0 ):
         """
