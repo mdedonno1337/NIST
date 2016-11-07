@@ -198,6 +198,10 @@ class NISTf( NIST ):
             Return the minutiae for all 10 fingers. If the idc is not present in
             the NIST object, i.e. the finger is missing, an empty list of
             minutiae is returned, to complete the tenprint card.
+            
+            >>> pr.get_minutiae_all()
+            [[['1', 7.85, 7.05, 290, '0', 'A'], ['2', 13.8, 15.3, 155, '0', 'A'], ['3', 11.46, 22.32, 224, '0', 'A'], ['4', 22.61, 25.17, 194, '0', 'A'], ['5', 6.97, 8.48, 153, '0', 'A'], ['6', 12.58, 19.88, 346, '0', 'A'], ['7', 19.69, 19.8, 111, '0', 'A'], ['8', 12.31, 3.87, 147, '0', 'A'], ['9', 13.88, 14.29, 330, '0', 'A'], ['10', 15.47, 22.49, 271, '0', 'A']], [], [], [], [], [], [], [], [], []]
+        
         """
         if ifany( [ 4, 14 ], self.get_ntype() ):
             if format == None:
