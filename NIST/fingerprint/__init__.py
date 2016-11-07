@@ -212,6 +212,17 @@ class NISTf( NIST ):
         else:
             raise notImplemented
     
+    def get_minutia_by_id( self, id, idc = -1 ):
+        """
+            Return a minutia based on the id
+        """
+        for m in self.get_minutiae( idc ):
+            if m[ 0 ] == id or int( m[ 0 ] ) == id:
+                return m
+        
+        else:
+            return None
+    
     def get_minutiaeCount( self, idc = -1 ):
         """
             Return the number of minutiae stored.
