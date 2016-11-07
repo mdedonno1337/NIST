@@ -41,11 +41,13 @@ def NISTtests():
     mark.add_Type13( ( 500, 500 ), 500, 1 )
     
     mark.set_minutiae( minutiae, 1 )
+    mark.set_cores( [ [ 12.5, 18.7 ] ], 1 )
     
     pr = NIST.fingerprint.__init__.NISTf()
     pr.add_Type01()
     pr.add_Type02()
     pr.add_Type04( 1 )
+    pr.set_print( "\x00" * ( 500 * 500 ), 500, ( 500, 500 ), "RAW", 1 )
     pr.add_Type09( 1 )
     
     pr.set_minutiae( minutiae, 1 )

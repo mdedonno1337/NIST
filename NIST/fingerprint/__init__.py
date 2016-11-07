@@ -222,6 +222,10 @@ class NISTf( NIST ):
     def get_minutia_by_id( self, id, idc = -1 ):
         """
             Return a minutia based on the id
+            
+            To get the minutiae '1':
+                >>> mark.get_minutia_by_id( "1" )
+                ['1', 7.85, 7.05, 290, '0', 'A']
         """
         for m in self.get_minutiae( idc ):
             if m[ 0 ] == id or int( m[ 0 ] ) == id:
@@ -233,6 +237,9 @@ class NISTf( NIST ):
     def get_minutiaeCount( self, idc = -1 ):
         """
             Return the number of minutiae stored.
+            
+            >>> mark.get_minutiaeCount()
+            10
         """
         try:
             return int( self.get_field( "9.010", idc ) )
@@ -242,6 +249,9 @@ class NISTf( NIST ):
     def get_cores( self, idc = -1 ):
         """
             Process and return the center coordinate.
+            
+            >>> mark.get_cores()
+            [[12.5, 18.7]]
         """
         try:
             cores = self.get_field( "9.008", idc ).split( RS )
@@ -535,7 +545,7 @@ class NISTf( NIST ):
             >>> mark.get_latent( 'PIL' ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=L size=500x500 at ...>
             
-            >>> raw = mark.get_latent( 'RAW' ) # doctest: +ELLIPSIS
+            >>> raw = mark.get_latent( 'RAW' )
             >>> raw == '\\xFF' * 250000
             True
         """
@@ -629,6 +639,9 @@ class NISTf( NIST ):
         self.set_resolution( res, idc )
     
     def set_latent_size( self, value, idc = -1 ):
+        """
+            Set the size of the latent image.
+        """
         width, height = value
         
         self.set_width( 13, width, idc )
@@ -753,6 +766,9 @@ class NISTf( NIST ):
     def get_print( self, format = 'WSQ', idc = -1 ):
         """
             Return the print image, WSQ or PIL format.
+            
+            >>> pr.get_print() # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=L size=500x500 at ...>
         """
         format = upper( format )
         
@@ -776,10 +792,17 @@ class NISTf( NIST ):
                 raise notImplemented
     
     def export_print( self, f, idc = -1 ):
+        """
+            Export the print image to the file 'f' passed in parameter.
+        """
         idc = self.checkIDC( 4, idc )
         return self.get_print( "PIL", idc ).save( f )
     
     def export_print_annotated( self, f, idc = -1 ):
+        """
+            Export the annotated print fo the file 'f'.
+            
+        """
         idc = self.checkIDC( 4, idc )
         return self.get_print_annotated( idc ).save( f )
     
