@@ -120,6 +120,24 @@ class NISTf( NIST ):
             The 'format' parameter is optional. The IDC value can be passed in
             parameter even without format. The default format ('ixytdq') will be
             used.
+            
+            To get all information, dont speficy any format:
+            
+                >>> n.get_minutiae()
+                [['1', 7.85, 7.05, 290, '0', 'A'], ['2', 13.8, 15.3, 155, '0', 'A'], ['3', 11.46, 22.32, 224, '0', 'A'], ['4', 22.61, 25.17, 194, '0', 'A'], ['5', 6.97, 8.48, 153, '0', 'A'], ['6', 12.58, 19.88, 346, '0', 'A'], ['7', 19.69, 19.8, 111, '0', 'A'], ['8', 12.31, 3.87, 147, '0', 'A'], ['9', 13.88, 14.29, 330, '0', 'A'], ['10', 15.47, 22.49, 271, '0', 'A']]
+            
+            Only get the x, y coordinate:
+            
+                >>> n.get_minutiae( 'xy' )
+                [[7.85, 7.05], [13.8, 15.3], [11.46, 22.32], [22.61, 25.17], [6.97, 8.48], [12.58, 19.88], [19.69, 19.8], [12.31, 3.87], [13.88, 14.29], [15.47, 22.49]]
+            
+            Only get the identifier and the designation:
+                 
+                >>> n.get_minutiae( 'id' )
+                [['1', 'A'], ['2', 'A'], ['3', 'A'], ['4', 'A'], ['5', 'A'], ['6', 'A'], ['7', 'A'], ['8', 'A'], ['9', 'A'], ['10', 'A']]
+            
+            And so on...
+            
         """
         # If the 'format' value is an int, then the function is called without
         # the 'format' argument, but the IDC is passed instead.
