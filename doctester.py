@@ -21,13 +21,13 @@ def NISTtests():
     tests.addTests( doctest.DocTestSuite( NIST.traditional.__init__, { 'n': nt } ) )
     tests.addTests( doctest.DocTestSuite( NIST.traditional.functions ) )
     
-    nf = NIST.fingerprint.__init__.NISTf()
-    nf.add_Type01()
-    nf.add_Type02()
-    nf.add_Type09( 1 )
-    nf.add_Type13( ( 500, 500 ), 500, 1 )
+    mark = NIST.fingerprint.__init__.NISTf()
+    mark.add_Type01()
+    mark.add_Type02()
+    mark.add_Type09( 1 )
+    mark.add_Type13( ( 500, 500 ), 500, 1 )
     
-    nf.set_minutiae( 
+    mark.set_minutiae( 
         [[  1, 7.85, 7.05, 290, 0, 'A' ],
          [  2, 13.80, 15.30, 155, 0, 'A' ],
          [  3, 11.46, 22.32, 224, 0, 'A' ],
@@ -42,7 +42,7 @@ def NISTtests():
         1
     )
     
-    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'n': nf } ) )
+    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'mark': mark } ) )
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
     
     return tests
