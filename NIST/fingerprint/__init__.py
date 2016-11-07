@@ -408,7 +408,7 @@ class NISTf( NIST ):
         """
             Function to annotate the image with the data passed in argument.
             
-            >>> n.annotate( n.get_latent( 'PIL' ), n.get_minutiae() ) # doctest: +ELLIPSIS
+            >>> n.annotate( n.get_latent( 'PIL' ), n.get_minutiae( 'xyt' ) ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = img.convert( "RGB" )
