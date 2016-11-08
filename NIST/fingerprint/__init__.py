@@ -187,8 +187,14 @@ class NISTf( NIST ):
             And so on...
             
         """
+        def process( m, format ):
+            return [ m[ self.minutiaeformat.index( c ) ] for c in format ]
+        
         try:
-            return [ [ m[ self.minutiaeformat.index( c ) ] for c in format ] for m in minutiae ]
+            if type( minutiae[ 0 ] ) == list:
+                return [ process( m, format ) for m in minutiae ]
+            else:
+                return process( minutiae, format )
         
         except ValueError:
             raise minutiaeFormatNotSupported
