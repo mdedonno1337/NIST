@@ -139,6 +139,13 @@ class NISTf( NIST ):
                 >>> mark.get_minutiae( 'id' )
                 [['1', 'A'], ['2', 'A'], ['3', 'A'], ['4', 'A'], ['5', 'A'], ['6', 'A'], ['7', 'A'], ['8', 'A'], ['9', 'A'], ['10', 'A']]
             
+            If the format is not correct, an minutiaeFormatNotSupported
+            exception is raised.
+            
+                >>> mark.get_minutiae( 'p' ) # doctest: +IGNORE_EXCEPTION_DETAIL
+                Traceback (most recent call last):
+                minutiaeFormatNotSupported
+            
             And so on...
             
         """
@@ -184,6 +191,13 @@ class NISTf( NIST ):
                 >>> mark.minutiae_filter( minutiae, 'id' )
                 [['1', 'A'], ['2', 'A'], ['3', 'A'], ['4', 'A'], ['5', 'A'], ['6', 'A'], ['7', 'A'], ['8', 'A'], ['9', 'A'], ['10', 'A']]
             
+            If the format is not correct, an minutiaeFormatNotSupported
+            exception is raised.
+            
+                >>> mark.minutiae_filter( minutiae, 'p' ) # doctest: +IGNORE_EXCEPTION_DETAIL
+                Traceback (most recent call last):
+                minutiaeFormatNotSupported
+                
             And so on...
             
         """
@@ -232,6 +246,9 @@ class NISTf( NIST ):
             To get the minutiae '1':
                 >>> mark.get_minutia_by_id( "1" )
                 ['1', 7.85, 7.05, 290, '0', 'A']
+                
+                >>> mark.get_minutia_by_id( "1", "xy" )
+                [7.85, 7.05]
         """
         if type( format ) == int:
             idc, format = format, self.minutiaeformat
