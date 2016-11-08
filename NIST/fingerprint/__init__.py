@@ -129,24 +129,8 @@ class NISTf( NIST ):
                 >>> mark.get_minutiae()
                 [['1', 7.85, 7.05, 290, '0', 'A'], ['2', 13.8, 15.3, 155, '0', 'A'], ['3', 11.46, 22.32, 224, '0', 'A'], ['4', 22.61, 25.17, 194, '0', 'A'], ['5', 6.97, 8.48, 153, '0', 'A'], ['6', 12.58, 19.88, 346, '0', 'A'], ['7', 19.69, 19.8, 111, '0', 'A'], ['8', 12.31, 3.87, 147, '0', 'A'], ['9', 13.88, 14.29, 330, '0', 'A'], ['10', 15.47, 22.49, 271, '0', 'A']]
             
-            Only get the x, y coordinate:
-            
-                >>> mark.get_minutiae( 'xy' )
-                [[7.85, 7.05], [13.8, 15.3], [11.46, 22.32], [22.61, 25.17], [6.97, 8.48], [12.58, 19.88], [19.69, 19.8], [12.31, 3.87], [13.88, 14.29], [15.47, 22.49]]
-            
-            Only get the identifier and the designation:
-                 
-                >>> mark.get_minutiae( 'id' )
-                [['1', 'A'], ['2', 'A'], ['3', 'A'], ['4', 'A'], ['5', 'A'], ['6', 'A'], ['7', 'A'], ['8', 'A'], ['9', 'A'], ['10', 'A']]
-            
-            If the format is not correct, an minutiaeFormatNotSupported
-            exception is raised.
-            
-                >>> mark.get_minutiae( 'p' ) # doctest: +IGNORE_EXCEPTION_DETAIL
-                Traceback (most recent call last):
-                minutiaeFormatNotSupported
-            
-            And so on...
+            The format parameter is used by the 'minutiae_filter()' function to
+            sort the fields returned.
             
         """
         # Get the minutiae string, without the final <FS> character.                
