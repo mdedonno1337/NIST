@@ -4,6 +4,10 @@
 import doctest
 import unittest
 
+from MDmisc.string import join_r
+from NIST.traditional.config import US
+from NIST.traditional.config import RS
+
 ################################################################################
 #
 #    Import of the modules to test
@@ -15,6 +19,8 @@ import NIST.traditional.functions
 
 import NIST.fingerprint.__init__
 import NIST.fingerprint.functions
+
+import NIST.MDD.__init__
 
 ################################################################################
 # 
@@ -86,6 +92,17 @@ def NISTtests():
     
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'mark': mark, 'pr': pr } ) )
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
+    
+    ############################################################################
+    # 
+    #    Test for the MDD module
+    # 
+    ############################################################################
+    
+    mark.changeClassTo( NIST.MDD.NIST_MDD )
+    mark.set_field( "9.255", join_r( [ US, RS ], [ [ '1', '1' ], [ '2', '2' ], [ '3', '3' ] ] ), 1 )
+    
+    tests.addTests( doctest.DocTestSuite( NIST.MDD.__init__, { 'mark': mark, 'pr': pr } ) )
     
     return tests
 
