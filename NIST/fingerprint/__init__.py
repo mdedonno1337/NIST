@@ -508,16 +508,13 @@ class NISTf( NIST ):
                     
                     y = height - y
                     
-                    x = int( x )
-                    y = int( y )
-                    
                     end2 = endmark.rotate( theta, Image.BICUBIC, True )
-                    offsetx = int( end2.size[ 0 ] / 2 )
-                    offsety = int( end2.size[ 1 ] / 2 )
+                    offsetx = end2.size[ 0 ] / 2
+                    offsety = end2.size[ 1 ] / 2
                     
                     endcolor = Image.new( 'RGBA', end2.size, red )
                     
-                    img.paste( endcolor, ( x - offsetx, y - offsety ), mask = end2 )
+                    img.paste( endcolor, ( int( x - offsetx ), int( y - offsety ) ), mask = end2 )
             
             elif type == "center":
                 centermark = Image.open( self.imgdir + "/center.png" )
@@ -530,15 +527,12 @@ class NISTf( NIST ):
                     cy = cy / 25.4 * res
                     cy = height - cy
                     
-                    cx = int( cx )
-                    cy = int( cy )
-                    
-                    offsetx = int( centermark.size[ 0 ] / 2 )
-                    offsety = int( centermark.size[ 1 ] / 2 )
+                    offsetx = centermark.size[ 0 ] / 2
+                    offsety = centermark.size[ 1 ] / 2
                     
                     centercolor = Image.new( 'RGBA', centermark.size, red )
                     
-                    img.paste( centercolor, ( cx - offsetx, cy - offsety ), mask = centermark )
+                    img.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = centermark )
             
             else:
                 raise notImplemented
