@@ -21,6 +21,9 @@ class NIST_MDD( NISTf ):
         """
             Return the pairing information ( minutia id, pairing id ). This
             information is stored in the field 9.255.
+            
+                >>> mark.get_pairing()
+                [['1', '1'], ['2', '2'], ['3', '3']]
         """
         return split_r( [ RS, US ], self.get_field( "9.255", idc ) )
     
