@@ -241,7 +241,7 @@ class NISTf( NIST ):
             format = self.minutiaeformat
             
         for m in self.get_minutiae( idc ):
-            if m[ 0 ] == id or int( m[ 0 ] ) == id:
+            if int( m[ 0 ] ) == int( id ):
                 return self.minutiae_filter( m, format )
         
         else:
