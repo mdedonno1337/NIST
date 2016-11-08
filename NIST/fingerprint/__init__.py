@@ -520,6 +520,10 @@ class NISTf( NIST ):
                     img.paste( endcolor, ( x - offsetx, y - offsety ), mask = end2 )
             
             elif type == "center":
+                centermark = Image.open( self.imgdir + "/center.png" )
+                newsize = ( int( centermark.size[ 0 ] * fac ), int( centermark.size[ 1 ] * fac ) )
+                centermark = centermark.resize( newsize, Image.BICUBIC )
+                    
                 # Center
                 for cx, cy in data:
                     cx = cx / 25.4 * res
@@ -528,10 +532,6 @@ class NISTf( NIST ):
                     
                     cx = int( cx )
                     cy = int( cy )
-                    
-                    centermark = Image.open( self.imgdir + "/center.png" )
-                    newsize = ( int( centermark.size[ 0 ] * fac ), int( centermark.size[ 1 ] * fac ) )
-                    centermark = centermark.resize( newsize, Image.BICUBIC )
                     
                     offsetx = int( centermark.size[ 0 ] / 2 )
                     offsety = int( centermark.size[ 1 ] / 2 )
