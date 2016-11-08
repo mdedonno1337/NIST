@@ -406,7 +406,7 @@ class NIST( object ):
             >>> dump = n.dump_record( 1, 0 )
             >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
             NIST Type-01
-                01.001 LEN: 131
+                01.001 LEN: 00000136
                 01.002 VER: 0501
                 01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
@@ -450,7 +450,7 @@ class NIST( object ):
                 Class:   NISTf
             <BLANKLINE>
             NIST Type-01
-                01.001 LEN: 131
+                01.001 LEN: 00000136
                 01.002 VER: 0501
                 01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
@@ -462,7 +462,7 @@ class NIST( object ):
                 01.011 NSR: 00.00
                 01.012 NTR: 00.00
             NIST Type-02 (IDC 0)
-                02.001 LEN: 56
+                02.001 LEN: 00000062
                 02.002 IDC: 0
                 02.003    : 0300
                 02.004    : ...
@@ -642,10 +642,7 @@ class NIST( object ):
             recordsize += len( value ) + lentag
             debug.debug( "Field %d.%03d : added % 9d to the recordsize (now %d)" % ( ntype, tagid, len( value ) + lentag, recordsize ), 2 )
         
-        diff = 8 - len( str( recordsize ) )
-        recordsize -= diff
-        
-        self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )
+        self.set_field( "%d.001" % ntype, "%08d" % recordsize, idc )
         
     def reset_binary_length( self, ntype, idc = 0 ):
         """
@@ -872,7 +869,7 @@ class NIST( object ):
                 Class:   NIST
             <BLANKLINE>
             NIST Type-01
-                01.001 LEN: 131
+                01.001 LEN: 00000136
                 01.002 VER: 0501
                 01.003 CNT: 1<US>1<RS>2<US>0
                 01.004 TOT: USA
@@ -884,7 +881,7 @@ class NIST( object ):
                 01.011 NSR: 00.00
                 01.012 NTR: 00.00
             NIST Type-02 (IDC 0)
-                02.001 LEN: 56
+                02.001 LEN: 00000062
                 02.002 IDC: 0
                 02.003    : 0300
                 02.004    : ...
