@@ -225,7 +225,7 @@ class NISTf( NIST ):
         else:
             raise notImplemented
     
-    def get_minutia_by_id( self, id, idc = -1 ):
+    def get_minutia_by_id( self, id, format = None, idc = -1 ):
         """
             Return a minutia based on the id
             
@@ -233,9 +233,15 @@ class NISTf( NIST ):
                 >>> mark.get_minutia_by_id( "1" )
                 ['1', 7.85, 7.05, 290, '0', 'A']
         """
+        if type( format ) == int:
+            idc, format = format, self.minutiaeformat
+        
+        elif format == None:
+            format = self.minutiaeformat
+            
         for m in self.get_minutiae( idc ):
             if m[ 0 ] == id or int( m[ 0 ] ) == id:
-                return m
+                return self.minutiae_filter( m, format )
         
         else:
             return None
