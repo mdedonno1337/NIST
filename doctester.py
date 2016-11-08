@@ -4,11 +4,23 @@
 import doctest
 import unittest
 
+################################################################################
+#
+#    Import of the modules to test
+#
+################################################################################
+
 import NIST.traditional.__init__
 import NIST.traditional.functions
 
 import NIST.fingerprint.__init__
 import NIST.fingerprint.functions
+
+################################################################################
+# 
+#    Tests
+# 
+################################################################################
 
 def NISTtests():
     tests = unittest.TestSuite()
