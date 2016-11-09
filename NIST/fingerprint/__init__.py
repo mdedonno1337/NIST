@@ -342,26 +342,30 @@ class NISTf( NIST ):
             for idc in self.get_idc( 9 ):
                 self.checkMinutiae( idc )
         else:
-            if self.get_minutiaeCount( idc ) == 0:
-                return
-            else:
-                lst = []
+            try:
+                if self.get_minutiaeCount( idc ) == 0:
+                    return
+                else:
+                    lst = []
+                    
+                    w = self.px2mm( self.get_width( idc ), idc )
+                    h = self.px2mm( self.get_height( idc ), idc )
+                    
+                    id = 0
+                    
+                    for x, y, theta, quality, t in self.get_minutiae( "xytqd", idc ):
+                        if ( not x < 0 and not x > w ) and ( not y < 0 and not y > h ):
+                            id += 1
+                            lst.append( [ "%03d" % id, x, y, theta, quality, t ] )
+                    
+                    lst = lstTo012( lst )    
+                    
+                    self.set_field( "9.010", id, idc )
+                    self.set_field( "9.012", lst, idc )
+            
+            except idcNotFound:
+                debug.error( "checkMinutiae() : IDC %s not found - Checks ignored" )
                 
-                w = self.px2mm( self.get_width( idc ), idc )
-                h = self.px2mm( self.get_height( idc ), idc )
-                
-                id = 0
-                
-                for x, y, theta, quality, t in self.get_minutiae( "xytqd", idc ):
-                    if ( not x < 0 and not x > w ) and ( not y < 0 and not y > h ):
-                        id += 1
-                        lst.append( [ "%03d" % id, x, y, theta, quality, t ] )
-                
-                lst = lstTo012( lst )    
-                
-                self.set_field( "9.010", id, idc )
-                self.set_field( "9.012", lst, idc )
-    
     ############################################################################
     # 
     #    Image processing
