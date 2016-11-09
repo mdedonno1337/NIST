@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from __future__ import division
+
 from future.builtins import super
+
+from PIL import Image
 
 from MDmisc.string import split_r
 
@@ -51,3 +55,50 @@ class NIST_MDD( NISTf ):
          
         except TypeError:
             return None
+        
+    def get_latent_annotated( self, idc = -1 ):
+        """
+            Overloading of the NISTf.get_latent_annotated() function to
+            incorporate a special annotation for paired minutiae.
+            
+                >>> mark.get_latent_annotated() #doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=500x500 at ...>
+        """
+        
+        img = super().get_latent_annotated( idc = idc )
+        
+        ########################################################################
+        
+        try:
+            res, _ = img.info[ 'dpi' ]
+        except:
+            res = self.get_resolution()
+           
+        red = ( 250, 250, 0 )
+        
+        width, height = img.size
+        
+        # Resize factor for the minutiae
+        fac = res / 2000
+           
+        pairingmark = Image.open( self.imgdir + "/pairing.png" )
+        newsize = ( int( pairingmark.size[ 0 ] * fac ), int( pairingmark.size[ 1 ] * fac ) )
+        pairingmark = pairingmark.resize( newsize, Image.BICUBIC )
+           
+        offsetx = pairingmark.size[ 0 ] / 2
+        offsety = pairingmark.size[ 1 ] / 2
+           
+        pairingcolor = Image.new( 'RGBA', pairingmark.size, red )
+          
+        data = self.get_minutiae_paired( "xy", idc )
+        if data != None:
+            for cx, cy in data:
+                cx = cx / 25.4 * res
+                cy = cy / 25.4 * res
+                cy = height - cy
+                
+                img.paste( pairingcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = pairingmark )
+        
+        ########################################################################
+        
+        return img
