@@ -568,7 +568,7 @@ class NISTf( NIST ):
         
         imgdata = self.get_field( "13.999", idc )
         
-        if gca == "JP2":
+        if gca in [ "JP2", "PNG" ]:
             buff = StringIO( imgdata )
             img = Image.open( buff )
             
@@ -578,7 +578,7 @@ class NISTf( NIST ):
             elif format == "RAW":
                 return PILToRAW( img )
             
-            elif format == "JP2":
+            elif format in [ "JP2", "PNG" ]:
                 return buff
         
         elif gca == "RAW":
@@ -589,7 +589,10 @@ class NISTf( NIST ):
                 return RAWToPIL( imgdata, self.get_size( idc ), self.get_resolution( idc ) )
             
             else:
-                raise NotImplemented
+                raise notImplemented
+    
+        else:
+            raise notImplemented
     
     def export_latent( self, f, idc = -1 ):
         idc = self.checkIDC( 13, idc )
