@@ -51,10 +51,11 @@ class NIST_MDD( NISTf ):
             format = self.minutiaeformat
         
         try:
-            return [ self.get_minutia_by_id( minutiaid, format, idc ) for minutiaid, _ in self.get_pairing( idc ) ]
+            lst = [ self.get_minutia_by_id( minutiaid, format, idc ) for minutiaid, _ in self.get_pairing( idc ) ]
+            return [ m for m in lst if m is not None ]
          
         except TypeError:
-            return None
+            return []
         
     def get_latent_annotated( self, idc = -1 ):
         """
