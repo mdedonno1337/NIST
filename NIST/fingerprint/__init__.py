@@ -160,43 +160,6 @@ class NISTf( NIST ):
         
         return lst
         
-    def minutiae_filter( self, minutiae, format ):
-        """
-            Select the fields as required in the 'format' parameter.
-            
-            Only get the x, y coordinate:
-                
-                >>> minutiae = mark.get_minutiae()
-                >>> mark.minutiae_filter( minutiae, 'xy' )
-                [[7.85, 7.05], [13.8, 15.3], [11.46, 22.32], [22.61, 25.17], [6.97, 8.48], [12.58, 19.88], [19.69, 19.8], [12.31, 3.87], [13.88, 14.29], [15.47, 22.49]]
-            
-            Only get the identifier and the designation:
-                 
-                >>> mark.minutiae_filter( minutiae, 'id' )
-                [['1', 'A'], ['2', 'A'], ['3', 'A'], ['4', 'A'], ['5', 'A'], ['6', 'A'], ['7', 'A'], ['8', 'A'], ['9', 'A'], ['10', 'A']]
-            
-            If the format is not correct, an minutiaeFormatNotSupported
-            exception is raised.
-            
-                >>> mark.minutiae_filter( minutiae, 'p' ) # doctest: +IGNORE_EXCEPTION_DETAIL
-                Traceback (most recent call last):
-                minutiaeFormatNotSupported
-                
-            And so on...
-            
-        """
-        def process( m, format ):
-            return [ m[ self.minutiaeformat.index( c ) ] for c in format ]
-        
-        try:
-            if type( minutiae[ 0 ] ) == list:
-                return [ process( m, format ) for m in minutiae ]
-            else:
-                return process( minutiae, format )
-        
-        except ValueError:
-            raise minutiaeFormatNotSupported
-    
     def get_minutiae_all( self, format = None ):
         """
             Return the minutiae for all 10 fingers. If the idc is not present in
