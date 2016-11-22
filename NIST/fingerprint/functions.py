@@ -1,6 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from collections import OrderedDict
+
 from MDmisc.elist import flatten
 from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
@@ -193,3 +195,35 @@ def px2mm( data, res ):
         return map( lambda x: px2mm( x, res ), data )
     else:
         return data / float( res ) * 25.4
+
+################################################################################
+#
+#    Minutiae class
+#
+################################################################################
+
+class Minutiae( object ):
+    """
+        Minutiae class to store one minutiae information.
+    """
+    def __init__( self, *args, **kwargs ):
+        self.format = kwargs.get( "format", "ixytqd" )
+        self.data = OrderedDict( zip( list( self.format ), args[ 0 ] ) )
+    
+    def get( self, format = "ixytqd" ):
+        return [ self.data[ key ] for key in format ]
+    
+    def __str__( self, *args, **kwargs ):
+        return "Minutiae( %s )" % ", ".join( [ "%s='%s'" % a for a in self.data.iteritems() ] )
+    
+    def __repr__( self, *args, **kwargs ):
+        return self.__str__( *args, **kwargs )    
+    
+    def __iter__( self ):
+        return self.data.itervalues()
+
+    def __getitem__( self, index ):
+        if type( index ) == str:
+            return self.data[ index ]
+        elif type( index ) == int:
+            return self.data[ self.data.keys()[ index ] ]
