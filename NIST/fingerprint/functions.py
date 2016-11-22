@@ -210,17 +210,22 @@ class Minutiae( object ):
         self.format = kwargs.get( "format", "ixytqd" )
         self.data = OrderedDict( zip( list( self.format ), args[ 0 ] ) )
     
-    def get( self, format = "ixytqd" ):
-        return [ self.data[ key ] for key in format ]
+    def set_format( self, format ):
+        self.format = format
     
-    def __str__( self, *args, **kwargs ):
-        return "Minutiae( %s )" % ", ".join( [ "%s='%s'" % a for a in self.data.iteritems() ] )
+    def as_list( self ):
+        return [ self.data[ key ] for key in self.format ]
+    
+    def __str__( self ):
+        lst = [ ( f, self.data[ f ] ) for f in self.format ]
+        return "Minutiae( %s )" % ", ".join( [ "%s='%s'" % a for a in lst ] )
     
     def __repr__( self, *args, **kwargs ):
         return self.__str__( *args, **kwargs )    
     
     def __iter__( self ):
-        return self.data.itervalues()
+        for f in self.format:
+            yield self.data[ f ]
 
     def __getitem__( self, index ):
         if type( index ) == str:
