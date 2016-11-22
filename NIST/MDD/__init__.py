@@ -66,40 +66,50 @@ class NIST_MDD( NISTf ):
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         
-        img = super().get_latent_annotated( idc = idc )
+        img = super().get_latent_annotated( idc )
+        img = self.annotate( img, self.get_minutiae_paired( "xy", idc ), "pairing" )
         
-        ########################################################################
+        return img
         
-        try:
-            res, _ = img.info[ 'dpi' ]
-        except:
-            res = self.get_resolution()
-           
-        red = ( 250, 250, 0 )
-        
-        width, height = img.size
-        
-        # Resize factor for the minutiae
-        fac = res / 2000
-           
-        pairingmark = Image.open( self.imgdir + "/pairing.png" )
-        newsize = ( int( pairingmark.size[ 0 ] * fac ), int( pairingmark.size[ 1 ] * fac ) )
-        pairingmark = pairingmark.resize( newsize, Image.BICUBIC )
-           
-        offsetx = pairingmark.size[ 0 ] / 2
-        offsety = pairingmark.size[ 1 ] / 2
-           
-        pairingcolor = Image.new( 'RGBA', pairingmark.size, red )
-          
-        data = self.get_minutiae_paired( "xy", idc )
-        if data != None:
-            for cx, cy in data:
+    def annotate( self, img, data, type = "minutiae", res = None ):
+        """
+            Overloading of the NISTf.annotate() function to incorporate the
+            annotation of the paired minutiae in yellow.
+        """
+        if type == "pairing":
+            try:
+                res, _ = img.info[ 'dpi' ]
+            except:
+                res = self.get_resolution()
+               
+            red = ( 250, 250, 0 )
+            
+            width, height = img.size
+            
+            # Resize factor for the minutiae
+            fac = res / 2000
+            
+            pairingmark = Image.open( self.imgdir + "/pairing.png" )
+            newsize = ( int( pairingmark.size[ 0 ] * fac ), int( pairingmark.size[ 1 ] * fac ) )
+            pairingmark = pairingmark.resize( newsize, Image.BICUBIC )
+               
+            offsetx = pairingmark.size[ 0 ] / 2
+            offsety = pairingmark.size[ 1 ] / 2
+               
+            pairingcolor = Image.new( 'RGBA', pairingmark.size, red )
+            
+            for d in data:
+                cx, cy = d
+                
                 cx = cx / 25.4 * res
                 cy = cy / 25.4 * res
                 cy = height - cy
                 
                 img.paste( pairingcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = pairingmark )
+            
+            return img
         
-        ########################################################################
+        else:
+            return super().annotate( img, data, type, res )
         
         return img
