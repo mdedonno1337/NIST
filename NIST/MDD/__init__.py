@@ -37,12 +37,12 @@ class NIST_MDD( NISTf ):
             returned here.
             
                 >>> mark.get_minutiae_paired()
-                [['1', 7.85, 7.05, 290, '0', 'A'], ['2', 13.8, 15.3, 155, '0', 'A'], ['3', 11.46, 22.32, 224, '0', 'A']]
+                [Minutiae( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ), Minutiae( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ), Minutiae( i='3', x='11.46', y='22.32', t='224', q='0', d='A' )]
             
             It is also possible to filter out the interesting fields:
             
                 >>> mark.get_minutiae_paired( 'xy' )
-                [[7.85, 7.05], [13.8, 15.3], [11.46, 22.32]]
+                [Minutiae( x='7.85', y='7.05' ), Minutiae( x='13.8', y='15.3' ), Minutiae( x='11.46', y='22.32' )]
         """
         if type( format ) == int:
             idc, format = format, self.minutiaeformat
