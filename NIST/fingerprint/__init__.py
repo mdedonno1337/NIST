@@ -218,6 +218,12 @@ class NISTf( NIST ):
         else:
             return None
     
+    def get_minutiae_by_type( self, designation, format = None, idc = -1 ):
+        """
+            Filter the minutiae list by type
+        """
+        return [ m for m in self.get_minutiae( format, idc ) if m.d in designation ]
+    
     def get_minutiaeCount( self, idc = -1 ):
         """
             Return the number of minutiae stored.
