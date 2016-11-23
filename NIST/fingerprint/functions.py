@@ -218,7 +218,7 @@ class Minutiae( object ):
     
     def __str__( self ):
         lst = [ ( f, self.data[ f ] ) for f in self.format ]
-        return "Minutiae( %s )" % ", ".join( [ "%s='%s'" % a for a in lst ] )
+        return "%s( %s )" % ( self.__class__.__name__, ", ".join( [ "%s='%s'" % a for a in lst ] ) )
     
     def __repr__( self, *args, **kwargs ):
         return self.__str__( *args, **kwargs )    
