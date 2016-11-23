@@ -4,3 +4,5 @@ a, b, c = ( a*b, b*b, c*b )
 % -> format
 dependency injection via multiple inheritence ?
 change the compatibility to python 3 (join and char to change)
+
+check the clean function for annotationlist data (the id can change between the 9.012 and 9.255 field !)
