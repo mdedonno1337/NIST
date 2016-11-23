@@ -26,6 +26,7 @@ from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm
 from .functions import Minutiae, Core
 from .voidType import voidType
+from NIST.fingerprint.functions import AnnotationList
 
 
 voidType.update( voidType )
@@ -164,7 +165,7 @@ class NISTf( NIST ):
             for m in lst:
                 m.set_format( format = format )
         
-        return lst
+        return AnnotationList( lst )
         
     def get_minutiae_all( self, format = None ):
         """
@@ -222,7 +223,7 @@ class NISTf( NIST ):
         """
             Filter the minutiae list by type
         """
-        return [ m for m in self.get_minutiae( format, idc ) if m.d in designation ]
+        return self.get_minutiae( idc ).get_by_type( designation, format )
     
     def get_minutiaeCount( self, idc = -1 ):
         """
