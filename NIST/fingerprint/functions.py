@@ -239,7 +239,10 @@ class Annotation( object ):
         self.data[ 'y' ] += dy
         
         return self
-
+    
+    def __len__( self ):
+        return len( self.format )
+    
 class Minutiae( Annotation ):
     def set_format( self, **kwargs ):
         self.format = kwargs.get( 'format', "ixytqd" )
