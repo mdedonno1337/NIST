@@ -38,6 +38,10 @@ class NIST_MDD( NISTf ):
                 
         return lst
     
+    def set_minutiae( self, data, idc = -1 ):
+        self.set_pairing( data.get( "in" ) )       
+        return super().set_minutiae( data, idc = idc )
+    
     def get_pairing( self, idc = -1 ):
         """
             Return the pairing information ( minutia id, pairing id ). This
