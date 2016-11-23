@@ -724,9 +724,8 @@ class NISTf( NIST ):
         # Minutiae cropping
         minu = self.get_minutiae( self.minutiaeformat, idc )
         
-        for i, value in enumerate( minu ):
-            minu[ i ][ 1 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
-            minu[ i ][ 2 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
+        for i, _ in enumerate( minu ):
+            minu[ i ] += offset
         
         self.set_minutiae( minu, idc )
         

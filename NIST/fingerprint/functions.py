@@ -232,3 +232,10 @@ class Minutiae( object ):
             return self.data[ index ]
         elif type( index ) == int:
             return self.data[ self.data.keys()[ index ] ]
+    
+    def __iadd__( self, delta ):
+        dx, dy = delta
+        self.data[ 'x' ] += dx
+        self.data[ 'y' ] += dy
+        
+        return self
