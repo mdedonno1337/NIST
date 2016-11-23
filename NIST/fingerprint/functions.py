@@ -207,11 +207,11 @@ class Minutiae( object ):
         Minutiae class to store one minutiae information.
     """
     def __init__( self, *args, **kwargs ):
-        self.format = kwargs.get( "format", "ixytqd" )
+        self.set_format( **kwargs )
         self.data = OrderedDict( zip( list( self.format ), args[ 0 ] ) )
     
-    def set_format( self, format ):
-        self.format = format
+    def set_format( self, **kwargs ):
+        self.format = kwargs.get( 'format', 'i' )
     
     def as_list( self ):
         return [ self.data[ key ] for key in self.format ]

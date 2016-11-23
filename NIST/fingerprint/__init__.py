@@ -159,7 +159,7 @@ class NISTf( NIST ):
                 idc, format = format, self.minutiaeformat
             
             for m in lst:
-                m.set_format( format )
+                m.set_format( format = format )
         
         return lst
         
@@ -209,7 +209,7 @@ class NISTf( NIST ):
         for m in self.get_minutiae( idc ):
             if int( m[ 'i' ] ) == int( id ):
                 t = Minutiae( m )
-                t.set_format( format )
+                t.set_format( format = format )
                 return t
         
         else:
