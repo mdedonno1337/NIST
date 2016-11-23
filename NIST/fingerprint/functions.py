@@ -261,6 +261,45 @@ class Annotation( object ):
 
 ################################################################################
 # 
+#    Annotation list class
+# 
+################################################################################
+
+class AnnotationList( object ):
+    def __init__( self, args ):
+        self._data = args
+        return
+    
+    def set_format( self, format ):
+        for m in self._data:
+            m.set_format( format = format )
+    
+    def get_by_type( self, designation, format = None ):
+        if format != None:
+            self.set_format( format )
+            
+        return [ a for a in self._data if a.d == designation ]
+    
+    ############################################################################
+    
+    def __str__( self ):
+        return str( self._data )
+    
+    def __repr__( self, *args, **kwargs ):
+        return self.__str__( *args, **kwargs )
+    
+    def __iter__( self, ):
+        for a in self._data:
+            yield a
+    
+    def __getitem__( self, index ):
+        return self._data[ index ]
+    
+    def __len__( self ):
+        return len( self._data )
+    
+################################################################################
+# 
 #    Minutiae and Core objects
 # 
 ################################################################################
