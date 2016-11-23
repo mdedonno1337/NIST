@@ -208,7 +208,7 @@ class Annotation( object ):
     """
     def __init__( self, *args, **kwargs ):
         self.set_format( **kwargs )
-        object.__setattr__( self, '_data', OrderedDict( zip( list( self._format ), args[ 0 ] ) ) )
+        self._data = OrderedDict( zip( list( self._format ), args[ 0 ] ) )
         
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', 'i' )
