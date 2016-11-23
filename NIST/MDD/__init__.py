@@ -21,6 +21,21 @@ from ..traditional.config import US
 ################################################################################
 
 class NIST_MDD( NISTf ):
+    def get_minutiae( self, format = None, idc = -1 ):
+        """
+            Overload of the get_minutiae() function to add the pairing number.
+        """
+        lst = super().get_minutiae( format = format, idc = idc )
+        pairing = dict( self.get_pairing( idc ) )
+        
+        for t, _ in enumerate( lst ):
+            try:
+                lst[ t ].n = pairing[ lst[ t ].i ]
+            except:
+                lst[ t ].n = None
+                
+        return lst
+    
     def get_pairing( self, idc = -1 ):
         """
             Return the pairing information ( minutia id, pairing id ). This
