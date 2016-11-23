@@ -23,7 +23,8 @@ from ..traditional.config import RS, US, default_origin
 from ..traditional.exceptions import *
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, Minutiae
+from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm
+from .functions import Minutiae, Core
 from .voidType import voidType
 
 
@@ -227,12 +228,12 @@ class NISTf( NIST ):
         except:
             return 0
     
-    def get_cores( self, idc = -1 ):
+    def get_cores( self, idc = -1, format = 'xy' ):
         """
             Process and return the center coordinate.
             
             >>> mark.get_cores()
-            [[12.5, 18.7]]
+            [Core( x='12.5', y='18.7' )]
         """
         try:
             cores = self.get_field( "9.008", idc ).split( RS )
@@ -244,8 +245,8 @@ class NISTf( NIST ):
                 x = int( c[ 0:4 ] ) / 100
                 y = int( c[ 4:8 ] ) / 100
                 
-                ret.append( [ x, y ] )
-            
+                ret.append( Core( [ x, y ], format = format ) )
+                
             return ret
         except:
             return None
