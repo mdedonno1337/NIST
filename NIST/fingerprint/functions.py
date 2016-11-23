@@ -259,6 +259,12 @@ class Annotation( object ):
         else:
             self._data[ name ] = value
 
+################################################################################
+# 
+#    Minutiae and Core objects
+# 
+################################################################################
+
 class Minutiae( Annotation ):
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "ixytqd" )
