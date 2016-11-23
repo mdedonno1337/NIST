@@ -272,7 +272,7 @@ class NISTf( NIST ):
         if data == None or data == []:
             return
         
-        elif type( data[ 0 ] ) == list:
+        elif isinstance( data[ 0 ], Core ):
             data = map( format, data )
         
         else:
@@ -732,9 +732,8 @@ class NISTf( NIST ):
         # Core cropping
         cores = self.get_cores( idc )
         if cores != None:
-            for i, value in enumerate( cores ):
-                cores[ i ][ 0 ] += offsetmin[ 0 ] * 25.4 / self.get_resolution( idc )
-                cores[ i ][ 1 ] += offsetmin[ 1 ] * 25.4 / self.get_resolution( idc )
+            for i, _ in enumerate( cores ):
+                cores[ i ] += offsetmin
             
             self.set_cores( cores, idc )
         
