@@ -208,45 +208,59 @@ class Annotation( object ):
     """
     def __init__( self, *args, **kwargs ):
         self.set_format( **kwargs )
-        self.data = OrderedDict( zip( list( self.format ), args[ 0 ] ) )
-    
+        object.__setattr__( self, '_data', OrderedDict( zip( list( self._format ), args[ 0 ] ) ) )
+        
     def set_format( self, **kwargs ):
-        self.format = kwargs.get( 'format', 'i' )
+        self._format = kwargs.get( 'format', 'i' )
     
     def as_list( self ):
-        return [ self.data[ key ] for key in self.format ]
+        return [ self._data[ key ] for key in self._format ]
     
     def __str__( self ):
-        lst = [ ( f, self.data[ f ] ) for f in self.format ]
+        lst = [ ( f, self._data[ f ] ) for f in self._format ]
         return "%s( %s )" % ( self.__class__.__name__, ", ".join( [ "%s='%s'" % a for a in lst ] ) )
     
     def __repr__( self, *args, **kwargs ):
         return self.__str__( *args, **kwargs )    
     
     def __iter__( self ):
-        for f in self.format:
-            yield self.data[ f ]
+        for f in self._format:
+            yield self._data[ f ]
 
     def __getitem__( self, index ):
         if type( index ) == str:
-            return self.data[ index ]
+            return self._data[ index ]
         elif type( index ) == int:
-            return self.data[ self.data.keys()[ index ] ]
+            return self._data[ self._data.keys()[ index ] ]
     
     def __iadd__( self, delta ):
         dx, dy = delta
-        self.data[ 'x' ] += dx
-        self.data[ 'y' ] += dy
+        self._data[ 'x' ] += dx
+        self._data[ 'y' ] += dy
         
         return self
     
     def __len__( self ):
-        return len( self.format )
+        return len( self._format )
     
+    def __getattr__( self, name ):
+        try:
+            return self._data[ name ]
+        except KeyError:
+            msg = "'{0}' object has no attribute '{1}'"
+            raise AttributeError( msg.format( self.__class__.__name__, name ) )
+    
+    def __setattr__( self, name, value ):
+        if name.startswith( "_" ):
+            super( Annotation, self ).__setattr__( name, value )
+        
+        else:
+            self._data[ name ] = value
+
 class Minutiae( Annotation ):
     def set_format( self, **kwargs ):
-        self.format = kwargs.get( 'format', "ixytqd" )
-
+        self._format = kwargs.get( 'format', "ixytqd" )
+ 
 class Core( Annotation ):
     def set_format( self, **kwargs ):
-        self.format = kwargs.get( 'format', "ixy" )
+        self._format = kwargs.get( 'format', "ixy" )
