@@ -272,7 +272,7 @@ class NISTf( NIST ):
         if data == None or data == []:
             return
         
-        elif isinstance( data[ 0 ], Core ):
+        elif isinstance( data[ 0 ], ( Core, list ) ):
             data = map( format, data )
         
         else:
