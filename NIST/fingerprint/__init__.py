@@ -711,14 +711,13 @@ class NISTf( NIST ):
         offset = tuple( map( int, offset ) )
         
         offsetmin = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - center[ 1 ] - size[ 1 ] ) ) )
+        offsetmin = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
         
         # Image cropping
         new = Image.new( 'L', size, 255 )
         new.paste( img, offset )
         
         self.set_size( new.size, idc )
-
-        offset = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
         
         self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
         
@@ -726,7 +725,7 @@ class NISTf( NIST ):
         minu = self.get_minutiae( self.minutiaeformat, idc )
         
         for i, _ in enumerate( minu ):
-            minu[ i ] += offset
+            minu[ i ] += offsetmin
         
         self.set_minutiae( minu, idc )
         
