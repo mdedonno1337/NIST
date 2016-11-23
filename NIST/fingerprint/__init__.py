@@ -144,6 +144,8 @@ class NISTf( NIST ):
             try:
                 id, xyt, q, d = m
                 
+                d = d.upper()
+                
                 x = int( xyt[ 0:4 ] ) / 100
                 y = int( xyt[ 4:8 ] ) / 100
                 t = int( xyt[ 8:11 ] )
