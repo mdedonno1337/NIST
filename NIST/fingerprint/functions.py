@@ -278,7 +278,7 @@ class AnnotationList( object ):
         if format != None:
             self.set_format( format )
             
-        return [ a for a in self._data if a.d == designation ]
+        return AnnotationList( [ a for a in self._data if a.d == designation ] )
     
     ############################################################################
     
