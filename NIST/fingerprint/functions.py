@@ -272,8 +272,8 @@ class AnnotationList( object ):
         return
     
     def set_format( self, format ):
-        for m in self._data:
-            m.set_format( format = format )
+        for a in self._data:
+            a.set_format( format = format )
     
     def get_by_type( self, designation, format = None ):
         if format != None:
@@ -282,7 +282,7 @@ class AnnotationList( object ):
         return AnnotationList( [ a for a in self._data if a.d in designation ] )
     
     def as_list( self ):
-        return [ m.as_list() for m in self._data ]
+        return [ a.as_list() for a in self._data ]
     
     def get( self, format ):
         tmp = deepcopy( self )
