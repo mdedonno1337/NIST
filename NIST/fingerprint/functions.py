@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from collections import OrderedDict
+from copy import deepcopy
 
 from MDmisc.elist import flatten
 from MDmisc.map_r import map_r
@@ -282,6 +283,11 @@ class AnnotationList( object ):
     
     def as_list( self ):
         return [ m.as_list() for m in self._data ]
+    
+    def get( self, format ):
+        tmp = deepcopy( self )
+        tmp.set_format( format )
+        return tmp
     
     ############################################################################
     
