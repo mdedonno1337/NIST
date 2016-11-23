@@ -202,9 +202,9 @@ def px2mm( data, res ):
 #
 ################################################################################
 
-class Minutiae( object ):
+class Annotation( object ):
     """
-        Minutiae class to store one minutiae information.
+        Annotation Class; generic class for Minutiae and Core information
     """
     def __init__( self, *args, **kwargs ):
         self.set_format( **kwargs )
@@ -239,3 +239,11 @@ class Minutiae( object ):
         self.data[ 'y' ] += dy
         
         return self
+
+class Minutiae( Annotation ):
+    def set_format( self, **kwargs ):
+        self.format = kwargs.get( 'format', "ixytqd" )
+
+class Core( Annotation ):
+    def set_format( self, **kwargs ):
+        self.format = kwargs.get( 'format', "ixy" )
