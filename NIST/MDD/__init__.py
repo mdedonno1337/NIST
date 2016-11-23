@@ -7,6 +7,7 @@ from future.builtins import super
 
 from PIL import Image
 
+from MDmisc.eint import str_int_cmp
 from MDmisc.string import split_r
 
 from ..fingerprint import NISTf
@@ -71,7 +72,13 @@ class NIST_MDD( NISTf ):
          
         except TypeError:
             return []
-        
+    
+    def get_minutiae_by_name( self, name, format = None, idc = -1 ):
+        """
+            Return the minuiae by name
+        """
+        return [ m for m in self.get_minutiae( format, idc ) if str_int_cmp( m.n, name ) ]
+            
     def get_latent_annotated( self, idc = -1 ):
         """
             Overloading of the NISTf.get_latent_annotated() function to
