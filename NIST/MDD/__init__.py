@@ -13,6 +13,7 @@ from MDmisc.string import split_r
 from ..fingerprint import NISTf
 from ..traditional.config import RS
 from ..traditional.config import US
+from MDmisc.string import join_r
 
 ################################################################################
 # 
@@ -46,6 +47,9 @@ class NIST_MDD( NISTf ):
                 [['1', '1'], ['2', '2'], ['3', '3']]
         """
         return split_r( [ RS, US ], self.get_field( "9.255", idc ) )
+    
+    def set_pairing( self, data ):
+        self.set_field( "9.255", join_r( [ US, RS ], data.as_list() ) )
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
         """
