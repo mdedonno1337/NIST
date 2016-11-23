@@ -235,8 +235,8 @@ class Annotation( object ):
     
     def __iadd__( self, delta ):
         dx, dy = delta
-        self._data[ 'x' ] += dx
-        self._data[ 'y' ] += dy
+        self.x += dx
+        self.y += dy
         
         return self
     
