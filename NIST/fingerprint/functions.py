@@ -216,6 +216,8 @@ class Annotation( object ):
     def as_list( self ):
         return [ self._data[ key ] for key in self._format ]
     
+    ############################################################################
+    
     def __str__( self ):
         lst = [ ( f, self._data[ f ] ) for f in self._format ]
         return "%s( %s )" % ( self.__class__.__name__, ", ".join( [ "%s='%s'" % a for a in lst ] ) )
