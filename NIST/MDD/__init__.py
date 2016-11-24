@@ -8,12 +8,11 @@ from future.builtins import super
 from PIL import Image
 
 from MDmisc.eint import str_int_cmp
-from MDmisc.string import split_r
+from MDmisc.string import split_r, join_r
 
 from ..fingerprint import NISTf
 from ..traditional.config import RS
 from ..traditional.config import US
-from MDmisc.string import join_r
 
 ################################################################################
 # 
