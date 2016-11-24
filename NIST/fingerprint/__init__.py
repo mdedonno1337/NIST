@@ -360,6 +360,8 @@ class NISTf( NIST ):
                     
                     self.set_field( "9.010", id, idc )
                     self.set_field( "9.012", lstTo012( lst ), idc )
+                    
+                    return lst
             
             except idcNotFound:
                 debug.error( "checkMinutiae() : IDC %s not found - Checks ignored" )
