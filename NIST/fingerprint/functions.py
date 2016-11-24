@@ -304,6 +304,9 @@ class AnnotationList( object ):
     def __getitem__( self, index ):
         return self._data[ index ]
     
+    def __setitem__( self, key, value ):
+        self._data[ key ] = value
+    
     def __len__( self ):
         return len( self._data )
     
