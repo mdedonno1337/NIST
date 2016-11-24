@@ -37,9 +37,9 @@ class NIST_MDD( NISTf ):
                 
         return lst
     
-    def set_minutiae( self, data, idc = -1 ):
-        self.set_pairing( data.get( "in" ) )       
-        return super().set_minutiae( data, idc = idc )
+    def checkMinutiae( self, idc = -1 ):
+        data = super().checkMinutiae( idc = idc )
+        self.set_pairing( data.get( "in" ) )
     
     def get_pairing( self, idc = -1 ):
         """
