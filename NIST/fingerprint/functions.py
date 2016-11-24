@@ -310,6 +310,12 @@ class AnnotationList( object ):
     def __len__( self ):
         return len( self._data )
     
+    def __iadd__( self, delta ):
+        for i, _ in enumerate( self._data ):
+            self._data[ i ].__iadd__( delta )
+        
+        return self
+    
 ################################################################################
 # 
 #    Minutiae and Core objects
