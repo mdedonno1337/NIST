@@ -292,7 +292,7 @@ class AnnotationList( object ):
     ############################################################################
     
     def __str__( self ):
-        return str( self._data )
+        return "[\n%s\n]" % ",\n".join( [ "\t" + str( m ) for m in self._data ] )
     
     def __repr__( self, *args, **kwargs ):
         return self.__str__( *args, **kwargs )
