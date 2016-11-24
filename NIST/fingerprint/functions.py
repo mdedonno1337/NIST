@@ -62,15 +62,15 @@ def lstTo012( lst ):
     else:
         try:
             ret = [
-                [ id, "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ), q, d ]
-                for id, x, y, theta, q, d in lst
+                [ m.i, "%04d%04d%03d" % ( round( float( m.x ) * 100 ), round( float( m.y ) * 100 ), m.t ), m.q, m.d ]
+                for m in lst
             ]
         
         except:
             ret = []
             i = 1
-            for x, y, theta in lst:
-                ret.append( [ i, "%04d%04d%03d" % ( round( float( x ) * 100 ), round( float( y ) * 100 ), theta ), '00', 'A' ] )
+            for m in lst:
+                ret.append( [ i, "%04d%04d%03d" % ( round( float( m.x ) * 100 ), round( float( m.y ) * 100 ), m.t ), '00', 'A' ] )
                 i += 1
         
         return join_r( [ US, RS ], ret )
