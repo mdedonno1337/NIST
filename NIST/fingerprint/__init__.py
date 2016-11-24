@@ -352,10 +352,10 @@ class NISTf( NIST ):
                     
                     id = 0
                     
-                    for x, y, theta, quality, t in self.get_minutiae( "xytqd", idc ):
-                        if ( not x < 0 and not x > w ) and ( not y < 0 and not y > h ):
+                    for m in self.get_minutiae( idc ):
+                        if ( not m.x < 0 and not m.x > w ) and ( not m.y < 0 and not m.y > h ):
                             id += 1
-                            lst.append( [ "%03d" % id, x, y, theta, quality, t ] )
+                            lst.append( [ "%03d" % id, m.x, m.y, m.t, m.q, m.t ] )
                     
                     lst = lstTo012( lst )    
                     
