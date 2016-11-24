@@ -345,7 +345,7 @@ class NISTf( NIST ):
                 if self.get_minutiaeCount( idc ) == 0:
                     return
                 else:
-                    lst = []
+                    lst = AnnotationList()
                     
                     w = self.px2mm( self.get_width( idc ), idc )
                     h = self.px2mm( self.get_height( idc ), idc )
@@ -355,12 +355,11 @@ class NISTf( NIST ):
                     for m in self.get_minutiae( idc ):
                         if ( not m.x < 0 and not m.x > w ) and ( not m.y < 0 and not m.y > h ):
                             id += 1
-                            lst.append( [ "%03d" % id, m.x, m.y, m.t, m.q, m.t ] )
-                    
-                    lst = lstTo012( lst )    
+                            m.i = id
+                            lst.append( m )
                     
                     self.set_field( "9.010", id, idc )
-                    self.set_field( "9.012", lst, idc )
+                    self.set_field( "9.012", lstTo012( lst ), idc )
             
             except idcNotFound:
                 debug.error( "checkMinutiae() : IDC %s not found - Checks ignored" )
