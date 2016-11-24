@@ -5,6 +5,7 @@ from collections import OrderedDict
 from copy import deepcopy
 
 from MDmisc.elist import flatten
+from MDmisc.eobject import eobject
 from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
 
@@ -266,7 +267,7 @@ class Annotation( object ):
 # 
 ################################################################################
 
-class AnnotationList( object ):
+class AnnotationList( eobject ):
     def __init__( self, args ):
         self._data = args
         return
@@ -311,8 +312,7 @@ class AnnotationList( object ):
         return len( self._data )
     
     def __iadd__( self, delta ):
-        for i, _ in enumerate( self._data ):
-            self._data[ i ].__iadd__( delta )
+        self.apply_to_all( "__iadd__", self._data, delta )
         
         return self
     
