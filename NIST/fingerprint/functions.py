@@ -293,6 +293,9 @@ class AnnotationList( eobject ):
         tmp.set_format( format )
         return tmp
     
+    def append( self, value ):
+        self._data.append( value )
+    
     ############################################################################
     
     def __str__( self ):
