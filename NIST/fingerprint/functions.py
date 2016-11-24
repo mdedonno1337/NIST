@@ -251,8 +251,11 @@ class Annotation( object ):
         try:
             return self._data[ name ]
         except KeyError:
-            msg = "'{0}' object has no attribute '{1}'"
-            raise AttributeError( msg.format( self.__class__.__name__, name ) )
+            try:
+                return self.default_values( name )
+            except KeyError:
+                msg = "'{0}' object has no attribute '{1}'"
+                raise AttributeError( msg.format( self.__class__.__name__, name ) )
     
     def __setattr__( self, name, value ):
         if name.startswith( "_" ):
@@ -325,7 +328,17 @@ class AnnotationList( eobject ):
 class Minutiae( Annotation ):
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "ixytqd" )
- 
+    
+    def default_values( self, field ):
+        return {
+            'i': None,
+            'x': 0,
+            'y': 0,
+            't': None,
+            'q': '00',
+            'd': None
+        }[ field ]
+    
 class Core( Annotation ):
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "ixy" )
