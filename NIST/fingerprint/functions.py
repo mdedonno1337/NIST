@@ -271,7 +271,7 @@ class Annotation( object ):
 ################################################################################
 
 class AnnotationList( eobject ):
-    def __init__( self, args ):
+    def __init__( self, args = [] ):
         self._data = args
         return
     
