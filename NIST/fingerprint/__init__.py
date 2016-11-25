@@ -13,6 +13,7 @@ import os
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.elist import ifany, map_r
+from MDmisc.eint import str_int_cmp
 from MDmisc.logger import debug
 from MDmisc.string import upper, split_r, join
 from NIST.traditional.config import FS
@@ -213,6 +214,18 @@ class NISTf( NIST ):
             return ret
         else:
             raise notImplemented
+    
+    def get_minutiae_by_name( self, name, format = None, idc = -1 ):
+        """
+            Return the minuiae by name
+            
+                >>> mark.get_minutiae_by_name( [ "001", "002" ] ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutiae( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutiae( i='2', x='13.8', y='15.3', t='155', q='0', d='A' )
+                ]
+        """
+        return AnnotationList( [ m for m in self.get_minutiae( format, idc ) if str_int_cmp( m.n, name ) ] )
     
     def get_minutia_by_id( self, id, format = None, idc = -1 ):
         """
