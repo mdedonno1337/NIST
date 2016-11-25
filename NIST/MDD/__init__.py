@@ -11,9 +11,23 @@ from MDmisc.eint import str_int_cmp
 from MDmisc.string import split_r, join_r
 
 from ..fingerprint import NISTf
+from ..fingerprint.functions import AnnotationList as _AnnotationList
 from ..traditional.config import RS
 from ..traditional.config import US
 
+################################################################################
+# 
+#    Overload of the AnnotationList to include the pairing information
+# 
+################################################################################
+
+class AnnotationList( _AnnotationList ):
+    def get_by_pairing_name( self, name, format = None ):
+        if format != None:
+            self.set_format( format )
+        
+        return AnnotationList( [ a for a in self._data if a.n != None and a.n in name ] )
+    
 ################################################################################
 # 
 #    Wrapper around the NISTf object to work with the supplementaty information
