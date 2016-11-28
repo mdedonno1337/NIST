@@ -56,6 +56,11 @@ def lstTo012( lst ):
         ''
         
     """
+    if isinstance( lst, list ):
+        tmp = AnnotationList()
+        tmp.from_list( lst, format = format )
+        lst = tmp
+        
     if len( lst ) == 0:
         return ""
     
