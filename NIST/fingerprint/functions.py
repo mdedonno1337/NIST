@@ -15,7 +15,7 @@ from ..traditional.config import *
 
 
 #    Field 9.012 to list (and reverse)
-def lstTo012( lst ):
+def lstTo012( lst, format = None ):
     r"""
         Convert the entire minutiae-table to the 9.012 field format.
         
@@ -48,7 +48,8 @@ def lstTo012( lst ):
         ...     [ 19.69, 19.80, 111 ], 
         ...     [ 12.31,  3.87, 147 ], 
         ...     [ 13.88, 14.29, 330 ], 
-        ...     [ 15.47, 22.49, 271 ]] 
+        ...     [ 15.47, 22.49, 271 ]], 
+        ...    format = "xyt"
         ... )
         '1\x1f07850705290\x1f00\x1fA\x1e2\x1f13801530155\x1f00\x1fA\x1e3\x1f11462232224\x1f00\x1fA\x1e4\x1f22612517194\x1f00\x1fA\x1e5\x1f06970848153\x1f00\x1fA\x1e6\x1f12581988346\x1f00\x1fA\x1e7\x1f19691980111\x1f00\x1fA\x1e8\x1f12310387147\x1f00\x1fA\x1e9\x1f13881429330\x1f00\x1fA\x1e10\x1f15472249271\x1f00\x1fA'
         
