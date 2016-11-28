@@ -344,8 +344,12 @@ class AnnotationList( eobject ):
 
 class Minutiae( Annotation ):
     def set_format( self, **kwargs ):
-        self._format = kwargs.get( 'format', "ixytqd" )
-    
+        format = kwargs.get( 'format', None )
+        if format == None:
+            format = "ixytqd"
+
+        self._format = format
+
     def default_values( self, field ):
         return {
             'i': None,
