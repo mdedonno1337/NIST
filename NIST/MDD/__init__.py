@@ -94,11 +94,11 @@ class NIST_MDD( NISTf ):
         except TypeError:
             return []
     
-    def get_minutiae_by_name( self, name, format = None, idc = -1 ):
+    def get_minutiae_by_pairing_name( self, name, format = None, idc = -1 ):
         """
-            Return the minuiae by name
+            Filter the minutiae list by pairing name
         """
-        return [ m for m in self.get_minutiae( format, idc ) if str_int_cmp( m.n, name ) ]
+        return AnnotationList( self.get_minutiae( idc ) ).get_by_pairing_name( name, format )
             
     def get_latent_annotated( self, idc = -1 ):
         """
