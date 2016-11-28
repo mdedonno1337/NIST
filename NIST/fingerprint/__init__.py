@@ -362,7 +362,7 @@ class NISTf( NIST ):
                 if self.get_minutiaeCount( idc ) == 0:
                     return
                 else:
-                    lst = AnnotationList()
+                    lst = AnnotationList( [] )
                     
                     w = self.px2mm( self.get_width( idc ), idc )
                     h = self.px2mm( self.get_height( idc ), idc )
