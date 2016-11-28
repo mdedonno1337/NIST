@@ -352,14 +352,14 @@ class Minutiae( Annotation ):
 
     def default_values( self, field ):
         return {
-            'i': None,
+            'i': 0,
             'x': 0,
             'y': 0,
-            't': None,
+            't': 0,
             'q': '00',
-            'd': None
+            'd': 'A'
         }[ field ]
-    
+
 class Core( Annotation ):
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "ixy" )
