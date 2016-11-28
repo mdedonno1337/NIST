@@ -21,6 +21,7 @@ import NIST.fingerprint.__init__
 import NIST.fingerprint.functions
 
 import NIST.MDD.__init__
+from NIST.fingerprint.functions import AnnotationList
 
 ################################################################################
 # 
@@ -51,7 +52,7 @@ def NISTtests():
     # 
     ############################################################################
 
-    minutiae = [
+    lst = [
         [  1, 7.85, 7.05, 290, 0, 'A' ],
         [  2, 13.80, 15.30, 155, 0, 'A' ],
         [  3, 11.46, 22.32, 224, 0, 'A' ],
@@ -63,6 +64,9 @@ def NISTtests():
         [  9, 13.88, 14.29, 330, 0, 'A' ],
         [ 10, 15.47, 22.49, 271, 0, 'A' ]
     ]
+    
+    minutiae = AnnotationList()
+    minutiae.from_list( lst, "ixytqd" )
     
     ############################################################################
     
