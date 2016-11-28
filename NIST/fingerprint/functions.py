@@ -277,10 +277,9 @@ class Annotation( object ):
 ################################################################################
 
 class AnnotationList( eobject ):
-    def __init__( self, args = [] ):
-        self._data = args
-        return
-    
+    def __init__( self, data = [] ):
+        self._data = data
+
     def set_format( self, format ):
         for a in self._data:
             a.set_format( format = format )
