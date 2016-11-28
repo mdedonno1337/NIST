@@ -296,6 +296,15 @@ class AnnotationList( eobject ):
     def append( self, value ):
         self._data.append( value )
     
+    def from_list( self, data, format = None ):
+        self._data = [ Minutiae( d, format = format ) for d in data ]
+        try:
+            if not "i" in format:
+                for id, _ in enumerate( self._data ):
+                    self._data[ id ].i = id + 1
+        except:
+            pass
+        
     ############################################################################
     
     def __str__( self ):
