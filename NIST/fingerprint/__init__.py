@@ -333,15 +333,19 @@ class NISTf( NIST ):
         """
         idc = self.checkIDC( 9, idc )
         
-        if isinstance( data, ( list, AnnotationList ) ):
+        if isinstance( data, AnnotationList ):
             data = lstTo012( data )
         
-        self.set_field( "9.012", data, idc )
+        if isinstance( data, str ):
+            self.set_field( "9.012", data, idc )
+            
+            minnum = len( data.split( RS ) )
+            self.set_field( "9.010", minnum, idc )
+            
+            return minnum
         
-        minnum = len( data.split( RS ) )
-        self.set_field( "9.010", minnum, idc )
-        
-        return minnum
+        else:
+            raise minutiaeFormatNotSupported
     
     def checkMinutiae( self, idc = -1 ):
         """
