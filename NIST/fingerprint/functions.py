@@ -281,13 +281,13 @@ class AnnotationList( eobject ):
         self._data = data
 
     def set_format( self, format ):
-        for a in self._data:
-            a.set_format( format = format )
-    
+        if not format == None:
+            for a in self._data:
+                a.set_format( format = format )
+
     def get_by_type( self, designation, format = None ):
-        if format != None:
-            self.set_format( format )
-            
+        self.set_format( format )
+        
         return AnnotationList( [ a for a in self._data if a.d in designation ] )
     
     def as_list( self ):
