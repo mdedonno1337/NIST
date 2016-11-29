@@ -277,9 +277,12 @@ class Annotation( object ):
 ################################################################################
 
 class AnnotationList( eobject ):
-    def __init__( self, data = [] ):
-        self._data = data
-
+    def __init__( self, data = None ):
+        if data != None:
+            self._data = data
+        else:
+            self._data = []
+    
     def set_format( self, format ):
         if not format == None:
             for a in self._data:
