@@ -321,7 +321,7 @@ class AnnotationList( eobject ):
     def __repr__( self, *args, **kwargs ):
         return self.__str__( *args, **kwargs )
     
-    def __iter__( self, ):
+    def __iter__( self ):
         for a in self._data:
             yield a
     
