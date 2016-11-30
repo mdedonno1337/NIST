@@ -88,7 +88,7 @@ class NIST_MDD( NISTf ):
             format = self.minutiaeformat
         
         try:
-            lst = [ self.get_minutia_by_id( minutiaid, format, idc ) for minutiaid, _ in self.get_pairing( idc ) ]
+            lst = [ self.get_minutia_by_id( minutiaid, format, idc ) for minutiaid, minutiaename in self.get_pairing( idc ) if minutiaename != "None" ]
             return [ m for m in lst if m is not None ]
          
         except TypeError:
