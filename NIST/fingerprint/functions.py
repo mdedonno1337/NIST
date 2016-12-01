@@ -206,13 +206,13 @@ def px2mm( data, res ):
 
 ################################################################################
 #
-#    Minutiae class
+#    Minutia class
 #
 ################################################################################
 
 class Annotation( object ):
     """
-        Annotation Class; generic class for Minutiae and Core information
+        Annotation Class; generic class for Minutia and Core information
     """
     def __init__( self, *args, **kwargs ):
         self.set_format( **kwargs )
@@ -305,7 +305,7 @@ class AnnotationList( eobject ):
         self._data.append( value )
     
     def from_list( self, data, format = None ):
-        self._data = [ Minutiae( d, format = format ) for d in data ]
+        self._data = [ Minutia( d, format = format ) for d in data ]
         try:
             if not "i" in format:
                 for id, _ in enumerate( self._data ):
@@ -341,11 +341,11 @@ class AnnotationList( eobject ):
     
 ################################################################################
 # 
-#    Minutiae and Core objects
+#    Minutia and Core objects
 # 
 ################################################################################
 
-class Minutiae( Annotation ):
+class Minutia( Annotation ):
     def set_format( self, **kwargs ):
         format = kwargs.get( 'format', None )
         if format == None:
