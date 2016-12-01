@@ -8,7 +8,10 @@ from future.builtins import super
 from PIL import Image
 
 from MDmisc.eint import str_int_cmp
+from MDmisc.elist import ifall
 from MDmisc.string import split_r, join_r
+
+from .exceptions import pairingNameNotFound
 
 from ..fingerprint import NISTf
 from ..fingerprint.functions import AnnotationList as _AnnotationList
@@ -26,7 +29,11 @@ class AnnotationList( _AnnotationList ):
         if format != None:
             self.set_format( format )
         
-        return AnnotationList( [ a for a in self._data if a.n != None and a.n in name ] )
+        if ifall( name, [ a.n for a in self._data ] ):
+            return AnnotationList( [ a for a in self._data if a.n != None and a.n in name ] )
+        
+        else:
+            raise pairingNameNotFound
     
 ################################################################################
 # 
