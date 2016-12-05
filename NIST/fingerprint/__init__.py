@@ -1161,16 +1161,11 @@ def new_latent( **kwargs ):
         Creation of a default latent NIST object
     """
     
-    size = kwargs.get( "size", ( 500, 500 ) )
-    res = kwargs.get( "res", 500 )
-    idc = kwargs.get( "idc", 0 )
-    minutiae = kwargs.get( "minutiae", None )
-    
     n = NISTf()
     n.add_Type01()
     n.add_Type02()
-    n.add_Type13( size, res, idc )
-    n.add_Type09( minutiae, idc )
+    n.add_Type13( **kwargs )
+    n.add_Type09( **kwargs )
     
     return n
 
