@@ -1182,6 +1182,18 @@ def new_print( **kwargs ):
     
     return n
 
+def new_NIST( **kwargs ):
+    type = kwargs.pop( "type", "latent" )
+    
+    if type == "latent":
+        return new_latent( **kwargs )
+    
+    elif type == "print":
+        return new_print( *kwargs )
+    
+    else:
+        raise Exception()
+    
 ################################################################################
 # 
 #    Deprecated class
