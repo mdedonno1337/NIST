@@ -938,6 +938,42 @@ class NISTf( NIST ):
     
     ############################################################################
     # 
+    #    Initialization of latent and print NIST objects
+    # 
+    ############################################################################
+    
+    def init_latent( self, *args, **kwargs ):
+        self.add_Type01()
+        self.add_Type02()
+        self.add_Type09( **kwargs )
+        self.add_Type13( **kwargs )
+        self.set_latent( **kwargs )
+        
+        return self
+    
+    def init_print( self, *args, **kwargs ):
+        self.add_Type01()
+        self.add_Type02()
+        self.add_Type04( **kwargs )
+        self.add_Type09( **kwargs )
+        
+        return self
+    
+    
+    def init_new( self, *args, **kwargs ):
+        type = kwargs.pop( "type", "latent" )
+        
+        if type == "latent" or type == "mark":
+            return self.init_latent( *args, **kwargs )
+        
+        elif type == "print":
+            return self.init_print( *args, **kwargs )
+        
+        else:
+            raise Exception()
+    
+    ############################################################################
+    # 
     #    Add empty records to the NIST object
     # 
     ############################################################################
@@ -1151,50 +1187,6 @@ class NIST_M1( NISTf ):
         
         return minnum
 
-################################################################################
-# 
-#    Creation of empty default NIST objects
-# 
-################################################################################
-
-def new_latent( **kwargs ):
-    """
-        Creation of a default latent NIST object
-    """
-    
-    n = NISTf()
-    n.add_Type01()
-    n.add_Type02()
-    n.add_Type13( **kwargs )
-    n.add_Type09( **kwargs )
-    
-    return n
-
-def new_print( **kwargs ):
-    """
-        Creation of a default latent NIST object
-    """
-    
-    n = NISTf()
-    n.add_Type01()
-    n.add_Type02()
-    n.add_Type04( **kwargs )
-    n.add_Type09( **kwargs )
-    
-    return n
-
-def new_NIST( **kwargs ):
-    type = kwargs.pop( "type", "latent" )
-    
-    if type == "latent":
-        return new_latent( **kwargs )
-    
-    elif type == "print":
-        return new_print( *kwargs )
-    
-    else:
-        raise Exception()
-    
 ################################################################################
 # 
 #    Deprecated class
