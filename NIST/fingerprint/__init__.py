@@ -654,17 +654,17 @@ class NISTf( NIST ):
         
         return new
     
-    def set_latent( self, data, res = 500, idc = -1, **options ):
+    def set_latent( self, image, res = 500, idc = -1, **options ):
         """
             Detect the type of image passed in parameter and store it in the
             13.999 field.
         """
-        if type( data ) == str:
-            self.set_field( "13.999", data, idc )
+        if type( image ) == str:
+            self.set_field( "13.999", image, idc )
         
-        elif isinstance( data, Image.Image ):
-            self.set_latent( PILToRAW( data ), res, idc )
-            self.set_size( data.size, idc )
+        elif isinstance( image, Image.Image ):
+            self.set_latent( PILToRAW( image ), res, idc )
+            self.set_size( image.size, idc )
             
         self.set_field( "13.011", "0", idc )
         self.set_resolution( res, idc )
