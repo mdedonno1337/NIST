@@ -654,7 +654,7 @@ class NISTf( NIST ):
         
         return new
     
-    def set_latent( self, data, res = 500, idc = -1 ):
+    def set_latent( self, data, res = 500, idc = -1, **options ):
         """
             Detect the type of image passed in parameter and store it in the
             13.999 field.
@@ -958,7 +958,7 @@ class NISTf( NIST ):
         else:
             self.add_default( ntype, idc )
     
-    def add_Type09( self, minutiae = None, idc = 0 ):
+    def add_Type09( self, minutiae = None, idc = 0, **options ):
         """
             Add the Type-09 record to the NIST object, and set the Date.
         """
@@ -972,7 +972,7 @@ class NISTf( NIST ):
         if minutiae != None:
             self.set_minutiae( minutiae, idc )
     
-    def add_Type13( self, size = ( 500, 500 ), res = 500, idc = 0 ):
+    def add_Type13( self, size = ( 500, 500 ), res = 500, idc = 0, **options ):
         """
             Add an empty Type-13 record to the NIST object, and set the
             Resolution (in dpi) to a white image.
