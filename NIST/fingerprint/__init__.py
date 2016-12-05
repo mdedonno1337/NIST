@@ -1169,6 +1169,19 @@ def new_latent( **kwargs ):
     
     return n
 
+def new_print( **kwargs ):
+    """
+        Creation of a default latent NIST object
+    """
+    
+    n = NISTf()
+    n.add_Type01()
+    n.add_Type02()
+    n.add_Type04( **kwargs )
+    n.add_Type09( **kwargs )
+    
+    return n
+
 ################################################################################
 # 
 #    Deprecated class
