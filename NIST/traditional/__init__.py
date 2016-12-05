@@ -702,7 +702,10 @@ class NIST( object ):
         if type( value ) != str:
             value = str( value )
         
-        self.data[ ntype ][ idc ][ tagid ] = value
+        if len( value ) == 0:
+            return
+        else:
+            self.data[ ntype ][ idc ][ tagid ] = value
     
     def get_fields( self, tags, idc = -1 ):
         """
