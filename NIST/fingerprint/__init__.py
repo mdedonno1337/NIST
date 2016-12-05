@@ -971,6 +971,10 @@ class NISTf( NIST ):
         
         if minutiae != None:
             self.set_minutiae( minutiae, idc )
+        
+        cores = options.get( "cores", None ) 
+        if cores != None:
+            self.set_cores( cores, idc )
     
     def add_Type13( self, size = ( 500, 500 ), res = 500, idc = 0, **options ):
         """
