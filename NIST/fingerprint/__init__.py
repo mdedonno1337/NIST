@@ -16,19 +16,16 @@ from MDmisc.elist import ifany, map_r
 from MDmisc.eint import str_int_cmp
 from MDmisc.logger import debug
 from MDmisc.string import upper, split_r, join
-from NIST.traditional.config import FS
 from WSQ import WSQ
 
 from ..traditional import NIST
-from ..traditional.config import RS, US, default_origin
+from ..traditional.config import RS, US, FS, default_origin
 from ..traditional.exceptions import *
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm
-from .functions import Minutia, Core
+from .functions import Minutia, Core, AnnotationList
 from .voidType import voidType
-from NIST.fingerprint.functions import AnnotationList
-
 
 voidType.update( voidType )
 
