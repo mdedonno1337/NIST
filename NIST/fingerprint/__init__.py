@@ -662,7 +662,10 @@ class NISTf( NIST ):
         elif isinstance( image, Image.Image ):
             self.set_latent( PILToRAW( image ), res, idc )
             self.set_size( image.size, idc )
-            
+        
+        else:
+            raise formatNotSupported
+        
         self.set_field( "13.011", "0", idc )
         self.set_resolution( res, idc )
     
