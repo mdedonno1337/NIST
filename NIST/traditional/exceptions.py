@@ -7,9 +7,6 @@ class needIDC( BaseException ):
 class intIDC( BaseException ):
     pass
 
-class minutiaeFormatNotSupported( BaseException ):
-    pass
-
 class notImplemented( BaseException ):
     pass
 
@@ -29,4 +26,7 @@ class ntypeAlreadyExisting( BaseException ):
     pass
 
 class idcAlreadyExisting( BaseException ):
+    pass
+
+class formatNotSupported( BaseException ):
     pass
