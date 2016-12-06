@@ -861,28 +861,28 @@ class NISTf( NIST ):
         
         return new
     
-    def set_print( self, data, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1 ):
+    def set_print( self, image, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1 ):
         """
             Function to set an print image to the 4.999 field, and set the size.
         """
-        if isinstance( data, Image.Image ):
+        if isinstance( image, Image.Image ):
             try:
-                res, _ = data.info[ 'dpi' ]
+                res, _ = image.info[ 'dpi' ]
             
             except:
                 pass
             
             finally:
-                width, height = data.size
+                width, height = image.size
                 if format == "WSQ":
-                    data = WSQ().encode( data, data.size, res )
+                    image = WSQ().encode( image, image.size, res )
                 elif format == "RAW":
-                    data = PILToRAW( data )
+                    image = PILToRAW( image )
         
         else:
             width, height = size
             
-        self.set_field( "4.999", data, idc )
+        self.set_field( "4.999", image, idc )
         
         if format == "WSQ":
             self.set_field( "4.008", "1", idc )
