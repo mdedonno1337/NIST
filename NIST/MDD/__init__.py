@@ -48,19 +48,27 @@ class NIST_MDD( NISTf ):
             Overload of the get_minutiae() function to add the pairing number.
         """
         lst = super().get_minutiae( format = format, idc = idc )
-        pairing = dict( self.get_pairing( idc ) )
         
-        for t, _ in enumerate( lst ):
-            try:
-                lst[ t ].n = pairing[ lst[ t ].i ]
-            except:
-                lst[ t ].n = None
-                
+        try:
+            pairing = dict( self.get_pairing( idc ) )
+        
+            for t, _ in enumerate( lst ):
+                try:
+                    lst[ t ].n = pairing[ lst[ t ].i ]
+                except:
+                    lst[ t ].n = None
+        except:
+            pass
+        
         return lst
     
     def checkMinutiae( self, idc = -1 ):
         data = super().checkMinutiae( idc = idc )
-        self.set_pairing( data.get( "in" ) )
+        
+        try:
+            self.set_pairing( data.get( "in" ) )
+        except:
+            pass
     
     def get_pairing( self, idc = -1 ):
         """
