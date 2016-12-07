@@ -861,7 +861,7 @@ class NISTf( NIST ):
         
         return new
     
-    def set_print( self, image, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1 ):
+    def set_print( self, image, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
         """
             Function to set an print image to the 4.999 field, and set the size.
         """
@@ -982,7 +982,7 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def add_Type04( self, idc = 1 ):
+    def add_Type04( self, idc = 1, **options ):
         """
             Add the Type-04 record to the NIST object.
         """
