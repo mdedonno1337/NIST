@@ -11,6 +11,8 @@ from MDmisc.eint import str_int_cmp
 from MDmisc.elist import ifall
 from MDmisc.string import split_r, join_r
 
+from NIST.fingerprint.functions import Annotation
+
 from .exceptions import pairingNameNotFound
 
 from ..fingerprint import NISTf
@@ -184,3 +186,13 @@ class NIST_MDD( NISTf ):
             return super().annotate( img, data, type, res )
         
         return img
+
+################################################################################
+# 
+#    Pairing object, extending the Annotation class
+# 
+################################################################################
+
+class Pairing( Annotation ):
+    def set_format( self, **kwargs ):
+        self._format = kwargs.get( 'format', "in" )
