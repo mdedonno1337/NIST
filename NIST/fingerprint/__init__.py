@@ -890,6 +890,7 @@ class NISTf( NIST ):
             self.set_field( "4.008", "0", idc )
         
         self.set_print_size( ( width, height ), idc )
+        self.set_resolution( res, idc )
     
     def set_print_size( self, value, idc = -1 ):
         width, height = value
