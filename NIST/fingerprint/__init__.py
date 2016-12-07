@@ -965,6 +965,7 @@ class NISTf( NIST ):
         self.add_Type01()
         self.add_Type02()
         self.add_Type04( **kwargs )
+        self.set_print( **kwargs )
         self.add_Type09( **kwargs )
         
         return self
