@@ -970,15 +970,16 @@ class NISTf( NIST ):
         
         return self
     
-    
     def init_new( self, *args, **kwargs ):
         type = kwargs.pop( "type", "latent" )
         
-        if type == "latent" or type == "mark":
-            return self.init_latent( *args, **kwargs )
+        if type in [ 'mark', 'latent' ]:
+            self.init_latent( *args, **kwargs )
+            return self
         
-        elif type == "print":
-            return self.init_print( *args, **kwargs )
+        elif type == 'print':
+            self.init_print( *args, **kwargs )
+            return self
         
         else:
             raise Exception()
