@@ -160,7 +160,7 @@ class NISTf( NIST ):
         # Get the minutiae string, without the final <FS> character.
         minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
         
-        lst = []
+        lst = AnnotationList()
         for m in split_r( [ RS, US ], minutiae ):
             try:
                 id, xyt, q, d = m
@@ -176,11 +176,9 @@ class NISTf( NIST ):
             except:
                 pass
         
-        if format != None:
-            for m in lst:
-                m.set_format( format = format )
+        lst.set_format( format )
         
-        return AnnotationList( lst )
+        return lst
         
     def get_minutiae_all( self, format = None ):
         """
