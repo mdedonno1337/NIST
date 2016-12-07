@@ -110,10 +110,10 @@ class NIST_MDD( NISTf ):
         
         try:
             lst = [ self.get_minutia_by_id( minutiaid, format, idc ) for minutiaid, minutiaename in self.get_pairing( idc ) if minutiaename != "None" ]
-            return [ m for m in lst if m is not None ]
+            return AnnotationList( [ m for m in lst if m is not None ] )
          
         except TypeError:
-            return []
+            return AnnotationList( [] )
     
     def get_minutiae_by_pairing_name( self, name, format = None, idc = -1 ):
         """
