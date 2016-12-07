@@ -152,7 +152,12 @@ class NISTf( NIST ):
             sort the fields returned.
             
         """
-        # Get the minutiae string, without the final <FS> character.                
+        # If the 'format' value is an int, then the function is called without
+        # the 'format' argument, but the IDC is passed instead.
+        if type( format ) == int:
+            idc, format = format, self.minutiaeformat
+        
+        # Get the minutiae string, without the final <FS> character.
         minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
         
         lst = []
@@ -172,11 +177,6 @@ class NISTf( NIST ):
                 pass
         
         if format != None:
-            # If the 'format' value is an int, then the function is called
-            # without the 'format' argument, but the IDC is passed instead.
-            if type( format ) == int:
-                idc, format = format, self.minutiaeformat
-            
             for m in lst:
                 m.set_format( format = format )
         
