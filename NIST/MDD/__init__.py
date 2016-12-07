@@ -82,6 +82,10 @@ class NIST_MDD( NISTf ):
         """
         return split_r( [ RS, US ], self.get_field( "9.255", idc ) )
     
+    def add_Type09( self, minutiae = None, idc = 0, **options ):
+        super().add_Type09( minutiae = minutiae, idc = idc, **options )
+        self.set_pairing( **options )
+    
     def set_pairing( self, pairing, **options ):
         self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ) )
     
