@@ -30,13 +30,19 @@ from .voidType import voidType
 voidType.update( voidType )
 
 class NISTf( NIST ):
-    def __init__( self, *args ):
+    def __init__( self, *args, **kwargs ):
         self.imgdir = os.path.split( os.path.abspath( __file__ ) )[ 0 ] + "/images"
         
         self.minutiaeformat = "ixytqd"
         
         super().__init__( *args )
-    
+        
+        if kwargs:
+            try:
+                self.init_new( **kwargs )
+            except:
+                pass
+        
     ############################################################################
     # 
     #    Cleaning and resetting functions
