@@ -95,13 +95,21 @@ class NIST_MDD( NISTf ):
             Return all minutiae which are paired. The pairing information is not
             returned here.
             
-                >>> mark.get_minutiae_paired()
-                [Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ), Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ), Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='A' )]
+                >>> mark.get_minutiae_paired() # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='A' )
+                ]
             
             It is also possible to filter out the interesting fields:
             
-                >>> mark.get_minutiae_paired( 'xy' )
-                [Minutia( x='7.85', y='7.05' ), Minutia( x='13.8', y='15.3' ), Minutia( x='11.46', y='22.32' )]
+                >>> mark.get_minutiae_paired( 'xy' ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( x='7.85', y='7.05' ),
+                    Minutia( x='13.8', y='15.3' ),
+                    Minutia( x='11.46', y='22.32' )
+                ]
         """
         if type( format ) == int:
             idc, format = format, self.minutiaeformat
@@ -127,7 +135,7 @@ class NIST_MDD( NISTf ):
             Overloading of the NISTf.get_latent_annotated() function to
             incorporate a special annotation for paired minutiae.
             
-                >>> mark.get_latent_annotated() #doctest: +ELLIPSIS
+                >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         
