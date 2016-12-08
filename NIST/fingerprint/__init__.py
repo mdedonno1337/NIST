@@ -35,11 +35,11 @@ class NISTf( NIST ):
         
         self.minutiaeformat = "ixytqd"
         
-        super().__init__( *args )
+        super().__init__( *args, **kwargs )
         
         if kwargs:
             try:
-                self.init_new( **kwargs )
+                self.init_new( *args, **kwargs )
             except:
                 pass
         
