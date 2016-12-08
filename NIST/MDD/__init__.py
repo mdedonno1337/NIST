@@ -86,8 +86,9 @@ class NIST_MDD( NISTf ):
         super().add_Type09( minutiae = minutiae, idc = idc, **options )
         self.set_pairing( **options )
     
-    def set_pairing( self, pairing, **options ):
-        self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ) )
+    def set_pairing( self, pairing = None, **options ):
+        if pairing != None:
+            self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ) )
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
         """
