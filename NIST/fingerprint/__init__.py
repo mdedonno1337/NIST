@@ -471,7 +471,7 @@ class NISTf( NIST ):
             >>> mark.get_width()
             500
         """
-        for ntype in [ 13, 4 ]:
+        for ntype in [ 13, 4, 14 ]:
             try:
                 return int( self.get_field( ( ntype, 6 ), idc ) )
             
@@ -488,7 +488,7 @@ class NISTf( NIST ):
             >>> mark.get_height()
             500
         """
-        for ntype in [ 13, 4 ]:
+        for ntype in [ 13, 4, 14 ]:
             try:
                 return int( self.get_field( ( ntype, 7 ), idc ) )
             
@@ -865,30 +865,53 @@ class NISTf( NIST ):
         """
             Return the print image, WSQ or PIL format.
             
-            >>> pr.get_print() # doctest: +ELLIPSIS
+            >>> pr.get_print( "PIL" ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=L size=500x500 at ...>
         """
         format = upper( format )
+
+        try:
+            imgdata = self.get_field( "4.999", idc )
+            gca = decode_gca( self.get_field( "4.008", idc ) )
+        except:
+            imgdata = self.get_field( "14.999", idc )
+            gca = decode_gca( self.get_field( "14.011", idc ) )
         
-        data = self.get_field( "4.999", idc )
-        
-        if self.get_field( "4.008", idc ) == "0":
+        if gca in [ "JP2", "PNG" ]:
+            buff = StringIO( imgdata )
+            img = Image.open( buff )
+            
+            if format == "PIL":
+                return img
+            
+            elif format == "RAW":
+                return PILToRAW( img )
+            
+            elif format in [ "JP2", "PNG" ]:
+                return buff
+
+        elif gca == "RAW":
             if format == "RAW":
-                return data
-            
-            else:
-                return RAWToPIL( data, self.get_size( idc ), self.get_resolution( idc ) )
+                return imgdata
         
-        else:
-            if format == "WSQ":
-                return data
-            
             elif format == "PIL":
-                return RAWToPIL( WSQ().decode( data ), self.get_size( idc ), self.get_resolution( idc ) )
+                return RAWToPIL( imgdata, self.get_size( idc ), self.get_resolution( idc ) )
             
             else:
                 raise notImplemented
-    
+        
+        elif gca == "WSQ":
+            img = WSQ().decode( imgdata )
+            
+            if format == "RAW":
+                return img
+            
+            elif format == "PIL":
+                return RAWToPIL( img, self.get_size( idc ), self.get_resolution( idc ) )
+            
+            else:
+                raise notImplemented
+        
     def export_print( self, f, idc = -1 ):
         """
             Export the print image to the file 'f' passed in parameter.

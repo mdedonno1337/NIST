@@ -32,7 +32,7 @@ def lstTo012( lst, format = None ):
         ...     [ 10, 15.47, 22.49, 271, 0, 'A' ]]
         ... )
         '1\x1f07850705290\x1f0\x1fA\x1e2\x1f13801530155\x1f0\x1fA\x1e3\x1f11462232224\x1f0\x1fA\x1e4\x1f22612517194\x1f0\x1fA\x1e5\x1f06970848153\x1f0\x1fA\x1e6\x1f12581988346\x1f0\x1fA\x1e7\x1f19691980111\x1f0\x1fA\x1e8\x1f12310387147\x1f0\x1fA\x1e9\x1f13881429330\x1f0\x1fA\x1e10\x1f15472249271\x1f0\x1fA'
-
+        
         The conversion can be done with a list of ( x, y, theta ) coordinates.
         The quality will be set to '00' (expert) and the type to 'A' (Ridge
         ending) for compatibility with most of the AFIS (the type 'D' (Type
@@ -164,7 +164,10 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
     """
     
     markidc = mark.checkIDC( 13, markidc )
-    pridc = pr.checkIDC( 4, pridc )
+    try:
+        pridc = pr.checkIDC( 4, pridc )
+    except:
+        pridc = pr.checkIDC( 14, pridc )
     
     mark_img = mark.get_latent( "PIL", markidc )
     mark_annotated = mark.get_latent_annotated( markidc )
