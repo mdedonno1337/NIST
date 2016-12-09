@@ -861,7 +861,7 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def get_print( self, format = 'WSQ', idc = -1 ):
+    def get_print( self, format = 'PIL', idc = -1 ):
         """
             Return the print image, WSQ or PIL format.
             
