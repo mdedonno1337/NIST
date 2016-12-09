@@ -1131,7 +1131,7 @@ class NISTf( NIST ):
         self.set_field( "13.006", w, idc )
         self.set_field( "13.007", h, idc )
         
-    def add_Type14( self, size = ( 500, 500 ), res = 500, idc = 1 ):
+    def add_Type14( self, size = ( 500, 500 ), res = 500, idc = 1, **options ):
         """
             Add the Type-14 record to the NIST object.
         """
