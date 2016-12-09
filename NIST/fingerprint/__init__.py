@@ -12,6 +12,7 @@ import os
 
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
+from MDmisc.ebool import xor
 from MDmisc.elist import ifany, map_r
 from MDmisc.eint import str_int_cmp
 from MDmisc.logger import debug
@@ -383,7 +384,66 @@ class NISTf( NIST ):
             
             except idcNotFound:
                 debug.error( "checkMinutiae() : IDC %s not found - Checks ignored" )
+    
+    def filter_minutiae( self, idc = -1, invert = False, inplace = False, *args, **kwargs ):
+        """
+            Filter the AnnotationList of minutiae according to the parameters
+            passed as kwarg.
+            
+            To get the list filtered by designation, retriving only Ridge ending (A)
+            and Bifurcation (B):
+            
+                >>> mark.filter_minutiae( d = "AB" ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' )
+                ]
                 
+            
+            To get the list filtered by designation, removing Type undetermined (D):
+            
+                >>> mark.filter_minutiae( d = "D", invert = True ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' )
+                ]
+                
+            To get only the Minutiae id 1 and 2:
+            
+                >>> mark.filter_minutiae( i = [ "1", "5" ] ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
+                ]
+        """
+        tofilter = [ ( key, value ) for key, value in kwargs.iteritems() ]
+        if len( tofilter ) == 0:
+            return self.get_minutiae( idc )
+        
+        else:
+            lst = AnnotationList()
+            for m in self.get_minutiae( idc ):
+                for key, value in tofilter: 
+                    if xor( m.__getattr__( key ) in value, invert ):
+                        if m not in lst:
+                            lst.append( m )
+            
+            if inplace:
+                self.set_minutiae( lst, idc )
+            
+            return lst
+    
     ############################################################################
     # 
     #    Image processing
