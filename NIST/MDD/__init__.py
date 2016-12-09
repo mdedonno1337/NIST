@@ -27,14 +27,14 @@ from ..traditional.config import US
 ################################################################################
 
 class AnnotationList( _AnnotationList ):
-    def get_by_pairing_name( self, name, format = None ):
-        if format != None:
-            self.set_format( format )
+    def get_by_pairing_name( self, names, format = None ):
+        self.set_format( format )
         
-        if ifall( name, [ a.n for a in self._data ] ):
-            return AnnotationList( [ a for a in self._data if a.n != None and a.n in name ] )
+        try:
+            d = dict( [ ( m.n, m ) for m in self._data if m.n != None ] )
+            return [ d[ n ] for n in names ]
         
-        else:
+        except KeyError:
             raise pairingNameNotFound
     
 ################################################################################
