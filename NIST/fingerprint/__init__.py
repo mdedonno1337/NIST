@@ -313,7 +313,7 @@ class NISTf( NIST ):
             
             return "%04d%04d" % ( x, y )
         
-        if data == None or data == []:
+        if data == None or len( data ) == 0:
             return
         
         elif isinstance( data[ 0 ], ( Core, list ) ):
