@@ -90,13 +90,13 @@ class NIST( object ):
             associated with the new class are, of course, available in the
             current object after the change.
             
-            >>> type( n )
-            <class 'NIST.traditional.__init__.NIST'>
-            
-            >>> from NIST import NISTf
-            >>> n.changeClassTo( NISTf )
-            >>> type( n )
-            <class 'NIST.fingerprint.NISTf'>
+                >>> type( n )
+                <class 'NIST.traditional.__init__.NIST'>
+                
+                >>> from NIST import NISTf
+                >>> n.changeClassTo( NISTf )
+                >>> type( n )
+                <class 'NIST.fingerprint.NISTf'>
         """
         self.__class__ = newclass
     
@@ -384,9 +384,8 @@ class NIST( object ):
             Return the value or the hexadecimal representation of the value for
             binary fields.
             
-            >>> n.format_field( 1, 8 )
-            'UNIL'
-            
+                >>> n.format_field( 1, 8 )
+                'UNIL'
         """
         value = self.get_field( ( ntype, tagid ), idc )
         
@@ -403,20 +402,20 @@ class NIST( object ):
         """
             Dump a specific ntype - IDC record.
             
-            >>> dump = n.dump_record( 1, 0 )
-            >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
-            NIST Type-01
-                01.001 LEN: 00000136
-                01.002 VER: 0501
-                01.003 CNT: 1<US>1<RS>2<US>0
-                01.004 TOT: USA
-                01.005 DAT: ...
-                01.006 PRY: 1
-                01.007 DAI: FILE
-                01.008 ORI: UNIL
-                01.009 TCN: ...
-                01.011 NSR: 00.00
-                01.012 NTR: 00.00
+                >>> dump = n.dump_record( 1, 0 )
+                >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+                NIST Type-01
+                    01.001 LEN: 00000136
+                    01.002 VER: 0501
+                    01.003 CNT: 1<US>1<RS>2<US>0
+                    01.004 TOT: USA
+                    01.005 DAT: ...
+                    01.006 PRY: 1
+                    01.007 DAI: FILE
+                    01.008 ORI: UNIL
+                    01.009 TCN: ...
+                    01.011 NSR: 00.00
+                    01.012 NTR: 00.00
         """
         d = self.data[ ntype ][ idc ]
         
@@ -442,31 +441,31 @@ class NIST( object ):
         """
             Return a readable version of the NIST object. Printable on screen.
             
-            >>> dump = n.dump()
-            >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
-            Informations about the NIST object:
-                Obj ID:  Doctester NIST object
-                Records: Type-01, Type-02
-                Class:   NISTf
-            <BLANKLINE>
-            NIST Type-01
-                01.001 LEN: 00000136
-                01.002 VER: 0501
-                01.003 CNT: 1<US>1<RS>2<US>0
-                01.004 TOT: USA
-                01.005 DAT: ...
-                01.006 PRY: 1
-                01.007 DAI: FILE
-                01.008 ORI: UNIL
-                01.009 TCN: ...
-                01.011 NSR: 00.00
-                01.012 NTR: 00.00
-            NIST Type-02 (IDC 0)
-                02.001 LEN: 00000062
-                02.002 IDC: 0
-                02.003    : 0300
-                02.004    : ...
-                02.054    : 0300<US><US>
+                >>> dump = n.dump()
+                >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+                Informations about the NIST object:
+                    Obj ID:  Doctester NIST object
+                    Records: Type-01, Type-02
+                    Class:   NISTf
+                <BLANKLINE>
+                NIST Type-01
+                    01.001 LEN: 00000136
+                    01.002 VER: 0501
+                    01.003 CNT: 1<US>1<RS>2<US>0
+                    01.004 TOT: USA
+                    01.005 DAT: ...
+                    01.006 PRY: 1
+                    01.007 DAI: FILE
+                    01.008 ORI: UNIL
+                    01.009 TCN: ...
+                    01.011 NSR: 00.00
+                    01.012 NTR: 00.00
+                NIST Type-02 (IDC 0)
+                    02.001 LEN: 00000062
+                    02.002 IDC: 0
+                    02.003    : 0300
+                    02.004    : ...
+                    02.054    : 0300<US><US>
         """
         debug.info( "Dumping NIST" )
         
@@ -669,8 +668,8 @@ class NIST( object ):
         """
             Get the content of a specific tag in the NIST object.
             
-            >>> n.get_field( "1.002" )
-            '0501'
+                >>> n.get_field( "1.002" )
+                '0501'
         """
         if type( tag ) == str:
             ntype, tagid = tagSplitter( tag )
@@ -711,8 +710,8 @@ class NIST( object ):
         """
             Get the content of multiples fields at the same time.
             
-            >>> n.get_fields( [ "1.002", "1.004" ] )
-            ['0501', 'USA']
+                >>> n.get_fields( [ "1.002", "1.004" ] )
+                ['0501', 'USA']
         """
         return [ self.get_field( tag, idc ) for tag in tags ]
     
@@ -809,8 +808,8 @@ class NIST( object ):
         """
             Return all ntype presents in the NIST object.
             
-            >>> n.get_ntype()
-            [1, 2]
+                >>> n.get_ntype()
+                [1, 2]
         """
         return sorted( self.data.keys() )
     
@@ -818,8 +817,8 @@ class NIST( object ):
         """
             Return all IDC for a specific ntype.
             
-            >>> n.get_idc( 2 ) # doctest: +NORMALIZE_WHITESPACE
-            [0]
+                >>> n.get_idc( 2 ) # doctest: +NORMALIZE_WHITESPACE
+                [0]
         """
         return sorted( self.data[ ntype ].keys() )
     
@@ -831,15 +830,15 @@ class NIST( object ):
             unique; if multiple IDC are stored for the specific ntype, an
             exception is raised.
             
-            >>> n.checkIDC( 1, 0 )
-            0
-            
-            >>> n.checkIDC( 1, -1 )
-            0
-            
-            >>> n.checkIDC( 1, 1 ) # doctest: +IGNORE_EXCEPTION_DETAIL
-            Traceback (most recent call last):
-            idcNotFound
+                >>> n.checkIDC( 1, 0 )
+                0
+                
+                >>> n.checkIDC( 1, -1 )
+                0
+                
+                >>> n.checkIDC( 1, 1 ) # doctest: +IGNORE_EXCEPTION_DETAIL
+                Traceback (most recent call last):
+                idcNotFound
         """
         try:
             idc = int( idc )
@@ -865,30 +864,30 @@ class NIST( object ):
         """
             Return the printable version of the NIST object.
             
-            >>> print n # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
-            Informations about the NIST object:
-                Obj ID:  Doctester NIST object
-                Records: Type-01, Type-02
-                Class:   NIST
-            <BLANKLINE>
-            NIST Type-01
-                01.001 LEN: 00000136
-                01.002 VER: 0501
-                01.003 CNT: 1<US>1<RS>2<US>0
-                01.004 TOT: USA
-                01.005 DAT: ...
-                01.006 PRY: 1
-                01.007 DAI: FILE
-                01.008 ORI: UNIL
-                01.009 TCN: ...
-                01.011 NSR: 00.00
-                01.012 NTR: 00.00
-            NIST Type-02 (IDC 0)
-                02.001 LEN: 00000062
-                02.002 IDC: 0
-                02.003    : 0300
-                02.004    : ...
-                02.054    : 0300<US><US>
+                >>> print n # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+                Informations about the NIST object:
+                    Obj ID:  Doctester NIST object
+                    Records: Type-01, Type-02
+                    Class:   NIST
+                <BLANKLINE>
+                NIST Type-01
+                    01.001 LEN: 00000136
+                    01.002 VER: 0501
+                    01.003 CNT: 1<US>1<RS>2<US>0
+                    01.004 TOT: USA
+                    01.005 DAT: ...
+                    01.006 PRY: 1
+                    01.007 DAI: FILE
+                    01.008 ORI: UNIL
+                    01.009 TCN: ...
+                    01.011 NSR: 00.00
+                    01.012 NTR: 00.00
+                NIST Type-02 (IDC 0)
+                    02.001 LEN: 00000062
+                    02.002 IDC: 0
+                    02.003    : 0300
+                    02.004    : ...
+                    02.054    : 0300<US><US>
         """
         return self.dump()
     
@@ -896,8 +895,8 @@ class NIST( object ):
         """
             Return unambiguous description.
             
-            >>> n
-            NIST object, Type-01, Type-02
+                >>> n
+                NIST object, Type-01, Type-02
         """
         return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] )
 

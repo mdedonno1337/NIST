@@ -187,19 +187,19 @@ class NISTf( NIST ):
             the NIST object, i.e. the finger is missing, an empty list of
             minutiae is returned, to complete the tenprint card.
             
-            >>> pr.get_minutiae_all() # doctest: +NORMALIZE_WHITESPACE
-                [[
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-                ], [], [], [], [], [], [], [], [], []]
+                >>> pr.get_minutiae_all() # doctest: +NORMALIZE_WHITESPACE
+                    [[
+                        Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                        Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                        Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                        Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                        Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                        Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                        Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
+                        Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
+                        Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
+                        Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                    ], [], [], [], [], [], [], [], [], []]
         """
         if ifany( [ 4, 14 ], self.get_ntype() ):
             if format == None:
@@ -234,6 +234,7 @@ class NISTf( NIST ):
             Return a minutia based on the id
             
             To get the minutiae '1':
+            
                 >>> mark.get_minutia_by_id( "1" )
                 Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' )
 
@@ -265,8 +266,8 @@ class NISTf( NIST ):
         """
             Return the number of minutiae stored.
             
-            >>> mark.get_minutiaeCount()
-            10
+                >>> mark.get_minutiaeCount()
+                10
         """
         try:
             return int( self.get_field( "9.010", idc ) )
@@ -277,8 +278,8 @@ class NISTf( NIST ):
         """
             Process and return the center coordinate.
             
-            >>> mark.get_cores()
-            [Core( x='12.5', y='18.7' )]
+                >>> mark.get_cores()
+                [Core( x='12.5', y='18.7' )]
         """
         try:
             cores = self.get_field( "9.008", idc ).split( RS )
@@ -459,8 +460,8 @@ class NISTf( NIST ):
         """
             Get a python-tuple representing the size of the image.
             
-            >>> mark.get_size()
-            (500, 500)
+                >>> mark.get_size()
+                (500, 500)
         """
         return ( self.get_width( idc ), self.get_height( idc ) )
     
@@ -468,8 +469,8 @@ class NISTf( NIST ):
         """
             Return the width of the Type-13 image.
             
-            >>> mark.get_width()
-            500
+                >>> mark.get_width()
+                500
         """
         for ntype in [ 13, 4, 14 ]:
             try:
@@ -485,8 +486,8 @@ class NISTf( NIST ):
         """
             Return the height of the Type-13 image.
             
-            >>> mark.get_height()
-            500
+                >>> mark.get_height()
+                500
         """
         for ntype in [ 13, 4, 14 ]:
             try:
@@ -503,8 +504,8 @@ class NISTf( NIST ):
         """
             Return the (horizontal) resolution of the Type-13 image in dpi.
             
-            >>> mark.get_resolution()
-            500
+                >>> mark.get_resolution()
+                500
         """
         if ifany( [ 4, 13 ], self.get_ntype() ):
             try:
@@ -539,8 +540,8 @@ class NISTf( NIST ):
         """
             Get the compression used in the latent image.
             
-            >>> mark.get_compression()
-            'RAW'
+                >>> mark.get_compression()
+                'RAW'
         """
         if ifany( [ 4, 13 ], self.get_ntype() ):
             try:
@@ -564,8 +565,8 @@ class NISTf( NIST ):
         """
             Function to annotate the image with the data passed in argument.
             
-            >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae( 'xyt' ) ) # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=RGB size=500x500 at ...>
+                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae( 'xyt' ) ) # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = img.convert( "RGB" )
         
@@ -637,12 +638,12 @@ class NISTf( NIST ):
         """
             Return the image in the format passed in parameter (RAW or PIL).
             
-            >>> mark.get_latent( 'PIL' ) # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=L size=500x500 at ...>
-            
-            >>> raw = mark.get_latent( 'RAW' )
-            >>> raw == '\\xFF' * 250000
-            True
+                >>> mark.get_latent( 'PIL' ) # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=500x500 at ...>
+                
+                >>> raw = mark.get_latent( 'RAW' )
+                >>> raw == '\\xFF' * 250000
+                True
         """
         format = upper( format )
         
@@ -690,8 +691,8 @@ class NISTf( NIST ):
         """
             Function to return the annotated latent.
             
-            >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=RGB size=500x500 at ...>
+                >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = self.get_latent( 'PIL', idc )
         
@@ -708,8 +709,8 @@ class NISTf( NIST ):
             Function to return the diptych of the latent fingermark (latent and
             annotated latent)
             
-            >>> mark.get_latent_diptych() # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+                >>> mark.get_latent_diptych() # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=1000x500 at ...>
         """
         img = self.get_latent( 'PIL', idc )
         anno = self.get_latent_annotated( idc )
@@ -865,8 +866,8 @@ class NISTf( NIST ):
         """
             Return the print image, WSQ or PIL format.
             
-            >>> pr.get_print( "PIL" ) # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=L size=500x500 at ...>
+                >>> pr.get_print( "PIL" ) # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=500x500 at ...>
         """
         format = upper( format )
 
@@ -941,8 +942,8 @@ class NISTf( NIST ):
             Function to return the diptych of the latent fingermark (latent and
             annotated latent)
             
-            >>> mark.get_latent_diptych() # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+                >>> mark.get_latent_diptych() # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=1000x500 at ...>
         """
         img = self.get_print( 'PIL', idc )
         anno = self.get_print_annotated( idc )
@@ -1166,8 +1167,8 @@ class NISTf( NIST ):
         """
             Transformation the coordinates from pixel to millimeters
             
-            >>> mark.mm2px( ( 12.7, 12.7 ) )
-            [250.0, 250.0]
+                >>> mark.mm2px( ( 12.7, 12.7 ) )
+                [250.0, 250.0]
         """
         return mm2px( data, self.get_resolution( idc ) )
     
@@ -1175,8 +1176,8 @@ class NISTf( NIST ):
         """
             Transformation the coordinates from pixels to millimeters
             
-            >>> mark.px2mm( ( 250.0, 250.0 ) )
-            [12.7, 12.7]
+                >>> mark.px2mm( ( 250.0, 250.0 ) )
+                [12.7, 12.7]
         """
         return px2mm( data, self.get_resolution( idc ) )
 

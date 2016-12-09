@@ -26,9 +26,9 @@
 #        Type-07 : User-defined image
 #        Type-08 : Signature image
 #        Type-09 : Minutiae data
-#        Type-10 : Photographic body part imagery (including face and SMT)18
-#        Type-11 : Forensic and investigatory voice data19
-#        Type-12 : Forensic dental and oral data19
+#        Type-10 : Photographic body part imagery (including face and SMT)
+#        Type-11 : Forensic and investigatory voice data
+#        Type-12 : Forensic dental and oral data
 #        Type-13 : Variable-resolution latent friction ridge image
 #        Type-14 : Variable-resolution fingerprint image
 #        Type-15 : Variable-resolution palm print image
@@ -38,7 +38,7 @@
 #        Type-19 : Variable-resolution plantar image
 #        Type-20 : Source representation
 #        Type-21 : Associated context
-#        Type-22 : Non-photographic imagery19
+#        Type-22 : Non-photographic imagery
 #        Type-98 : Information assurance
 #        Type-99 : CBEFF biometric data record
 #
@@ -50,7 +50,7 @@
 # 
 #        Some functions are added to simplify some operation, especially
 #        regarding the fingerprint processing (extraction of image, annotation
-#        of minutiae on the image,...).
+#        of minutiae on the image, ...).
 # 
 # 
 #                                         Marco De Donno
