@@ -471,11 +471,13 @@ class NISTf( NIST ):
             >>> mark.get_width()
             500
         """
-        if ifany( [ 4, 13 ], self.get_ntype() ):
-            try:            
-                return int( self.get_field( "13.006", idc ) )
+        for ntype in [ 13, 4 ]:
+            try:
+                return int( self.get_field( ( ntype, 6 ), idc ) )
+            
             except:
-                return int( self.get_field( "4.006", idc ) )
+                pass
+            
         else:
             raise notImplemented
     
@@ -486,13 +488,13 @@ class NISTf( NIST ):
             >>> mark.get_height()
             500
         """
-        if ifany( [ 4, 13 ], self.get_ntype() ):
+        for ntype in [ 13, 4 ]:
             try:
-                return int( self.get_field( "13.007", idc ) )
+                return int( self.get_field( ( ntype, 7 ), idc ) )
             
             except:
-                return int( self.get_field( "4.007", idc ) )
-        
+                pass
+            
         else:
             raise notImplemented
     
