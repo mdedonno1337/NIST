@@ -473,13 +473,15 @@ class NISTf( NIST ):
                 >>> mark.get_width()
                 500
         """
-        for ntype in [ 13, 4, 14 ]:
-            try:
-                return int( self.get_field( ( ntype, 6 ), idc ) )
-            
-            except:
-                pass
-            
+        if 13 in self.get_ntype(): 
+            return int( self.get_field( "13.006", idc ) )
+        
+        elif 4 in self.get_ntype(): 
+            return int( self.get_field( "4.006", idc ) )
+        
+        elif 14 in self.get_ntype(): 
+            return int( self.get_field( "14.006", idc ) )
+        
         else:
             raise notImplemented
     
@@ -490,13 +492,15 @@ class NISTf( NIST ):
                 >>> mark.get_height()
                 500
         """
-        for ntype in [ 13, 4, 14 ]:
-            try:
-                return int( self.get_field( ( ntype, 7 ), idc ) )
-            
-            except:
-                pass
-            
+        if 13 in self.get_ntype(): 
+            return int( self.get_field( "13.007", idc ) )
+        
+        elif 4 in self.get_ntype(): 
+            return int( self.get_field( "4.007", idc ) )
+        
+        elif 14 in self.get_ntype(): 
+            return int( self.get_field( "14.007", idc ) )
+        
         else:
             raise notImplemented
     
@@ -508,16 +512,21 @@ class NISTf( NIST ):
                 >>> mark.get_resolution()
                 500
         """
-        if ifany( [ 4, 13 ], self.get_ntype() ):
-            try:
-                if self.get_field( "13.008", idc ) == '1':
-                    return int( self.get_field( "13.009", idc ) )
-                elif self.get_field( "13.008", idc ) == '2':
-                    return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
+        if 4 in self.get_ntype():
+            return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
+        
+        elif 13 in self.get_ntype():
+            if self.get_field( "13.008", idc ) == '1':
+                return int( self.get_field( "13.009", idc ) )
+            elif self.get_field( "13.008", idc ) == '2':
+                return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
             
-            except:
-                return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
-
+        elif 14 in self.get_ntype():
+            if self.get_field( "14.008", idc ) == '1':
+                return int( self.get_field( "14.009", idc ) )
+            elif self.get_field( "14.008", idc ) == '2':
+                return int( round( float( self.get_field( "14.009", idc ) ) / 10 * 25.4 ) )
+        
         else:
             raise notImplemented
     
@@ -527,15 +536,22 @@ class NISTf( NIST ):
         """
         res = int( res )
         
-        if ifany( [ 4, 13 ], self.get_ntype() ):
-            try:
-                self.set_field( "13.008", "1", idc )
-                self.set_field( "13.009", res, idc )
-                self.set_field( "13.010", res, idc )
-                
-            except:
-                self.set_fields( [ "1.011", "1.012" ], "%2.2f" % ( res / 25.4 ) )
-        
+        if 4 in self.get_ntype():
+            self.set_fields( [ "1.011", "1.012" ], "%2.2f" % ( res / 25.4 ) )
+            
+        elif 13 in self.get_ntype():
+            self.set_field( "13.008", "1", idc )
+            self.set_field( "13.009", res, idc )
+            self.set_field( "13.010", res, idc )
+            
+        elif 14 in self.get_ntype():
+            self.set_field( "14.008", "1", idc )
+            self.set_field( "14.009", res, idc )
+            self.set_field( "14.010", res, idc )
+            
+        else:
+            raise notImplemented 
+    
     #    Compression
     def get_compression( self, idc = -1 ):
         """
@@ -755,35 +771,33 @@ class NISTf( NIST ):
             Change the resolution of the latent fingermark. The minutiae are not
             affected because they are stored in mm, not px.
         """
-        if not ifany( [ 4, 13 ], self.get_ntype() ):
-            raise notImplemented
+        res = float( res )
         
-        else:
-            res = float( res )
+        if res != self.get_resolution( idc ):
+            fac = res / self.get_resolution( idc )
             
-            if res != self.get_resolution( idc ):
-                fac = res / self.get_resolution( idc )
+            # Image resizing
+            w, h = self.get_size( idc )
+            
+            img = self.get_image( "PIL", idc )
+            img = img.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
+            
+            self.set_size( img.size )
+            
+            if 4 in self.get_ntype():
+                self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
+                self.set_field( "4.999", PILToRAW( img ) )
                 
-                
-                # Image resizing
-                w, h = self.get_size( idc )
-                
-                img = self.get_image( "PIL", idc )
-                img = img.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
-                
-                self.set_size( img.size )
-                
-                if ifany( [ 4, 13 ], self.get_ntype() ):
-                    try:
-                        self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
-                        self.set_field( "4.999", PILToRAW( img ) )
-                    
-                    except:
-                        self.set_resolution( res )
-                        self.set_field( "13.999", PILToRAW( img ) )
-                        
-                else:
-                    raise ValueError
+            elif 13 in self.get_ntype():
+                self.set_resolution( res )
+                self.set_field( "13.999", PILToRAW( img ) )
+            
+            elif 14 in self.get_ntype():
+                self.set_resolution( res )
+                self.set_field( "14.999", PILToRAW( img ) )
+            
+            else:
+                raise notImplemented
     
     def crop_latent( self, size, center = None, idc = -1 ):
         """
@@ -872,10 +886,11 @@ class NISTf( NIST ):
         """
         format = upper( format )
 
-        try:
+        if 4 in self.get_ntype():
             imgdata = self.get_field( "4.999", idc )
             gca = decode_gca( self.get_field( "4.008", idc ) )
-        except:
+            
+        elif 14 in self.get_ntype():
             imgdata = self.get_field( "14.999", idc )
             gca = decode_gca( self.get_field( "14.011", idc ) )
         
@@ -990,9 +1005,16 @@ class NISTf( NIST ):
     def set_print_size( self, value, idc = -1 ):
         width, height = value
         
-        self.set_width( 4, width, idc )
-        self.set_height( 4, height, idc )
+        print self.get_ntype()
         
+        if 4 in self.get_ntype():
+            self.set_width( 4, width, idc )
+            self.set_height( 4, height, idc )
+        
+        elif 14 in self.get_ntype():
+            self.set_width( 14, width, idc )
+            self.set_height( 14, height, idc )
+    
     ############################################################################
     # 
     #    Latent and print generic functions
@@ -1000,16 +1022,15 @@ class NISTf( NIST ):
     ############################################################################
     
     def get_image( self, format = "PIL", idc = -1 ):
-        if ifany( [ 4, 13 ], self.get_ntype() ):
-            try:
-                return self.get_latent( format, idc )
-            
-            except:
-                return self.get_print( format, idc )
+        if 13 in self.get_ntype():
+            return self.get_latent( format, idc )
+        
+        elif ifany( [ 4, 14 ], self.get_ntype() ):
+            return self.get_print( format, idc )
         
         else:
             raise notImplemented
-        
+            
     def set_width( self, ntype, value, idc = -1 ):
         self.set_field( ( ntype, "006" ), value, idc )
     
@@ -1017,23 +1038,28 @@ class NISTf( NIST ):
         self.set_field( ( ntype, "007" ), value, idc )
     
     def set_size( self, value, idc = -1 ):
-        if ifany( [ 4, 13 ], self.get_ntype() ):
-            try:
+        if ifany( [ 4, 13, 14 ], self.get_ntype() ):
+            if 13 in self.get_ntype():
                 self.set_latent_size( value, idc )
                 
-            except:
+            elif ifany( [ 4, 14 ], self.get_ntype() ):
                 self.set_print_size( value, idc )
-        
+                
+            else:
+                raise ValueError
+            
         else:
             raise notImplemented    
     
     def get_diptych( self, idc = -1 ):
-        if ifany( [ 4, 13, 14 ], self.get_ntype() ):
-            try:
-                return self.get_latent_diptych( idc )
+        if 13 in self.get_ntype():
+            return self.get_latent_diptych( idc )
             
-            except:
-                return self.get_print_diptych( idc )
+        elif ifany( [ 4, 14 ], self.get_ntype() ):
+            return self.get_print_diptych( idc )
+        
+        else:
+            raise notImplemented
     
     ############################################################################
     # 
