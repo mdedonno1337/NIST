@@ -70,8 +70,9 @@ class NISTf( NIST ):
                 4.005
                 9.004
         """
+        ntypes = self.get_ntype()
         #    Type-04
-        if 4 in self.get_ntype():
+        if 4 in ntypes:
             for idc in self.get_idc( 4 ):
                 #    4.005
                 #        The minimum scanning resolution was defined in ANSI/NIST-
@@ -90,7 +91,7 @@ class NISTf( NIST ):
                     self.set_field( "4.005", "1", idc )
          
         #    Type-09
-        if 9 in self.get_ntype():
+        if 9 in ntypes:
             for idc in self.get_idc( 9 ):
                 #    9.004
                 #        This field shall contain an "S" to indicate that the
@@ -473,13 +474,15 @@ class NISTf( NIST ):
                 >>> mark.get_width()
                 500
         """
-        if 13 in self.get_ntype(): 
+        ntypes = self.get_ntype()
+        
+        if 13 in ntypes:
             return int( self.get_field( "13.006", idc ) )
         
-        elif 4 in self.get_ntype(): 
+        elif 4 in ntypes: 
             return int( self.get_field( "4.006", idc ) )
         
-        elif 14 in self.get_ntype(): 
+        elif 14 in ntypes: 
             return int( self.get_field( "14.006", idc ) )
         
         else:
@@ -492,13 +495,15 @@ class NISTf( NIST ):
                 >>> mark.get_height()
                 500
         """
-        if 13 in self.get_ntype(): 
+        ntypes = self.get_ntype()
+        
+        if 13 in ntypes: 
             return int( self.get_field( "13.007", idc ) )
         
-        elif 4 in self.get_ntype(): 
+        elif 4 in ntypes: 
             return int( self.get_field( "4.007", idc ) )
         
-        elif 14 in self.get_ntype(): 
+        elif 14 in ntypes: 
             return int( self.get_field( "14.007", idc ) )
         
         else:
@@ -512,16 +517,18 @@ class NISTf( NIST ):
                 >>> mark.get_resolution()
                 500
         """
-        if 4 in self.get_ntype():
+        ntypes = self.get_ntype()
+        
+        if 4 in ntypes:
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
         
-        elif 13 in self.get_ntype():
+        elif 13 in ntypes:
             if self.get_field( "13.008", idc ) == '1':
                 return int( self.get_field( "13.009", idc ) )
             elif self.get_field( "13.008", idc ) == '2':
                 return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
             
-        elif 14 in self.get_ntype():
+        elif 14 in ntypes:
             if self.get_field( "14.008", idc ) == '1':
                 return int( self.get_field( "14.009", idc ) )
             elif self.get_field( "14.008", idc ) == '2':
@@ -534,17 +541,18 @@ class NISTf( NIST ):
         """
             Set the resolution in dpi.
         """
+        ntypes = self.get_ntype()
         res = int( res )
         
-        if 4 in self.get_ntype():
+        if 4 in ntypes:
             self.set_fields( [ "1.011", "1.012" ], "%2.2f" % ( res / 25.4 ) )
             
-        elif 13 in self.get_ntype():
+        elif 13 in ntypes:
             self.set_field( "13.008", "1", idc )
             self.set_field( "13.009", res, idc )
             self.set_field( "13.010", res, idc )
             
-        elif 14 in self.get_ntype():
+        elif 14 in ntypes:
             self.set_field( "14.008", "1", idc )
             self.set_field( "14.009", res, idc )
             self.set_field( "14.010", res, idc )
@@ -772,6 +780,7 @@ class NISTf( NIST ):
             affected because they are stored in mm, not px.
         """
         res = float( res )
+        ntypes = self.get_ntype()
         
         if res != self.get_resolution( idc ):
             fac = res / self.get_resolution( idc )
@@ -784,15 +793,15 @@ class NISTf( NIST ):
             
             self.set_size( img.size )
             
-            if 4 in self.get_ntype():
+            if 4 in ntypes:
                 self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
                 self.set_field( "4.999", PILToRAW( img ) )
                 
-            elif 13 in self.get_ntype():
+            elif 13 in ntypes:
                 self.set_resolution( res )
                 self.set_field( "13.999", PILToRAW( img ) )
             
-            elif 14 in self.get_ntype():
+            elif 14 in ntypes:
                 self.set_resolution( res )
                 self.set_field( "14.999", PILToRAW( img ) )
             
@@ -885,12 +894,13 @@ class NISTf( NIST ):
                 <PIL.Image.Image image mode=L size=500x500 at ...>
         """
         format = upper( format )
-
-        if 4 in self.get_ntype():
+        ntypes = self.get_ntype()
+        
+        if 4 in ntypes:
             imgdata = self.get_field( "4.999", idc )
             gca = decode_gca( self.get_field( "4.008", idc ) )
             
-        elif 14 in self.get_ntype():
+        elif 14 in ntypes:
             imgdata = self.get_field( "14.999", idc )
             gca = decode_gca( self.get_field( "14.011", idc ) )
         
@@ -1004,12 +1014,13 @@ class NISTf( NIST ):
     
     def set_print_size( self, value, idc = -1 ):
         width, height = value
+        ntypes = self.get_ntype()
         
-        if 4 in self.get_ntype():
+        if 4 in ntypes:
             self.set_width( 4, width, idc )
             self.set_height( 4, height, idc )
         
-        elif 14 in self.get_ntype():
+        elif 14 in ntypes:
             self.set_width( 14, width, idc )
             self.set_height( 14, height, idc )
     
@@ -1020,10 +1031,12 @@ class NISTf( NIST ):
     ############################################################################
     
     def get_image( self, format = "PIL", idc = -1 ):
-        if 13 in self.get_ntype():
+        ntypes = self.get_ntype()
+        
+        if 13 in ntypes:
             return self.get_latent( format, idc )
         
-        elif ifany( [ 4, 14 ], self.get_ntype() ):
+        elif ifany( [ 4, 14 ], ntypes ):
             return self.get_print( format, idc )
         
         else:
@@ -1036,11 +1049,13 @@ class NISTf( NIST ):
         self.set_field( ( ntype, "007" ), value, idc )
     
     def set_size( self, value, idc = -1 ):
-        if ifany( [ 4, 13, 14 ], self.get_ntype() ):
-            if 13 in self.get_ntype():
+        ntypes = self.get_ntype()
+        
+        if ifany( [ 4, 13, 14 ], ntypes ):
+            if 13 in ntypes:
                 self.set_latent_size( value, idc )
                 
-            elif ifany( [ 4, 14 ], self.get_ntype() ):
+            elif ifany( [ 4, 14 ], ntypes ):
                 self.set_print_size( value, idc )
                 
             else:
@@ -1050,10 +1065,12 @@ class NISTf( NIST ):
             raise notImplemented    
     
     def get_diptych( self, idc = -1 ):
-        if 13 in self.get_ntype():
+        ntypes = self.get_ntype()
+        
+        if 13 in ntypes:
             return self.get_latent_diptych( idc )
             
-        elif ifany( [ 4, 14 ], self.get_ntype() ):
+        elif ifany( [ 4, 14 ], ntypes ):
             return self.get_print_diptych( idc )
         
         else:
