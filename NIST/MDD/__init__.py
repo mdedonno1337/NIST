@@ -88,6 +88,9 @@ class NIST_MDD( NISTf ):
     
     def set_pairing( self, pairing = None, **options ):
         if pairing != None:
+            if isinstance( pairing, list ):
+                pairing = AnnotationList( pairing )
+                
             self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ) )
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
