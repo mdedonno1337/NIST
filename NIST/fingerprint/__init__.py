@@ -1005,8 +1005,6 @@ class NISTf( NIST ):
     def set_print_size( self, value, idc = -1 ):
         width, height = value
         
-        print self.get_ntype()
-        
         if 4 in self.get_ntype():
             self.set_width( 4, width, idc )
             self.set_height( 4, height, idc )
