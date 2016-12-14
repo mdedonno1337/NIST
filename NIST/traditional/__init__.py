@@ -373,6 +373,10 @@ class NIST( object ):
         else:
             raise tagNotFound
     
+    def move_idc( self, ntype, idcfrom, idcto ):
+        self.data[ ntype ][ idcto ] = self.data[ ntype ][ idcfrom ]
+        del self.data[ ntype ][ idcfrom ]
+    
     ############################################################################
     # 
     #    Dumping
