@@ -20,6 +20,7 @@ from .labels import LABEL
 GCA = {
     'NONE': "RAW",
     '0': "RAW",
+    'WSQ20': 'WSQ',
     '1': "WSQ",
     '2': "JPEGB",
     '3': "JPEGL",
