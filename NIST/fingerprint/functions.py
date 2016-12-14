@@ -12,6 +12,7 @@ from MDmisc.string import join, join_r
 from PIL import Image
 
 from ..traditional.config import *
+from ..traditional.exceptions import notImplemented
 
 
 #    Field 9.012 to list (and reverse)
@@ -164,10 +165,13 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
     """
     
     markidc = mark.checkIDC( 13, markidc )
-    try:
+    
+    if 4 in pr.get_ntype():
         pridc = pr.checkIDC( 4, pridc )
-    except:
+    elif 14 in pr.get_ntype():
         pridc = pr.checkIDC( 14, pridc )
+    else:
+        raise notImplemented
     
     mark_img = mark.get_latent( "PIL", markidc )
     mark_annotated = mark.get_latent_annotated( markidc )

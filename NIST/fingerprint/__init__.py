@@ -943,7 +943,14 @@ class NISTf( NIST ):
         """
             Export the print image to the file 'f' passed in parameter.
         """
-        idc = self.checkIDC( 4, idc )
+        ntypes = self.get_ntype()
+        
+        if 4 in ntypes:
+            ntype = 4
+        elif 14 in ntypes:
+            ntype = 14
+        
+        idc = self.checkIDC( ntype, idc )
         return self.get_print( "PIL", idc ).save( f )
     
     def export_print_annotated( self, f, idc = -1 ):
@@ -951,7 +958,14 @@ class NISTf( NIST ):
             Export the annotated print fo the file 'f'.
             
         """
-        idc = self.checkIDC( 4, idc )
+        ntypes = self.get_ntype()
+        
+        if 4 in ntypes:
+            ntype = 4
+        elif 14 in ntypes:
+            ntype = 14
+            
+        idc = self.checkIDC( ntype, idc )
         return self.get_print_annotated( idc ).save( f )
     
     def get_print_annotated( self, idc = -1 ):
