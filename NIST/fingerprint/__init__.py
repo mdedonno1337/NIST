@@ -3,7 +3,6 @@
 
 from __future__ import absolute_import, division
 
-from copy import deepcopy
 from cStringIO import StringIO
 from future.builtins.misc import super
 from math import cos, pi, sin
@@ -1127,39 +1126,6 @@ class NISTf( NIST ):
         
         else:
             raise Exception()
-    
-    ############################################################################
-    # 
-    #    Combining multiple NIST objects
-    # 
-    ############################################################################
-    
-    def merge( self, other, update = False, ignore = False ):
-        ret = deepcopy( self )
-        
-        for ntype in other.get_ntype():
-            if ntype != 1:
-                for idc in other.get_idc( ntype ):
-                    if ret.data[ ntype ].has_key( idc ) and not update:
-                        if ignore:
-                            continue
-                        else:
-                            raise Exception
-                    
-                    else:
-                        if not ntype in ret.get_ntype():
-                            ret.add_ntype( ntype ) 
-                        
-                        if not idc in self.get_idc( ntype ):
-                            ret.add_idc( ntype, idc )
-                        
-                        for tagid, value in other.data[ ntype ][ idc ].iteritems():
-                            ret.set_field( ( ntype, tagid ), value, idc )
-        
-        return ret
-    
-    def __add__( self, other ):
-        return self.merge( other )
     
     ############################################################################
     # 

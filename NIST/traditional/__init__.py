@@ -7,6 +7,7 @@ import os
 import time
 
 from collections import OrderedDict
+from copy import deepcopy
 
 from MDmisc.binary import binstring_to_int, int_to_binstring
 from MDmisc.boxer import boxer
@@ -309,6 +310,33 @@ class NIST( object ):
                     self.data[ ntype ][ idc ][ tagid ] = value
         
         self.clean()
+    
+    def merge( self, other, update = False, ignore = False ):
+        ret = deepcopy( self )
+        
+        for ntype in other.get_ntype():
+            if ntype != 1:
+                for idc in other.get_idc( ntype ):
+                    if ret.data[ ntype ].has_key( idc ) and not update:
+                        if ignore:
+                            continue
+                        else:
+                            raise Exception
+                    
+                    else:
+                        if not ntype in ret.get_ntype():
+                            ret.add_ntype( ntype ) 
+                        
+                        if not idc in self.get_idc( ntype ):
+                            ret.add_idc( ntype, idc )
+                        
+                        for tagid, value in other.data[ ntype ][ idc ].iteritems():
+                            ret.set_field( ( ntype, tagid ), value, idc )
+        
+        return ret
+    
+    def __add__( self, other ):
+        return self.merge( other )
     
     ############################################################################
     # 
