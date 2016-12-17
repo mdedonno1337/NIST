@@ -746,11 +746,14 @@ class NISTf( NIST ):
         
         return new
     
-    def set_latent( self, image, res = 500, idc = -1, **options ):
+    def set_latent( self, image = None, res = 500, idc = -1, **options ):
         """
             Detect the type of image passed in parameter and store it in the
             13.999 field.
         """
+        if image == None:
+            image = Image.new( "L", ( res, res ), 255 )
+            
         if type( image ) == str:
             self.set_field( "13.999", image, idc )
         
@@ -994,10 +997,13 @@ class NISTf( NIST ):
         
         return new
     
-    def set_print( self, image, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
+    def set_print( self, image = None, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
         """
             Function to set an print image to the 4.999 field, and set the size.
         """
+        if image == None:
+            image = Image.new( "L", ( res, res ), 255 )
+        
         if isinstance( image, Image.Image ):
             try:
                 res, _ = image.info[ 'dpi' ]
