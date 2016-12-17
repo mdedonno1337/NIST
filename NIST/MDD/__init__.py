@@ -160,20 +160,20 @@ class NIST_MDD( NISTf ):
         
         return img
     
-    def annotate( self, img, data, type = "minutiae", res = None ):
+    def annotate( self, image, data, type = "minutiae", res = None ):
         """
             Overloading of the NISTf.annotate() function to incorporate the
             annotation of the paired minutiae in yellow.
         """
         if type == "pairing":
             try:
-                res, _ = img.info[ 'dpi' ]
+                res, _ = image.info[ 'dpi' ]
             except:
                 res = self.get_resolution()
                
             red = ( 250, 250, 0 )
             
-            width, height = img.size
+            width, height = image.size
             
             # Resize factor for the minutiae
             fac = res / 2000
@@ -194,14 +194,14 @@ class NIST_MDD( NISTf ):
                 cy = cy / 25.4 * res
                 cy = height - cy
                 
-                img.paste( pairingcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = pairingmark )
+                image.paste( pairingcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = pairingmark )
             
-            return img
+            return image
         
         else:
-            return super().annotate( img, data, type, res )
+            return super().annotate( image, data, type, res )
         
-        return img
+        return image
 
 ################################################################################
 # 

@@ -586,21 +586,35 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def annotate( self, img, data, type = "minutiae", res = None ):
+    def annotate( self, image, data, type = "minutiae", res = None ):
         """
             Function to annotate the image with the data passed in argument.
+            
+            :param image: Non annotated image
+            :type image: PIL.Image
+            
+            :param data: Data used to annotate the image
+            :type data: AnnotationList
+            
+            :param type: Type of annotation (minutiae or center).
+            :type type: str
+            
+            :param res: Resolution in DPI.
+            :type res: int
+            
+            Usage:
             
                 >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae( 'xyt' ) ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = img.convert( "RGB" )
+        image = image.convert( "RGB" )
         
         if data != None and len( data ) != 0:
-            width, height = img.size
+            width, height = image.size
             
             if res == None:
                 try:
-                    res, _ = img.info[ 'dpi' ]
+                    res, _ = image.info[ 'dpi' ]
                 except:
                     res = self.get_resolution()
             
@@ -628,7 +642,7 @@ class NISTf( NIST ):
                     
                     endcolor = Image.new( 'RGBA', end2.size, red )
                     
-                    img.paste( endcolor, ( int( x - offsetx ), int( y - offsety ) ), mask = end2 )
+                    image.paste( endcolor, ( int( x - offsetx ), int( y - offsety ) ), mask = end2 )
             
             elif type == "center":
                 centermark = Image.open( self.imgdir + "/center.png" )
@@ -646,12 +660,12 @@ class NISTf( NIST ):
                     
                     centercolor = Image.new( 'RGBA', centermark.size, red )
                     
-                    img.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = centermark )
+                    image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = centermark )
             
             else:
                 raise notImplemented
             
-        return img
+        return image
     
     ############################################################################
     # 
