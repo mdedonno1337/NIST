@@ -2,13 +2,13 @@
 -----
 
 * Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
-* Add **options in various function to allow func( **params ) calls.
+* Add **options in various functions to allow func( **params ) calls.
 * Overload the 'add_Type09()' function in the NIST_MDD() class to set the pairing information.
 * Add support for the Type14 in various functions.
 * Remove deprecated functions.
 * Add the NIST().merge() function. 
-* Store the result of the self.get_ntype() if multiple call have to be done in the same function (performance issues).
-* Change default stanrdard value to '0300'.
+* Store the result of the self.get_ntype() if multiple calls have to be done in the same function (performance issues).
+* Change default standard value to '0300'.
 
 v0.19
 -----
@@ -16,7 +16,6 @@ v0.19
 * Add the Annotation, Minutia, Core classes
 * Add the AnnotationList class
 * Change the format of the Minutiae and Core stored in the NIST object (from list to Minutia() and Core() object).
-
 
 v0.18
 -----
@@ -35,7 +34,7 @@ v0.17
 
 * Auto-increment of the Minutia id if not provided.
 * Add the 'set_cores()' function.
-* Annotate all the cores if multiples cores are stored in the NIST object.
+* Annotate all the cores if multiple cores are stored in the NIST object.
 * Automatic selection of the correct diptych with the 'get_diptych()' function.
 * Add support for Type04 in the 'set_resolution()' function.
 * Change the NIST.data variable to MDmisc.RecursiveDefaultDict.defDict().
@@ -44,14 +43,13 @@ v0.17
 * Check the IDC field (x.002) for each ntype in the clean() function.
 * Patch the fields 1.011 and 1.012 according to the NIST standard.
 
-
 v0.16
 -----
 
 * Add the function to crop fingermark and fingerprint images.
 * Add support for uncompressed (RAW) Type-04 images, and adapt the 'changeResolution()' function.
 * Add the function 'get_image()', with automatic determination of the main type (latent or print image).
-* Add the 'export_latent()' and 'export_print()', and the annotated equivalents functions.
+* Add the 'export_latent()' and 'export_print()', and the annotated equivalent functions.
 * Add support to crop Type13 and Type04 images.
 
 v0.15
@@ -70,7 +68,7 @@ v0.15
 v0.14
 -----
 
-* Add the functions related to the image processing (get the latent annotated, quality map, ...).
+* Add functions related to the image processing (get the latent annotated, quality map, ...).
 * Change the format of the NIST object representation (non prittable character, ...).
 * Move deprecated functions.
 * Add functions to set values for latent and print (set_width(), set_height(), ...).
@@ -84,7 +82,7 @@ v0.13
 * Extend the NIST-fingerprint library to work with the ULWLQMetric module (added in the default installer).
 * Misc patches.
 * Bug around : if the 1.003 field is malformed (an IDC is missing), the missing value is replaced with a 1.
-* Move deprecated methods in the NISTf_deprecated. Need to import this class instead of NISTf if you want to use deprecated functions with old code (not recommended !).
+* Move deprecated methods in the NISTf_deprecated. Need to import this class instead of NISTf if you want to use deprecated functions with the old code (not recommended !).
 * Function to add the case name (field 2.007) for Morpho NIST objects.
 * Move the version of the standard in a class attribute (changeable on the fly).
 * Add the function get_minutiae_all() to get the minutiae from all fingers in one list of lists.
@@ -194,4 +192,3 @@ v0.1
 
 * First version of the parser for Type-01, Type-02, Type-09 and Type-13
 * Initial commit
-
