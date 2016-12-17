@@ -1,7 +1,82 @@
-﻿v0.14
+﻿v0.20
+-----
+
+* Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
+* Add **options in various function to allow func( **params ) calls.
+* Overload the 'add_Type09()' function in the NIST_MDD() class to set the pairing information.
+* Add support for the Type14 in various functions.
+* Remove deprecated functions.
+* Add the NIST().merge() function. 
+* Store the result of the self.get_ntype() if multiple call have to be done in the same function (performance issues).
+* Change default stanrdard value to '0300'.
+
+v0.19
+-----
+
+* Add the Annotation, Minutia, Core classes
+* Add the AnnotationList class
+* Change the format of the Minutiae and Core stored in the NIST object (from list to Minutia() and Core() object).
+
+
+v0.18
+-----
+
+* Split the 'crop()' function in 'crop_latent()' and 'crop_print()' functions.
+* Delete all empty IDC and ntypes in the clean() function.
+* Add the 'add_type14()' function with default values.
+* Add the minutiae_filter() function.
+* Add the NIST_MDD class to process NIST objects with pairing information (user-defined field 9.255), and add function to annotate the pairing information in the get_annotated() function
+* Monkey-patch of the x.001 field (not in agreement with the NIST standard).
+* Add support for PNG format.
+* Optimization of the get_latent_annotated(), get_print_annotated() and get_annotated() functions.
+
+v0.17
+-----
+
+* Auto-increment of the Minutia id if not provided.
+* Add the 'set_cores()' function.
+* Annotate all the cores if multiples cores are stored in the NIST object.
+* Automatic selection of the correct diptych with the 'get_diptych()' function.
+* Add support for Type04 in the 'set_resolution()' function.
+* Change the NIST.data variable to MDmisc.RecursiveDefaultDict.defDict().
+* Add the 'update()' function.
+* Clean the NIST object before printing.
+* Check the IDC field (x.002) for each ntype in the clean() function.
+* Patch the fields 1.011 and 1.012 according to the NIST standard.
+
+
+v0.16
+-----
+
+* Add the function to crop fingermark and fingerprint images.
+* Add support for uncompressed (RAW) Type-04 images, and adapt the 'changeResolution()' function.
+* Add the function 'get_image()', with automatic determination of the main type (latent or print image).
+* Add the 'export_latent()' and 'export_print()', and the annotated equivalents functions.
+* Add support to crop Type13 and Type04 images.
+
+v0.15
+-----
+
+* Add the first attempt for NIST object with M1 annotation format.
+* Add misc functions.
+* Bug-fix in some docstrings.
+* Add the identifier field for the NIST object.
+* Add some information in the head of the string-representation of the NIST object.
+* Add support for the JPEG2K format for latent images.
+* Add the formatter function to print formatted binary fields.
+* Change the name of the main class in the Morpho module.
+* Use of the Python3 division module.
+
+v0.14
 -----
 
 * Add the functions related to the image processing (get the latent annotated, quality map, ...).
+* Change the format of the NIST object representation (non prittable character, ...).
+* Move deprecated functions.
+* Add functions to set values for latent and print (set_width(), set_height(), ...).
+* Add function to change the main class of the NIST object.
+* Add support for passing tuple in the set_field() function instead of a tag-string.
+* Add the functions get_diptych() and get_tetraptych()
 
 v0.13
 -----
