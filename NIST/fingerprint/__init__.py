@@ -567,12 +567,13 @@ class NISTf( NIST ):
                 >>> mark.get_compression()
                 'RAW'
         """
-        if ifany( [ 4, 13 ], self.get_ntype() ):
-            try:
-                gca = self.get_field( "13.011", idc )
+        ntypes = self.get_ntype()
         
-            except:
-                gca = self.get_field( "4.008", idc )
+        if 13 in ntypes:
+            gca = self.get_field( "13.011", idc )
+        
+        elif 4 in ntypes:
+            gca = self.get_field( "4.008", idc )
         
         else:
             raise notImplemented
