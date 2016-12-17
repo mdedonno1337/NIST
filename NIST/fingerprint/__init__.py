@@ -720,11 +720,13 @@ class NISTf( NIST ):
     
     def export_latent( self, f, idc = -1 ):
         idc = self.checkIDC( 13, idc )
-        return self.get_latent( "PIL", idc ).save( f )
+        self.get_latent( "PIL", idc ).save( f )
+        return os.path.isfile( f )
     
     def export_latent_annotated( self, f, idc = -1 ):
         idc = self.checkIDC( 13, idc )
-        return self.get_latent_annotated( idc ).save( f )
+        self.get_latent_annotated( idc ).save( f )
+        return os.path.isfile( f )
     
     def get_latent_annotated( self, idc = -1 ):
         """
@@ -968,7 +970,8 @@ class NISTf( NIST ):
             ntype = 14
         
         idc = self.checkIDC( ntype, idc )
-        return self.get_print( "PIL", idc ).save( f )
+        self.get_print( "PIL", idc ).save( f )
+        return os.path.isfile( f )
     
     def export_print_annotated( self, f, idc = -1 ):
         """
@@ -983,7 +986,8 @@ class NISTf( NIST ):
             ntype = 14
             
         idc = self.checkIDC( ntype, idc )
-        return self.get_print_annotated( idc ).save( f )
+        self.get_print_annotated( idc ).save( f )
+        return os.path.isfile( f )
     
     def get_print_annotated( self, idc = -1 ):
         """
