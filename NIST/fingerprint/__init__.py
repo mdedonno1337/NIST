@@ -287,7 +287,7 @@ class NISTf( NIST ):
             if cores == None:
                 raise Exception
             
-            ret = []
+            ret = AnnotationList()
             for c in cores:
                 x = int( c[ 0:4 ] ) / 100
                 y = int( c[ 4:8 ] ) / 100
