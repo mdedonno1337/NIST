@@ -72,15 +72,21 @@ class NIST_MDD( NISTf ):
         except:
             pass
     
-    def get_pairing( self, idc = -1 ):
+    def get_pairing( self, idc = -1, clean = False ):
         """
             Return the pairing information ( minutia id, pairing id ). This
             information is stored in the field 9.255.
             
-                >>> mark.get_pairing()
+                >>> mark.get_pairing( clean = True )
                 [['1', '1'], ['2', '2'], ['3', '3']]
         """
-        return split_r( [ RS, US ], self.get_field( "9.255", idc ) )
+        pairing = split_r( [ RS, US ], self.get_field( "9.255", idc ) )
+        
+        if clean:
+            return [ [ minid, pairingid ] for minid, pairingid in pairing if pairingid != 'None' ]
+        
+        else:
+            return pairing
     
     def add_Type09( self, minutiae = None, idc = 0, **options ):
         super().add_Type09( minutiae = minutiae, idc = idc, **options )
