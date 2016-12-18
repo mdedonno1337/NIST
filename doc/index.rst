@@ -18,6 +18,7 @@ Contents:
    Traditional
    Fingerprint
    Contact
+   Changelog
 
 References
 ----------
