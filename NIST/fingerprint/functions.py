@@ -365,7 +365,7 @@ class Annotation( object ):
         """
             String representation of an Annotation object.
         """
-        lst = [ ( f, self._data[ f ] ) for f in self._format ]
+        lst = [ ( f, self.__getitem__( f ) ) for f in self._format ]
         return "%s( %s )" % ( self.__class__.__name__, ", ".join( [ "%s='%s'" % a for a in lst ] ) )
     
     def __repr__( self, *args, **kwargs ):
