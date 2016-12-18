@@ -17,6 +17,7 @@ Contents:
 
    Traditional
    Fingerprint
+   Contact
 
 References
 ----------
