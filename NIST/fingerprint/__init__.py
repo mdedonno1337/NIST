@@ -1644,15 +1644,11 @@ class NISTf( NIST ):
         """
         ntypes = self.get_ntype()
         
-        if ifany( [ 4, 13, 14 ], ntypes ):
-            if 13 in ntypes:
-                self.set_latent_size( value, idc )
-                
-            elif ifany( [ 4, 14 ], ntypes ):
-                self.set_print_size( value, idc )
-                
-            else:
-                raise ValueError
+        if 13 in ntypes:
+            self.set_latent_size( value, idc )
+            
+        elif ifany( [ 4, 14 ], ntypes ):
+            self.set_print_size( value, idc )
             
         else:
             raise notImplemented    
