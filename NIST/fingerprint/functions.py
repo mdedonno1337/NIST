@@ -246,7 +246,12 @@ class Annotation( object ):
 
     def __getitem__( self, index ):
         if type( index ) == str:
-            return self._data[ index ]
+            try:
+                return self._data[ index ]
+            
+            except KeyError:
+                return None
+            
         elif type( index ) == int:
             return self._data[ self._data.keys()[ index ] ]
     
