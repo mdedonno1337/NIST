@@ -134,3 +134,15 @@ This chapter contains the docstring of the **NISTf** class. All the documentatio
     :undoc-members:
     :show-inheritance:
     :special-members:
+
+Misc functions
+==============
+
+This chapter contains the docstring of the **functions** class. All the documentation is automatically generated with the DocString of each functions.
+
+.. automodule:: NIST.fingerprint.functions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :special-members:
+    :exclude-members: __dict__, __weakref__

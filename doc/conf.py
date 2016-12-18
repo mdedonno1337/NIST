@@ -1,11 +1,5 @@
-
-import sys
-import os
-import shlex
-
-sys.path.insert( 0, os.path.abspath( '../NIST/' ) )
-
-################################################################################
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
 
 project = u'NIST'
 copyright = u'2016, Marco De Donno'
@@ -18,7 +12,7 @@ release = u'0.20.0'
 
 extensions = [
     'sphinx.ext.autodoc',
-    'sphinx.ext.doctest',
+    'sphinx.ext.doctest'
 ]
 
 templates_path = [ '_templates' ]

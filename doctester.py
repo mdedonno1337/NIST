@@ -101,7 +101,7 @@ def NISTtests():
     }
     
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, vars ) )
-    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
+    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions, vars ) )
     
     ############################################################################
     # 

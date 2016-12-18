@@ -17,46 +17,57 @@ from ..traditional.exceptions import notImplemented
 
 #    Field 9.012 to list (and reverse)
 def lstTo012( lst, format = None ):
-    r"""
+    """
         Convert the entire minutiae-table to the 9.012 field format.
         
-        >>> lstTo012(
-        ...    [[  1,  7.85,  7.05, 290, 0, 'A' ],
-        ...     [  2, 13.80, 15.30, 155, 0, 'A' ],
-        ...     [  3, 11.46, 22.32, 224, 0, 'A' ],
-        ...     [  4, 22.61, 25.17, 194, 0, 'A' ],
-        ...     [  5,  6.97,  8.48, 153, 0, 'A' ],
-        ...     [  6, 12.58, 19.88, 346, 0, 'A' ],
-        ...     [  7, 19.69, 19.80, 111, 0, 'A' ],
-        ...     [  8, 12.31,  3.87, 147, 0, 'A' ],
-        ...     [  9, 13.88, 14.29, 330, 0, 'A' ],
-        ...     [ 10, 15.47, 22.49, 271, 0, 'A' ]]
-        ... )
-        '1\x1f07850705290\x1f0\x1fA\x1e2\x1f13801530155\x1f0\x1fA\x1e3\x1f11462232224\x1f0\x1fA\x1e4\x1f22612517194\x1f0\x1fA\x1e5\x1f06970848153\x1f0\x1fA\x1e6\x1f12581988346\x1f0\x1fA\x1e7\x1f19691980111\x1f0\x1fA\x1e8\x1f12310387147\x1f0\x1fA\x1e9\x1f13881429330\x1f0\x1fA\x1e10\x1f15472249271\x1f0\x1fA'
+        :param lst: List of minutiae
+        :type lst: list of lists
         
+        :param format: Format of the minutiae
+        :type format: str
+        
+        :return: 9.012 field
+        :rtype: str
+        
+        Usage:
+            
+            >>> from NIST.fingerprint.functions import lstTo012
+            >>> lstTo012(
+            ...    [[  1,  7.85,  7.05, 290, 0, 'A' ],
+            ...     [  2, 13.80, 15.30, 155, 0, 'A' ],
+            ...     [  3, 11.46, 22.32, 224, 0, 'A' ],
+            ...     [  4, 22.61, 25.17, 194, 0, 'A' ],
+            ...     [  5,  6.97,  8.48, 153, 0, 'A' ],
+            ...     [  6, 12.58, 19.88, 346, 0, 'A' ],
+            ...     [  7, 19.69, 19.80, 111, 0, 'A' ],
+            ...     [  8, 12.31,  3.87, 147, 0, 'A' ],
+            ...     [  9, 13.88, 14.29, 330, 0, 'A' ],
+            ...     [ 10, 15.47, 22.49, 271, 0, 'A' ]]
+            ... )
+            '1\\x1f07850705290\\x1f0\\x1fA\\x1e2\\x1f13801530155\\x1f0\\x1fA\\x1e3\\x1f11462232224\\x1f0\\x1fA\\x1e4\\x1f22612517194\\x1f0\\x1fA\\x1e5\\x1f06970848153\\x1f0\\x1fA\\x1e6\\x1f12581988346\\x1f0\\x1fA\\x1e7\\x1f19691980111\\x1f0\\x1fA\\x1e8\\x1f12310387147\\x1f0\\x1fA\\x1e9\\x1f13881429330\\x1f0\\x1fA\\x1e10\\x1f15472249271\\x1f0\\x1fA'
+            
         The conversion can be done with a list of ( x, y, theta ) coordinates.
         The quality will be set to '00' (expert) and the type to 'A' (Ridge
         ending) for compatibility with most of the AFIS (the type 'D' (Type
         undetermined) is not always well supported).
-        
-        >>> lstTo012(
-        ...    [[  7.85,  7.05, 290 ], 
-        ...     [ 13.80, 15.30, 155 ], 
-        ...     [ 11.46, 22.32, 224 ], 
-        ...     [ 22.61, 25.17, 194 ], 
-        ...     [  6.97,  8.48, 153 ], 
-        ...     [ 12.58, 19.88, 346 ], 
-        ...     [ 19.69, 19.80, 111 ], 
-        ...     [ 12.31,  3.87, 147 ], 
-        ...     [ 13.88, 14.29, 330 ], 
-        ...     [ 15.47, 22.49, 271 ]], 
-        ...    format = "xyt"
-        ... )
-        '1\x1f07850705290\x1f00\x1fA\x1e2\x1f13801530155\x1f00\x1fA\x1e3\x1f11462232224\x1f00\x1fA\x1e4\x1f22612517194\x1f00\x1fA\x1e5\x1f06970848153\x1f00\x1fA\x1e6\x1f12581988346\x1f00\x1fA\x1e7\x1f19691980111\x1f00\x1fA\x1e8\x1f12310387147\x1f00\x1fA\x1e9\x1f13881429330\x1f00\x1fA\x1e10\x1f15472249271\x1f00\x1fA'
-        
-        >>> lstTo012( [] )
-        ''
-        
+            
+            >>> lstTo012(
+            ...    [[  7.85,  7.05, 290 ], 
+            ...     [ 13.80, 15.30, 155 ], 
+            ...     [ 11.46, 22.32, 224 ], 
+            ...     [ 22.61, 25.17, 194 ], 
+            ...     [  6.97,  8.48, 153 ], 
+            ...     [ 12.58, 19.88, 346 ], 
+            ...     [ 19.69, 19.80, 111 ], 
+            ...     [ 12.31,  3.87, 147 ], 
+            ...     [ 13.88, 14.29, 330 ], 
+            ...     [ 15.47, 22.49, 271 ]], 
+            ...    format = "xyt"
+            ... )
+            '1\\x1f07850705290\\x1f00\\x1fA\\x1e2\\x1f13801530155\\x1f00\\x1fA\\x1e3\\x1f11462232224\\x1f00\\x1fA\\x1e4\\x1f22612517194\\x1f00\\x1fA\\x1e5\\x1f06970848153\\x1f00\\x1fA\\x1e6\\x1f12581988346\\x1f00\\x1fA\\x1e7\\x1f19691980111\\x1f00\\x1fA\\x1e8\\x1f12310387147\\x1f00\\x1fA\\x1e9\\x1f13881429330\\x1f00\\x1fA\\x1e10\\x1f15472249271\\x1f00\\x1fA'
+            
+            >>> lstTo012( [] )
+            ''
     """
     if isinstance( lst, list ):
         tmp = AnnotationList()
@@ -83,23 +94,35 @@ def lstTo012( lst, format = None ):
         return join_r( [ US, RS ], ret )
 
 def lstTo137( lst, res = None ):
-    r"""
+    """
         Convert the entire minutiae-table to the 9.137 field format.
         
-        >>> lstTo137(
-        ...    [[  1,  7.85,  7.05, 290, 0, 100 ], 
-        ...     [  2, 13.80, 15.30, 155, 0, 100 ], 
-        ...     [  3, 11.46, 22.32, 224, 0, 100 ], 
-        ...     [  4, 22.61, 25.17, 194, 0, 100 ], 
-        ...     [  5,  6.97,  8.48, 153, 0, 100 ], 
-        ...     [  6, 12.58, 19.88, 346, 0, 100 ], 
-        ...     [  7, 19.69, 19.80, 111, 0, 100 ], 
-        ...     [  8, 12.31,  3.87, 147, 0, 100 ], 
-        ...     [  9, 13.88, 14.29, 330, 0, 100 ], 
-        ...     [ 10, 15.47, 22.49, 271, 0, 100 ]],
-        ...    500
-        ... )
-        '1\x1f154\x1f138\x1f290\x1f0\x1f100\x1e2\x1f271\x1f301\x1f155\x1f0\x1f100\x1e3\x1f225\x1f439\x1f224\x1f0\x1f100\x1e4\x1f445\x1f495\x1f194\x1f0\x1f100\x1e5\x1f137\x1f166\x1f153\x1f0\x1f100\x1e6\x1f247\x1f391\x1f346\x1f0\x1f100\x1e7\x1f387\x1f389\x1f111\x1f0\x1f100\x1e8\x1f242\x1f76\x1f147\x1f0\x1f100\x1e9\x1f273\x1f281\x1f330\x1f0\x1f100\x1e10\x1f304\x1f442\x1f271\x1f0\x1f100'
+        :param lst: List of minutiae
+        :type lst: list of lists
+        
+        :param format: Format of the minutiae
+        :type format: str
+        
+        :return: 9.012 field
+        :rtype: str
+        
+        Usage:
+            
+            >>> from NIST.fingerprint.functions import lstTo137
+            >>> lstTo137(
+            ...    [[  1,  7.85,  7.05, 290, 0, 100 ], 
+            ...     [  2, 13.80, 15.30, 155, 0, 100 ], 
+            ...     [  3, 11.46, 22.32, 224, 0, 100 ], 
+            ...     [  4, 22.61, 25.17, 194, 0, 100 ], 
+            ...     [  5,  6.97,  8.48, 153, 0, 100 ], 
+            ...     [  6, 12.58, 19.88, 346, 0, 100 ], 
+            ...     [  7, 19.69, 19.80, 111, 0, 100 ], 
+            ...     [  8, 12.31,  3.87, 147, 0, 100 ], 
+            ...     [  9, 13.88, 14.29, 330, 0, 100 ], 
+            ...     [ 10, 15.47, 22.49, 271, 0, 100 ]],
+            ...    500
+            ... )
+            '1\\x1f154\\x1f138\\x1f290\\x1f0\\x1f100\\x1e2\\x1f271\\x1f301\\x1f155\\x1f0\\x1f100\\x1e3\\x1f225\\x1f439\\x1f224\\x1f0\\x1f100\\x1e4\\x1f445\\x1f495\\x1f194\\x1f0\\x1f100\\x1e5\\x1f137\\x1f166\\x1f153\\x1f0\\x1f100\\x1e6\\x1f247\\x1f391\\x1f346\\x1f0\\x1f100\\x1e7\\x1f387\\x1f389\\x1f111\\x1f0\\x1f100\\x1e8\\x1f242\\x1f76\\x1f147\\x1f0\\x1f100\\x1e9\\x1f273\\x1f281\\x1f330\\x1f0\\x1f100\\x1e10\\x1f304\\x1f442\\x1f271\\x1f0\\x1f100'
     """
     
     if float in map( type, flatten( lst ) ) or res:
@@ -122,19 +145,41 @@ def RAWToPIL( raw, size = ( 500, 500 ) ):
     """
         Convert a RAW string to PIL object.
         
-        >>> RAWToPIL( chr( 255 ) * ( 500 * 500 ), ( 500, 500 ) ) # doctest: +ELLIPSIS
-        <PIL.Image.Image image mode=L size=500x500 at 0x...>
+        :param raw: RAW input image.
+        :type raw: str
+        
+        :param size: Size of the image ( width, height ).
+        :type size: tuple
+        
+        :return: Converted PIL image
+        :rtype: PIL.Image
+        
+        Usage:
+        
+            >>> from NIST.fingerprint.functions import RAWToPIL
+            >>> RAWToPIL( chr( 255 ) * ( 500 * 500 ), ( 500, 500 ) ) # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=L size=500x500 at 0x...>
     """
     return Image.frombytes( 'L', size, raw )
 
 def PILToRAW( pil ):
-    r"""
+    """
         Convert a PIL object to RAW string.
         
-        >>> p = Image.new( '1', ( 500, 500 ) )
-        >>> r = PILToRAW( p )
-        >>> r == '\x00' * ( 500 * 500 )
-        True
+        :param pil: PIL input image.
+        :type pil: PIL.Image
+        
+        :return: RAW formatted image
+        :rtype: str
+        
+        Usage:
+            
+            >>> from NIST.fingerprint.functions import PILToRAW
+            >>> from PIL import Image
+            >>> p = Image.new( 'L', ( 500, 500 ), 0 )
+            >>> r = PILToRAW( p )
+            >>> r == '\\x00' * ( 500 * 500 )
+            True
     """
     return pil.convert( 'L' ).tobytes()
 
@@ -143,25 +188,23 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
         Return an image with the mark and the print in the first row, and the
         corresponding images annotated in the second row.
         
-                    +++++++++++++++++++++++++++++++++++++++
-                    +                  +                  +
-                    +                  +                  +
-                    +                  +                  +
-                    +       mark       +       print      +
-                    +                  +                  +
-                    +                  +                  +
-                    +                  +                  +
-                    +++++++++++++++++++++++++++++++++++++++
-                    +                  +                  +
-                    +                  +                  +
-                    +                  +                  +
-                    +       mark       +       print      +
-                    +    annotated     +     annotated    +
-                    +                  +                  +
-                    +                  +                  +
-                    +                  +                  +
-                    +++++++++++++++++++++++++++++++++++++++
+        :param mark: Latent NIST object.
+        :type mark: NIST
         
+        :param pr: Print NIST object.
+        :type pr: NIST
+        
+        :param markidc: IDC value for the latent NIST object.
+        :type markidc: int
+        
+        :param pridc: IDC value for the print NIST object.
+        :type pridc: int
+        
+        Usage:
+        
+            >>> from NIST.fingerprint.functions import tetraptych
+            >>> tetraptych( mark, pr ) # doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=RGB size=1000x1000 at ...>
     """
     
     markidc = mark.checkIDC( 13, markidc )
@@ -200,12 +243,48 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
 ################################################################################
 
 def mm2px( data, res ):
+    """
+        Transformation the coordinates from millimeters to px.
+        
+        :param data: Coordinate value.
+        :type data: tuple
+        
+        :param res: Resolution in DPI
+        :type res: int
+        
+        :return: Transformed coordinates.
+        :rtype: list of float
+        
+        Usage:
+            
+            >>> from NIST.fingerprint.functions import mm2px
+            >>> mm2px( ( 12.7, 12.7 ), 500 )
+            [250.0, 250.0]
+    """
     if hasattr( data, '__iter__' ):
         return map( lambda x: mm2px( x, res ), data )
     else:
         return data / 25.4 * float( res )
 
 def px2mm( data, res ):
+    """
+        Transformation the coordinates from pixel to millimeters
+        
+        :param data: Coordinate value.
+        :type data: tuple
+        
+        :param res: Resolution in DPI
+        :type res: int
+        
+        :return: Transformed coordinates.
+        :rtype: list of float
+        
+        Usage:
+        
+            >>> from NIST.fingerprint.functions import px2mm
+            >>> px2mm( ( 250, 250 ), 500 )
+            [12.7, 12.7]
+    """
     if hasattr( data, '__iter__' ):
         return map( lambda x: px2mm( x, res ), data )
     else:
@@ -219,21 +298,69 @@ def px2mm( data, res ):
 
 class Annotation( object ):
     """
-        Annotation Class; generic class for Minutia and Core information
+        Annotation Class; generic class for Minutia and Core information. This
+        class is not designed to be directly used, but should be overloaded with
+        some custom class (see :func:`~NIST.fingerprint.functions.Minutia` and
+        :func:`~NIST.fingerprint.functions.Core` for more details).
+        
+        Import:
+        
+            >>> from NIST.fingerprint.functions import Annotation
+        
+        Usage:
+        
+            >>> Annotation( [ 1.0, 2.1, 3.18 ], format = "abc" )
+            Annotation( a='1.0', b='2.1', c='3.18' )
+            
+        By default, if the data is not provided, None is returned:
+        
+            >>> Annotation( [ 1.0, 2.1, 3.18 ], format = "abcd" )
+            Annotation( a='1.0', b='2.1', c='3.18', d='None' )
     """
     def __init__( self, *args, **kwargs ):
+        """
+            Constructor of the Annotation class. Try to feed the _data variable
+            with the first argument passed in the __init__() function.
+        """
         self.set_format( **kwargs )
         self._data = OrderedDict( zip( list( self._format ), args[ 0 ] ) )
         
     def set_format( self, **kwargs ):
+        """
+            Set the format in the _format variable.
+            
+            :param format: Format of the Annotation object
+            :type format: str or list
+        """
         self._format = kwargs.get( 'format', 'i' )
     
     def as_list( self ):
         return [ self._data[ key ] for key in self._format ]
+        """
+            Return a list version of the Annotation object.
+            
+            :param format: Format to return
+            :type format: str or list
+            
+            :return: List version of the Annotation object.
+            :rtype: list
+            
+            Usage:
+                
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1.0, 2.1, 3.18 ], format = "abc" )
+                >>> a.as_list()
+                [1.0, 2.1, 3.18]
+                >>> a.as_list( "ab" )
+                [1.0, 2.1]
+        """
     
     ############################################################################
     
     def __str__( self ):
+        """
+            String representation of an Annotation object.
+        """
         lst = [ ( f, self._data[ f ] ) for f in self._format ]
         return "%s( %s )" % ( self.__class__.__name__, ", ".join( [ "%s='%s'" % a for a in lst ] ) )
     
@@ -256,6 +383,23 @@ class Annotation( object ):
             return self._data[ self._data.keys()[ index ] ]
     
     def __iadd__( self, delta ):
+        """
+            Overlaod of the '+=' operator, allowing to offset an Annotation with
+            a tuple ( dx, dy ).
+            
+            :param delta: Offset to apply 
+            
+            Usage:
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1, 2 ], format = "xy" )
+                >>> offset = ( 10, 12 )
+                >>> a += offset
+                >>> print( a )
+                Annotation( x='11', y='14' )
+                
+            .. note:: a += delta <=> to a = Annotation.__iadd__( a, delta )
+        """
         dx, dy = delta
         self.x += dx
         self.y += dy
