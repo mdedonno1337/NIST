@@ -1176,12 +1176,17 @@ class NISTf( NIST ):
             
                 >>> pr.crop_print( ( 500, 500 ), ( 12.7, 12.7 ) )
         """
-        for ntype in [ 4, 14 ]:
-            if ntype in self.get_ntype():
-                return self.crop( size, center, ntype, idc )
+        ntypes = self.get_ntype()
+        if 4 in ntypes:
+            ntype = 4
             
+        elif 14 in ntypes:
+            ntype = 14
+        
         else:
             raise notImplemented
+        
+        return self.crop( size, center, ntype, idc )
     
     def crop( self, size, center = None, ntype = None, idc = -1 ):
         """
