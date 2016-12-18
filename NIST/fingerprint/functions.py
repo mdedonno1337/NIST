@@ -3,6 +3,7 @@
 
 from collections import OrderedDict
 from copy import deepcopy
+from itertools import izip
 
 from MDmisc.elist import flatten
 from MDmisc.eobject import eobject
@@ -323,7 +324,7 @@ class Annotation( object ):
             with the first argument passed in the __init__() function.
         """
         self.set_format( **kwargs )
-        self._data = OrderedDict( zip( list( self._format ), args[ 0 ] ) )
+        self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
         
     def set_format( self, **kwargs ):
         """
