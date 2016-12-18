@@ -6,7 +6,7 @@ from .config import default_origin
 voidType = {
     1: {
         1: '0',
-        2: '0501',
+        2: '0300',
         3: '1\x1f1\x1e2\x1f0',
         4: 'USA',
         5: '',

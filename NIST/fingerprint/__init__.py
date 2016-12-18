@@ -1779,7 +1779,7 @@ class NISTf( NIST ):
                 <BLANKLINE>
                 NIST Type-01
                     01.001 LEN: 00000145
-                    01.002 VER: 0501
+                    01.002 VER: 0300
                     01.003 CNT: 1<US>3<RS>2<US>0<RS>9<US>0<RS>13<US>0
                     01.004 TOT: USA
                     01.005 DAT: ...
@@ -1837,7 +1837,7 @@ class NISTf( NIST ):
                 <BLANKLINE>
                 NIST Type-01
                     01.001 LEN: 00000144
-                    01.002 VER: 0501
+                    01.002 VER: 0300
                     01.003 CNT: 1<US>3<RS>2<US>0<RS>4<US>1<RS>9<US>0
                     01.004 TOT: USA
                     01.005 DAT: ...

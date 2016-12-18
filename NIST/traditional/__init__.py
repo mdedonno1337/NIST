@@ -438,7 +438,7 @@ class NIST( object ):
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
                 NIST Type-01
                     01.001 LEN: 00000136
-                    01.002 VER: 0501
+                    01.002 VER: 0300
                     01.003 CNT: 1<US>1<RS>2<US>0
                     01.004 TOT: USA
                     01.005 DAT: ...
@@ -482,7 +482,7 @@ class NIST( object ):
                 <BLANKLINE>
                 NIST Type-01
                     01.001 LEN: 00000136
-                    01.002 VER: 0501
+                    01.002 VER: 0300
                     01.003 CNT: 1<US>1<RS>2<US>0
                     01.004 TOT: USA
                     01.005 DAT: ...
@@ -641,7 +641,7 @@ class NIST( object ):
         #        0500 : ANSI/NIST-ITL 1-2011
         #        0501 : ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding
         #        0502 : ANSI/NIST-ITL 1-2011 Update: 2015 Traditional Encoding
-        debug.debug( "set version to 0501 (ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding)", 1 )
+        debug.debug( "set version to 0300 (ANSI/NIST-ITL 1-2000)", 1 )
         self.set_field( "1.002", self.stdver )
         
         #    1.011 and 1.012
@@ -701,7 +701,7 @@ class NIST( object ):
             Get the content of a specific tag in the NIST object.
             
                 >>> n.get_field( "1.002" )
-                '0501'
+                '0300'
         """
         if type( tag ) == str:
             ntype, tagid = tagSplitter( tag )
@@ -743,7 +743,7 @@ class NIST( object ):
             Get the content of multiples fields at the same time.
             
                 >>> n.get_fields( [ "1.002", "1.004" ] )
-                ['0501', 'USA']
+                ['0300', 'USA']
         """
         return [ self.get_field( tag, idc ) for tag in tags ]
     
@@ -904,7 +904,7 @@ class NIST( object ):
                 <BLANKLINE>
                 NIST Type-01
                     01.001 LEN: 00000136
-                    01.002 VER: 0501
+                    01.002 VER: 0300
                     01.003 CNT: 1<US>1<RS>2<US>0
                     01.004 TOT: USA
                     01.005 DAT: ...
