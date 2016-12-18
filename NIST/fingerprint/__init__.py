@@ -1586,7 +1586,7 @@ class NISTf( NIST ):
             :param idc: IDC value.
             :type idc: int
             
-            :raise notImplemented: if the NIST object does not contain Type04, Type 13 or Type14 data.
+            :raise notImplemented: if the NIST object does not contain Type04, Type13 or Type14 data.
             
             Usage:
             
@@ -1611,7 +1611,7 @@ class NISTf( NIST ):
             :param idc: IDC value.
             :type idc: int
             
-            :raise notImplemented: if the NIST object does not contain Type04, Type 13 or Type14 data.
+            :raise notImplemented: if the NIST object does not contain Type04, Type13 or Type14 data.
             
             Usage:
             
@@ -1636,7 +1636,7 @@ class NISTf( NIST ):
             :param idc: IDC value.
             :type idc: int
             
-            :raise notImplemented: if the NIST object does not contain Type04, Type 13 or Type14 data.
+            :raise notImplemented: if the NIST object does not contain Type04, Type13 or Type14 data.
             
             Usage:
             
@@ -1660,12 +1660,17 @@ class NISTf( NIST ):
             :param idc: IDC value
             :type idc: int
             
-            :raise notImplemented: if the NIST object does not contain Type04, Type 13 or Type14 data.
+            :raise notImplemented: if the NIST object does not contain Type04, Type13 or Type14 data.
             
             Usage:
             
                 >>> mark.get_diptych() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+            
+            .. seealso::
+            
+                :func:`~NIST.fingerprint.NISTf.get_latent_diptych`
+                :func:`~NIST.fingerprint.NISTf.get_print_diptych`
         """
         ntypes = self.get_ntype()
         
@@ -1703,12 +1708,13 @@ class NISTf( NIST ):
                 ... }
                 >>> mark = NISTf().init_latent( **params )
             
-            See :
-                * :func:`NIST.traditional.NIST.add_Type01`
-                * :func:`NIST.traditional.NIST.add_Type02`
-                * :func:`NIST.fingerprint.NISTf.add_Type09`
-                * :func:`NIST.fingerprint.NISTf.add_Type13`
-                * :func:`NIST.fingerprint.NISTf.set_latent`
+            .. seealso ::
+            
+                :func:`~NIST.traditional.NIST.add_Type01`
+                :func:`~NIST.traditional.NIST.add_Type02`
+                :func:`~NIST.fingerprint.NISTf.add_Type09`
+                :func:`~NIST.fingerprint.NISTf.add_Type13`
+                :func:`~NIST.fingerprint.NISTf.set_latent`
         """
         self.add_Type01()
         self.add_Type02()
@@ -1737,12 +1743,13 @@ class NISTf( NIST ):
                 ... }
                 >>> pr = NISTf().init_print( **params )
             
-            See :
-                * :func:`NIST.fingerprint.NISTf.add_Type01`
-                * :func:`NIST.fingerprint.NISTf.add_Type02`
-                * :func:`NIST.fingerprint.NISTf.add_Type04`
-                * :func:`NIST.fingerprint.NISTf.set_print`
-                * :func:`NIST.fingerprint.NISTf.add_Type09`
+            .. seealso ::
+            
+                :func:`~NIST.traditional.NIST.add_Type01`
+                :func:`~NIST.traditional.NIST.add_Type02`
+                :func:`~NIST.fingerprint.NISTf.add_Type04`
+                :func:`~NIST.fingerprint.NISTf.set_print`
+                :func:`~NIST.fingerprint.NISTf.add_Type09`
         """
         self.add_Type01()
         self.add_Type02()
@@ -1761,7 +1768,7 @@ class NISTf( NIST ):
             :return: Latent or print fingerprint NIST object.
             :rtype: NISTf
             
-            :raise notImplemented: if the NIST object does not contain Type04, Type 13 or Type14 data.
+            :raise notImplemented: if the NIST object does not contain Type04, Type13 or Type14 data.
             
             New latent fingermark:
             
@@ -2005,7 +2012,6 @@ class NISTf( NIST ):
     #    Coordinates system
     #    
     ############################################################################
-    
     def mm2px( self, data, idc = -1 ):
         """
             Transformation the coordinates from pixel to millimeters

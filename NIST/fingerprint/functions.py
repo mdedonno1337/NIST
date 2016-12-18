@@ -365,19 +365,55 @@ class Annotation( object ):
     
     def __str__( self ):
         """
-            String representation of an Annotation object.
+            String representation of an Annotation object. Used by the print
+            function.
+            
+            The string representation is the following::
+                
+                Annotation( var1='value1', var2='value2', ... )
         """
         lst = [ ( f, self.__getitem__( f ) ) for f in self._format ]
         return "%s( %s )" % ( self.__class__.__name__, ", ".join( [ "%s='%s'" % a for a in lst ] ) )
     
     def __repr__( self, *args, **kwargs ):
+        """
+            Object representation. This function call the
+            :func:`~NIST.fingerprint.functions.Annotation.__str__` function
+        """
         return self.__str__( *args, **kwargs )    
     
     def __iter__( self ):
+        """
+            Overloading of the :func:`__iter__` function, getting the
+            information directly in the _data variable.
+        """
         for f in self._format:
             yield self._data[ f ]
 
     def __getitem__( self, index ):
+        """
+            Function to get an item stored in the Annotation object like in a
+            `list` object. If the variable is not present in the _data object,
+            'None' is returned.
+            
+            :param index: Index to retrieve
+            :type index: str or int
+            
+            Let 'a' be defined as follow:
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1.0, 2.1, 3.18 ], format = "abc" )
+            
+            To retrieve the variable 'a', you can either call it with the variable name: 
+            
+                >>> a[ 'a' ]
+                1.0
+            
+            or use the index in the Annotation object (here, the fist element, ie the index 0): 
+             
+                >>> a[ 0 ]
+                1.0
+        """
         try:
             if type( index ) == str:
                 return self._data[ index ]
@@ -395,16 +431,23 @@ class Annotation( object ):
             
             :param delta: Offset to apply 
             
-            Usage:
+            Let 'a' be defined as follow:
             
                 >>> from NIST.fingerprint.functions import Annotation
                 >>> a = Annotation( [ 1, 2 ], format = "xy" )
+            
+            To shift the Annotation by a distance `offset`, use the following commands. 
+            
                 >>> offset = ( 10, 12 )
                 >>> a += offset
-                >>> print( a )
+                >>> a
                 Annotation( x='11', y='14' )
                 
-            .. note:: a += delta <=> to a = Annotation.__iadd__( a, delta )
+            .. note:: The following instructions are equivalent:
+                    
+                * a += delta <=> a = a.__iadd__( delta )
+                * a += delta <=> a = Annotation.__iadd__( a, delta )
+                
         """
         dx, dy = delta
         self.x += dx
@@ -413,9 +456,60 @@ class Annotation( object ):
         return self
     
     def __len__( self ):
+        """
+            Get the number of elements to except in the Annotation object (not
+            the effective number of objects stored in this particular object).
+            
+            Let 'a' be defined as follow:
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1, 2, 3 ], format = "xyt" )
+            
+            If the format if changed as follow:
+            
+                >>> a.set_format( format = "xy" )
+            
+            then, the excepted length of the Annotation `a` is:
+            
+                >>> len( a )
+                2
+                >>> a
+                Annotation( x='1', y='2' )
+            
+            even if the data stored is not changed:
+            
+                >>> a._data
+                OrderedDict([('x', 1), ('y', 2), ('t', 3)])
+        """
         return len( self._format )
     
     def __getattr__( self, name ):
+        """
+            Get a value stored in the Annotation object. If the value is not
+            stored in the Annotation object, the 'None' value is returned.
+            
+            Let 'a' be defined as follow:
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1, 2, 3 ], format = "xyt" )
+                
+            To retrieve the variable 'x', use the following command:
+            
+                >>> a.x
+                1
+            
+            .. note:: The following instructions are equivalent:
+            
+                * a.var <=> a.__getattr__( var )
+                * a.var <=> Annotation.__getattr__( a, var )
+                
+            If the variable name is stored in a python variable (dynamic access),
+            the value can be retrived as follow:
+            
+                >>> var = 'x'
+                >>> a.__getattr__( var )
+                1
+        """
         try:
             return self._data[ name ]
         except KeyError:
@@ -426,6 +520,33 @@ class Annotation( object ):
                 raise AttributeError( msg.format( self.__class__.__name__, name ) )
     
     def __setattr__( self, name, value ):
+        """
+            Function to set an attribute in the Annotation object.
+            
+            Let 'a' be defined as follow:
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1, 2, 3 ], format = "xyt" )
+            
+            To change the value of a variable, let say 'x', use the following command:
+            
+                >>> a.x = 18
+                >>> a
+                Annotation( x='18', y='2', t='3' )
+                
+            .. note:: All non-related object variables have to start with '_'.
+            
+            The privates variables 'format' is defined (by the
+            :func:`~NIST.fingerprint.functions.Annotation.set_format`) as follow:
+            
+                >>> a._format = "xyt"
+                >>> a
+                Annotation( x='18', y='2', t='3' )
+            
+            This variable is not related to the Annotation data (ie x, y and t),
+            but have to be store in the Annotation object. All privates
+            variables are not shone in the string representation.
+        """
         if name.startswith( "_" ):
             super( Annotation, self ).__setattr__( name, value )
         
@@ -439,6 +560,47 @@ class Annotation( object ):
 ################################################################################
 
 class AnnotationList( eobject ):
+    """
+        AnnotationList class; generic class to store a list of Annotation
+        objects. The functions implemented in the AnnotationList class are
+        (generally) a wrapper function applied to all Annotation objects stored
+        in the AnnotationList object.
+        
+        To set an AnnotationList from a list of list, use the following command:
+            
+            >>> from NIST.fingerprint.functions import AnnotationList
+            >>> lst = [
+            ...     [  1, 7.85, 7.05, 290, 0, 'A' ],
+            ...     [  2, 13.80, 15.30, 155, 0, 'A' ],
+            ...     [  3, 11.46, 22.32, 224, 0, 'B' ],
+            ...     [  4, 22.61, 25.17, 194, 0, 'A' ],
+            ...     [  5, 6.97, 8.48, 153, 0, 'B' ],
+            ...     [  6, 12.58, 19.88, 346, 0, 'A' ],
+            ...     [  7, 19.69, 19.80, 111, 0, 'C' ],
+            ...     [  8, 12.31, 3.87, 147, 0, 'A' ],
+            ...     [  9, 13.88, 14.29, 330, 0, 'D' ],
+            ...     [ 10, 15.47, 22.49, 271, 0, 'D' ]
+            ... ]
+            >>> minutiae = AnnotationList()
+            >>> minutiae.from_list( lst, "ixytqd" )
+        
+        The string representation of the AnnotationList is similar to the
+        `pprint.pprint` function:
+        
+            >>> minutiae # doctest: +NORMALIZE_WHITESPACE
+            [
+                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
+                Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
+                Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
+                Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+            ]
+    """
     def __init__( self, data = None ):
         if data != None:
             self._data = data

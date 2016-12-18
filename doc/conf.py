@@ -5,8 +5,8 @@ project = u'NIST'
 copyright = u'2016, Marco De Donno'
 author = u'Marco De Donno'
 
-version = u'0.20.0'
-release = u'0.20.0'
+version = u'dev'
+release = u'dev'
 
 ################################################################################
 
