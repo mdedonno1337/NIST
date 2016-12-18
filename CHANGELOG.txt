@@ -1,4 +1,9 @@
-﻿v0.20
+﻿v0.21
+-----
+
+* First Sphinx documentation
+
+v0.20
 -----
 
 * Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
