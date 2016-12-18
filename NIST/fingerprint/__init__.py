@@ -2094,7 +2094,7 @@ class NIST_M1( NISTf ):
             data = map_r( int, data )
             
             # Select the information to retrun
-            ret = []
+            ret = AnnotationList()
             for i, x, y, t, d, q in data:
                 tmp = []
                 
