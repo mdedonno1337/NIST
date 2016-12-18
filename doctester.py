@@ -94,7 +94,13 @@ def NISTtests():
     
     ############################################################################
     
-    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, { 'mark': mark, 'pr': pr } ) )
+    vars = {
+        'mark': mark,
+        'pr': pr,
+        'minutiae': minutiae
+    }
+    
+    tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, vars ) )
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions ) )
     
     ############################################################################
