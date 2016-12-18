@@ -324,7 +324,9 @@ class Annotation( object ):
             with the first argument passed in the __init__() function.
         """
         self.set_format( **kwargs )
-        self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
+        
+        if args != []:
+            self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
         
     def set_format( self, **kwargs ):
         """
