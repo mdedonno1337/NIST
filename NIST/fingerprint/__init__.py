@@ -1296,6 +1296,9 @@ class NISTf( NIST ):
             imgdata = self.get_field( "14.999", idc )
             gca = decode_gca( self.get_field( "14.011", idc ) )
         
+        else:
+            raise notImplemented
+        
         if gca in [ "JP2", "PNG" ]:
             buff = StringIO( imgdata )
             img = Image.open( buff )
@@ -1355,8 +1358,12 @@ class NISTf( NIST ):
         
         if 4 in ntypes:
             ntype = 4
+            
         elif 14 in ntypes:
             ntype = 14
+            
+        else:
+            raise notImplemented
         
         idc = self.checkIDC( ntype, idc )
         self.get_print( "PIL", idc ).save( f )
@@ -1386,9 +1393,13 @@ class NISTf( NIST ):
         
         if 4 in ntypes:
             ntype = 4
+            
         elif 14 in ntypes:
             ntype = 14
-            
+        
+        else:
+            raise notImplemented
+        
         idc = self.checkIDC( ntype, idc )
         self.get_print_annotated( idc ).save( f )
         return os.path.isfile( f )
@@ -1521,7 +1532,10 @@ class NISTf( NIST ):
         elif 14 in ntypes:
             self.set_width( 14, width, idc )
             self.set_height( 14, height, idc )
-    
+        
+        else:
+            raise notImplemented    
+        
     ############################################################################
     # 
     #    Latent and print generic functions
@@ -1560,7 +1574,6 @@ class NISTf( NIST ):
             raise notImplemented
             
     def set_width( self, ntype, value, idc = -1 ):
-        self.set_field( ( ntype, "006" ), value, idc )
         """
             Set the image width for the ntype specified in parameter.
             
@@ -1579,9 +1592,13 @@ class NISTf( NIST ):
             
                 >>> mark.set_width( 13, 500 )
         """
+        if ntype in [ 4, 13, 14 ]:
+            self.set_field( ( ntype, "006" ), value, idc )
+        
+        else:
+            raise notImplemented
     
     def set_height( self, ntype, value, idc = -1 ):
-        self.set_field( ( ntype, "007" ), value, idc )
         """
             Set the image height for the ntype specified in parameter.
             
@@ -1600,6 +1617,11 @@ class NISTf( NIST ):
             
                 >>> mark.set_height( 13, 500 )
         """
+        if ntype in [ 4, 13, 14 ]:
+            self.set_field( ( ntype, "007" ), value, idc )
+        
+        else:
+            raise notImplemented
     
     def set_size( self, value, idc = -1 ):
         """
@@ -1868,7 +1890,7 @@ class NISTf( NIST ):
             return self
         
         else:
-            raise Exception()
+            raise notImplemented
     
     ############################################################################
     # 
