@@ -378,16 +378,16 @@ class Annotation( object ):
             yield self._data[ f ]
 
     def __getitem__( self, index ):
-        if type( index ) == str:
-            try:
+        try:
+            if type( index ) == str:
                 return self._data[ index ]
+                
+            elif type( index ) == int:
+                return self._data[ self._data.keys()[ index ] ]
             
-            except KeyError:
-                return None
-            
-        elif type( index ) == int:
-            return self._data[ self._data.keys()[ index ] ]
-    
+        except KeyError:
+            return None
+        
     def __iadd__( self, delta ):
         """
             Overlaod of the '+=' operator, allowing to offset an Annotation with
