@@ -335,8 +335,7 @@ class Annotation( object ):
         """
         self._format = kwargs.get( 'format', 'i' )
     
-    def as_list( self ):
-        return [ self._data[ key ] for key in self._format ]
+    def as_list( self, format = None ):
         """
             Return a list version of the Annotation object.
             
@@ -355,6 +354,10 @@ class Annotation( object ):
                 >>> a.as_list( "ab" )
                 [1.0, 2.1]
         """
+        if format == None:
+            format = self._format
+            
+        return [ self._data[ key ] for key in format ]
     
     ############################################################################
     
