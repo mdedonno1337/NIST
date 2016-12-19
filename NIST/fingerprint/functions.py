@@ -429,20 +429,25 @@ class Annotation( object ):
             Overlaod of the '+=' operator, allowing to offset an Annotation with
             a tuple ( dx, dy ).
             
-            :param delta: Offset to apply 
+            :param delta: Offset to apply
+            :type delta: tuple
             
             Let 'a' be defined as follow:
             
                 >>> from NIST.fingerprint.functions import Annotation
-                >>> a = Annotation( [ 1, 2 ], format = "xy" )
+                >>> a = Annotation( [ 1, 2, 3 ], format = "xyt" )
+                >>> a
+                Annotation( x='1', y='2', t='3' )
             
             To shift the Annotation by a distance `offset`, use the following commands. 
             
                 >>> offset = ( 10, 12 )
                 >>> a += offset
                 >>> a
-                Annotation( x='11', y='14' )
-                
+                Annotation( x='11', y='14', t='3' )
+            
+            .. note:: This function works only for ( x, y ) coordinates. The other variables stores in the `Annotation` object are not changed.
+            
             .. note:: The following instructions are equivalent:
                     
                 * a += delta <=> a = a.__iadd__( delta )
@@ -565,27 +570,177 @@ class AnnotationList( eobject ):
         objects. The functions implemented in the AnnotationList class are
         (generally) a wrapper function applied to all Annotation objects stored
         in the AnnotationList object.
-        
-        To set an AnnotationList from a list of list, use the following command:
+    """
+    def __init__( self, data = None ):
+        """
+            Initialization of the AnnotationList object, and set the data if
+            provided.
             
-            >>> from NIST.fingerprint.functions import AnnotationList
-            >>> lst = [
-            ...     [  1, 7.85, 7.05, 290, 0, 'A' ],
-            ...     [  2, 13.80, 15.30, 155, 0, 'A' ],
-            ...     [  3, 11.46, 22.32, 224, 0, 'B' ],
-            ...     [  4, 22.61, 25.17, 194, 0, 'A' ],
-            ...     [  5, 6.97, 8.48, 153, 0, 'B' ],
-            ...     [  6, 12.58, 19.88, 346, 0, 'A' ],
-            ...     [  7, 19.69, 19.80, 111, 0, 'C' ],
-            ...     [  8, 12.31, 3.87, 147, 0, 'A' ],
-            ...     [  9, 13.88, 14.29, 330, 0, 'D' ],
-            ...     [ 10, 15.47, 22.49, 271, 0, 'D' ]
-            ... ]
-            >>> minutiae = AnnotationList()
-            >>> minutiae.from_list( lst, "ixytqd" )
+            :param data: Input data
+            :type data: list of Annotation
+        """
+        if data != None:
+            self._data = data
+        else:
+            self._data = []
+    
+    def set_format( self, format ):
+        """
+            Change the format for all Annotations stored in the AnnotationList
+            object.
+            
+            :param format: Format to change to.
+            :type format: str
+            
+            Usage :
+            
+                >>> minutiae.set_format( 'xy' )
+                >>> minutiae # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( x='7.85', y='7.05' ),
+                    Minutia( x='13.8', y='15.3' ),
+                    Minutia( x='11.46', y='22.32' ),
+                    Minutia( x='22.61', y='25.17' ),
+                    Minutia( x='6.97', y='8.48' ),
+                    Minutia( x='12.58', y='19.88' ),
+                    Minutia( x='19.69', y='19.8' ),
+                    Minutia( x='12.31', y='3.87' ),
+                    Minutia( x='13.88', y='14.29' ),
+                    Minutia( x='15.47', y='22.49' )
+                ]
+        """
+        if not format == None:
+            for a in self._data:
+                a.set_format( format = format )
+
+    def get_by_type( self, designation, format = None ):
+        """
+            Filter the content of the AnnotationList by type designation.
+            
+            :param designation: Type designation to filter upon
+            :type designation: str or list
+            
+            :param format: Format of the AnnotationList to return
+            :type format: str or lst
+            
+            Usage:
+            
+                >>> minutiae.get_by_type( 'D' ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
+                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                ]
+        """
+        self.set_format( format )
         
-        The string representation of the AnnotationList is similar to the
-        `pprint.pprint` function:
+        return AnnotationList( [ a for a in self._data if a.d in designation ] )
+    
+    def as_list( self ):
+        """
+            Return the current object data as list.
+            
+            Usage:
+            
+                >>> minutiae.as_list()
+                [[1, 7.85, 7.05, 290, 0, 'A'], [2, 13.8, 15.3, 155, 0, 'A'], [3, 11.46, 22.32, 224, 0, 'B'], [4, 22.61, 25.17, 194, 0, 'A'], [5, 6.97, 8.48, 153, 0, 'B'], [6, 12.58, 19.88, 346, 0, 'A'], [7, 19.69, 19.8, 111, 0, 'C'], [8, 12.31, 3.87, 147, 0, 'A'], [9, 13.88, 14.29, 330, 0, 'D'], [10, 15.47, 22.49, 271, 0, 'D']]
+
+        """
+        return [ a.as_list() for a in self._data ]
+    
+    def get( self, format ):
+        """
+            Get a copy of the current object with a specific format.
+            
+            :param format: Format of the AnnotationList to return.
+            :type format: str or lst
+            
+            :return: A new AnnotationList.
+            :rtype: AnnotationList
+            
+            Usage:
+            
+                >>> tmp = minutiae.get( 'ixytqd' )
+                >>> tmp == minutiae
+                False
+            
+            .. note::
+            
+                Since the function return a copy of the current object, the two
+                objects are separate in memory, allowing to modify one and not
+                the other (reason why `minutiae2` is not equal to `minutiae`,
+                even if the content is the same).
+        """
+        tmp = deepcopy( self )
+        tmp.set_format( format )
+        return tmp
+    
+    def append( self, value ):
+        """
+            Function to append an element at the end of the AnnotationList.
+            
+            :param value: Annotation to add to the AnnotationList
+            :type value: Annotation
+            
+            Let a the objects `a` and `tmp` be defined as follow:
+            
+                >>> from NIST.fingerprint.functions import Minutia
+                >>> a = Minutia( [ 11, 22.67, 1.49, 325, 0, 'A' ], format = 'ixytqd' )
+                >>> tmp = minutiae.get_by_type( 'A' )
+            
+            Then:
+            
+                >>> tmp.append( a )
+                >>> tmp # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
+                    Minutia( i='11', x='22.67', y='1.49', t='325', q='0', d='A' )
+                ]
+        """
+        self._data.append( value )
+    
+    def from_list( self, data, format = None ):
+        """
+            Load the data from a list of lists.
+            
+            :param data: Data to load in the AnnotationList object.
+            :type data: list of lists
+            
+            Usage:
+            
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> lst = [
+                ...     [  1, 7.85, 7.05, 290, 0, 'A' ],
+                ...     [  2, 13.80, 15.30, 155, 0, 'A' ],
+                ...     [  3, 11.46, 22.32, 224, 0, 'B' ],
+                ...     [  4, 22.61, 25.17, 194, 0, 'A' ],
+                ...     [  5, 6.97, 8.48, 153, 0, 'B' ],
+                ...     [  6, 12.58, 19.88, 346, 0, 'A' ],
+                ...     [  7, 19.69, 19.80, 111, 0, 'C' ],
+                ...     [  8, 12.31, 3.87, 147, 0, 'A' ],
+                ...     [  9, 13.88, 14.29, 330, 0, 'D' ],
+                ...     [ 10, 15.47, 22.49, 271, 0, 'D' ]
+                ... ]
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( lst, "ixytqd" )
+        """
+        self._data = [ Minutia( d, format = format ) for d in data ]
+        try:
+            if not "i" in format:
+                for id, _ in enumerate( self._data ):
+                    self._data[ id ].i = id + 1
+        except:
+            pass
+        
+    ############################################################################
+    
+    def __str__( self ):
+        """
+        Function to generate a string representation of the AnnotationList
+        object. This string is similar to the `pprint.pprint` function:
         
             >>> minutiae # doctest: +NORMALIZE_WHITESPACE
             [
@@ -600,65 +755,74 @@ class AnnotationList( eobject ):
                 Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
                 Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
             ]
-    """
-    def __init__( self, data = None ):
-        if data != None:
-            self._data = data
-        else:
-            self._data = []
-    
-    def set_format( self, format ):
-        if not format == None:
-            for a in self._data:
-                a.set_format( format = format )
-
-    def get_by_type( self, designation, format = None ):
-        self.set_format( format )
+        """
         
-        return AnnotationList( [ a for a in self._data if a.d in designation ] )
-    
-    def as_list( self ):
-        return [ a.as_list() for a in self._data ]
-    
-    def get( self, format ):
-        tmp = deepcopy( self )
-        tmp.set_format( format )
-        return tmp
-    
-    def append( self, value ):
-        self._data.append( value )
-    
-    def from_list( self, data, format = None ):
-        self._data = [ Minutia( d, format = format ) for d in data ]
-        try:
-            if not "i" in format:
-                for id, _ in enumerate( self._data ):
-                    self._data[ id ].i = id + 1
-        except:
-            pass
-        
-    ############################################################################
-    
-    def __str__( self ):
         return "[\n%s\n]" % ",\n".join( [ "\t" + str( m ) for m in self._data ] )
     
     def __repr__( self, *args, **kwargs ):
+        """
+            Object representation of the AnnotationList. Call the
+            :func:`~NIST.fingerprint.functions.AnnotationList.__str__` function.
+        """
         return self.__str__( *args, **kwargs )
     
     def __iter__( self ):
+        """
+            Return an generator function over the data contained in the list.
+            
+            :return: Data contained in the AnnotationList
+            :rtype: generator
+        """
         for a in self._data:
             yield a
     
     def __getitem__( self, index ):
+        """
+            Function to get a specific Annotation from the AnnotationList object.
+            
+            :param index: Index of the value to retrive.
+            :type index: int
+        """
         return self._data[ index ]
     
     def __setitem__( self, key, value ):
+        """
+            Set a value in the AnnotationList object.
+            
+            :param key: Key to set.
+            :type: int
+            
+            :param value: Value to set.
+            :type value: Annotation
+        """
         self._data[ key ] = value
     
     def __len__( self ):
+        """
+            Get the number of Annotations in the AnnotationList.
+            
+            :return: Number of Annotations in the AnnotataionList object.
+            :rtype: int
+            
+            Usage:
+            
+                >>> len( minutiae )
+                10
+        """
         return len( self._data )
     
     def __iadd__( self, delta ):
+        """
+            Function to call the `__iadd__()` function of each element in the
+            AnnotationList object, ie shifting all Annotations by a value of
+            `delta`.
+            
+            :param delta: Offset to apply
+            :type delta: tuple
+            
+            See :func:`NIST.fingerprint.functions.Annotation.__iadd__` for more details.
+            
+        """
         self.apply_to_all( "__iadd__", self._data, delta )
         
         return self
@@ -670,6 +834,9 @@ class AnnotationList( eobject ):
 ################################################################################
 
 class Minutia( Annotation ):
+    """
+        Overload of the :func:`NIST.fingerprint.functions.Annotation` class.
+    """
     def set_format( self, **kwargs ):
         format = kwargs.get( 'format', None )
         if format == None:
@@ -688,5 +855,8 @@ class Minutia( Annotation ):
         }[ field ]
 
 class Core( Annotation ):
+    """
+        Overload of the :func:`NIST.fingerprint.functions.Annotation` class.
+    """
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "ixy" )
