@@ -72,7 +72,7 @@ def lstTo012( lst, format = None ):
     """
     if isinstance( lst, list ):
         tmp = AnnotationList()
-        tmp.from_list( lst, format = format )
+        tmp.from_list( lst, format = format, type = 'Minutia' )
         lst = tmp
         
     if len( lst ) == 0:
@@ -702,7 +702,7 @@ class AnnotationList( eobject ):
         """
         self._data.append( value )
     
-    def from_list( self, data, format = None ):
+    def from_list( self, data, format = None, type = "Annotation" ):
         """
             Load the data from a list of lists.
             
@@ -725,9 +725,28 @@ class AnnotationList( eobject ):
                 ...     [ 10, 15.47, 22.49, 271, 0, 'D' ]
                 ... ]
                 >>> minutiae = AnnotationList()
-                >>> minutiae.from_list( lst, "ixytqd" )
+                >>> minutiae.from_list( lst, format = 'ixytqd', type = 'Minutia' )
+                >>> minutiae # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
+                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
+                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                ]
         """
-        self._data = [ Minutia( d, format = format ) for d in data ]
+        try:
+            cls = AnnotationTypes[ type ]
+            
+        except KeyError:
+            cls = Annotation
+        
+        self._data = [ cls( d, format = format ) for d in data ]
         try:
             if not "i" in format:
                 for id, _ in enumerate( self._data ):
@@ -860,3 +879,15 @@ class Core( Annotation ):
     """
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "ixy" )
+
+################################################################################
+# 
+#    List of all Annotation objects
+# 
+################################################################################
+
+AnnotationTypes = {
+    'Annotation': Annotation,
+    'Minutia': Minutia,
+    'Core': Core
+}

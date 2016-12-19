@@ -66,7 +66,7 @@ def NISTtests():
     ]
     
     minutiae = AnnotationList()
-    minutiae.from_list( lst, "ixytqd" )
+    minutiae.from_list( lst, format = "ixytqd", type = 'Minutia' )
     
     ############################################################################
     

@@ -5,6 +5,7 @@ Dev
 ~~~~~
 
 * First Sphinx documentation
+* Add the paramter in the `AnnotationList` class to select the type of Annotation stored (Annotation, Minutia or Core).
 
 Changes since latest release:
 
