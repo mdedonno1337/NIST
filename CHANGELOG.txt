@@ -1,10 +1,16 @@
 ﻿Pre-release
 -----------
 
-v0.21
+Dev
 ~~~~~
 
 * First Sphinx documentation
+
+Changes since latest release:
+
+.. git_changelog::
+    :rev-list: latest..
+    
 
 v0.20 (2016-12-18)
 ~~~~~~~~~~~~~~~~~~
