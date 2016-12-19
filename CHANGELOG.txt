@@ -6,8 +6,8 @@ v0.21
 
 * First Sphinx documentation
 
-v0.20
-~~~~~
+v0.20 (2016-12-18)
+~~~~~~~~~~~~~~~~~~
 
 * Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
 * Add **options in various functions to allow func( **params ) calls.
@@ -18,15 +18,15 @@ v0.20
 * Store the result of the self.get_ntype() if multiple calls have to be done in the same function (performance issues).
 * Change default standard value to '0300'.
 
-v0.19
-~~~~~
+v0.19 (2016-12-01)
+~~~~~~~~~~~~~~~~~~
 
 * Add the Annotation, Minutia, Core classes
 * Add the AnnotationList class
 * Change the format of the Minutiae and Core stored in the NIST object (from list to Minutia() and Core() object).
 
-v0.18
-~~~~~
+v0.18 (2016-11-22)
+~~~~~~~~~~~~~~~~~~
 
 * Split the 'crop()' function in 'crop_latent()' and 'crop_print()' functions.
 * Delete all empty IDC and ntypes in the clean() function.
@@ -37,8 +37,8 @@ v0.18
 * Add support for PNG format.
 * Optimization of the get_latent_annotated(), get_print_annotated() and get_annotated() functions.
 
-v0.17
-~~~~~
+v0.17 (2016-09-20)
+~~~~~~~~~~~~~~~~~~
 
 * Auto-increment of the Minutia id if not provided.
 * Add the 'set_cores()' function.
@@ -51,8 +51,8 @@ v0.17
 * Check the IDC field (x.002) for each ntype in the clean() function.
 * Patch the fields 1.011 and 1.012 according to the NIST standard.
 
-v0.16
-~~~~~
+v0.16 (2016-08-17)
+~~~~~~~~~~~~~~~~~~
 
 * Add the function to crop fingermark and fingerprint images.
 * Add support for uncompressed (RAW) Type-04 images, and adapt the 'changeResolution()' function.
@@ -60,8 +60,8 @@ v0.16
 * Add the 'export_latent()' and 'export_print()', and the annotated equivalent functions.
 * Add support to crop Type13 and Type04 images.
 
-v0.15
-~~~~~
+v0.15 (2016-08-14)
+~~~~~~~~~~~~~~~~~~
 
 * Add the first attempt for NIST object with M1 annotation format.
 * Add misc functions.
@@ -73,8 +73,8 @@ v0.15
 * Change the name of the main class in the Morpho module.
 * Use of the Python3 division module.
 
-v0.14
-~~~~~
+v0.14 (2016-07-11)
+~~~~~~~~~~~~~~~~~~
 
 * Add functions related to the image processing (get the latent annotated, quality map, ...).
 * Change the format of the NIST object representation (non prittable character, ...).
@@ -84,8 +84,8 @@ v0.14
 * Add support for passing tuple in the set_field() function instead of a tag-string.
 * Add the functions get_diptych() and get_tetraptych()
 
-v0.13
-~~~~~
+v0.13 (2016-07-06)
+~~~~~~~~~~~~~~~~~~
 
 * Extend the NIST-fingerprint library to work with the ULWLQMetric module (added in the default installer).
 * Misc patches.
@@ -95,24 +95,24 @@ v0.13
 * Move the version of the standard in a class attribute (changeable on the fly).
 * Add the function get_minutiae_all() to get the minutiae from all fingers in one list of lists.
 
-v0.12
-~~~~~
+v0.12 (2016-06-29)
+~~~~~~~~~~~~~~~~~~
 
 * Update the names of the imports.
 * Deprecation of the get_image() function.
 * First version of the function to work with fingerprints (get_print() to get the PIL or WSQ image) from 4.999 WSQ encoded image.
 * Patch the get_minutiae() function (order of values).
 
-v0.11
-~~~~~
+v0.11 (2016-06-26)
+~~~~~~~~~~~~~~~~~~
 
 * Add the versioneer module to manage the version name in the setup file produced. 
 * Modification of the structure of the module: separation of the traditional module from the fingerprint functions.
 * Change the parameter 'minutiae' in NIST.fingerprint.NISTf.add_Type09() to optional.
 * Misc optimizations.
 
-v0.10
-~~~~~
+v0.10 (2016-06-25)
+~~~~~~~~~~~~~~~~~~
 
 * Update from distutils.core to setuptools
 * Count the number of minutiae present in the NIST object (field 9.010).
@@ -120,8 +120,8 @@ v0.10
 * Function to add default empty records (Type-01, Type-02, Type-09 and Type-13).
 * Code cleaning.
 
-v0.9
-~~~~
+v0.9 (2016-06-19)
+~~~~~~~~~~~~~~~~~
 
 * Change in the structure of the package, and addition of the __init__ file to load the NIST package
 * Rewriting of the doctest.py module.
@@ -129,8 +129,8 @@ v0.9
 * Documentation of all fields (name and abbreviation) 
 * Type-14, Type-10, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98 and Type-99 parser
 
-v0.8
-~~~~
+v0.8 (2016-06-18)
+~~~~~~~~~~~~~~~~~
 
 * Function to delete a ntype, idc or field
 * Updater for the File Content field (1.003) based on the content of the NIST object
@@ -141,8 +141,8 @@ v0.8
 * Bug fix for the data in 999 tagid
 * Bug fix for the order of the excepted ntype
 
-v0.7
-~~~~
+v0.7 (2016-06-17)
+~~~~~~~~~~~~~~~~~
 
 * Warning for unsupported Type
 * Type-04 parser
@@ -151,14 +151,14 @@ v0.7
 * Functions for image format transform (PIL <-> RAW)
 * Get and set the latent friction ridge image (Type-13) in PIL and RAW format
 
-v0.6
----
+v0.6 (2016-06-17)
+~~~~~~~~~~~~~~~~~
 
 * Parser between the 9.012 field and the minutiae table
 * Function to return the minutiae table
 
-v0.5
-~~~~
+v0.5 (2016-06-16)
+~~~~~~~~~~~~~~~~~
 
 * Autoloader (to detect the type (NIST object or URI to file) and load it in memory
 * @deprecated decorator for sort deprecation (backward compatibility)
@@ -166,8 +166,8 @@ v0.5
 * Function to get the content of a field via the field-tag
 * tagSplitter function
 
-v0.4
-~~~~
+v0.4 (2016-06-16)
+~~~~~~~~~~~~~~~~~
 
 * __str__ and __repr__ functions
 * Function to write the NIST object to disk
@@ -178,8 +178,8 @@ v0.4
 * Function to clean the self.data (deletion of empty fields)
 * Add some fields in the LABEL variable
 
-v0.3
-~~~~
+v0.3 (2016-06-12)
+~~~~~~~~~~~~~~~~~
 
 * Function to dump the content of the NIST object in a string variable
 * Add the leveler function
@@ -187,16 +187,16 @@ v0.3
 * Functions to get the list of ntype and idc's
 * Move the Logger class to the misc library.
 
-v0.2
-~~~~
+v0.2 (2016-06-12)
+~~~~~~~~~~~~~~~~~
 
 * Function to process the File Content (field 1.003)
 * LABEL of some fields
 * Debug information
 * Binary onscreen dumper
 
-v0.1
-~~~~
+v0.1 (2016-06-11)
+~~~~~~~~~~~~~~~~~
 
 * First version of the parser for Type-01, Type-02, Type-09 and Type-13
 * Initial commit
