@@ -149,7 +149,7 @@ class NIST_MDD( NISTf ):
         """
         
         img = super().get_latent_annotated( idc )
-        img = self.annotate( img, self.get_minutiae_paired( "xy", idc ), "pairing" )
+        img = self.annotate( img, self.get_minutiae_paired( idc ), "pairing" )
         
         return img
     
@@ -162,7 +162,7 @@ class NIST_MDD( NISTf ):
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = super().get_print_annotated( idc )
-        img = self.annotate( img, self.get_minutiae_paired( "xy", idc ), "pairing" )
+        img = self.annotate( img, self.get_minutiae_paired( idc ), "pairing" )
         
         return img
     
@@ -194,7 +194,7 @@ class NIST_MDD( NISTf ):
             pairingcolor = Image.new( 'RGBA', pairingmark.size, red )
             
             for d in data:
-                cx, cy = d
+                cx, cy = d.x, d.y
                 
                 cx = cx / 25.4 * res
                 cy = cy / 25.4 * res

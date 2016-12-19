@@ -806,7 +806,7 @@ class NISTf( NIST ):
             
             Usage:
             
-                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae( 'xyt' ) ) # doctest: +ELLIPSIS
+                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae() ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         image = image.convert( "RGB" )
@@ -832,9 +832,10 @@ class NISTf( NIST ):
                 newsize = ( int( endmark.size[ 0 ] * fac ), int( endmark.size[ 1 ] * fac ) )
                 endmark = endmark.resize( newsize, Image.BICUBIC )
                 
-                for x, y, theta in data: 
-                    x = x / 25.4 * res
-                    y = y / 25.4 * res
+                for m in data: 
+                    x = m.x / 25.4 * res
+                    y = m.y / 25.4 * res
+                    theta = m.t
                     
                     y = height - y
                     
@@ -993,7 +994,7 @@ class NISTf( NIST ):
         img = self.get_latent( 'PIL', idc )
         
         try:
-            img = self.annotate( img, self.get_minutiae( "xyt", idc ), "minutiae" )
+            img = self.annotate( img, self.get_minutiae( idc ), "minutiae" )
             img = self.annotate( img, self.get_cores( idc ), "center" )
         except recordNotFound:
             pass
@@ -1419,7 +1420,7 @@ class NISTf( NIST ):
                 >>> pr.get_print_annotated() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( "xyt", idc ), "minutiae", self.get_resolution( idc ) )
+        img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( idc ), "minutiae", self.get_resolution( idc ) )
         img = self.annotate( img, self.get_cores( idc ), "center", self.get_resolution( idc ) )
         
         return img
