@@ -38,4 +38,5 @@ unittest.TextTestRunner( verbosity = 2 ).run( doctester.NISTtests() )
 wd = os.path.abspath( "./doc" )
 make = "C:/MinGW/msys/1.0/bin/make.exe"
 
-subprocess.Popen( [ make, 'html' ], cwd = wd, stdout = subprocess.PIPE, stderr = subprocess.PIPE ).communicate()
+for p in subprocess.Popen( [ make, 'html' ], cwd = wd, stdout = subprocess.PIPE, stderr = subprocess.PIPE ).communicate():
+    print p
