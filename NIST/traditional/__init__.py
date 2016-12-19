@@ -49,8 +49,6 @@ class NIST( object ):
         self.filename = None
         self.data = defDict()
         
-        self.ntypeInOrder = []
-        
         self.date = datetime.datetime.now().strftime( "%Y%m%d" )
         self.timestamp = int( time.time() )
         
@@ -156,6 +154,8 @@ class NIST( object ):
         t01 = records[ 0 ].split( GS )
         record01 = {}
         
+        ntypeInOrder = []
+        
         for field in t01:
             tag, ntype, tagid, value = fieldSplitter( field )
             
@@ -163,7 +163,7 @@ class NIST( object ):
                 LEN = int( value )
             
             if tagid == 3:
-                self.process_fileContent( value )
+                ntypeInOrder = self.process_fileContent( value )
             
             debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, value ), 2 )
             record01[ tagid ] = value
@@ -172,9 +172,9 @@ class NIST( object ):
         data = data[ LEN: ]
         
         #    NIST Type02 and after
-        debug.debug( "Expected Types : %s" % ", ".join( map( str, self.ntypeInOrder ) ), 1 )
+        debug.debug( "Expected Types : %s" % ", ".join( map( str, ntypeInOrder ) ), 1 )
         
-        for ntype in self.ntypeInOrder:
+        for ntype in ntypeInOrder:
             debug.debug( "Type-%02d parsing" % ntype, 1 )
             LEN = 0
             
@@ -290,8 +290,7 @@ class NIST( object ):
         
         self.nbLogicalRecords = data[ 0 ][ 1 ]
         
-        for ntype, idc in data[ 1: ]:
-            self.ntypeInOrder.append( ntype )
+        return [ ntype for ntype, idc in data[ 1: ] ]
     
     ############################################################################
     # 
