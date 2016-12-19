@@ -28,18 +28,37 @@ from .voidType import voidType
 #    NIST object class
 # 
 ################################################################################
+
 class NIST( object ):
+    """
+        This is the main NIST object parser. This class is build to be main
+        core/processing unit of any NIST implementation (ie. the application for
+        Fingerprint, DNA, ...). Any new application have to inherit from this
+        class, add new methods, and overload some other methods if needed. The
+        main API of this class have to be consistent to allow cross usability
+        between particular implementations.
+        
+        This class implement all function to work with Traditional format AN2K
+        files, aka NIST files. A description of this standard can be found at:
+        
+            https://www.nist.gov/itl/iad/image-group/ansinist-itl-standard-references
+            
+        The XML format is (for the moment) not supported.
+    """
     def __init__( self, init = None ):
         """
             Initialization of the NIST Object.
+            
+            :param init: Initialization data. Can be a NIST object, a file link, or a raw string.
+            :type init: NIST or str
             
             All biometric information are stored in the self.data recursive
             default dictionary object. The information is stored as following:
             
                 self.data[ ntype ][ idc ][ tagid ]
             
-            To get and set data, use the self.get_field() and self_set_field()
-            functions.
+            To get and set data, use the :func:`~NIST.traditional.NIST.get_field`
+            and :func:`~NIST.traditional.NIST.set_field()` functions.
         """
         debug.info( "Initialization of the NIST object" )
         
@@ -65,12 +84,18 @@ class NIST( object ):
         """
             Set the identifier of the current NIST object. Not stored in the
             NIST file if written to disk.
+            
+            :param id: Identifier to set to the NIST object.
+            :type id: anything
         """
         self.id = id
     
     def get_identifier( self ):
         """
             Get the identifier of the current object.
+            
+            :return: NIST Object identifier.
+            :rtype: anything
         """
         try:
             return self.id
@@ -89,8 +114,12 @@ class NIST( object ):
             associated with the new class are, of course, available in the
             current object after the change.
             
+            Let `n` be a NIST object as follow:
+            
                 >>> type( n )
                 <class 'NIST.traditional.__init__.NIST'>
+            
+            To change the type to `NISTf` type, use the following commands:
                 
                 >>> from NIST import NISTf
                 >>> n.changeClassTo( NISTf )
@@ -108,6 +137,17 @@ class NIST( object ):
     def read( self, infile ):
         """
             Open the 'infile' file and transmit the data to the 'load' function.
+            
+            :param infile: URI of the NIST file to read and load.
+            :type infile: str
+            
+            Usage:
+                
+                >>> from NIST import NIST
+                >>> n = NIST()
+                >>> n.read( "./sample/pass-type-9-13-m1.an2" )
+                >>> n
+                NIST object, Type-01, Type-02, Type-09, Type-13
         """
         debug.info( "Reading from file : %s" % infile )
         
@@ -124,6 +164,9 @@ class NIST( object ):
             Function to detect and load automatically the 'p' value passed in
             parameter. The argument 'p' can be a string (URI to the file to
             load) or a NIST object (a copy will be done in the current object).
+            
+            :param p: Input data to parse to NIST object.
+            :type p: NIST or str
         """
         if type( p ) == str:
             if ifany( [ FS, GS, RS, US ], p ):
@@ -142,7 +185,12 @@ class NIST( object ):
     
     def load( self, data ):
         """
-            Load from the data passed in parameter, and populate all internal dictionaries.
+            Load from the data passed in parameter, and populate all internal
+            dictionaries. This function is the main function doing the decoding
+            of the NIST file.
+            
+            :param data: Raw data read from file.
+            :type data: str
         """
         debug.info( "Loading object" )
         
@@ -281,6 +329,18 @@ class NIST( object ):
     def process_fileContent( self, data ):
         """
             Function to process the 1.003 field passed in parameter.
+            
+            :param data: Content of the field 1.003.
+            :type data: str
+            
+            :return: List of ntypes present in the NIST file, except the Type01.
+            :rtype: lst
+            
+            Usage:
+            
+                >>> fileContent = n.get_field( "1.003" )
+                >>> n.process_fileContent( fileContent )
+                [2]
         """
         try:
             data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
@@ -301,7 +361,11 @@ class NIST( object ):
     def update( self, b ):
         """
             Update the fields from the current NIST object with a NIST object
-            passed in parameter.
+            passed in parameter. If the field already exist and is not empty,
+            the value is updated, otherwise, the field is created.
+            
+            :param b: Second NIST object from wich collect the new information.
+            :type b: NIST
         """
         for ntype in b.get_ntype():
             for idc in b.get_idc( ntype ):
@@ -311,6 +375,21 @@ class NIST( object ):
         self.clean()
     
     def merge( self, other, update = False, ignore = False ):
+        """
+            Merge two NIST files together.
+            
+            :param other: Second NIST object.
+            :type other: NIST
+            
+            :param update: Update the fields if already existing in the first NIST object.
+            :type update: boolean
+            
+            :param ignore: Ignore the IDC content if already in the first NIST object.
+            :type ignore: boolean
+            
+            :return: Merged NIST object.
+            :rtype: NIST
+        """
         ret = deepcopy( self )
         
         for ntype in other.get_ntype():
@@ -335,6 +414,10 @@ class NIST( object ):
         return ret
     
     def __add__( self, other ):
+        """
+            Overload of the '+' operator. Call of the
+            :func:`~NIST.traditional.NIST.merge` function.
+        """
         return self.merge( other )
     
     ############################################################################
@@ -347,16 +430,26 @@ class NIST( object ):
         """
             Function to delete a specific Type-'ntype', IDC or field.
             
-            To delete the Type-09 record:
+            :param ntype: ntype (or tagid) to delete.
+            :type ntype: int (str)
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            To delete the Type-09 record::
+            
                 n.delete( 9 )
             
-            To delete the Type-09 IDC 0:
+            To delete the Type-09 IDC 0::
+            
                 n.delete( 9, 0 )
             
-            To delete the field "9.012":
+            To delete the field "9.012"::
+            
                 n.delete( "9.012" )
             
-            To delete the field "9.012" IDC 0:
+            To delete the field "9.012" IDC 0::
+            
                 n.delete( "9.012", 0 )
             
         """
@@ -371,7 +464,12 @@ class NIST( object ):
         
     def delete_ntype( self, ntype ):
         """
-            Delete the 'ntype' record.
+            Delete a specific 'ntype' record.
+            
+            :param ntype: ntype to delete.
+            :type ntype: int
+            
+            :raise ntypeNotFound: if the ntype is not present in the NIST object
         """
         if self.data.has_key( ntype ):
             del( self.data[ ntype ] )
@@ -381,6 +479,14 @@ class NIST( object ):
     def delete_idc( self, ntype, idc ):
         """
             Delete the specific IDC passed in parameter from 'ntype' record.
+            
+            :param ntype: ntype to delete.
+            :type ntype: int
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :raise idcNotFound: if the IDC for the ntype is not present in the NIST object
         """
         if self.data.has_key( ntype ) and self.data[ ntype ].has_key( idc ):
             del( self.data[ ntype ][ idc ] )
@@ -390,6 +496,14 @@ class NIST( object ):
     def delete_tag( self, tag, idc = -1 ):
         """
             Delete the field 'tag' from the specific IDC.
+            
+            :param tag: tagid to delete.
+            :type tag: str
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :raise tagNotFound: if the tagid is not present in the NIST object
         """
         ntype, tagid = tagSplitter( tag )
         
@@ -401,6 +515,18 @@ class NIST( object ):
             raise tagNotFound
     
     def move_idc( self, ntype, idcfrom, idcto ):
+        """
+            Move an IDC to an other value.
+            
+            :param ntype: ntype value.
+            :type ntype: int
+            
+            :param idcfrom: IDC to move.
+            :type idcfrom: int
+            
+            :param idcto: destination IDC.
+            :type idcfrom: int
+        """
         self.data[ ntype ][ idcto ] = self.data[ ntype ][ idcfrom ]
         del self.data[ ntype ][ idcfrom ]
     
@@ -414,6 +540,20 @@ class NIST( object ):
         """
             Return the value or the hexadecimal representation of the value for
             binary fields.
+            
+            :param ntype: ntype value.
+            :type ntype: int
+            
+            :param tagid: fild name.
+            :type tagid: str
+            
+            :param idc: IDC value
+            :type idc: int
+            
+            :return: Formatted field.
+            :rtype: str
+            
+            Usage:
             
                 >>> n.format_field( 1, 8 )
                 'UNIL'
@@ -432,6 +572,20 @@ class NIST( object ):
     def dump_record( self, ntype, idc = 0, fullname = False ):
         """
             Dump a specific ntype - IDC record.
+            
+            :param ntype: ntype value.
+            :type ntype: int
+            
+            :param idc: IDC value
+            :type idc: int
+            
+            :param fullname: Get the full name of the field.
+            :type fullname: boolean
+            
+            :return: Printable string.
+            :rtype: str
+            
+            Usage:
             
                 >>> dump = n.dump_record( 1, 0 )
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
@@ -471,6 +625,14 @@ class NIST( object ):
     def dump( self, fullname = False ):
         """
             Return a readable version of the NIST object. Printable on screen.
+            
+            :param fullname: Get the fullname of the fields.
+            :type fullname: boolean
+            
+            :return: Printable representation of the NIST object.
+            :rtype: str
+            
+            Usage:
             
                 >>> dump = n.dump()
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
@@ -529,6 +691,9 @@ class NIST( object ):
     def dumpbin( self ):
         """
             Return a binary dump of the NIST object. Writable in a file ("wb" mode).
+            
+            :return: Binary representation of the NIST object.
+            :rtype: str
         """
         debug.info( "Dumping NIST in binary" )
         
@@ -559,6 +724,9 @@ class NIST( object ):
     def write( self, outfile ):
         """
             Write the NIST object to a specific file.
+            
+            :param outfile: URI of the file to write to.
+            :type outfile: str
         """
         debug.info( "Write the NIST object to '%s'" % outfile )
         
@@ -576,7 +744,18 @@ class NIST( object ):
     
     def clean( self ):
         """
-            Function to clean all unused fields in the self.data variable.
+            Function to clean all unused fields in the self.data variable. This
+            function should check the content of the NIST file only for fields
+            described in the NIST standard. For all particular implementations
+            and implementation specific fields, overload this function in a new
+            class.
+            
+            Check done in this function:
+            
+                * Delete all empty records, IDC and fields
+                * Recalculate the content of the field 1.003
+                * Check the IDC field for every ntype (fields x.002)
+                * Reset all lengths (fields x.001)
         """
         debug.info( "Cleaning the NIST object" )
         
@@ -628,9 +807,10 @@ class NIST( object ):
     def patch_to_standard( self ):
         """
             Check some requirements for the NIST file. Fields checked:
-                1.002
-                1.011
-                1.012
+            
+                * 1.002
+                * 1.011
+                * 1.012
         """
         debug.info( "Patch some fields regaring the ANSI/NIST-ITL standard" )
         
@@ -655,6 +835,12 @@ class NIST( object ):
         """
             Recalculate the LEN field of the ntype passed in parameter.
             Only for ASCII ntype.
+            
+            :param ntype: ntype to reset.
+            :type ntype: int
+            
+            :param idc: IDC value
+            :type idc: int
         """
         debug.debug( "Resetting the length of Type-%02d" % ntype )
         
@@ -678,6 +864,12 @@ class NIST( object ):
         """
             Recalculate the LEN field of the ntype passed in parameter.
             Only for binary ntype.
+            
+            :param ntype: ntype to reset.
+            :type ntype: int
+            
+            :param idc: IDC value.
+            :type idc: int
         """
         debug.debug( "Resetting the length of Type-%02d" % ntype )
         
@@ -698,6 +890,19 @@ class NIST( object ):
     def get_field( self, tag, idc = -1 ):
         """
             Get the content of a specific tag in the NIST object.
+            
+            :param tag: tag value.
+            :type tag: int
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Content of the field.
+            :rtype: str or None
+            
+            :raise notImplemented: if the 'tag' field is not a str or a tuple
+            
+            Usage:
             
                 >>> n.get_field( "1.002" )
                 '0300'
@@ -721,6 +926,19 @@ class NIST( object ):
     def set_field( self, tag, value, idc = -1 ):
         """
             Set the value of a specific tag in the NIST object.
+            
+            :param tag: Tag to set.
+            :type tag: int
+            
+            :param value: Value to set.
+            :type value: str (or int)
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            Usage:
+            
+                >>> n.set_field( "1.002", "0300" )
         """
         if type( tag ) == str:
             ntype, tagid = tagSplitter( tag )
@@ -741,6 +959,17 @@ class NIST( object ):
         """
             Get the content of multiples fields at the same time.
             
+            :param tags: List of tags.
+            :type tags: int
+            
+            :param idc: IDC value
+            :type idc: int
+            
+            :return: List of values.
+            :rtype: list
+            
+            Usage:
+            
                 >>> n.get_fields( [ "1.002", "1.004" ] )
                 ['0300', 'USA']
         """
@@ -749,6 +978,17 @@ class NIST( object ):
     def set_fields( self, fields, value, idc = -1 ):
         """
             Set the value of multiples fields to the same value.
+            
+            :param fields: List of fields to set.
+            :type tags: list
+            
+            :param value: Value to set.
+            :type value: str (or int)
+            
+            :param idc: IDC value
+            :type idc: int
+            
+            .. seealso:: :func:`~NIST.traditional.NIST.set_field`
         """
         for field in fields:
             self.set_field( field, value, idc )
