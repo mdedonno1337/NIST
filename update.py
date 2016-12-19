@@ -7,6 +7,13 @@ import unittest
 
 ################################################################################
 # 
+################################################################################
+
+def _exe( cmd, wd ):
+    return subprocess.Popen( cmd, cwd = wd, stdout = subprocess.PIPE, stderr = subprocess.PIPE ).communicate()
+
+################################################################################
+# 
 #    Version determination
 # 
 ################################################################################
@@ -38,5 +45,7 @@ unittest.TextTestRunner( verbosity = 2 ).run( doctester.NISTtests() )
 wd = os.path.abspath( "./doc" )
 make = "C:/MinGW/msys/1.0/bin/make.exe"
 
-for p in subprocess.Popen( [ make, 'html' ], cwd = wd, stdout = subprocess.PIPE, stderr = subprocess.PIPE ).communicate():
+cmd = [ make, 'html' ]
+
+for p in _exe( cmd, wd ):
     print p
