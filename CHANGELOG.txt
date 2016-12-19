@@ -1,10 +1,13 @@
-﻿v0.21
------
+﻿Pre-release
+-----------
+
+v0.21
+~~~~~
 
 * First Sphinx documentation
 
 v0.20
------
+~~~~~
 
 * Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
 * Add **options in various functions to allow func( **params ) calls.
@@ -16,14 +19,14 @@ v0.20
 * Change default standard value to '0300'.
 
 v0.19
------
+~~~~~
 
 * Add the Annotation, Minutia, Core classes
 * Add the AnnotationList class
 * Change the format of the Minutiae and Core stored in the NIST object (from list to Minutia() and Core() object).
 
 v0.18
------
+~~~~~
 
 * Split the 'crop()' function in 'crop_latent()' and 'crop_print()' functions.
 * Delete all empty IDC and ntypes in the clean() function.
@@ -35,7 +38,7 @@ v0.18
 * Optimization of the get_latent_annotated(), get_print_annotated() and get_annotated() functions.
 
 v0.17
------
+~~~~~
 
 * Auto-increment of the Minutia id if not provided.
 * Add the 'set_cores()' function.
@@ -49,7 +52,7 @@ v0.17
 * Patch the fields 1.011 and 1.012 according to the NIST standard.
 
 v0.16
------
+~~~~~
 
 * Add the function to crop fingermark and fingerprint images.
 * Add support for uncompressed (RAW) Type-04 images, and adapt the 'changeResolution()' function.
@@ -58,7 +61,7 @@ v0.16
 * Add support to crop Type13 and Type04 images.
 
 v0.15
------
+~~~~~
 
 * Add the first attempt for NIST object with M1 annotation format.
 * Add misc functions.
@@ -71,7 +74,7 @@ v0.15
 * Use of the Python3 division module.
 
 v0.14
------
+~~~~~
 
 * Add functions related to the image processing (get the latent annotated, quality map, ...).
 * Change the format of the NIST object representation (non prittable character, ...).
@@ -82,7 +85,7 @@ v0.14
 * Add the functions get_diptych() and get_tetraptych()
 
 v0.13
------
+~~~~~
 
 * Extend the NIST-fingerprint library to work with the ULWLQMetric module (added in the default installer).
 * Misc patches.
@@ -93,7 +96,7 @@ v0.13
 * Add the function get_minutiae_all() to get the minutiae from all fingers in one list of lists.
 
 v0.12
------
+~~~~~
 
 * Update the names of the imports.
 * Deprecation of the get_image() function.
@@ -101,7 +104,7 @@ v0.12
 * Patch the get_minutiae() function (order of values).
 
 v0.11
------
+~~~~~
 
 * Add the versioneer module to manage the version name in the setup file produced. 
 * Modification of the structure of the module: separation of the traditional module from the fingerprint functions.
@@ -109,7 +112,7 @@ v0.11
 * Misc optimizations.
 
 v0.10
------
+~~~~~
 
 * Update from distutils.core to setuptools
 * Count the number of minutiae present in the NIST object (field 9.010).
@@ -118,7 +121,7 @@ v0.10
 * Code cleaning.
 
 v0.9
-----
+~~~~
 
 * Change in the structure of the package, and addition of the __init__ file to load the NIST package
 * Rewriting of the doctest.py module.
@@ -127,7 +130,7 @@ v0.9
 * Type-14, Type-10, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98 and Type-99 parser
 
 v0.8
-----
+~~~~
 
 * Function to delete a ntype, idc or field
 * Updater for the File Content field (1.003) based on the content of the NIST object
@@ -139,7 +142,7 @@ v0.8
 * Bug fix for the order of the excepted ntype
 
 v0.7
-----
+~~~~
 
 * Warning for unsupported Type
 * Type-04 parser
@@ -155,7 +158,7 @@ v0.6
 * Function to return the minutiae table
 
 v0.5
-----
+~~~~
 
 * Autoloader (to detect the type (NIST object or URI to file) and load it in memory
 * @deprecated decorator for sort deprecation (backward compatibility)
@@ -164,7 +167,7 @@ v0.5
 * tagSplitter function
 
 v0.4
-----
+~~~~
 
 * __str__ and __repr__ functions
 * Function to write the NIST object to disk
@@ -176,7 +179,7 @@ v0.4
 * Add some fields in the LABEL variable
 
 v0.3
-----
+~~~~
 
 * Function to dump the content of the NIST object in a string variable
 * Add the leveler function
@@ -185,7 +188,7 @@ v0.3
 * Move the Logger class to the misc library.
 
 v0.2
-----
+~~~~
 
 * Function to process the File Content (field 1.003)
 * LABEL of some fields
@@ -193,7 +196,7 @@ v0.2
 * Binary onscreen dumper
 
 v0.1
-----
+~~~~
 
 * First version of the parser for Type-01, Type-02, Type-09 and Type-13
 * Initial commit

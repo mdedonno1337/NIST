@@ -1,10 +1,12 @@
+.. automodule:: NIST.traditional
+
 NIST Traditional module
 #######################
 
+This section contains all the docstring related to the NIST traditional format. This documentation is automaticaly generated, and used as unittest.
+
 `NIST` module
 ==============
-
-This chapter contains the docstring of the **NIST** class.
 
 .. autoclass:: NIST.traditional.NIST
     :members:
