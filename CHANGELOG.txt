@@ -4,62 +4,94 @@
 Dev
 ~~~~~
 
+Add:
+
 * First Sphinx documentation
+
+Change:
+
 * Add the paramter in the `AnnotationList` class to select the type of Annotation stored (Annotation, Minutia or Core).
 
-Changes since latest release:
+Commits since latest release:
 
 .. git_changelog::
     :rev-list: latest..
-    
 
 v0.20 (2016-12-18)
 ~~~~~~~~~~~~~~~~~~
 
+Add:
+
 * Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
 * Add **options in various functions to allow func( **params ) calls.
-* Overload the 'add_Type09()' function in the NIST_MDD() class to set the pairing information.
-* Add support for the Type14 in various functions.
-* Remove deprecated functions.
 * Add the NIST().merge() function. 
-* Store the result of the self.get_ntype() if multiple calls have to be done in the same function (performance issues).
+* Add support for the Type14 in various functions.
+
+Remove:
+
+* Remove deprecated functions.
+
+Change:
+
+* Overload the 'add_Type09()' function in the NIST_MDD() class to set the pairing information.
 * Change default standard value to '0300'.
+* Store the result of the self.get_ntype() if multiple calls have to be done in the same function (performance issues).
 
 v0.19 (2016-12-01)
 ~~~~~~~~~~~~~~~~~~
 
+Add:
+
 * Add the Annotation, Minutia, Core classes
 * Add the AnnotationList class
+
+Change:
+
 * Change the format of the Minutiae and Core stored in the NIST object (from list to Minutia() and Core() object).
 
 v0.18 (2016-11-22)
 ~~~~~~~~~~~~~~~~~~
 
-* Split the 'crop()' function in 'crop_latent()' and 'crop_print()' functions.
-* Delete all empty IDC and ntypes in the clean() function.
+Add:
+
 * Add the 'add_type14()' function with default values.
 * Add the minutiae_filter() function.
 * Add the NIST_MDD class to process NIST objects with pairing information (user-defined field 9.255), and add function to annotate the pairing information in the get_annotated() function
-* Monkey-patch of the x.001 field (not in agreement with the NIST standard).
 * Add support for PNG format.
+
+Change:
+
+* Split the 'crop()' function in 'crop_latent()' and 'crop_print()' functions.
+* Delete all empty IDC and ntypes in the clean() function.
 * Optimization of the get_latent_annotated(), get_print_annotated() and get_annotated() functions.
+
+Patch:
+
+* Monkey-patch of the x.001 field (not in agreement with the NIST standard).
 
 v0.17 (2016-09-20)
 ~~~~~~~~~~~~~~~~~~
 
-* Auto-increment of the Minutia id if not provided.
+Add:
+
 * Add the 'set_cores()' function.
+* Add support for Type04 in the 'set_resolution()' function.
+* Add the 'update()' function.
+
+Change:
+
+* Auto-increment of the Minutia id if not provided.
 * Annotate all the cores if multiple cores are stored in the NIST object.
 * Automatic selection of the correct diptych with the 'get_diptych()' function.
-* Add support for Type04 in the 'set_resolution()' function.
 * Change the NIST.data variable to MDmisc.RecursiveDefaultDict.defDict().
-* Add the 'update()' function.
 * Clean the NIST object before printing.
 * Check the IDC field (x.002) for each ntype in the clean() function.
 * Patch the fields 1.011 and 1.012 according to the NIST standard.
 
 v0.16 (2016-08-17)
 ~~~~~~~~~~~~~~~~~~
+
+Add:
 
 * Add the function to crop fingermark and fingerprint images.
 * Add support for uncompressed (RAW) Type-04 images, and adapt the 'changeResolution()' function.
@@ -70,50 +102,78 @@ v0.16 (2016-08-17)
 v0.15 (2016-08-14)
 ~~~~~~~~~~~~~~~~~~
 
+Add:
+
 * Add the first attempt for NIST object with M1 annotation format.
 * Add misc functions.
-* Bug-fix in some docstrings.
 * Add the identifier field for the NIST object.
 * Add some information in the head of the string-representation of the NIST object.
 * Add support for the JPEG2K format for latent images.
 * Add the formatter function to print formatted binary fields.
+
+Change:
+
 * Change the name of the main class in the Morpho module.
 * Use of the Python3 division module.
+
+Patch:
+
+* Bug-fix in some docstrings.
 
 v0.14 (2016-07-11)
 ~~~~~~~~~~~~~~~~~~
 
+Add:
+
 * Add functions related to the image processing (get the latent annotated, quality map, ...).
-* Change the format of the NIST object representation (non prittable character, ...).
-* Move deprecated functions.
 * Add functions to set values for latent and print (set_width(), set_height(), ...).
 * Add function to change the main class of the NIST object.
 * Add support for passing tuple in the set_field() function instead of a tag-string.
 * Add the functions get_diptych() and get_tetraptych()
 
+Change:
+
+* Change the format of the NIST object representation (non prittable character, ...).
+* Move deprecated functions.
+
 v0.13 (2016-07-06)
 ~~~~~~~~~~~~~~~~~~
 
-* Extend the NIST-fingerprint library to work with the ULWLQMetric module (added in the default installer).
-* Misc patches.
-* Bug around : if the 1.003 field is malformed (an IDC is missing), the missing value is replaced with a 1.
-* Move deprecated methods in the NISTf_deprecated. Need to import this class instead of NISTf if you want to use deprecated functions with the old code (not recommended !).
-* Function to add the case name (field 2.007) for Morpho NIST objects.
-* Move the version of the standard in a class attribute (changeable on the fly).
+Add:
+
 * Add the function get_minutiae_all() to get the minutiae from all fingers in one list of lists.
+* Add the function to add the case name (field 2.007) for Morpho NIST objects.
+
+Change:
+
+* Extend the NIST-fingerprint library to work with the ULWLQMetric module (added in the default installer).
+* Move deprecated methods in the NISTf_deprecated. Need to import this class instead of NISTf if you want to use deprecated functions with the old code (not recommended !).
+* Move the version of the standard in a class attribute (changeable on the fly).
+
+Patch:
+
+* Bug around : if the 1.003 field is malformed (an IDC is missing), the missing value is replaced with a 1.
+* Misc patches.
 
 v0.12 (2016-06-29)
 ~~~~~~~~~~~~~~~~~~
 
-* Update the names of the imports.
-* Deprecation of the get_image() function.
+Add:
+
 * First version of the function to work with fingerprints (get_print() to get the PIL or WSQ image) from 4.999 WSQ encoded image.
+* Update the names of the imports.
 * Patch the get_minutiae() function (order of values).
+* Deprecation of the get_image() function.
 
 v0.11 (2016-06-26)
 ~~~~~~~~~~~~~~~~~~
 
+Add:
+
 * Add the versioneer module to manage the version name in the setup file produced. 
+
+Change:
+
 * Modification of the structure of the module: separation of the traditional module from the fingerprint functions.
 * Change the parameter 'minutiae' in NIST.fingerprint.NISTf.add_Type09() to optional.
 * Misc optimizations.
@@ -121,28 +181,46 @@ v0.11 (2016-06-26)
 v0.10 (2016-06-25)
 ~~~~~~~~~~~~~~~~~~
 
+Add:
+
+* Add function returning the number of minutiae present in the NIST object (field 9.010).
+* Add function to add default empty records (Type-01, Type-02, Type-09 and Type-13).
+
+Change:
+
 * Update from distutils.core to setuptools
-* Count the number of minutiae present in the NIST object (field 9.010).
 * Checker for the minutiae field (all minutiae have to be on the image).
-* Function to add default empty records (Type-01, Type-02, Type-09 and Type-13).
 * Code cleaning.
 
 v0.9 (2016-06-19)
 ~~~~~~~~~~~~~~~~~
 
+Add:
+
+* Type-14, Type-10, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98 and Type-99 parser
+
+Change:
+
 * Change in the structure of the package, and addition of the __init__ file to load the NIST package
 * Rewriting of the doctest.py module.
 * get_fields() and set_fields() to get and set multiple fields at once
 * Documentation of all fields (name and abbreviation) 
-* Type-14, Type-10, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98 and Type-99 parser
 
 v0.8 (2016-06-18)
 ~~~~~~~~~~~~~~~~~
 
+Add:
+
 * Function to delete a ntype, idc or field
+* Type-04 dumper
+
+Change:
+
 * Updater for the File Content field (1.003) based on the content of the NIST object
 * Field 4.005 checker (conformation to the standard)
-* Type-04 dumper
+
+Patch:
+
 * Patch the type for the Type-04 data
 * Bug fix for the unsupported Type (allowing to skip the record)
 * Bug fix for the data in 999 tagid
@@ -151,21 +229,30 @@ v0.8 (2016-06-18)
 v0.7 (2016-06-17)
 ~~~~~~~~~~~~~~~~~
 
-* Warning for unsupported Type
+Add:
+
 * Type-04 parser
 * get_caseName, get_center
 * 'Grayscale Compression Algorithm' field decoder
-* Functions for image format transform (PIL <-> RAW)
 * Get and set the latent friction ridge image (Type-13) in PIL and RAW format
+* Functions for image format transform (PIL <-> RAW)
+
+Change:
+
+* Warning for unsupported Type
 
 v0.6 (2016-06-17)
 ~~~~~~~~~~~~~~~~~
+
+Add:
 
 * Parser between the 9.012 field and the minutiae table
 * Function to return the minutiae table
 
 v0.5 (2016-06-16)
 ~~~~~~~~~~~~~~~~~
+
+Add:
 
 * Autoloader (to detect the type (NIST object or URI to file) and load it in memory
 * @deprecated decorator for sort deprecation (backward compatibility)
@@ -176,26 +263,38 @@ v0.5 (2016-06-16)
 v0.4 (2016-06-16)
 ~~~~~~~~~~~~~~~~~
 
+Add:
+
 * __str__ and __repr__ functions
 * Function to write the NIST object to disk
 * Function do dump the content of the NIST object in binary (ready to write to disk)
 * Function to check some errors possible in the content of the NIST object
 * Function to return the tag from a ntype and a tagid
-* Set an IDC for Type-01, even if the standard says nothing about it. For simplification of the code later
 * Function to clean the self.data (deletion of empty fields)
 * Add some fields in the LABEL variable
 
+Change:
+
+* Set an IDC for Type-01, even if the standard says nothing about it. For simplification of the code later
+
 v0.3 (2016-06-12)
 ~~~~~~~~~~~~~~~~~
+
+Add:
 
 * Function to dump the content of the NIST object in a string variable
 * Add the leveler function
 * Function to get the abbreviation and description of fields
 * Functions to get the list of ntype and idc's
+
+Change:
+
 * Move the Logger class to the misc library.
 
 v0.2 (2016-06-12)
 ~~~~~~~~~~~~~~~~~
+
+Add:
 
 * Function to process the File Content (field 1.003)
 * LABEL of some fields
