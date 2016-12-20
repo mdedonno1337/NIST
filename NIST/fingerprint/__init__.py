@@ -1876,7 +1876,7 @@ class NISTf( NIST ):
                     04.006 HLL: 500
                     04.007 VLL: 500
                     04.008 CGA: 1
-                    04.999    : FFA0FFA8 ... 01FFA1FF (655 bytes)
+                    04.999    : FFA0FFA8 ... 0301FFA1 (655 bytes)
                 NIST Type-09 (IDC 0)
                     09.001 LEN: 00000266
                     09.002 IDC: 0

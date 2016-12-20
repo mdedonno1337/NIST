@@ -62,16 +62,28 @@ def hexformat( x ):
 #    Binary print
 def bindump( data, n = 8 ):
     """
-        Return the first and last n bytes of a binary data.
+        Return the first and last `n` bytes of a binary data, in hexadecimal format.
         
-        >>> bindump( chr(255) * 250000 )
-        'FFFFFFFF ... FFFFFFFF (250000 bytes)'
+        :param data: Data to strip
+        :rype data: str or list
         
-        >>> bindump( chr(255) * 250000, 16 )
-        'FFFFFFFFFFFFFFFF ... FFFFFFFFFFFFFFFF (250000 bytes)'
+        :return: Stripped hex representation
+        :rtype: str
+        
+        Let `data` be a list of all hex values between 00 and FF:
+            
+            >>> data = "".join( [ chr( x ) for x in xrange( 256 ) ] )
+        
+        The truncated representation will be:
+        
+            >>> bindump( data )
+            '00010203 ... FCFDFEFF (256 bytes)'
+            
+            >>> bindump( data, 16 )
+            '0001020304050607 ... F8F9FAFBFCFDFEFF (256 bytes)'
     """
     pre = [ data[ i ] for i in xrange( n / 2 ) ]
-    post = [ data[ -i ] for i in xrange( n / 2 ) ]
+    post = [ data[ -( i + 1 ) ] for i in xrange( n / 2 ) ]
     
     pre = multimap( [ ord, hexformat ], pre )
     post = multimap( [ ord, hexformat ], post )
