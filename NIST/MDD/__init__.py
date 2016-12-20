@@ -32,7 +32,7 @@ class AnnotationList( _AnnotationList ):
         
         try:
             d = dict( [ ( m.n, m ) for m in self._data if m.n != None ] )
-            return [ d[ n ] for n in names ]
+            return AnnotationList( [ d[ str( n ) ] for n in names ] )
         
         except KeyError:
             raise pairingNameNotFound
