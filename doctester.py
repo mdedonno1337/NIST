@@ -112,7 +112,7 @@ def NISTtests():
     mark.changeClassTo( NIST.MDD.NIST_MDD )
     mark.set_field( "9.255", join_r( [ US, RS ], [ [ '1', '1' ], [ '2', '2' ], [ '3', '3' ] ] ), 1 )
     
-    tests.addTests( doctest.DocTestSuite( NIST.MDD.__init__, { 'mark': mark, 'pr': pr } ) )
+    tests.addTests( doctest.DocTestSuite( NIST.MDD.__init__, vars ) )
     
     return tests
 
