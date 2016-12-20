@@ -730,6 +730,12 @@ class AnnotationList( eobject ):
             :param data: Data to load in the AnnotationList object.
             :type data: list of lists
             
+            :param format: Format of the Annotations to return.
+            :type format: str
+            
+            :param type: Type of Annotations to store in the AnnotationList (Annotation, Minutia, Core).
+            :type type: str
+            
             Usage:
             
                 >>> from NIST.fingerprint.functions import AnnotationList

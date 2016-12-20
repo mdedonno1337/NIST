@@ -7,16 +7,13 @@ Dev
 Add:
 
 * First Sphinx documentation.
-* Add the NIST.get() function.
-* Add support for keyword arguments for the Annotation object.
-
-Change:
-
-* Add the paramter in the `AnnotationList` class to select the type of Annotation stored (Annotation, Minutia or Core).
+* Add the :func:`NIST.traditional.NIST.get()` function.
+* Add support for keyword arguments for the `Annotation` object.
+* Add the parameter in the :func:`NIST.fingerprint.functions.AnnotationList.from_list()` class to select the type of `Annotation` stored (`Annotation`, `Minutia` or `Core`).
 
 Patch:
 
-* bindump() was returning the first byte at the end
+* :func:`NIST.traditional.functions.bindump()` was returning the first byte at the end of the string
 
 Commits since latest release:
 
@@ -28,9 +25,9 @@ v0.20 (2016-12-18)
 
 Add:
 
-* Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
+* Add the :func:`~NIST.fingerprint.NISTf.init_latent()`, :func:`~NIST.fingerprint.NISTf.init_print()` and :func:`~NIST.fingerprint.NISTf.init_new()` functions in the NISTf() class.
 * Add options in various functions to allow func( params ) calls.
-* Add the NIST().merge() function. 
+* Add the :func:`NIST.traditional.NIST.merge()` function. 
 * Add support for the Type14 in various functions.
 
 Remove:
@@ -39,7 +36,7 @@ Remove:
 
 Change:
 
-* Overload the 'add_Type09()' function in the NIST_MDD() class to set the pairing information.
+* The :func:`NIST.MDD.NIST_MDD.add_Type09()` overload his super() function to set the pairing information.
 * Change default standard value to '0300'.
 * Store the result of the self.get_ntype() if multiple calls have to be done in the same function (performance issues).
 
@@ -48,8 +45,8 @@ v0.19 (2016-12-01)
 
 Add:
 
-* Add the Annotation, Minutia, Core classes
-* Add the AnnotationList class
+* Add the :func:`~NIST.fingerprint.functions.Annotation`, :func:`~NIST.fingerprint.functions.Minutia` and :func:`~NIST.fingerprint.functions.Core` classes.
+* Add the :func:`~NIST.fingerprint.functions.AnnotationList` class.
 
 Change:
 
@@ -60,16 +57,19 @@ v0.18 (2016-11-22)
 
 Add:
 
-* Add the 'add_type14()' function with default values.
-* Add the minutiae_filter() function.
-* Add the NIST_MDD class to process NIST objects with pairing information (user-defined field 9.255), and add function to annotate the pairing information in the get_annotated() function
+* Add the :func:`~NIST.fingerprint.NISTf.add_type14()` function with default values.
+* Add the NIST_MDD class to process NIST objects with pairing information (user-defined field 9.255), and add function to annotate the pairing information (:func:`NIST.MDD.NIST_MDD.annotate()`, :func:`NIST.MDD.NIST_MDD.get_latent_annotated()` and :func:`NIST.MDD.NIST_MDD.get_print_annotated()`).
 * Add support for PNG format.
 
 Change:
 
-* Split the 'crop()' function in 'crop_latent()' and 'crop_print()' functions.
+* Split the :func:`NIST.fingerprint.NISTf.crop()` function in :func:`~NIST.fingerprint.NISTf.crop_latent()` and :func:`~NIST.fingerprint.NISTf.crop_print()` functions.
 * Delete all empty IDC and ntypes in the clean() function.
-* Optimization of the get_latent_annotated(), get_print_annotated() and get_annotated() functions.
+* Optimization of the :func:`~NIST.fingerprint.NISTf.get_latent_annotated()`, :func:`~NIST.fingerprint.NISTf.get_print_annotated()` and :func:`~NIST.fingerprint.NISTf.get_annotated()` functions.
+
+Delete:
+
+* Remove the minutiae_filter() function.
 
 Patch:
 
@@ -80,16 +80,16 @@ v0.17 (2016-09-20)
 
 Add:
 
-* Add the 'set_cores()' function.
-* Add support for Type04 in the 'set_resolution()' function.
-* Add the 'update()' function.
+* Add the :func:`NIST.fingerprint.NISTf.set_cores()` function.
+* Add support for Type04 in the :func:`NIST.fingerprint.NISTf.set_resolution()` function.
+* Add the :func:`NIST.traditional.NIST.update()` function.
 
 Change:
 
 * Auto-increment of the Minutia id if not provided.
 * Annotate all the cores if multiple cores are stored in the NIST object.
-* Automatic selection of the correct diptych with the 'get_diptych()' function.
-* Change the NIST.data variable to MDmisc.RecursiveDefaultDict.defDict().
+* Automatic selection of the correct diptych with the :func:`NIST.fingerprint.NISTf.get_diptych()` function.
+* Change the `NIST.traditional.NIST.data` variable to `MDmisc.RecursiveDefaultDict.defDict()`.
 * Clean the NIST object before printing.
 * Check the IDC field (x.002) for each ntype in the clean() function.
 * Patch the fields 1.011 and 1.012 according to the NIST standard.
@@ -99,10 +99,10 @@ v0.16 (2016-08-17)
 
 Add:
 
-* Add the function to crop fingermark and fingerprint images.
+* Add the :func:`NIST.fingerprint.NISTf.crop_latent()`.
 * Add support for uncompressed (RAW) Type-04 images, and adapt the 'changeResolution()' function.
-* Add the function 'get_image()', with automatic determination of the main type (latent or print image).
-* Add the 'export_latent()' and 'export_print()', and the annotated equivalent functions.
+* Add the function :func:`NIST.fingerprint.NISTf.get_image()`, with automatic determination of the main type (latent or print image).
+* Add the :func:`NIST.fingerprint.NISTf.export_latent()` and :func:`NIST.fingerprint.NISTf.export_print()`, and the annotated equivalent functions.
 * Add support to crop Type13 and Type04 images.
 
 v0.15 (2016-08-14)
