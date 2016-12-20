@@ -81,7 +81,7 @@ latex_documents = [
 
 latex_show_pagerefs = True
 
-latex_show_urls = True
+latex_show_urls = 'true'
 
 ################################################################################
 #    Options for manual page output

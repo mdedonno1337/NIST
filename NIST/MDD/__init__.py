@@ -27,7 +27,25 @@ from ..traditional.config import US
 ################################################################################
 
 class AnnotationList( _AnnotationList ):
+    """
+        Overload of the :func:`NIST.fingerprint.functions.AnnotationList` class
+        to implement the pairing information.
+    """
     def get_by_pairing_name( self, names, format = None ):
+        """
+            Get the Annotation based on the pairing name.
+            
+            :param names: Names of the Annotations to retrieve.
+            :type names: str or list
+            
+            :param format: Format of the Annotations to return.
+            :type format: str or list
+            
+            :return: List of Annotations filtered by pairing name
+            :rtype: AnnotationList
+            
+            :raise pairingNameNotFound: if the pairing name is not found in the AnnotationList
+        """
         self.set_format( format )
         
         try:
@@ -45,9 +63,28 @@ class AnnotationList( _AnnotationList ):
 ################################################################################
 
 class NIST_MDD( NISTf ):
+    """
+        Overload of the :func:`NIST.fingerprint.NISTf` class, to implement all
+        functions related to the pairing information, from the function to store
+        the pairingn information in the NIST file (in the user-defined field
+        9.255), to the function to annotate the pairing on the images.
+    """
     def get_minutiae( self, format = None, idc = -1 ):
         """
-            Overload of the get_minutiae() function to add the pairing number.
+            Overload of the :func:`NIST.fingerprint.NISTf.get_minutiae` function
+            to add the pairing number.
+            
+            :param format: Format to return the minutiae.
+            :type format: str or list
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: List of minutiae.
+            :rtype: AnnotationList
+            
+            .. seealso::
+                :func:`NIST.fingerprint.NISTf.get_minutiae`
         """
         lst = super().get_minutiae( format = format, idc = idc )
         
@@ -65,6 +102,16 @@ class NIST_MDD( NISTf ):
         return lst
     
     def checkMinutiae( self, idc = -1 ):
+        """
+            Overload of the :func:`NIST.fingerprint.NISTf.checkMinutiae`
+            function, to set the pairing information.
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            .. seealso::
+                :func:`NIST.fingerprint.NISTf.checkMinutiae`
+        """
         data = super().checkMinutiae( idc = idc )
         
         try:
@@ -77,6 +124,17 @@ class NIST_MDD( NISTf ):
             Return the pairing information ( minutia id, pairing id ). This
             information is stored in the field 9.255.
             
+            :param idc: IDC value.
+            :type idc: int
+            
+            :param clean: Remove the minutiae without pairing information ('None' value as pairing name otherwise).
+            :type clean: boolean
+            
+            Usage:
+            
+                >>> mark.get_pairing()
+                [['1', '1'], ['2', '2'], ['3', '3'], ['4', 'None'], ['5', 'None'], ['6', 'None'], ['7', 'None'], ['8', 'None'], ['9', 'None'], ['10', 'None']]
+                
                 >>> mark.get_pairing( clean = True )
                 [['1', '1'], ['2', '2'], ['3', '3']]
         """
@@ -89,10 +147,48 @@ class NIST_MDD( NISTf ):
             return pairing
     
     def add_Type09( self, minutiae = None, idc = 0, **options ):
+        """
+            Overload of the :func:`NIST.fingerprint.NISTf.add_Type09` function
+            to initialize the AnnotationList with pairing information if
+            provided.
+            
+            .. seealso::
+                :func:`NIST.fingerprint.NISTf.add_Type09`
+        """
         super().add_Type09( minutiae = minutiae, idc = idc, **options )
         self.set_pairing( **options )
     
     def set_pairing( self, pairing = None, **options ):
+        """
+            Function to set the pairing information in the User-defined field
+            9.255. The pairing information is stored as following:
+            
+                minutia id <US> minutia name <RS> ...
+                
+            :param pairing: Pairing information.
+            :type pairing: AnnotationList
+            
+            Let the pairing information be defined as follow:
+                
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> data = [
+                ...     ( '1', '1' ), # Minutiae '1' nammed '1'
+                ...     ( '2', '2' ), # Minutiae '2' nammed '2'
+                ...     ( '3', '3' )  # Minutiae '3' nammed '3'
+                ... ]
+                >>> pairing = AnnotationList()
+                >>> pairing.from_list( data, format = "in" )
+                >>> pairing  # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Annotation( i='1', n='1' ),
+                    Annotation( i='2', n='2' ),
+                    Annotation( i='3', n='3' )
+                ]
+            
+            The pairing is set as follow:
+                
+                >>> mark.set_pairing( pairing )
+        """
         if pairing != None:
             if isinstance( pairing, list ):
                 pairing = AnnotationList( pairing )
@@ -135,7 +231,27 @@ class NIST_MDD( NISTf ):
     
     def get_minutiae_by_pairing_name( self, name, format = None, idc = -1 ):
         """
-            Filter the minutiae list by pairing name
+            Filter the minutiae list by pairing name.
+            
+            :param name: Name of the Annotations to retrieve.
+            :type name: list
+            
+            :param format: Format of the Annotations to retrive.
+            :type format: str or list
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Filtered AnnotationList
+            :rtype: AnnotationList
+            
+            Usage:
+            
+                >>> mark.get_minutiae_by_pairing_name( [ 1, 2 ] ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' )
+                ]
         """
         return AnnotationList( self.get_minutiae( idc ) ).get_by_pairing_name( name, format )
             
@@ -143,6 +259,14 @@ class NIST_MDD( NISTf ):
         """
             Overloading of the NISTf.get_latent_annotated() function to
             incorporate a special annotation for paired minutiae.
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Annotated latent fingermark
+            :rtype: PIL.Image
+            
+            Usage:
             
                 >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
@@ -158,7 +282,15 @@ class NIST_MDD( NISTf ):
             Overloading of the NISTf.get_print_annotated() function to
             incorporate a special annotation for paired minutiae.
             
-                >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Annotated fingerprint
+            :rtype: PIL.Image
+            
+            Usage:
+            
+                >>> pr.get_print_annotated() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = super().get_print_annotated( idc )
@@ -170,6 +302,21 @@ class NIST_MDD( NISTf ):
         """
             Overloading of the NISTf.annotate() function to incorporate the
             annotation of the paired minutiae in yellow.
+            
+            :param image: Image to annotate.
+            :type image: PIL.Image
+            
+            :param data: Data used to annotate the image.
+            :type data: AnnotationList
+            
+            :param type: Type of annotation (minutiae or center).
+            :type type: str
+            
+            :param res: Resolution of the image in DPI.
+            :type res: int
+            
+            :return: Annotated image.
+            :rtype: PIL.Image
         """
         if type == "pairing":
             try:
@@ -216,5 +363,8 @@ class NIST_MDD( NISTf ):
 ################################################################################
 
 class Pairing( Annotation ):
+    """
+        Pairing annotation.
+    """
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "in" )

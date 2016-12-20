@@ -28,7 +28,7 @@ v0.20 (2016-12-18)
 Add:
 
 * Add the init_latent(), init_print(), init_new() functions in the NISTf() class.
-* Add **options in various functions to allow func( **params ) calls.
+* Add options in various functions to allow func( params ) calls.
 * Add the NIST().merge() function. 
 * Add support for the Type14 in various functions.
 
