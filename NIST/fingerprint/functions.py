@@ -317,15 +317,33 @@ class Annotation( object ):
         
             >>> Annotation( [ 1.0, 2.1, 3.18 ], format = "abcd" )
             Annotation( a='1.0', b='2.1', c='3.18', d='None' )
+            
+        The Annotation can also be initialized with keyword arguments:
+        
+            >>> Annotation( a = 1.0, b = 2.1, c = 3.18 )
+            Annotation( a='1.0', c='3.18', b='2.1' )
+            
+        .. note::
+            Since the keyword arguments are stored in a dictionary, the order of
+            the keys are not ensured. This will be corrected in Python3.6.
+            
+            >>> Annotation( c = 3.18, b = 2.1, a = 1.0 )
+            Annotation( a='1.0', c='3.18', b='2.1' )
     """
     def __init__( self, *args, **kwargs ):
         """
             Constructor of the Annotation class. Try to feed the _data variable
             with the first argument passed in the __init__() function.
         """
-        self.set_format( **kwargs )
+        format = kwargs.pop( "format", None )
         
-        if args != []:
+        self.set_format( format = format )
+        
+        if kwargs:
+            self.set_format( format = kwargs.keys() )
+            self._data = OrderedDict( kwargs.iteritems() )
+        
+        elif args != []:
             self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
         
     def set_format( self, **kwargs ):

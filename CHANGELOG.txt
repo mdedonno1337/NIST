@@ -8,6 +8,7 @@ Add:
 
 * First Sphinx documentation.
 * Add the NIST.get() function.
+* Add support for keyword arguments for the Annotation object.
 
 Change:
 
