@@ -426,7 +426,7 @@ class Annotation( object ):
         
     def __iadd__( self, delta ):
         """
-            Overlaod of the '+=' operator, allowing to offset an Annotation with
+            Overload of the '+=' operator, allowing to offset an Annotation with
             a tuple ( dx, dy ).
             
             :param delta: Offset to apply
@@ -638,6 +638,9 @@ class AnnotationList( eobject ):
     def as_list( self ):
         """
             Return the current object data as list.
+            
+            :return: List of Annotations
+            :rtype: list
             
             Usage:
             
