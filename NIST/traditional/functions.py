@@ -153,9 +153,9 @@ def tagSplitter( tag ):
         Split a tag in a list of [ ntype, tagid ].
         
         >>> tagSplitter( "1.002" )
-        [1, 2]
+        (1, 2)
     """
-    return map( int, tag.split( DO ) )
+    return tuple( map( int, tag.split( DO ) ) )
 
 def printableFieldSeparator( ret ):
     ret = ret.replace( FS, "<FS>" )
