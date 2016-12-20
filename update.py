@@ -5,6 +5,8 @@ import doctester
 import subprocess
 import unittest
 
+from MDmisc.eprint import eprint
+
 ################################################################################
 # 
 ################################################################################
@@ -43,9 +45,11 @@ unittest.TextTestRunner( verbosity = 2 ).run( doctester.NISTtests() )
 ################################################################################
 
 wd = os.path.abspath( "./doc" )
-make = "C:/MinGW/msys/1.0/bin/make.exe"
 
-cmd = [ make, 'html' ]
+cmd = [ 'make', 'html' ]
 
-for p in _exe( cmd, wd ):
-    print p
+stdout, stderr = _exe( cmd, wd )
+
+print( stdout )
+eprint( stderr )
+
