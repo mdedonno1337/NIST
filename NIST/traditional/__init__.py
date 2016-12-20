@@ -44,6 +44,12 @@ class NIST( object ):
             https://www.nist.gov/itl/iad/image-group/ansinist-itl-standard-references
             
         The XML format is (for the moment) not supported.
+        
+        :cvar str stdver: Version of the NIST standard used.
+        :cvar str fileuri: Path to the file, if loaded from disk.
+        :cvar defDict data: NIST data.
+        :cvar datetime date: Creation date (YYYY-mm-dd).
+        :cvar int timestamp: creation timestamp (UNIX time).
     """
     def __init__( self, init = None ):
         """
@@ -1000,10 +1006,36 @@ class NIST( object ):
     ############################################################################
     
     def add_ntype( self, ntype ):
+        """
+           Add an empty ntype to the NIST object.
+           
+           :param ntype: ntype to add.
+           :type ntype: int
+           
+           Usage:
+           
+               >>> tmp = n.get()
+               >>> tmp.add_ntype( 18 )
+               >>> tmp
+               NIST object, Type-01, Type-02, Type-18
+        """
         if not ntype in self.get_ntype():
             self.data[ ntype ] = {}
     
     def add_idc( self, ntype, idc ):
+        """
+            Add a empty IDC field for a particular ntype.
+            
+            :param ntype: ntype to set.
+            :type ntype: int
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :raise idcNotFound: if the IDC is not found in the NIST object.
+            :raise idcAlreadyExisting: if the IDC value already exists in the NIST object.
+            :raise needIDC: if an IDC value have to be provided.
+        """
         if not ntype in self.get_ntype():
             raise idcNotFound
         
@@ -1017,9 +1049,33 @@ class NIST( object ):
             self.data[ ntype ][ idc ] = { 1: '' }
     
     def get_idc_dict( self, ntype, idc ):
+        """
+            Return the value of a particular ntype / IDC value.
+            
+            :param ntype: ntype to set.
+            :type ntype: int
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Content of the IDC.
+            :rtype: dict
+        """
         return self.data[ ntype ][ idc ]
     
     def update_idc( self, ntype, idc, value ):
+        """
+            Update the value of a particular ntype / IDC.
+            
+            :param ntype: ntype to set.
+            :type ntype: int
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :param value: Value to set.
+            :type value: dict
+        """
         self.data[ ntype ][ idc ].update( value )
     
     ############################################################################
@@ -1030,7 +1086,15 @@ class NIST( object ):
     
     def add_default( self, ntype, idc ):
         """
-            Add the default values in the ntype record.
+            Add the default values in the ntype record. The default values are
+            provided by the `NIST.traditional.voidType` module.
+            
+            :param ntype: ntype to set.
+            :type ntype: int
+            
+            :param idc: IDC value.
+            :type idc: int
+            
         """
         self.add_ntype( ntype )
         self.add_idc( ntype, idc )

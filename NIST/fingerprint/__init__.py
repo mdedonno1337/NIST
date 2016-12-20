@@ -31,6 +31,13 @@ from .voidType import voidType
 voidType.update( voidType )
 
 class NISTf( NIST ):
+    """
+        Overload of the :class:`NIST.traditional.NIST` class. This class
+        overload the main class to implement fingerprint oriented functions.
+        
+        :cvar str imgdir: Directory to strore the images (minutiae annotations).
+        :cvar str minutiaeformat: Default minutia format. 
+    """
     def __init__( self, *args, **kwargs ):
         """
             Constructor function. Call the constructor of the
@@ -60,8 +67,7 @@ class NISTf( NIST ):
         """
             Function to clean all unused fields in the self.data variable. This
             function try to clean the minutiae stored in the current NIST
-            object, and call the NIST.traditional.NIST
-            :func:`~NIST.traditional.NIST.clean` function.
+            object, and call the :func:`NIST.traditional.NIST.clean` function.
             
             Usage:
                 
