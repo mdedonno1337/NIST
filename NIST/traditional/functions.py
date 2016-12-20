@@ -231,26 +231,26 @@ def tagSplitter( tag ):
     """
     return tuple( map( int, tag.split( DO ) ) )
 
-def printableFieldSeparator( ret ):
+def printableFieldSeparator( data ):
     """
         Replace non printable character (FS, GS, RS and US) to printables
         characters (<FS>, <GS>, <RS> and <US>).
         
-        :param ret: Data to format
-        :type ret: str
+        :param data: Data to format
+        :type data: str
         
         :return: Formatted string
         :rtype: str
         
         Usage:
         
-            >>> data = "/".join( [ FS, GS, RS, US ] )
+            >>> data = " / ".join( [ FS, GS, RS, US ] )
             >>> printableFieldSeparator( data )
-            '<FS>/<GS>/<RS>/<US>'
+            '<FS> / <GS> / <RS> / <US>'
     """
-    ret = ret.replace( FS, "<FS>" )
-    ret = ret.replace( GS, "<GS>" )
-    ret = ret.replace( RS, "<RS>" )
-    ret = ret.replace( US, "<US>" )
+    rep = [ ( FS, '<FS>' ), ( GS, '<GS>' ), ( RS, '<RS>' ), ( US, '<US>' ) ]
     
-    return ret
+    for old, new in rep:
+        data = data.replace( old, new )
+    
+    return data
