@@ -34,16 +34,26 @@ def decode_gca( code ):
         Function to decode the 'Grayscale Compression Algorithm' value passed in
         parameter.
         
-        >>> decode_gca( 'NONE' )
-        'RAW'
+        :param code: GCA code to decode
+        :type code: str
         
-        >>> decode_gca( 'JP2' )
-        'JP2'
+        :return: Decoded GCA value.
+        :rtype: str
         
-        >>> decode_gca( 'HighCompression' )
-        Traceback (most recent call last):
-            ...
-        KeyError
+        :raise KeyError: if the GCA code does not exists
+        
+        Usage:
+            
+            >>> decode_gca( 'NONE' )
+            'RAW'
+            
+            >>> decode_gca( 'JP2' )
+            'JP2'
+            
+            >>> decode_gca( 'HighCompression' )
+            Traceback (most recent call last):
+                ...
+            KeyError
     """
     code = str( code ).upper()
     
@@ -57,6 +67,20 @@ def decode_gca( code ):
         raise KeyError
 
 def hexformat( x ):
+    """
+        Return an hexadecimal format of the value passed in parameter.
+        
+        :param x: Value to convert
+        :type x: int
+        
+        :return: Hex representation.
+        :rtype: str
+        
+        Usage:
+        
+            >>> hexformat( 255 )
+            'FF'
+    """
     return format( x, '02X' )
 
 #    Binary print
@@ -70,7 +94,7 @@ def bindump( data, n = 8 ):
         :return: Stripped hex representation
         :rtype: str
         
-        Let `data` be a list of all hex values between 00 and FF:
+        Let `data` be a list of all hex values between `00` and `FF`:
             
             >>> data = "".join( [ chr( x ) for x in xrange( 256 ) ] )
         
@@ -97,8 +121,16 @@ def fieldSplitter( data ):
     """
         Split the input data in a ( tag, ntype, tagid, value ) tuple.
         
-        >>> fieldSplitter( "1.002:0300" )
-        ('1.002', 1, 2, '0300')
+        :param data: Input tagid:value to strip
+        :type data: str
+        
+        :return: Splitted value
+        :rtype: tuple
+        
+        Usage:
+        
+            >>> fieldSplitter( "1.002:0300" )
+            ('1.002', 1, 2, '0300')
     """
     tag, value = data.split( CO )
     ntype, tagid = tag.split( DO )
@@ -110,13 +142,27 @@ def fieldSplitter( data ):
 #    Get label name
 def get_label( ntype, tagid, fullname = False ):
     """
-        Return the name of a specific field.
+        Return the (full) name of a specific field.
         
-        >>> get_label( 1, 2 )
-        'VER'
+        :param ntype: ntype
+        :type ntype: int
         
-        >>> get_label( 1, 2, True )
-        'Version number'
+        :param tagid: Field ID
+        :type tagid: int
+        
+        :param fullname: Get the full name of the field
+        :type fullname: boolean
+        
+        :return: Field (full) name
+        :rtype: str
+        
+        Usage:
+        
+            >>> get_label( 1, 2 )
+            'VER'
+            
+            >>> get_label( 1, 2, fullname = True )
+            'Version number'
     """
     index = int( fullname )
     
@@ -133,8 +179,19 @@ def leveler( msg, level = 1 ):
     """
         Return an indented string.
         
-        >>> leveler( "1.002", 1 )
-        '    1.002'
+        :param msg: Message to indent
+        :type msg: str
+        
+        :param level: Level to indent (number of indentation)
+        :type level: int
+        
+        :return: Formatted string
+        :rtype: str
+        
+        Usage:
+        
+            >>> leveler( "1.002", 1 )
+            '    1.002'
     """
     return "    " * level + msg
 
@@ -143,8 +200,19 @@ def tagger( ntype, tagid ):
     """
         Return the tag value from a ntype and tag value in parameter.
         
-        >>> tagger( 1, 2 )
-        '1.002:'
+        :param ntype: ntype value
+        :type ntype: int
+        
+        :param tagid: Field id
+        :type tagid: int
+        
+        :return: Formatted tag
+        :rtype: str
+        
+        Usage:
+        
+            >>> tagger( 1, 2 )
+            '1.002:'
     """
     return "%d.%03d:" % ( ntype, tagid )
 
@@ -152,12 +220,34 @@ def tagSplitter( tag ):
     """
         Split a tag in a list of [ ntype, tagid ].
         
+        :param tag: Tag string
+        :type tag: str
+        
+        :return: Splitted tag
+        :rtype: list
+        
         >>> tagSplitter( "1.002" )
         (1, 2)
     """
     return tuple( map( int, tag.split( DO ) ) )
 
 def printableFieldSeparator( ret ):
+    """
+        Replace non printable character (FS, GS, RS and US) to printables
+        characters (<FS>, <GS>, <RS> and <US>).
+        
+        :param ret: Data to format
+        :type ret: str
+        
+        :return: Formatted string
+        :rtype: str
+        
+        Usage:
+        
+            >>> data = "/".join( [ FS, GS, RS, US ] )
+            >>> printableFieldSeparator( data )
+            '<FS>/<GS>/<RS>/<US>'
+    """
     ret = ret.replace( FS, "<FS>" )
     ret = ret.replace( GS, "<GS>" )
     ret = ret.replace( RS, "<RS>" )

@@ -14,3 +14,14 @@ This section contains all the docstring related to the NIST traditional format. 
     :show-inheritance:
     :special-members:
     :exclude-members: __dict__, __weakref__
+    
+Misc functions
+==============
+
+.. automodule:: NIST.traditional.functions
+    :members:
+    :undoc-members:
+    :show-inheritance:
+    :special-members:
+    :exclude-members: __dict__, __weakref__
+   

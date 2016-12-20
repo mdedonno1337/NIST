@@ -6,11 +6,16 @@ Dev
 
 Add:
 
-* First Sphinx documentation
+* First Sphinx documentation.
+* Add the NIST.get() function.
 
 Change:
 
 * Add the paramter in the `AnnotationList` class to select the type of Annotation stored (Annotation, Minutia or Core).
+
+Patch:
+
+* bindump() was returning the first byte at the end
 
 Commits since latest release:
 
