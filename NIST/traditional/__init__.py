@@ -1170,7 +1170,29 @@ class NIST( object ):
                 NIST object, Type-01, Type-02
         """
         return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] )
-
+    
+    def get( self ):
+        """
+            Get a copy of the current NIST object.
+            
+            :return: A new NIST object.
+            :rtype: NIST
+            
+            Usage:
+            
+                >>> tmp = n.get()
+                >>> tmp == n
+                False
+            
+            .. note::
+            
+                Since the function return a copy of the current object, the two
+                objects are separate in memory, allowing to modify one and not
+                the other (reason why `tmp` is not equal to `n`, even if the
+                content is the same).
+        """
+        return deepcopy( self )
+    
 class NIST_deprecated( NIST ):
     """
         This class define all the deprecated functions (for backward
