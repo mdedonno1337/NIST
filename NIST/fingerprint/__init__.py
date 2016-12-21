@@ -1985,7 +1985,7 @@ class NISTf( NIST ):
             Add the Type-14 record to the NIST object.
             
             :param size: Size of the fingerprint image to set.
-            :type size: tuple
+            :type size: tuple of int
             
             :param res: Resolution of the image, in dot-per-inch.
             :type res: int
