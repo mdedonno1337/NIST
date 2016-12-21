@@ -86,7 +86,7 @@ def hexformat( x ):
 #    Binary print
 def bindump( data, n = 8 ):
     """
-        Return the first and last `n` bytes of a binary data, in hexadecimal format.
+        Return the first and last `n/2` bytes of a binary data, in hexadecimal format.
         
         :param data: Data to strip
         :rype data: str or list
