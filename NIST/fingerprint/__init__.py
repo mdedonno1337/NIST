@@ -2015,6 +2015,41 @@ class NISTf( NIST ):
             self.set_field( "14.013", idc, idc )
     
     ############################################################################
+    # 
+    #    Migrate a Type04 record to Type14
+    # 
+    ############################################################################
+    
+    def migrate_Type04_to_Type14( self ):
+        """
+            Migration of the Type04 fingerprint record to Type14 record. This
+            function make a copy of the fingerprint images informations. The
+            minutiae are not modified. The Type04 records are deleted after
+            conversion.
+            
+            The Type14 fingerprint are stored in RAW format. The WSQ compression
+            is not supported for the moment.
+            
+            Usage:
+            
+                >>> pr2 = pr.get()
+                >>> pr2.migrate_Type04_to_Type14()
+                >>> pr2
+                NIST object, Type-01, Type-02, Type-09, Type-14
+        """
+        for idc in self.get_idc( 4 ):
+            size = self.get_size( idc )
+            res = self.get_resolution( idc )
+            image = self.get_print( "RAW", idc )
+            
+            self.add_Type14( size, res, idc )
+            self.set_field( "14.999", image, idc )
+            
+            self.delete_idc( 4, idc )
+        
+        self.delete_ntype( 4 )
+            
+    ############################################################################
     #    
     #    Coordinates system
     #    
