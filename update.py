@@ -2,22 +2,17 @@
 # -*- coding: UTF-8 -*-
 
 import doctester
+import os
 import subprocess
 import unittest
 
 from MDmisc.eprint import eprint
 
 ################################################################################
-# 
-################################################################################
 
 def _exe( cmd, wd ):
     return subprocess.Popen( cmd, cwd = wd, stdout = subprocess.PIPE, stderr = subprocess.PIPE ).communicate()
 
-################################################################################
-# 
-#    Version determination
-# 
 ################################################################################
 
 try:
@@ -28,20 +23,20 @@ except:
     version = "dev"
     
 finally:
-    import os
     os.chdir( os.path.split( os.path.abspath( __file__ ) )[ 0 ] )
     
+    verstring = "__version__ = '%s'" % version
+    
+    with open( "NIST/version.py", "w+" ) as fp:
+        fp.write( verstring )
+        
     with open( "doc/version.py", "w+" ) as fp:
-        fp.write( "__version__ = '%s'" % version )
+        fp.write( verstring )
 
-################################################################################
-# 
 ################################################################################
 
 unittest.TextTestRunner( verbosity = 2 ).run( doctester.NISTtests() )
 
-################################################################################
-# 
 ################################################################################
 
 wd = os.path.abspath( "./doc" )
@@ -52,4 +47,3 @@ stdout, stderr = _exe( cmd, wd )
 
 print( stdout )
 eprint( stderr )
-
