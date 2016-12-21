@@ -69,6 +69,36 @@ class NIST_MDD( NISTf ):
         the pairingn information in the NIST file (in the user-defined field
         9.255), to the function to annotate the pairing on the images.
     """
+    
+    ############################################################################
+    # 
+    #    Function to migrate a latent fingermark to a fingerprint
+    # 
+    ############################################################################
+    
+    def migrate_Type13_to_type14( self, idc = -1 ):
+        """
+            Function to migrate an latent fingermark to a fingerprint (Type13 to Type14).
+            
+            :param idc: IDC value.
+            :type idc: idc
+        """
+        idc = self.checkIDC( 13, idc )
+        size = self.get_size( idc )
+        res = self.get_resolution( idc )
+        image = self.get_latent( "RAW", idc )
+        
+        self.add_Type14( size, res, idc )
+        self.set_field( "14.999", image, idc )
+        
+        self.delete_idc( 13, idc )
+    
+    ############################################################################
+    # 
+    #    Minutiae related functions
+    # 
+    ############################################################################
+    
     def get_minutiae( self, format = None, idc = -1 ):
         """
             Overload of the :func:`NIST.fingerprint.NISTf.get_minutiae` function
