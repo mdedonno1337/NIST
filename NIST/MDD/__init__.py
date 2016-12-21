@@ -17,6 +17,7 @@ from .exceptions import pairingNameNotFound
 
 from ..fingerprint import NISTf
 from ..fingerprint.functions import AnnotationList as _AnnotationList
+from ..fingerprint.functions import AnnotationTypes
 from ..traditional.config import RS
 from ..traditional.config import US
 
@@ -162,19 +163,36 @@ class NIST_MDD( NISTf ):
             
             Usage:
             
-                >>> mark.get_pairing()
-                [['1', '1'], ['2', '2'], ['3', '3'], ['4', 'None'], ['5', 'None'], ['6', 'None'], ['7', 'None'], ['8', 'None'], ['9', 'None'], ['10', 'None']]
+                >>> mark.get_pairing() # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Pairing( i='1', n='1' ),
+                    Pairing( i='2', n='2' ),
+                    Pairing( i='3', n='3' ),
+                    Pairing( i='4', n='None' ),
+                    Pairing( i='5', n='None' ),
+                    Pairing( i='6', n='None' ),
+                    Pairing( i='7', n='None' ),
+                    Pairing( i='8', n='None' ),
+                    Pairing( i='9', n='None' ),
+                    Pairing( i='10', n='None' )
+                ]
                 
-                >>> mark.get_pairing( clean = True )
-                [['1', '1'], ['2', '2'], ['3', '3']]
+                >>> mark.get_pairing( clean = True ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Pairing( i='1', n='1' ),
+                    Pairing( i='2', n='2' ),
+                    Pairing( i='3', n='3' )
+                ]
         """
+        ret = AnnotationList()
+        
         pairing = split_r( [ RS, US ], self.get_field( "9.255", idc ) )
         
         if clean:
-            return [ [ minid, pairingid ] for minid, pairingid in pairing if pairingid != 'None' ]
+            pairing = [ [ minid, pairingid ] for minid, pairingid in pairing if pairingid != 'None' ]
         
-        else:
-            return pairing
+        ret.from_list( pairing, 'in', 'Pairing' )
+        return ret
     
     def add_Type09( self, minutiae = None, idc = 0, **options ):
         """
@@ -208,7 +226,7 @@ class NIST_MDD( NISTf ):
                 ... ]
                 >>> pairing = AnnotationList()
                 >>> pairing.from_list( data, format = "in" )
-                >>> pairing  # doctest: +NORMALIZE_WHITESPACE
+                >>> pairing # doctest: +NORMALIZE_WHITESPACE
                 [
                     Annotation( i='1', n='1' ),
                     Annotation( i='2', n='2' ),
@@ -398,3 +416,5 @@ class Pairing( Annotation ):
     """
     def set_format( self, **kwargs ):
         self._format = kwargs.get( 'format', "in" )
+
+AnnotationTypes[ 'Pairing' ] = Pairing

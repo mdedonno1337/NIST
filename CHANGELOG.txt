@@ -13,6 +13,10 @@ Add:
 * Add :func:`NIST.fingerprint.NISTf.migrate_Type04_to_Type14()` function.
 * Add :func:`NIST.MDD.NIST_MDD.migrate_Type13_to_type14()` function.
 
+Change:
+
+* Migrate the :func:`NIST.MDD.NIST_MDD.get_pairing()` function to return :func:`~NIST.fingerprint.functions.AnnotationList`.
+
 Patch:
 
 * :func:`NIST.traditional.functions.bindump()` was returning the first byte at the end of the string
