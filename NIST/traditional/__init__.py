@@ -999,6 +999,36 @@ class NIST( object ):
         for field in fields:
             self.set_field( field, value, idc )
     
+    def get_field_multi_idc( self, tag, idcs ):
+        """
+            Get a field for multiples IDC.
+            
+            :param tag: Tag to retrieve.
+            :type tag: str (or tuple)
+            
+            :param idcs: List of IDC to process.
+            :type idcs: list of int
+            
+            :return: List of fields value for all IDC passed in argument.
+            :rtype: list of str 
+        """
+        return [ self.get_field( tag, idc ) for idc in idcs ]
+    
+    def get_fields_multi_idc( self, tags, idcs ):
+        """
+            Get multiples fields for multiples IDC.
+            
+            :param tag: List of tags to retrieve.
+            :type tag: list of str (or list of tuple)
+            
+            :param idcs: List of IDC to process.
+            :type idcs: list of int
+            
+            :return: List of fields value for all tagid for all IDC passed in argument.
+            :rtype: list of list of str
+        """
+        return [ self.get_fields( tags, idc ) for idc in idcs ]
+    
     ############################################################################
     # 
     #    Add ntype and idc

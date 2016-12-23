@@ -12,6 +12,7 @@ Add:
 * Add the parameter in the :func:`NIST.fingerprint.functions.AnnotationList.from_list()` class to select the type of `Annotation` stored (`Annotation`, `Minutia` or `Core`).
 * Add :func:`NIST.fingerprint.NISTf.migrate_Type04_to_Type14()` function.
 * Add :func:`NIST.MDD.NIST_MDD.migrate_Type13_to_type14()` function.
+* Add :func:`NIST.traditional.get_field_multi_idc()` and :func:`NIST.traditional.get_fields_multi_idc()` functions.
 
 Change:
 
