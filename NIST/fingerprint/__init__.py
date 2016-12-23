@@ -1692,6 +1692,44 @@ class NISTf( NIST ):
     
     ############################################################################
     # 
+    #    Tenprint image
+    # 
+    ############################################################################
+    
+    def get_tenprint( self ):
+        """
+            Function to return the tenprint image of the current NIST
+            fingerprint object.
+            
+            :return: Tenprint image.
+            :rtype: PIL.Image
+        """
+        maxh, maxw = ( 0, 0 )
+        for idc in xrange( 1, 11 ):
+            try:
+                h, w = self.get_size( idc )
+                maxw = max( maxw, w )
+                maxh = max( maxh, h )
+            
+            except idcNotFound:
+                pass
+            
+        size = ( 5 * maxw, 2 * maxh )
+        
+        ret = Image.new( "L", size, 255 )
+        
+        for idc in xrange( 1, 11 ):
+            try:
+                img = self.get_print( "PIL", idc ) 
+            except:
+                img = Image.new( "L", ( maxw, maxh ), 250 )
+            
+            ret.paste( img, ( int( ( ( ( idc - 1 ) % 5 ) * maxw ) + 1 ), int( ( idc - 1 ) / 5 ) * maxh + 1 ) )
+        
+        return ret
+        
+    ############################################################################
+    # 
     #    Initialization of latent and print NIST objects
     # 
     ############################################################################
