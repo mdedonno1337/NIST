@@ -624,7 +624,7 @@ class NISTf( NIST ):
             :param idc: IDC value.
             :type idc: int
             
-            :return: Horizontal and vertical size
+            :return: Horizontal and vertical size in px.
             :rtype: tuple of int
             
             Usage:
