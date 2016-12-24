@@ -18,6 +18,7 @@ Add:
 Change:
 
 * Migrate the :func:`NIST.MDD.NIST_MDD.get_pairing()` function to return :func:`~NIST.fingerprint.functions.AnnotationList`.
+* Change the location to store the default annotation format (NIST.fingerprint.functions.Annotation.defaultformat).
 
 Patch:
 

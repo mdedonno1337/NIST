@@ -304,6 +304,8 @@ class Annotation( object ):
         some custom class (see :func:`~NIST.fingerprint.functions.Minutia` and
         :func:`~NIST.fingerprint.functions.Core` for more details).
         
+        :cvar defaultformat: Default format to store the Annotation data.
+        
         Import:
         
             >>> from NIST.fingerprint.functions import Annotation
@@ -330,6 +332,8 @@ class Annotation( object ):
             >>> Annotation( c = 3.18, b = 2.1, a = 1.0 )
             Annotation( a='1.0', c='3.18', b='2.1' )
     """
+    defaultformat = "i"
+    
     def __init__( self, *args, **kwargs ):
         """
             Constructor of the Annotation class. Try to feed the _data variable
@@ -346,14 +350,17 @@ class Annotation( object ):
         elif args != []:
             self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
         
-    def set_format( self, **kwargs ):
+    def set_format( self, format = None, **kwargs ):
         """
             Set the format in the _format variable.
             
             :param format: Format of the Annotation object
             :type format: str or list
         """
-        self._format = kwargs.get( 'format', 'i' )
+        if format == None:
+            format = self.defaultformat
+        
+        self._format = format 
     
     def as_list( self, format = None ):
         """
@@ -883,12 +890,7 @@ class Minutia( Annotation ):
     """
         Overload of the :func:`NIST.fingerprint.functions.Annotation` class.
     """
-    def set_format( self, **kwargs ):
-        format = kwargs.get( 'format', None )
-        if format == None:
-            format = "ixytqd"
-
-        self._format = format
+    defaultformat = "ixytqd"
 
     def default_values( self, field ):
         return {
@@ -904,8 +906,7 @@ class Core( Annotation ):
     """
         Overload of the :func:`NIST.fingerprint.functions.Annotation` class.
     """
-    def set_format( self, **kwargs ):
-        self._format = kwargs.get( 'format', "ixy" )
+    defaultformat = "ixy"
 
 ################################################################################
 # 

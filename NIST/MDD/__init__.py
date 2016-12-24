@@ -414,7 +414,6 @@ class Pairing( Annotation ):
     """
         Pairing annotation.
     """
-    def set_format( self, **kwargs ):
-        self._format = kwargs.get( 'format', "in" )
+    defaultformat = "in"
 
 AnnotationTypes[ 'Pairing' ] = Pairing
