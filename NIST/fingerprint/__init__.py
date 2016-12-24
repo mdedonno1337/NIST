@@ -1122,19 +1122,19 @@ class NISTf( NIST ):
             img = self.get_image( "PIL", idc )
             img = img.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
             
-            self.set_size( img.size )
+            self.set_size( img.size, idc )
             
             if 4 in ntypes:
                 self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
-                self.set_field( "4.999", PILToRAW( img ) )
+                self.set_field( "4.999", PILToRAW( img ), idc )
                 
             elif 13 in ntypes:
-                self.set_resolution( res )
-                self.set_field( "13.999", PILToRAW( img ) )
+                self.set_resolution( res, idc )
+                self.set_field( "13.999", PILToRAW( img ), idc )
             
             elif 14 in ntypes:
-                self.set_resolution( res )
-                self.set_field( "14.999", PILToRAW( img ) )
+                self.set_resolution( res, idc )
+                self.set_field( "14.999", PILToRAW( img ), idc )
             
             else:
                 raise notImplemented
@@ -2247,9 +2247,9 @@ class NIST_M1( NISTf ):
         if type( data ) == list:
             data = lstTo137( data, self.get_resolution( idc ) )
         
-        self.set_field( "9.137", data )
+        self.set_field( "9.137", data, idc )
         
         minnum = len( data.split( RS ) ) - 1
-        self.set_field( "9.136", minnum )
+        self.set_field( "9.136", minnum, idc )
         
         return minnum

@@ -206,7 +206,7 @@ class NIST_MDD( NISTf ):
         super().add_Type09( minutiae = minutiae, idc = idc, **options )
         self.set_pairing( **options )
     
-    def set_pairing( self, pairing = None, **options ):
+    def set_pairing( self, pairing = None, idc = -1, **options ):
         """
             Function to set the pairing information in the User-defined field
             9.255. The pairing information is stored as following:
@@ -241,7 +241,7 @@ class NIST_MDD( NISTf ):
             if isinstance( pairing, list ):
                 pairing = AnnotationList( pairing )
                 
-            self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ) )
+            self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ), idc )
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
         """

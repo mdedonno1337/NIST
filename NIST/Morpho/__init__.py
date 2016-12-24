@@ -17,22 +17,22 @@ class NIST_Morpho( NISTf ):
     # 
     ############################################################################
      
-    def get_caseName( self ):
+    def get_caseName( self, idc = -1 ):
         """
             Return the case name (field 2.007).
             
             :return: Case name.
             :rtype: str
         """
-        return self.get_field( "2.007" )
+        return self.get_field( "2.007", idc )
     
-    def set_caseName( self, name ):
+    def set_caseName( self, name, idc = -1 ):
         """
             Set the case name field (field 2.007).
             
             :param name: Name of the case to set in the field 2.007
         """
-        self.set_field( "2.007", name )
+        self.set_field( "2.007", name, idc )
         
     ############################################################################
     # 
