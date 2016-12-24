@@ -1,8 +1,16 @@
 ﻿Pre-release
 -----------
 
-Dev
-~~~~~
+Develop
+~~~~~~~
+
+Commits since latest release:
+
+.. git_changelog::
+    :rev-list: latest..
+
+v0.21 (2016-12-25)
+~~~~~~~~~~~~~~~~~~
 
 Add:
 
@@ -24,11 +32,6 @@ Change:
 Patch:
 
 * :func:`NIST.traditional.functions.bindump()` was returning the first byte at the end of the string
-
-Commits since latest release:
-
-.. git_changelog::
-    :rev-list: latest..
 
 v0.20 (2016-12-18)
 ~~~~~~~~~~~~~~~~~~

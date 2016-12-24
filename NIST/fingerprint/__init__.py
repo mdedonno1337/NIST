@@ -1701,11 +1701,16 @@ class NISTf( NIST ):
     
     def get_tenprint( self ):
         """
-            Function to return the tenprint image of the current NIST
-            fingerprint object.
+            Function to return the tenprint image of the current NIST fingerprint
+            object (only the rolled finger 1 to 10, two rows of 5 images).
             
             :return: Tenprint image.
             :rtype: PIL.Image
+            
+            Usage:
+            
+                >>> pr.get_tenprint() # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=2500x1000 at ...>
         """
         maxh, maxw = ( 0, 0 )
         for idc in xrange( 1, 11 ):
