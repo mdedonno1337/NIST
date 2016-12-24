@@ -1113,8 +1113,10 @@ class NISTf( NIST ):
         res = float( res )
         ntypes = self.get_ntype()
         
-        if res != self.get_resolution( idc ):
-            fac = res / self.get_resolution( idc )
+        objectres = self.get_resolution( idc )
+        
+        if res != objectres:
+            fac = res / objectres
             
             # Image resizing
             w, h = self.get_size( idc )
