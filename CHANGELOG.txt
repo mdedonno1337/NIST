@@ -14,6 +14,7 @@ Add:
 * Add :func:`NIST.MDD.NIST_MDD.migrate_Type13_to_type14()` function.
 * Add :func:`NIST.traditional.NIST.get_field_multi_idc()` and :func:`NIST.traditional.NIST.get_fields_multi_idc()` functions.
 * Add :func:`NIST.fingerprint.NISTf.get_tenprint()` function.
+* Add :func:`NIST.fingerprint.NISTf.get_tenprintcard()` function (European format).
 
 Change:
 

@@ -8,6 +8,7 @@ from future.builtins.misc import super
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont
 
+import ImageOps
 import os
 
 from MDmisc.deprecated import deprecated
@@ -1729,7 +1730,71 @@ class NISTf( NIST ):
             ret.paste( img, ( int( ( ( ( idc - 1 ) % 5 ) * maxw ) + 1 ), int( ( idc - 1 ) / 5 ) * maxh + 1 ) )
         
         return ret
+    
+    def get_tenprintcard( self, outres = 1000 ):
+        """
+            Return the tenprint card for the rolled fingers 1 to 10 (no slaps
+            for the moment). This function return an ISO-A4 European tenprint
+            card (Swiss).
+            
+            :param outres: Output resolution of the tenprint card, in DPI.
+            :type outres: int
+            
+            :return: Tenprint card.
+            :rtype: PIL.Image
+            
+            Usage:
+                
+                >>> pr.get_tenprintcard() # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=8268x11692 at ...>
+        """
+        Image.MAX_IMAGE_PIXELS = 1000000000
         
+        card = Image.open( self.imgdir + "/tenprint.png" )
+        card = card.convert( "L" )
+        
+        cardres, _ = card.info[ 'dpi' ]
+        
+        fac = outres / cardres
+        if fac != 1:
+            w, h = card.size
+            card = card.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
+        
+        fingerpos = {
+            1: ( 8.763, 118.9736, 51.4858, 158.4452 ),
+            2: ( 51.8922, 118.9736, 89.408, 158.4452 ),
+            3: ( 89.8144, 118.9736, 126.9746, 158.4452 ),
+            4: ( 127.381, 118.9736, 165.2524, 158.4452 ),
+            5: ( 165.6842, 118.9736, 200.533, 158.4452 ),
+            6: ( 8.763, 169.3164, 51.4858, 208.5594 ),
+            7: ( 51.8922, 169.3164, 89.408, 208.5594 ),
+            8: ( 89.8144, 169.3164, 126.9746, 208.5594 ),
+            9: ( 127.381, 169.3164, 165.2524, 208.5594 ),
+            10: ( 165.6842, 169.3164, 200.533, 208.5594 )
+        }
+        
+        for idc in xrange( 1, 11 ):
+            try:
+                p = self.get_image( "PIL", idc )
+                
+                res, _ = p.info[ 'dpi' ]
+                w, h = p.size
+                fac = outres / res
+                if fac != 1:
+                    p = p.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
+                
+                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ idc ] ]
+                
+                alpha = x1 + int( ( x2 - x1 - ( w * fac ) ) / 2 )
+                beta = y1 + int( ( y2 - y1 - ( h * fac ) ) / 2 )
+                
+                card.paste( p, ( alpha, beta ), ImageOps.invert( p ) )
+            
+            except idcNotFound:
+                continue
+            
+        return card
+    
     ############################################################################
     # 
     #    Initialization of latent and print NIST objects
