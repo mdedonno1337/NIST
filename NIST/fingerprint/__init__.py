@@ -6,9 +6,8 @@ from __future__ import absolute_import, division
 from cStringIO import StringIO
 from future.builtins.misc import super
 from math import cos, pi, sin
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-import ImageOps
 import os
 
 from MDmisc.deprecated import deprecated
