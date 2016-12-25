@@ -906,7 +906,7 @@ class Core( Annotation ):
     """
         Overload of the :func:`NIST.fingerprint.functions.Annotation` class.
     """
-    defaultformat = "ixy"
+    defaultformat = "xy"
 
 ################################################################################
 # 

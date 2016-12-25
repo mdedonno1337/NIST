@@ -369,15 +369,12 @@ class NISTf( NIST ):
         except:
             return 0
     
-    def get_cores( self, idc = -1, format = 'xy' ):
+    def get_cores( self, idc = -1 ):
         """
             Process and return the coordinate of the cores.
             
             :param idc: IDC value.
             :type idc: int
-            
-            :param format: Format of the cores to return.
-            :type format: str or list
             
             :return: List of cores
             :rtype: AnnotationList
@@ -399,9 +396,10 @@ class NISTf( NIST ):
                 x = int( c[ 0:4 ] ) / 100
                 y = int( c[ 4:8 ] ) / 100
                 
-                ret.append( Core( [ x, y ], format = format ) )
+                ret.append( Core( [ x, y ] ) )
                 
             return ret
+        
         except:
             return None
         
