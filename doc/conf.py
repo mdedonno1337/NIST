@@ -24,7 +24,8 @@ release = __version__
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.doctest',
-    'sphinx_git'
+    'sphinx_git',
+    'sphinx.ext.viewcode'
 ]
 
 templates_path = [ '_templates' ]
