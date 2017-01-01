@@ -40,15 +40,13 @@ class NIST_Morpho( NISTf ):
     # 
     ############################################################################
     
-    def format_field( self, ntype, tagid, idc = -1 ):
+    def is_binary( self, ntype, tagid ):
         """
             Add some binary fields to the list of fields to format with
             :func:`NIST.traditional.functions.bindump`.
         """
-        value = self.get_field( ( ntype, tagid ), idc )
-        
         if ntype == 9 and tagid == 184:
-            return bindump( value )
+            return True
         
         else:
-            return super().format_field( ntype, tagid, idc )
+            return super().is_binary( ntype, tagid )

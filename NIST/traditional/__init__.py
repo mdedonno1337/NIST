@@ -542,6 +542,33 @@ class NIST( object ):
     # 
     ############################################################################
     
+    def is_binary( self, ntype, tagid ):
+        """
+            Check if the particular field ( ntype, tagid ) is stored as binary
+            data or not.
+            
+            :param ntype: ntype
+            :type ntype: int
+            
+            :param tagid: field id
+            :type tagid: ind
+            
+            Usage:
+            
+                >>> n.is_binary( 13, 999 )
+                True
+                >>> n.is_binary( 1, 3 ) 
+                False
+        """
+        if tagid == 999:
+            return True
+        
+        elif ntype == 18 and tagid == 19:
+            return True
+            
+        else:
+            return False
+    
     def format_field( self, ntype, tagid, idc = -1 ):
         """
             Return the value or the hexadecimal representation of the value for
@@ -566,12 +593,9 @@ class NIST( object ):
         """
         value = self.get_field( ( ntype, tagid ), idc )
         
-        if tagid == 999:
+        if self.is_binary( ntype, tagid ):
             return bindump( value )
         
-        elif ntype == 18 and tagid == 19:
-            return bindump( value )
-            
         else:
             return value
     
