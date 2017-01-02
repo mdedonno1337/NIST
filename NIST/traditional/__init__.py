@@ -1220,6 +1220,26 @@ class NIST( object ):
         """
         return sorted( self.data[ ntype ].keys() )
     
+    def get_all_tagid( self ):
+        """
+            Get the list of all fields in the format ( ntype, idc, tagid ).
+            
+            :return: List of ( ntype, idc, tagid ).
+            :rtype: List of tuples
+            
+            Usage:
+            
+                >>> n.get_all_tagid()
+                [(1, 0, 1), (1, 0, 2), (1, 0, 3), (1, 0, 4), (1, 0, 5), (1, 0, 6), (1, 0, 7), (1, 0, 8), (1, 0, 9), (1, 0, 11), (1, 0, 12), (2, 0, 1), (2, 0, 2), (2, 0, 3), (2, 0, 4), (2, 0, 54)]
+        """
+        lst = []
+        for ntype, idcs in self.data.iteritems():
+            for idc, tagids in idcs.iteritems():
+                for tagid in tagids.keys():
+                    lst.append( ( ntype, idc, tagid ) )
+        
+        return lst
+    
     def checkIDC( self, ntype, idc ):
         """
             Check if the IDC passed in parameter exists for the specific ntype,

@@ -7,6 +7,7 @@ Develop
 Add:
 
 * Add :func:`NIST.traditional.NIST.to_dict()` function.
+* Add :func:`NIST.traditional.NIST.get_all_tagid()` function.
 Commits since latest release:
 
 .. git_changelog::
