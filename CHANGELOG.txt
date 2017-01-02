@@ -4,6 +4,9 @@
 Develop
 ~~~~~~~
 
+Add:
+
+* Add :func:`NIST.traditional.NIST.to_dict()` function.
 Commits since latest release:
 
 .. git_changelog::

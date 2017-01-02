@@ -751,6 +751,15 @@ class NIST( object ):
         
         return "".join( outnist )
     
+    def to_dict( self ):
+        """
+            Return a dictionnary from the variable NIST.data.
+            
+            :return: Data
+            :rtype: dict
+        """
+        return self.data.to_dict()
+    
     def write( self, outfile ):
         """
             Write the NIST object to a specific file.
