@@ -254,3 +254,6 @@ def printableFieldSeparator( data ):
         data = data.replace( old, new )
     
     return data
+
+def split( str, num ):
+    return [ str[ start : start + num ] for start in xrange( 0, len( str ), num ) ]

@@ -8,6 +8,8 @@ Add:
 
 * Add :func:`NIST.traditional.NIST.to_dict()` function.
 * Add :func:`NIST.traditional.NIST.get_all_tagid()` function.
+* Add :func:`NIST.traditional.NIST.to_json()` and  :func:`NIST.traditional.NIST.from_json()` functions.
+
 Commits since latest release:
 
 .. git_changelog::

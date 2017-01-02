@@ -3,13 +3,14 @@
 
 import datetime
 import inspect
+import json
 import os
 import time
 
 from collections import OrderedDict
 from copy import deepcopy
 
-from MDmisc.binary import binstring_to_int, int_to_binstring
+from MDmisc.binary import *
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
 from MDmisc.elist import replace_r, ifany
@@ -163,7 +164,11 @@ class NIST( object ):
         with open( infile, "rb" ) as fp:
             data = fp.read()
         
-        self.load( data )
+        if data[ 0 ] == "{" and data[ -1 ] == "}":
+            self.from_json( data )
+        
+        else:
+            self.load( data )
     
     def load_auto( self, p ):
         """
@@ -759,6 +764,83 @@ class NIST( object ):
             :rtype: dict
         """
         return self.data.to_dict()
+    
+    def to_json( self, return_bin = True, **options ):
+        """
+            Export the content of the NIST object to JSON.
+            
+            :param return_bin: Include binary data in the JSON string. 
+            :type return_bin: boolean
+            
+            :param options: Options to pass to the :func:`json.dumps()` function.
+            :type options: kwargs
+            
+            :return: JSON string.
+            :rtype: str
+            
+            .. note:: If the binary data is included in the JSON string, the data will be exported as hexadecimal representation.
+            
+        """
+        self.clean()
+        databis = defDict()
+        for ntype, idc, tagid in self.get_all_tagid():
+            value = self.get_field( ( ntype, tagid ), idc )
+            
+            if self.is_binary( ntype, tagid ):
+                if return_bin:
+                    databis[ ntype ][ idc ][ tagid ] = join( multimap( [ ord, myhex ], value ) )
+                
+            else:
+                databis[ ntype ][ idc ][ tagid ] = value 
+        
+        databis = databis.to_dict()
+        
+        return json.dumps( databis, **options )
+    
+    def from_json( self, data ):
+        """
+            Load the data from a JSON file. If some binary filds are present in
+            the JSON file, the data will be converted from hexadecimal format to
+            binary.
+            
+            :param data: JSON file or JSON string to import.
+            :type data: str
+            
+            :return: NIST object.
+            :rtype: NIST object
+            
+            Usage:
+            
+                >>> from NIST import NIST
+                >>> n = NIST()
+                >>> n.from_json( "sample/mark-pairing-nobinary.json" )
+                >>> n
+                NIST object, Type-01, Type-02, Type-09, Type-13
+        """
+        if type( data ) == str and os.path.isfile( data ):
+            with open( data ) as fp:
+                data = json.load( fp )
+        
+        elif type( data ) == str:
+            data = json.loads( data )
+        
+        self.data = defDict()
+        
+        for ntype, idcs in data.iteritems():
+            ntype = int( ntype )
+            self.add_ntype( ntype )
+             
+            for idc, tagids in idcs.iteritems():
+                idc = int( idc )
+                self.add_idc( ntype, idc )
+                 
+                for tagid, value in tagids.iteritems():
+                    tagid = int( tagid )
+                    
+                    if self.is_binary( ntype, tagid ):
+                        value = join( multimap( [ hex_to_int, chr ], split( value, 2 ) ) )
+                    
+                    self.set_field( ( ntype, tagid ), value, idc )
     
     def write( self, outfile ):
         """
