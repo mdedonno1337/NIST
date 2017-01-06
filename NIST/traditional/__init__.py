@@ -187,12 +187,14 @@ class NIST( object ):
                 self.read( p )
             
         elif isinstance( p, NIST ):
-            # Get the list of all attributes stored in the NIST object.
-            attributes = inspect.getmembers( p, lambda a: not( inspect.isroutine( a ) ) )
-            
-            # Copy all the values to the current NIST object. 
-            for name, value in [ a for a in attributes if not( a[ 0 ].startswith( '__' ) and a[ 0 ].endswith( '__' ) ) ]:
-                super( NIST, self ).__setattr__( name, value )
+            for ntype in p.get_ntype():
+                self.add_ntype(ntype)
+                
+                for idc in p.get_idc( ntype ):
+                    self.add_idc(ntype, idc)
+                    
+                    for tagid in p.get_tagsid( ntype, idc ):
+                        self.set_field( ( ntype, tagid ), p.get_field( ( ntype, tagid ), idc ), idc )
     
     def load( self, data ):
         """
