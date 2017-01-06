@@ -277,6 +277,21 @@ class NIST_MDD( NISTf ):
         except TypeError:
             return AnnotationList( [] )
     
+    def get_minutiae_paired_count( self, idc = -1 ):
+        """
+            Get the number of minutiae pairing.
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Number of minutiae paired
+            :rtype: int
+            
+            >>> mark.get_minutiae_paired_count()
+            3
+        """
+        return len( self.get_pairing( idc, True ) )
+    
     def get_minutiae_by_pairing_name( self, name, format = None, idc = -1 ):
         """
             Filter the minutiae list by pairing name.

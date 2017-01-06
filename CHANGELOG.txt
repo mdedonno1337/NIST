@@ -9,6 +9,7 @@ Add:
 * Add :func:`NIST.traditional.NIST.to_dict()` function.
 * Add :func:`NIST.traditional.NIST.get_all_tagid()` function.
 * Add :func:`NIST.traditional.NIST.to_json()` and  :func:`NIST.traditional.NIST.from_json()` functions.
+* Add :func:`NIST.MDD.NIST_MDD.get_minutiae_paired_count()` function.
 
 Commits since latest release:
 
