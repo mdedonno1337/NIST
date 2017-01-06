@@ -188,10 +188,10 @@ class NIST( object ):
             
         elif isinstance( p, NIST ):
             for ntype in p.get_ntype():
-                self.add_ntype(ntype)
+                self.add_ntype( ntype )
                 
                 for idc in p.get_idc( ntype ):
-                    self.add_idc(ntype, idc)
+                    self.add_idc( ntype, idc )
                     
                     for tagid in p.get_tagsid( ntype, idc ):
                         self.set_field( ( ntype, tagid ), p.get_field( ( ntype, tagid ), idc ), idc )
