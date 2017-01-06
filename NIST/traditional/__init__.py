@@ -95,7 +95,7 @@ class NIST( object ):
             :param id: Identifier to set to the NIST object.
             :type id: anything
         """
-        self.id = id
+        self.id = str( id )
     
     def get_identifier( self ):
         """
