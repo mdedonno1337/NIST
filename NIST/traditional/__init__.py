@@ -1302,6 +1302,9 @@ class NIST( object ):
         """
         return sorted( self.data[ ntype ].keys() )
     
+    def get_tagsid( self, ntype, idc ):
+        return sorted( self.data[ ntype ][ idc ].keys() )
+    
     def get_all_tagid( self ):
         """
             Get the list of all fields in the format ( ntype, idc, tagid ).
