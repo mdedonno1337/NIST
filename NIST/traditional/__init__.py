@@ -1265,12 +1265,11 @@ class NIST( object ):
         
         return
     
-    def add_Type02( self ):
+    def add_Type02( self, idc = 0 ):
         """
             Add the Type-02 record to the NIST object, and set the Date.
         """
         ntype = 2
-        idc = 0
         
         self.add_default( ntype, idc )
         
