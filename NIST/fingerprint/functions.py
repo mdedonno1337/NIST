@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from collections import OrderedDict
+from collections import OrderedDict, Counter
 from copy import deepcopy
 from itertools import izip
 
@@ -582,7 +582,49 @@ class Annotation( object ):
         
         else:
             self._data[ name ] = value
-
+            
+    def __eq__( self, other ):
+        """
+            Compare the Annotation object with all variables used in the _format
+            string. The hidden data is not used while comparing the objects. The
+            order of the variables is not important. The comparison is made
+            regardess of the type of the data stored.
+            
+            Usage :
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1, 2, 3 ], format = "xyt" )
+                >>> b = Annotation( [ 1, 3, 2 ], format = "xty" )
+                >>> c = Annotation( [ 1, 2, 3.0 ], format = "xyt" )
+                >>> d = Annotation( [ 1, 2, 3.0 ], format = "xyt" )
+                >>> d.id = 18
+                
+                >>> e = Annotation( [ 1, 2, 4 ], format = "xyt" )
+                >>> f = Annotation( [ 1, 2 ], format = "xy" )
+                
+                >>> a == b
+                True
+                >>> a == c
+                True
+                >>> a == d
+                True
+                
+                >>> a == e
+                False
+                >>> a == f
+                False
+        """
+        if Counter( self._format ) != Counter( other._format ):
+            return False
+        
+        else:
+            for v in self._format:
+                if self.__getattr__( v ) != other.__getattr__( v ):
+                    return False
+            
+            else:
+                return True
+        
 ################################################################################
 # 
 #    Annotation list class
