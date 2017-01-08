@@ -1008,6 +1008,18 @@ class NIST( object ):
     # 
     ############################################################################
     
+    def has_field(self, tag, idc = -1):
+        if type( tag ) == str:
+            ntype, tagid = tagSplitter( tag )
+            
+        elif type( tag ) == tuple:
+            ntype, tagid = tag
+        
+        else:
+            raise notImplemented
+        
+        return tag in self.data[ ntype ][ idc ]
+    
     def get_field( self, tag, idc = -1 ):
         """
             Get the content of a specific tag in the NIST object.
