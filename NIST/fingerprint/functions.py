@@ -772,6 +772,11 @@ class AnnotationList( eobject ):
         """
         self._data.append( value )
     
+    def remove( self, value ):
+        for i, v in enumerate( self._data ):
+            if v == value:
+                del self._data[ i ]
+    
     def from_list( self, data, format = None, type = "Annotation" ):
         """
             Load the data from a list of lists.
