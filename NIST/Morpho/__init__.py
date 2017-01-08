@@ -48,6 +48,18 @@ class NIST_Morpho( NISTf ):
     # 
     ############################################################################
     
+    def get_cfv( self, idc = -1 ):
+        """
+            Return the CFV files used for by the matcher.
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Binary CFV file.
+            :rtype: Bitstring
+        """
+        return self.get_jar( idc )[ 'features' ]
+    
     def get_jar( self, idc = -1 ):
         """
             Get the content of all files present in the JAR file stored in the
