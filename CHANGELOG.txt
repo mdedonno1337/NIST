@@ -10,6 +10,9 @@ Add:
 * Add :func:`NIST.traditional.NIST.get_all_tagid()` function.
 * Add :func:`NIST.traditional.NIST.to_json()` and  :func:`NIST.traditional.NIST.from_json()` functions.
 * Add :func:`NIST.MDD.NIST_MDD.get_minutiae_paired_count()` function.
+* Add :func:`NIST.fingerprint.functions.AnnotationList.remove()` function.
+* Add :func:`NIST.Morpho.NIST_Morpho.get_jar()` and :func:`NIST.Morpho.NIST_Morpho.get_cfv()` functions.
+* Add :func:`NIST.Morpho.NIST_Morpho.get_minutiae()` to process the 9.184 field.
 
 Commits since latest release:
 
