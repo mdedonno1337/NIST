@@ -361,7 +361,7 @@ class NIST_MDD( NISTf ):
         
         return img
     
-    def annotate( self, image, data, type = "minutiae", res = None ):
+    def annotate( self, image, data, type = "minutiae", res = None, idc = -1 ):
         """
             Overloading of the NISTf.annotate() function to incorporate the
             annotation of the paired minutiae in yellow.

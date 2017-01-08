@@ -792,7 +792,7 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def annotate( self, image, data, type = "minutiae", res = None ):
+    def annotate( self, image, data, type = "minutiae", res = None, idc = -1 ):
         """
             Function to annotate the image with the data passed in argument.
             
@@ -822,7 +822,7 @@ class NISTf( NIST ):
                 try:
                     res, _ = image.info[ 'dpi' ]
                 except:
-                    res = self.get_resolution()
+                    res = self.get_resolution( idc )
             
             # Resize factor for the minutiae
             fac = res / 2000
@@ -998,8 +998,8 @@ class NISTf( NIST ):
         img = self.get_latent( 'PIL', idc )
         
         try:
-            img = self.annotate( img, self.get_minutiae( idc ), "minutiae" )
-            img = self.annotate( img, self.get_cores( idc ), "center" )
+            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", idc = idc )
+            img = self.annotate( img, self.get_cores( idc ), "center", idc = idc )
         except recordNotFound:
             pass
         
