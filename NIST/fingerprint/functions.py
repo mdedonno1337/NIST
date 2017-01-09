@@ -3,15 +3,15 @@
 
 from collections import OrderedDict, Counter
 from copy import deepcopy
+from cStringIO import StringIO, InputType, OutputType
 from itertools import izip
+from PIL import Image
 
 from MDmisc.elist import flatten
 from MDmisc.eobject import eobject
 from MDmisc.imageprocessing import PILToRAW, RAWToPIL
 from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
-
-from PIL import Image
 
 from ..traditional.config import *
 from ..traditional.exceptions import notImplemented
@@ -142,6 +142,46 @@ def lstTo137( lst, res = None ):
 #    Image processing functions
 # 
 ################################################################################
+
+def changeFormatImage( input, outformat, **options ):
+    outformat = outformat.upper()
+    
+    # Convert the input data to PIL format
+    if isinstance( input, Image.Image ):
+        img = input
+    
+    elif isinstance( input, str ):
+        try:
+            buff = StringIO( input )
+            img = Image.open( buff )
+            
+        except:
+            if outformat == "RAW":
+                return input
+            else:
+                img = RAWToPIL( input, **options )
+    
+    elif isinstance( input, ( OutputType, InputType ) ):
+        img = Image.open( input )
+    
+    else:
+        raise notImplemented( "Input format not supported" )
+    
+    # Convert the PIL format to the output format
+    if outformat == "PIL":
+        return img
+    
+    elif outformat == "RAW":
+        return PILToRAW( img )
+    
+    else:
+        try:
+            buff = StringIO()
+            img.save( buff, format = outformat )
+            return Image.open( buff )
+        
+        except:
+            raise notImplemented( "Output format not supported by PIL" )
 
 def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
     """
