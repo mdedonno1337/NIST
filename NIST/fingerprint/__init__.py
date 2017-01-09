@@ -1696,7 +1696,15 @@ class NISTf( NIST ):
     # 
     ############################################################################
     
-    def get_tenprint( self ):
+    def get_tenprint_annotated( self ):
+        """
+            Return the tenprint image annoated.
+            
+            ..see: :func:`get_tenprint()` function
+        """
+        return self.get_tenprint( annotated = True )
+    
+    def get_tenprint( self, annotated = False ):
         """
             Function to return the tenprint image of the current NIST fingerprint
             object (only the rolled finger 1 to 10, two rows of 5 images).
@@ -1721,15 +1729,25 @@ class NISTf( NIST ):
             
         size = ( 5 * maxw, 2 * maxh )
         
-        ret = Image.new( "L", size, 255 )
+        if not annotated:
+            mode = "L"
+        else:
+            mode = "RGB"
+            
+        ret = Image.new( mode, size, 255 )
         
         for idc in xrange( 1, 11 ):
             try:
-                img = self.get_print( "PIL", idc ) 
+                if annotated:
+                    img = self.get_print_annotated( idc )
+                
+                else:
+                    img = self.get_print( "PIL", idc ) 
+            
             except:
                 img = Image.new( "L", ( maxw, maxh ), 250 )
             
-            ret.paste( img, ( int( ( ( ( idc - 1 ) % 5 ) * maxw ) + 1 ), int( ( idc - 1 ) / 5 ) * maxh + 1 ) )
+            ret.paste( img, ( int( ( ( ( idc - 1 ) % 5 ) * maxw ) ), int( ( idc - 1 ) / 5 ) * maxh ) )
         
         return ret
     
