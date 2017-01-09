@@ -7,6 +7,7 @@ from itertools import izip
 
 from MDmisc.elist import flatten
 from MDmisc.eobject import eobject
+from MDmisc.imageprocessing import PILToRAW, RAWToPIL
 from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
 
@@ -141,48 +142,6 @@ def lstTo137( lst, res = None ):
 #    Image processing functions
 # 
 ################################################################################
-
-def RAWToPIL( raw, size = ( 500, 500 ) ):
-    """
-        Convert a RAW string to PIL object.
-        
-        :param raw: RAW input image.
-        :type raw: str
-        
-        :param size: Size of the image ( width, height ).
-        :type size: tuple
-        
-        :return: Converted PIL image
-        :rtype: PIL.Image
-        
-        Usage:
-        
-            >>> from NIST.fingerprint.functions import RAWToPIL
-            >>> RAWToPIL( chr( 255 ) * ( 500 * 500 ), ( 500, 500 ) ) # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=L size=500x500 at 0x...>
-    """
-    return Image.frombytes( 'L', size, raw )
-
-def PILToRAW( pil ):
-    """
-        Convert a PIL object to RAW string.
-        
-        :param pil: PIL input image.
-        :type pil: PIL.Image
-        
-        :return: RAW formatted image
-        :rtype: str
-        
-        Usage:
-            
-            >>> from NIST.fingerprint.functions import PILToRAW
-            >>> from PIL import Image
-            >>> p = Image.new( 'L', ( 500, 500 ), 0 )
-            >>> r = PILToRAW( p )
-            >>> r == '\\x00' * ( 500 * 500 )
-            True
-    """
-    return pil.convert( 'L' ).tobytes()
 
 def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
     """
