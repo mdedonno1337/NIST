@@ -76,24 +76,28 @@ def lstTo012( lst, format = None ):
         tmp.from_list( lst, format = format, type = 'Minutia' )
         lst = tmp
         
-    if len( lst ) == 0:
-        return ""
+    if isinstance( lst, AnnotationList ):
+        if len( lst ) == 0:
+            return ""
+        
+        else:
+            try:
+                ret = [
+                    [ m.i, "%04d%04d%03d" % ( round( float( m.x ) * 100 ), round( float( m.y ) * 100 ), m.t ), m.q, m.d ]
+                    for m in lst
+                ]
+            
+            except:
+                ret = []
+                i = 1
+                for m in lst:
+                    ret.append( [ i, "%04d%04d%03d" % ( round( float( m.x ) * 100 ), round( float( m.y ) * 100 ), m.t ), '00', 'A' ] )
+                    i += 1
+            
+            return join_r( [ US, RS ], ret )
     
     else:
-        try:
-            ret = [
-                [ m.i, "%04d%04d%03d" % ( round( float( m.x ) * 100 ), round( float( m.y ) * 100 ), m.t ), m.q, m.d ]
-                for m in lst
-            ]
-        
-        except:
-            ret = []
-            i = 1
-            for m in lst:
-                ret.append( [ i, "%04d%04d%03d" % ( round( float( m.x ) * 100 ), round( float( m.y ) * 100 ), m.t ), '00', 'A' ] )
-                i += 1
-        
-        return join_r( [ US, RS ], ret )
+        raise notImplemented
 
 def lstTo137( lst, res = None ):
     """
