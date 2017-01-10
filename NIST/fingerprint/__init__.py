@@ -388,8 +388,6 @@ class NISTf( NIST ):
         """
         try:
             cores = self.get_field( "9.008", idc ).split( RS )
-            if cores == None:
-                raise Exception
             
             ret = AnnotationList()
             for c in cores:
