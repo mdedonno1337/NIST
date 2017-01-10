@@ -24,7 +24,7 @@ from ..traditional.config import RS, US, FS, default_origin
 from ..traditional.exceptions import *
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm
+from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
 from .functions import Minutia, Core, AnnotationList
 from .voidType import voidType
 
@@ -910,32 +910,16 @@ class NISTf( NIST ):
         
         imgdata = self.get_field( "13.999", idc )
         
-        if gca in [ "JP2", "PNG" ]:
-            buff = StringIO( imgdata )
-            img = Image.open( buff )
+        if imgdata == None:
+            imgdata = Image.new( "L", self.get_size( idc ), 255 )
             
-            if format == "PIL":
-                return img
-            
-            elif format == "RAW":
-                return PILToRAW( img )
-            
-            elif format in [ "JP2", "PNG" ]:
-                return buff
-        
-        elif gca == "RAW":
-            if format == "RAW":
-                return imgdata
-            
-            elif format == "PIL":
-                return RAWToPIL( imgdata, self.get_size( idc ), self.get_resolution( idc ) )
-            
-            else:
-                raise notImplemented
-    
-        else:
-            raise notImplemented
-    
+        return changeFormatImage( 
+            imgdata,
+            format,
+            size = self.get_size( idc ),
+            res = self.get_resolution( idc )
+        )
+
     def export_latent( self, f, idc = -1 ):
         """
             Export the latent fingermark image to a file on disk.
@@ -1306,40 +1290,15 @@ class NISTf( NIST ):
         else:
             raise notImplemented
         
-        if gca in [ "JP2", "PNG" ]:
-            buff = StringIO( imgdata )
-            img = Image.open( buff )
-            
-            if format == "PIL":
-                return img
-            
-            elif format == "RAW":
-                return PILToRAW( img )
-            
-            elif format in [ "JP2", "PNG" ]:
-                return buff
-
-        elif gca == "RAW":
-            if format == "RAW":
-                return imgdata
+        if gca == "WSQ":
+            imgdata = WSQ().decode( imgdata )
         
-            elif format == "PIL":
-                return RAWToPIL( imgdata, self.get_size( idc ), self.get_resolution( idc ) )
-            
-            else:
-                raise notImplemented
-        
-        elif gca == "WSQ":
-            img = WSQ().decode( imgdata )
-            
-            if format == "RAW":
-                return img
-            
-            elif format == "PIL":
-                return RAWToPIL( img, self.get_size( idc ), self.get_resolution( idc ) )
-            
-            else:
-                raise notImplemented
+        return changeFormatImage( 
+            imgdata,
+            format,
+            size = self.get_size( idc ),
+            res = self.get_resolution( idc )
+        )
         
     def export_print( self, f, idc = -1 ):
         """
