@@ -312,7 +312,7 @@ class NISTf( NIST ):
         if type( format ) == int:
             idc, format = format, self.minutiaeformat
         
-        elif format == None:
+        if format == None:
             format = self.minutiaeformat
         
         for m in self.get_minutiae( idc ):
