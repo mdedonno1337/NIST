@@ -70,6 +70,13 @@ def lstTo012( lst, format = None ):
             
             >>> lstTo012( [] )
             ''
+        
+        This function can not be called with no parameter:
+        
+            >>> lstTo012( None )
+            Traceback (most recent call last):
+            ...
+            notImplemented
     """
     if isinstance( lst, list ):
         tmp = AnnotationList()
@@ -148,6 +155,50 @@ def lstTo137( lst, res = None ):
 ################################################################################
 
 def changeFormatImage( input, outformat, **options ):
+    """
+        Function to change the format of the input image.
+        
+        Usage:
+        
+            >>> from NIST.fingerprint.functions import changeFormatImage
+        
+        To convert an PIL image to a RAW string, use the following commands:
+        
+            >>> from PIL import Image
+            >>> imgPIL = Image.new( "L", ( 500, 500 ), 255 )
+            >>> imgRAW = changeFormatImage( imgPIL, "RAW" )
+            >>> imgRAW == chr( 255 ) * 500 * 500
+            True
+        
+        All format supported by PIL are supported as output format:
+        
+            >>> changeFormatImage( imgPIL, "TIFF" ) # doctest: +ELLIPSIS
+            <PIL.TiffImagePlugin.TiffImageFile image mode=L size=500x500 at ...>
+            >>> changeFormatImage( imgPIL, "PNG" ) # doctest: +ELLIPSIS
+            <PIL.PngImagePlugin.PngImageFile image mode=L size=500x500 at ...>
+            
+        You can also convert a StringIO buffer:
+        
+            >>> from cStringIO import StringIO
+            >>> imgBuffer = StringIO()
+            >>> imgPIL.save( imgBuffer, 'JPEG' )
+            >>> imgRAW2 = changeFormatImage( imgBuffer, "RAW" )
+            >>> imgRAW == imgRAW2
+            True
+        
+        A `notImplemented` is raised if the input format is not supported or if
+        the output format is not implemented in this function or by PIL:
+        
+            >>> changeFormatImage( None, "RAW" )
+            Traceback (most recent call last):
+            ...
+            notImplemented: Input format not supported
+            
+            >>> changeFormatImage( imgPIL, "WSQ" )
+            Traceback (most recent call last):
+            ...
+            notImplemented: Output format not supported by PIL
+    """
     outformat = outformat.upper()
     
     # Convert the input data to PIL format
