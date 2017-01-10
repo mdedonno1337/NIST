@@ -771,7 +771,7 @@ class AnnotationList( eobject ):
         """
         return [ a.as_list() for a in self._data ]
     
-    def get( self, format ):
+    def get( self, format = None ):
         """
             Get a copy of the current object with a specific format.
             
