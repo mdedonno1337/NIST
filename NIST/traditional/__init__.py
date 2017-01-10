@@ -1009,14 +1009,7 @@ class NIST( object ):
     ############################################################################
     
     def has_field(self, tag, idc = -1):
-        if type( tag ) == str:
-            ntype, tagid = tagSplitter( tag )
-            
-        elif type( tag ) == tuple:
-            ntype, tagid = tag
-        
-        else:
-            raise notImplemented
+        ntype, tagid = tagSplitter( tag )
         
         return tag in self.data[ ntype ][ idc ]
     
@@ -1040,14 +1033,7 @@ class NIST( object ):
                 >>> n.get_field( "1.002" )
                 '0300'
         """
-        if type( tag ) == str:
-            ntype, tagid = tagSplitter( tag )
-            
-        elif type( tag ) == tuple:
-            ntype, tagid = tag
-        
-        else:
-            raise notImplemented
+        ntype, tagid = tagSplitter( tag )
         
         idc = self.checkIDC( ntype, idc )
     
@@ -1073,10 +1059,7 @@ class NIST( object ):
             
                 >>> n.set_field( "1.002", "0300" )
         """
-        if type( tag ) == str:
-            ntype, tagid = tagSplitter( tag )
-        else:
-            ntype, tagid = map( int, tag )
+        ntype, tagid = tagSplitter( tag )
         
         idc = self.checkIDC( ntype, idc )
         

@@ -224,12 +224,21 @@ def tagSplitter( tag ):
         :type tag: str
         
         :return: Splitted tag
-        :rtype: list
+        :rtype: tuple
         
         >>> tagSplitter( "1.002" )
         (1, 2)
+        >>> tagSplitter( ( 1, 2 ) )
+        (1, 2)
     """
-    return tuple( map( int, tag.split( DO ) ) )
+    if isinstance( tag, str ):
+        tag = tag.split( DO )
+        
+    if isinstance( tag, ( tuple, list ) ):
+        return tuple( map( int, tag ) )
+    
+    else:
+        raise notImplemented
 
 def printableFieldSeparator( data ):
     """
