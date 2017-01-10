@@ -195,7 +195,10 @@ class NISTf( NIST ):
         
         lst = AnnotationList()
         for m in split_r( [ RS, US ], minutiae ):
-            try:
+            if m == ['']:
+                break
+            
+            else:
                 id, xyt, q, d = m
                 
                 d = d.upper()
@@ -203,11 +206,8 @@ class NISTf( NIST ):
                 x = int( xyt[ 0:4 ] ) / 100
                 y = int( xyt[ 4:8 ] ) / 100
                 t = int( xyt[ 8:11 ] )
-
+    
                 lst.append( Minutia( [ id, x, y, t, q, d ] ) )
-
-            except:
-                pass
         
         lst.set_format( format )
         
