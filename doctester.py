@@ -71,6 +71,16 @@ def NISTtests():
     ############################################################################
     
     mark = NIST.fingerprint.__init__.NISTf()
+    lst = [
+        [ 12.5, 18.7 ],
+        [ 10.0, 12.7 ]
+    ]
+    
+    cores = AnnotationList()
+    cores.from_list( lst, "xy", "Core" )
+    
+    ############################################################################
+    
     mark.add_Type01()
     mark.add_Type02()
     
@@ -88,16 +98,22 @@ def NISTtests():
 
     pr.add_Type04( 1 )
     pr.set_print( "\x00" * ( 500 * 500 ), 500, ( 500, 500 ), "RAW", 1 )
+    pr.add_Type04( 2 )
+    pr.set_print( idc = 2 )
 
     pr.add_Type09( 1 )
     pr.set_minutiae( minutiae, 1 )
+    
+    pr.add_Type09( 2 )
+    pr.set_minutiae( minutiae, 2 )
     
     ############################################################################
     
     vars = {
         'mark': mark,
         'pr': pr,
-        'minutiae': minutiae
+        'minutiae': minutiae,
+        'cores': cores
     }
     
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, vars ) )

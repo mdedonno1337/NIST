@@ -258,7 +258,7 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
         Usage:
         
             >>> from NIST.fingerprint.functions import tetraptych
-            >>> tetraptych( mark, pr ) # doctest: +ELLIPSIS
+            >>> tetraptych( mark, pr, pridc = 1 ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=RGB size=1000x1000 at ...>
     """
     
@@ -827,6 +827,29 @@ class AnnotationList( eobject ):
         self._data.append( value )
     
     def remove( self, value ):
+        """
+            Function to remove a particular Annotation (by value).
+            
+            Usage:
+                
+                >>> from NIST.fingerprint.functions import Minutia
+                >>> r = Minutia( [ 8, 12.31, 3.87, 147, 0, 'A' ], format = "ixytqd" )
+                >>> minutiae2 = minutiae.get()
+                >>> minutiae2.remove( r )
+                >>> minutiae2 # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
+                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
+                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                ]
+                
+        """
         for i, v in enumerate( self._data ):
             if v == value:
                 del self._data[ i ]

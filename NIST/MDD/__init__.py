@@ -150,6 +150,8 @@ class NIST_MDD( NISTf ):
             self.set_pairing( data.get( "in" ) )
         except:
             pass
+        
+        return data
     
     def get_pairing( self, idc = -1, clean = False ):
         """
@@ -163,7 +165,7 @@ class NIST_MDD( NISTf ):
             :type clean: boolean
             
             Usage:
-            
+                
                 >>> mark.get_pairing() # doctest: +NORMALIZE_WHITESPACE
                 [
                     Pairing( i='1', n='1' ),
@@ -241,6 +243,8 @@ class NIST_MDD( NISTf ):
                     Pairing( i='2', n='2' ),
                     Pairing( i='3', n='3' )
                 ]
+            
+            The pairing is set as follow:
                 
                 >>> mark2.set_pairing( pairing )
         """
@@ -368,7 +372,7 @@ class NIST_MDD( NISTf ):
             
             Usage:
             
-                >>> pr.get_print_annotated() # doctest: +ELLIPSIS
+                >>> pr.get_print_annotated( 1 ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = super().get_print_annotated( idc )
