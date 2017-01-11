@@ -503,8 +503,7 @@ class NISTf( NIST ):
         try:
             idc = self.checkIDC( 9, idc )
         except needIDC:
-            for idc in self.get_idc( 9 ):
-                self.checkMinutiae( idc )
+            return [ self.checkMinutiae( idc ) for idc in self.get_idc( 9 ) ]
         else:
             try:
                 if self.get_minutiaeCount( idc ) == 0:
