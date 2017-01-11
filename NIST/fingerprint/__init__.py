@@ -431,17 +431,22 @@ class NISTf( NIST ):
             return "%04d%04d" % ( x, y )
         
         if data == None or len( data ) == 0:
-            return
+            return False
         
-        elif isinstance( data[ 0 ], ( Core, list ) ):
+        elif isinstance( data[ 0 ], ( int, float ) ):
+            data = [ format( data ) ]
+        
+        elif isinstance( data[ 0 ], ( Core, list, tuple ) ):
             data = map( format, data )
         
         else:
-            data = format( data )
+            raise formatNotSupported
         
         data = join( RS, data )
         
         self.set_field( "9.008", data, idc )
+        
+        return True
     
     def set_minutiae( self, data, idc = -1 ):
         """
