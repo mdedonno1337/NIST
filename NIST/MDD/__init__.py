@@ -20,6 +20,7 @@ from ..fingerprint.functions import AnnotationList as _AnnotationList
 from ..fingerprint.functions import AnnotationTypes
 from ..traditional.config import RS
 from ..traditional.config import US
+from _collections import defaultdict
 
 ################################################################################
 # 
@@ -224,24 +225,38 @@ class NIST_MDD( NISTf ):
                 ...     ( '2', '2' ), # Minutiae '2' nammed '2'
                 ...     ( '3', '3' )  # Minutiae '3' nammed '3'
                 ... ]
+                
+            The pairing is set as follow:
+            
+                >>> mark2 = mark.get()
+                >>> mark2.set_pairing( data )
+            
+            The pairing can also be set with an AnnotationList object:
+            
                 >>> pairing = AnnotationList()
-                >>> pairing.from_list( data, format = "in" )
+                >>> pairing.from_list( data, format = "in", type = "Pairing" )
                 >>> pairing # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Annotation( i='1', n='1' ),
-                    Annotation( i='2', n='2' ),
-                    Annotation( i='3', n='3' )
+                    Pairing( i='1', n='1' ),
+                    Pairing( i='2', n='2' ),
+                    Pairing( i='3', n='3' )
                 ]
-            
-            The pairing is set as follow:
                 
-                >>> mark.set_pairing( pairing )
+                >>> mark2.set_pairing( pairing )
         """
         if pairing != None:
-            if isinstance( pairing, list ):
-                pairing = AnnotationList( pairing )
-                
-            self.set_field( "9.255", join_r( [ US, RS ], pairing.as_list() ), idc )
+            def n():
+                return None
+            
+            pai = defaultdict( n )
+            for id, name in pairing:
+                pai[ int( id ) ] = int( name )
+            
+            lst = []
+            for m in self.get_minutiae():
+                lst.append( ( m.i, pai[ int( m.i ) ] ) )
+            
+            self.set_field( "9.255", join_r( [ US, RS ], lst ), idc )
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
         """

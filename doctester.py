@@ -110,7 +110,24 @@ def NISTtests():
     ############################################################################
     
     mark.changeClassTo( NIST.MDD.NIST_MDD )
-    mark.set_field( "9.255", join_r( [ US, RS ], [ [ '1', '1' ], [ '2', '2' ], [ '3', '3' ] ] ), 1 )
+    
+    data = [
+        ( '1', '1' ), # Minutiae '1' nammed '1'
+        ( '2', '2' ), # Minutiae '2' nammed '2'
+        ( '3', '3' ) # Minutiae '3' nammed '3'
+    ]
+    pairing = AnnotationList()
+    pairing.from_list( data, format = "in", type = "Pairing" )
+    
+    mark.set_pairing( pairing )
+    
+    ############################################################################
+    
+    vars = {
+        'mark': mark,
+        'pr': pr,
+        'minutiae': minutiae
+    }
     
     tests.addTests( doctest.DocTestSuite( NIST.MDD.__init__, vars ) )
     
