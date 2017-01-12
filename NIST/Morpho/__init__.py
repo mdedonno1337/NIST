@@ -79,7 +79,7 @@ class NIST_Morpho( NISTf ):
             return super().get_minutiae( format = format, idc = idc )
         
         except AttributeError:
-            if type( format ) == int:
+            if isinstance( format, int ):
                 idc, format = format, self.minutiaeformat
                 
             data = self.get_jar( idc )[ 'imageenh.2' ]
@@ -93,7 +93,7 @@ class NIST_Morpho( NISTf ):
                 return None
             
             else:
-                if type( ops ) != list:
+                if not isinstance( ops, list ):
                     ops = [ ops ]
                 
                 with nowarnings( UnicodeWarning ):

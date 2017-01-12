@@ -283,7 +283,7 @@ class NIST_MDD( NISTf ):
                     Minutia( x='11.46', y='22.32' )
                 ]
         """
-        if type( format ) == int:
+        if isinstance( format, int ):
             idc, format = format, self.minutiaeformat
         
         elif format == None:

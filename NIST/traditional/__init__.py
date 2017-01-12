@@ -466,7 +466,7 @@ class NIST( object ):
                 n.delete( "9.012", 0 )
             
         """
-        if type( ntype ) == str:
+        if isinstance( ntype, str ):
             tag = ntype
             self.delete_tag( tag, idc )
         else:
@@ -817,11 +817,11 @@ class NIST( object ):
                 >>> n
                 NIST object, Type-01, Type-02, Type-09, Type-13
         """
-        if type( data ) == str and os.path.isfile( data ):
+        if isinstance( data, str ) and os.path.isfile( data ):
             with open( data ) as fp:
                 data = json.load( fp )
         
-        elif type( data ) == str:
+        elif isinstance( data, str ):
             data = json.loads( data )
         
         self.data = defDict()

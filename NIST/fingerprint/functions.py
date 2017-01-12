@@ -494,10 +494,10 @@ class Annotation( object ):
                 1.0
         """
         try:
-            if type( index ) == str:
+            if isinstance( index, str ):
                 return self._data[ index ]
                 
-            elif type( index ) == int:
+            elif isinstance( index, int ):
                 return self._data[ self._data.keys()[ index ] ]
             
         except KeyError:

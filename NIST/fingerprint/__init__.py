@@ -189,7 +189,7 @@ class NISTf( NIST ):
         """
         # If the 'format' value is an int, then the function is called without
         # the 'format' argument, but the IDC is passed instead.
-        if type( format ) == int:
+        if isinstance( format, int ):
             idc, format = format, self.minutiaeformat
         
         # Get the minutiae string, without the final <FS> character.
@@ -344,7 +344,7 @@ class NISTf( NIST ):
                 >>> mark2.get_minutia_by_id( "1337" ) == None
                 True
         """
-        if type( format ) == int:
+        if isinstance( format, int ):
             idc, format = format, self.minutiaeformat
         
         if format == None:
@@ -1198,7 +1198,7 @@ class NISTf( NIST ):
         if image == None:
             image = Image.new( "L", ( res, res ), 255 )
             
-        if type( image ) == str:
+        if isinstance( image, str ):
             self.set_field( "13.999", image, idc )
         
         elif isinstance( image, Image.Image ):
@@ -1370,7 +1370,7 @@ class NISTf( NIST ):
             center = map( lambda x: int( 0.5 * x ), center )
             center = map( int, center )
         else:
-            if type( center[ 0 ] ) == list:
+            if isinstance( center[ 0 ], list ):
                 center = center[ 0 ]
                 
             cx, cy = mm2px( center, self.get_resolution( idc ) )
@@ -2172,7 +2172,7 @@ class NISTf( NIST ):
         """
         ntype = 4
         
-        if type( idc ) == list:
+        if isinstance( idc, list ):
             for i in idc:
                 self.add_default( ntype, i )
         
@@ -2191,7 +2191,7 @@ class NISTf( NIST ):
         """
         ntype = 9
         
-        if type( minutiae ) == int:
+        if isinstance( minutiae, int ):
             idc, minutiae = minutiae, None
         
         self.add_default( ntype, idc )
@@ -2250,7 +2250,7 @@ class NISTf( NIST ):
         """
         ntype = 14
         
-        if type( idc ) == list:
+        if isinstance( idc, list ):
             for i in idc:
                 self.add_default( ntype, i )
         
@@ -2385,7 +2385,7 @@ class NIST_M1( NISTf ):
         else:
             # If the 'format' value is an int, then the function is called without
             # the 'format' argument, but the IDC is passed instead.
-            if type( format ) == int:
+            if isinstance( format, int ):
                 idc, format = format, "ixytdq"
             
             # Check the IDC value
@@ -2461,7 +2461,7 @@ class NIST_M1( NISTf ):
         """
         idc = self.checkIDC( 9, idc )
         
-        if type( data ) == list:
+        if isinstance( data, list ):
             data = lstTo137( data, self.get_resolution( idc ) )
         
         self.set_field( "9.137", data, idc )
