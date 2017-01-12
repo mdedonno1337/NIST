@@ -179,7 +179,7 @@ class NIST( object ):
             :param p: Input data to parse to NIST object.
             :type p: NIST or str
         """
-        if type( p ) == str:
+        if isinstance( p, ( str, unicode ) ):
             if ifany( [ FS, GS, RS, US ], p ):
                 self.load( p )
                 
