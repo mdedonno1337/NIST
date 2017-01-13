@@ -1384,7 +1384,11 @@ class NIST( object ):
                     02.002 IDC: 0
                     02.004    : ...
         """
-        return self.dump()
+        try:
+            return self.dump()
+        
+        except recordNotFound:
+            return "NIST object not initialized..."
     
     def __repr__( self ):
         """
