@@ -1280,7 +1280,7 @@ class NISTf( NIST ):
             else:
                 raise notImplemented
     
-    def crop_latent( self, size, center = None, idc = -1 ):
+    def crop_latent( self, size, center = None, idc = -1, **options ):
         """
             Crop the latent image.
             
@@ -1306,7 +1306,7 @@ class NISTf( NIST ):
         else:
             raise notImplemented
     
-    def crop_print( self, size, center = None, idc = -1 ):
+    def crop_print( self, size, center = None, idc = -1, **options ):
         """
             Crop the print image.
             
@@ -1337,6 +1337,12 @@ class NISTf( NIST ):
             raise notImplemented
         
         return self.crop( size, center, ntype, idc )
+    
+    def crop_auto( self, *args, **kwargs ):
+        try:
+            self.crop_latent( *args, **kwargs )
+        except:
+            self.crop_print( *args, **kwargs )
     
     def crop( self, size, center = None, ntype = None, idc = -1 ):
         """
@@ -1960,6 +1966,26 @@ class NISTf( NIST ):
                 continue
             
         return card
+    
+    ############################################################################
+    # 
+    #    Automatic selection functions
+    # 
+    ############################################################################
+    
+    def export_auto( self, f, idc = -1 ):
+        try:
+            self.export_print( f, idc )
+        
+        except:
+            self.export_latent( f, idc )
+    
+    def export_auto_annotated( self, f, idc = -1 ):
+        try:
+            self.export_print_annotated( f, idc )
+        
+        except:
+            self.export_latent_annotated( f, idc )
     
     ############################################################################
     # 
