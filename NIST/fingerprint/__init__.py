@@ -1710,7 +1710,19 @@ class NISTf( NIST ):
         
         else:
             raise notImplemented
-            
+    
+    def get_image_annotated( self, idc ):
+        ntypes = self.get_ntype()
+        
+        if 13 in ntypes:
+            return self.get_latent_annotated( idc )
+        
+        elif ifany( [ 4, 14 ], ntypes ):
+            return self.get_print_annotated( idc )
+        
+        else:
+            raise notImplemented
+    
     def set_width( self, ntype, value, idc = -1 ):
         """
             Set the image width for the ntype specified in parameter.
