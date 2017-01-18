@@ -268,14 +268,16 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
         pridc = pr.checkIDC( 4, pridc )
     elif 14 in pr.get_ntype():
         pridc = pr.checkIDC( 14, pridc )
+    elif 13 in pr.get_ntype():
+        pridc = pr.checkIDC( 13, pridc )
     else:
         raise notImplemented
     
     mark_img = mark.get_latent( "PIL", markidc )
     mark_annotated = mark.get_latent_annotated( markidc )
     
-    pr_img = pr.get_print( "PIL", pridc )
-    pr_annotated = pr.get_print_annotated( pridc )
+    pr_img = pr.get_image( "PIL", pridc )
+    pr_annotated = pr.get_image_annotated( pridc )
     
     markwidth, markheight = mark.get_size( markidc )
     prwidth, prheight = pr.get_size( pridc )
