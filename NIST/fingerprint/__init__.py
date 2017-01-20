@@ -1872,7 +1872,7 @@ class NISTf( NIST ):
         maxh, maxw = ( 0, 0 )
         for idc in xrange( 1, 11 ):
             try:
-                h, w = self.get_size( idc )
+                w, h = self.get_size( idc )
                 maxw = max( maxw, w )
                 maxh = max( maxh, h )
             
