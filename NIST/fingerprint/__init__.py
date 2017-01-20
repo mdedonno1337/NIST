@@ -591,6 +591,9 @@ class NISTf( NIST ):
         if isinstance( data, AnnotationList ):
             data = lstTo012( data )
         
+        if data == "":
+            return 0
+        
         if isinstance( data, str ):
             self.set_field( "9.012", data, idc )
             
