@@ -1886,10 +1886,12 @@ class NISTf( NIST ):
         
         if not annotated:
             mode = "L"
+            col = 255
         else:
             mode = "RGB"
+            col = ( 255, 255, 255 )
             
-        ret = Image.new( mode, size, 255 )
+        ret = Image.new( mode, size, col )
         
         for idc in xrange( 1, 11 ):
             try:
