@@ -253,6 +253,7 @@ class NIST( object ):
                         tag, ntype, tagid, value = fieldSplitter( t )
                     except:
                         tagid = 999
+                        tag = "%s.%s" % ( ntype, tagid )
                     
                     if tagid == 1:
                         LEN = int( value )
