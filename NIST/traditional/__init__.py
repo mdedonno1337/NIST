@@ -186,16 +186,23 @@ class NIST( object ):
             else:
                 self.read( p )
             
-        elif isinstance( p, NIST ):
-            for ntype in p.get_ntype():
+        elif isinstance( p, ( NIST, dict ) ):
+            if isinstance( p, NIST ):
+                p = p.data
+            
+            for ntype, tmp in p.iteritems():
+                ntype = int( ntype )
                 self.add_ntype( ntype )
                 
-                for idc in p.get_idc( ntype ):
+                for idc, tmp2 in tmp.iteritems():
+                    idc = int( idc )
                     self.add_idc( ntype, idc )
                     
-                    for tagid in p.get_tagsid( ntype, idc ):
-                        self.set_field( ( ntype, tagid ), p.get_field( ( ntype, tagid ), idc ), idc )
-    
+                    for tagid, value in tmp2.iteritems():
+                        tagid = int( tagid )
+                        
+                        self.set_field( ( ntype, tagid ), value, idc )
+        
     def load( self, data ):
         """
             Load from the data passed in parameter, and populate all internal
