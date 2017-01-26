@@ -254,7 +254,8 @@ class NIST_MDD( NISTf ):
             
             pai = defaultdict( n )
             for id, name in pairing:
-                pai[ int( id ) ] = int( name )
+                if name != None:
+                    pai[ int( id ) ] = int( name )
             
             lst = []
             for m in self.get_minutiae():
