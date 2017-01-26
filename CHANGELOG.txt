@@ -4,20 +4,50 @@
 Develop
 ~~~~~~~
 
+Commits since latest release:
+
+.. git_changelog::
+    :rev-list: latest..
+
+v0.22 (2017.01.26)
+~~~~~~~~~~~~~~~~~~
+
 Add:
 
 * Add :func:`NIST.traditional.NIST.to_dict()` function.
 * Add :func:`NIST.traditional.NIST.get_all_tagid()` function.
 * Add :func:`NIST.traditional.NIST.to_json()` and  :func:`NIST.traditional.NIST.from_json()` functions.
-* Add :func:`NIST.MDD.NIST_MDD.get_minutiae_paired_count()` function.
 * Add :func:`NIST.fingerprint.functions.AnnotationList.remove()` function.
+* Add :func:`NIST.fingerprint.functions.changeFormatImage()` function.
+* Add :func:`NIST.fingerprint.NISTf.get_tenprint_annotated()` function.
+* Add :func:`NIST.fingerprint.NISTf.get_image_annotated()` function.
+* Add auto funcitons (:func:`NIST.fingerprint.NISTf.export_auto()`, :func:`NIST.fingerprint.NISTf.export_auto_annotated()` and :func:`NIST.fingerprint.NISTf.crop_auto()`).
+* Add :func:`NIST.MDD.NIST_MDD.get_minutiae_paired_count()` function.
 * Add :func:`NIST.Morpho.NIST_Morpho.get_jar()` and :func:`NIST.Morpho.NIST_Morpho.get_cfv()` functions.
 * Add :func:`NIST.Morpho.NIST_Morpho.get_minutiae()` to process the 9.184 field.
+* Add support for unicode data in the :func:`~NIST.traditional.NIST.load_auto()` function.
+* Add support for Type-13 NIST object as reference in the :func:`NIST.fingerprint.functions.tetraptych()` function.
 
-Commits since latest release:
+Remove:
 
-.. git_changelog::
-    :rev-list: latest..
+* Remove the :func:`NIST.fingerprint.NISTf.has_field()` function.
+
+Change:
+
+* The input data of the :func:`~NIST.fingerprint.functions.lstTo012()` function have to be an AnnotationList or list object.
+* The :func:`~NIST.fingerprint.NISTf.checkMinutiae()` returns the checks for all IDC if multiple IDC are stored in the NIST object.
+* The :func:`~NIST.traditional.NIST.__str__()` function do not raise an exception if the NIST object is not initialized ("NIST object not initialized..." string instead).
+* Recode of the :func:`NIST.traditional.functions.tagSplitter()` function: The common tests are done inside the function, instead of outside.
+* Recode of the :func:`NIST.fingerprint.NISTf.set_cores()` function.
+* Recode of the :func:`NIST.MDD.NIST_MDD.set_pairing()` function.
+
+Patch:
+
+* :func:`NIST.fingerprint.NISTf.get_minutia_by_id()`: Error if the `format` parameter is passed to `None`.
+* :func:`NIST.traditional.NIST.load()` function: If the tagid is 999, the tag was not updated correctly (error possible if the length of the tag differs).
+* The width and the height variables were inverted int he :func:`NIST.fingerprint.NISTf.get_tenprint()` function.
+* Critical bug in the pairing information update :func:`NIST.MDD.NIST_MDD.set_pairing()` function.
+
 
 v0.21 (2016-12-25)
 ~~~~~~~~~~~~~~~~~~
