@@ -209,6 +209,18 @@ class NIST_MDD( NISTf ):
         super().add_Type09( minutiae = minutiae, idc = idc, **options )
         self.set_pairing( **options )
     
+    def set_minutiae( self, data, idc = -1 ):
+        """
+            Overload of the set_minutaie() function, to set the pairing
+            information at the same time.
+            
+            .. seealso::
+                :func:`NIST.fingerprint.NISTf.set_minutiae`
+                :func:`NIST.fingerprint.NISTf.set_pairing`
+        """
+        super().set_minutiae( data, idc = idc )
+        return self.set_pairing( data, idc )
+    
     def set_pairing( self, pairing = None, idc = -1, **options ):
         """
             Function to set the pairing information in the User-defined field
