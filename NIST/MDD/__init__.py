@@ -267,7 +267,13 @@ class NIST_MDD( NISTf ):
             pai = defaultdict( n )
             for p in pairing:
                 try:
-                    pai[ int( p.i ) ] = int( p.n )
+                    if isinstance( p, Annotation ):
+                        i, n = p.i, p.n
+                    else:
+                        i, n = p
+                        
+                    pai[ int( i ) ] = int( n )
+                    
                 except:
                     continue
             
