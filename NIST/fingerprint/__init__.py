@@ -1220,6 +1220,23 @@ class NISTf( NIST ):
         new.paste( anno, ( img.size[ 0 ], 0 ) )
         
         return new
+     
+    def get_latent_triptych( self, content = None, idc = -1 ):
+        idc = self.checkIDC( 13, idc )
+          
+        if content == "hull":
+            third = self.get_latent_hull( idc )
+          
+        else:
+            raise notImplemented
+          
+        diptych = self.get_latent_diptych( idc )
+          
+        new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
+        new.paste( diptych, ( 0, 0 ) )
+        new.paste( third, ( diptych.size[ 0 ], 0 ) )
+          
+        return new
     
     def set_latent( self, image = None, res = 500, idc = -1, **options ):
         """

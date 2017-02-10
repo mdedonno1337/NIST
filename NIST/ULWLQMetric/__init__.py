@@ -30,28 +30,32 @@ try:
             self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
             self.clean()
         
-        def get_latent_triptych( self, idc = -1 ):
+        def get_latent_triptych( self, content = "quality", idc = -1 ):
             """
                 Get the triptych : latent, annotated latent, quality map (ULW).
             """
-            diptych = self.get_latent_diptych( idc )
+            if content == "quality":
+                diptych = self.get_latent_diptych( idc )
+                
+                qmap = super().ULWLQMetric_encode( "image" )
+                
+                qmap = qmap.chroma( ( 0, 0, 0 ) )
+                qmap = qmap.transparency( 0.5 )
+                qmap = qmap.scale( self.get_resolution( idc ) * 4 / 500.0 )
+                
+                latentqmap = self.get_latent( 'PIL', idc )
+                latentqmap = latentqmap.convert( "RGBA" )
+                latentqmap.paste( qmap, ( 0, 0 ), mask = qmap )
+                
+                new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
+                
+                new.paste( diptych, ( 0, 0 ) )
+                new.paste( latentqmap, ( diptych.size[ 0 ], 0 ) )
+                
+                return new
             
-            qmap = super().ULWLQMetric_encode( "image" )
-            
-            qmap = qmap.chroma( ( 0, 0, 0 ) )
-            qmap = qmap.transparency( 0.5 )
-            qmap = qmap.scale( self.get_resolution( idc ) * 4 / 500.0 )
-            
-            latentqmap = self.get_latent( 'PIL', idc )
-            latentqmap = latentqmap.convert( "RGBA" )
-            latentqmap.paste( qmap, ( 0, 0 ), mask = qmap )
-            
-            new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
-            
-            new.paste( diptych, ( 0, 0 ) )
-            new.paste( latentqmap, ( diptych.size[ 0 ], 0 ) )
-            
-            return new
+            else:
+                super().get_latent_triptych( content, idc )
             
 except:
     debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
