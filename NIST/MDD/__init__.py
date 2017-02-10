@@ -218,8 +218,9 @@ class NIST_MDD( NISTf ):
                 :func:`NIST.fingerprint.NISTf.set_minutiae`
                 :func:`NIST.fingerprint.NISTf.set_pairing`
         """
-        super().set_minutiae( data, idc = idc )
-        return self.set_pairing( data, idc )
+        ret = super().set_minutiae( data, idc = idc )
+        self.set_pairing( data, idc )
+        return ret
     
     def set_pairing( self, pairing = None, idc = -1, **options ):
         """
