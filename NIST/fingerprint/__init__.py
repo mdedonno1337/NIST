@@ -7,8 +7,10 @@ from cStringIO import StringIO
 from future.builtins.misc import super
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps
+from scipy.spatial.qhull import ConvexHull
 
 import os
+import numpy as np
 
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
@@ -1143,6 +1145,54 @@ class NISTf( NIST ):
         except recordNotFound:
             pass
         
+        return img
+    
+    def get_latent_hull( self, idc = -1, linewidth = None ):
+        """
+            Annotate the convex Hull on the latent image. This convex Hull is
+            calculated based on the minutiae stored in the NIST object.
+             
+            :param idc: IDC value.
+            :type idc: int
+             
+            :param linewidth: Width of the convex Hull line.
+            :type linewidth: int
+             
+            :return: Latent annotated with the convex Hull
+            :rtype: PIL.Image
+             
+            Usage:
+                 
+                >>> mark.get_latent_hull() # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=500x500 at ...>
+        """
+        xy = self.get_minutiae( "xy", idc )
+        xy = np.asarray( xy )
+        hull = ConvexHull( xy )
+          
+        img = self.get_latent( "PIL", idc )
+        img = img.convert( "RGB" )
+        draw = ImageDraw.Draw( img )
+          
+        res = self.get_resolution( idc )
+        height = self.get_height()
+          
+        if linewidth == None:
+            linewidth = res / 40
+        linewidth = int( linewidth )
+          
+        for simplex in hull.simplices:
+            t1, t2 = xy[ simplex, ] * res / 25.4
+            a, b = t1
+            c, d = t2
+              
+            b = height - b
+            d = height - d
+              
+            a, b, c, d = map( int, ( a, b, c, d ) )
+              
+            draw.line( ( a, b, c, d ), fill = ( 255, 0, 0 ), width = linewidth )
+              
         return img
     
     def get_latent_diptych( self, idc = -1 ):
