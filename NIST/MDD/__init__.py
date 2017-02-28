@@ -57,6 +57,19 @@ class AnnotationList( _AnnotationList ):
         except KeyError:
             raise pairingNameNotFound
     
+    def unpair( self, lst ):
+        """
+            Delete the pairing for all Annotations if the pairing name is
+            present in the 'lst' parameter.
+            
+            :param lst: List of pairing name to delete
+            :type lst: Python list
+        """
+        lst = map( int, lst )
+        for m in self:
+            if int( m.n ) in lst:
+                m.n = None
+    
 ################################################################################
 # 
 #    Wrapper around the NISTf object to work with the supplementaty information
