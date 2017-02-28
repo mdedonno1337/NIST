@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from math import sqrt
 from collections import OrderedDict, Counter
 from copy import deepcopy
 from cStringIO import StringIO, InputType, OutputType
@@ -680,7 +681,23 @@ class Annotation( object ):
             
             else:
                 return True
-        
+    
+    def __rshift__( self, p ):
+        """
+            Overload of the '>>' operator to calculate the distance between two
+            Annotations (euclidean distance). The couple ( x, y ) is used as
+            coordinates.
+            
+            Usage:
+                >>> from NIST.fingerprint.functions import Annotation
+                
+                >>> a = Annotation( ( 1, 2 ), format = "xy" )
+                >>> b = Annotation( ( 2, 3 ), format = "xy" )
+                >>> a >> b
+                1.4142135623730951
+        """
+        return sqrt( pow( p.x - self.x, 2 ) + pow( p.y - self.y, 2 ) )
+    
 ################################################################################
 # 
 #    Annotation list class
