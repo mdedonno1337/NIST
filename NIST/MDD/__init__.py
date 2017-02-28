@@ -119,6 +119,7 @@ class NIST_MDD( NISTf ):
                 :func:`NIST.fingerprint.NISTf.get_minutiae`
         """
         lst = super().get_minutiae( format = format, idc = idc )
+        lst.__class__ = AnnotationList
         
         try:
             pairing = dict( self.get_pairing( idc ) )
