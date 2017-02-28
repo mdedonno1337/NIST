@@ -65,10 +65,22 @@ class AnnotationList( _AnnotationList ):
             :param lst: List of pairing name to delete
             :type lst: Python list
         """
+        deleted = []
         lst = map( int, lst )
         for m in self:
             if int( m.n ) in lst:
+                deleted.append( m.n )
                 m.n = None
+        
+        return deleted
+    
+    def unpair_fist( self, n ):
+        todelete = [ m.n for m in self[ :n ] ]
+        return self.unpair( todelete )
+        
+    def unpair_last( self, n ):
+        todelete = [ m.n for m in self[ n: ] ]
+        return self.unpair( todelete )
     
 ################################################################################
 # 
