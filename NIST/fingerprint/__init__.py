@@ -1119,7 +1119,9 @@ class NISTf( NIST ):
                 True
         """
         idc = self.checkIDC( 13, idc )
-        self.get_latent_annotated( idc ).save( f )
+        res = self.get_resolution( idc )
+        
+        self.get_latent_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
     def get_latent_annotated( self, idc = -1 ):
@@ -1604,7 +1606,9 @@ class NISTf( NIST ):
             raise notImplemented
         
         idc = self.checkIDC( ntype, idc )
-        self.get_print_annotated( idc ).save( f )
+        res = self.get_resolution( idc )
+        
+        self.get_print_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
     def get_print_annotated( self, idc = -1 ):
