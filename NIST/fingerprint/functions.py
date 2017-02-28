@@ -930,7 +930,35 @@ class AnnotationList( eobject ):
                     self._data[ id ].i = id + 1
         except:
             pass
-        
+    
+    def sort_dist_point( self, p ):
+        """
+            Sort inplace the AnnotationList regarding the distance with a
+            particular point p.
+            
+            Usage:
+                
+                >>> from NIST.fingerprint.functions import Point
+                
+                >>> minutiae2 = minutiae.get()
+                >>> p = Point( ( 12, 12 ) )
+                >>> minutiae2.sort_dist_point( p ) 
+                >>> minutiae2 # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( x='13.88', y='14.29' ),
+                    Minutia( x='13.8', y='15.3' ),
+                    Minutia( x='6.97', y='8.48' ),
+                    Minutia( x='7.85', y='7.05' ),
+                    Minutia( x='12.58', y='19.88' ),
+                    Minutia( x='12.31', y='3.87' ),
+                    Minutia( x='11.46', y='22.32' ),
+                    Minutia( x='19.69', y='19.8' ),
+                    Minutia( x='15.47', y='22.49' ),
+                    Minutia( x='22.61', y='25.17' )
+                ]
+        """
+        self._data.sort( key = lambda m: m >> p )
+    
     ############################################################################
     
     def __str__( self ):
