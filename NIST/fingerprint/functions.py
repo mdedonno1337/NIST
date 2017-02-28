@@ -1034,6 +1034,9 @@ class Core( Annotation ):
     """
     defaultformat = "xy"
 
+class Point( Annotation ):
+    defaultformat = "xy"
+
 ################################################################################
 # 
 #    List of all Annotation objects
