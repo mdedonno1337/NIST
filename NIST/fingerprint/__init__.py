@@ -684,43 +684,42 @@ class NISTf( NIST ):
                 Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
             ]]
         """
-        if self.get_field( "9.012", idc ) == None:
-            return None
-        
+        try:
+            idc = self.checkIDC( 9, idc )
+        except needIDC:
+            return [ self.checkMinutiae( idc ) for idc in self.get_idc( 9 ) ]
         else:
             try:
-                idc = self.checkIDC( 9, idc )
-            except needIDC:
-                return [ self.checkMinutiae( idc ) for idc in self.get_idc( 9 ) ]
-            else:
-                try:
-                    if self.get_minutiaeCount( idc ) == 0:
-                        return
-                    else:
-                        try:
-                            w = self.px2mm( self.get_width( idc ), idc )
-                            h = self.px2mm( self.get_height( idc ), idc )
-                        
-                        except notImplemented:
-                            return self.get_minutiae( idc )
-                          
-                        else:
-                            id = 0
-                            lst = AnnotationList()
-                            
-                            for m in self.get_minutiae( idc ):
-                                if ( not m.x < 0 and not m.x > w ) and ( not m.y < 0 and not m.y > h ):
-                                    id += 1
-                                    m.i = id
-                                    lst.append( m )
-                            
-                            self.set_field( "9.010", id, idc )
-                            self.set_field( "9.012", lstTo012( lst ), idc )
-                            
-                            return lst
+                if self.get_field( "9.012", idc ) == None:
+                    return None
                 
-                except idcNotFound:
-                    debug.error( "checkMinutiae() : IDC %s not found - Checks ignored" )
+                elif self.get_minutiaeCount( idc ) == 0:
+                    return
+                else:
+                    try:
+                        w = self.px2mm( self.get_width( idc ), idc )
+                        h = self.px2mm( self.get_height( idc ), idc )
+                    
+                    except notImplemented:
+                        return self.get_minutiae( idc )
+                      
+                    else:
+                        id = 0
+                        lst = AnnotationList()
+                        
+                        for m in self.get_minutiae( idc ):
+                            if ( not m.x < 0 and not m.x > w ) and ( not m.y < 0 and not m.y > h ):
+                                id += 1
+                                m.i = id
+                                lst.append( m )
+                        
+                        self.set_field( "9.010", id, idc )
+                        self.set_field( "9.012", lstTo012( lst ), idc )
+                        
+                        return lst
+            
+            except idcNotFound:
+                debug.error( "checkMinutiae() : IDC %s not found - Checks ignored" )
     
     def filter_minutiae( self, idc = -1, invert = False, inplace = False, *args, **kwargs ):
         """
