@@ -14,7 +14,7 @@ from cStringIO import StringIO
 from MDmisc.ewarning import nowarnings
 
 from ..fingerprint import NISTf
-from ..fingerprint.functions import AnnotationList, Minutia
+from ..fingerprint.functions import AnnotationList, Minutia, Delta
 from ..traditional.exceptions import notImplemented
 from ..traditional.functions import bindump
 
@@ -83,7 +83,10 @@ class NIST_Morpho( NISTf ):
                 idc, format = format, self.minutiaeformat
             
             return self.process_imageenh( idc )[ 'minutiae' ].get( format )
-            
+    
+    def get_delta( self, idc = -1 ):
+        return self.process_imageenh( idc )[ 'delta' ]
+    
     def process_imageenh( self, idc = -1 ):
         """
             Function to process the imgageenh.2 content stored in the jar field.
@@ -122,15 +125,27 @@ class NIST_Morpho( NISTf ):
                 'addMinutia': ( 'addedMinutia', ),
                 'moveMinutia': ( 'movedFromMinutia', 'movedToMinutia', ),
                 'rotateMinutia': ( 'rotatedFromMinutia', 'rotatedToMinutia', ),
-                'deleteMinutia': ( 'deletedMinutia', )
+                'deleteMinutia': ( 'deletedMinutia', ),
+                
+                'addDelta': ( 'addedDelta', ),
+                'moveDelta': ( 'movedFromDelta', 'movedToDelta', ),
+                'rotateDelta': ( 'rotatedFromDelta', ),
+                'deleteDelta': ( 'deletedDelta', ),
             }
             
             minutiae_list = AnnotationList()
+            delta_list = AnnotationList()
             
             def MorphoXML2Minutia( data ):
                 return Minutia( 
                     [ int( data[ k ] ) for k in [ '@x', '@y', '@angle', '@minutiaType', '@confidence' ] ],
                     format = "xytdq"
+                )
+            
+            def MorphoXML2Delta( data ):
+                return Delta( 
+                    [ int( data[ k ] ) for k in [ '@x', '@y', '@angle1', '@angle2', '@angle3' ] ],
+                    format = "xyabc"
                 )
             
             for d in minutiae_ops:
@@ -151,6 +166,15 @@ class NIST_Morpho( NISTf ):
                             m = MorphoXML2Minutia( value[ action ] )
                             m.source = "expert"
                             minutiae_list.append( m )
+                        
+                        elif action in [ "addedDelta", "movedToDelta", "rotatedToDelta" ]:
+                            m = MorphoXML2Delta( value[ action ] )
+                            m.source = "expert"
+                            delta_list.append( m )
+                        
+                        elif action in [ "deletedDelta", "movedFromDelta", "rotatedFromDelta" ]:
+                            m = MorphoXML2Delta( value[ action ] )
+                            delta_list.remove( m )
                         
                         else:
                             raise notImplemented
@@ -173,8 +197,24 @@ class NIST_Morpho( NISTf ):
                 m2.source = m.source
                 minutiae_return_list.append( m2 )
             
+            delta_return_list = AnnotationList()
+            for m in delta_list:
+                m2 = Delta( 
+                    [
+                        m.x * 25.4 / res,
+                        ( height - m.y ) * 25.4 / res,
+                        m.a,
+                        m.b,
+                        m.c
+                    ],
+                    format = "xyabc"
+                )
+                m2.source = m.source
+                delta_return_list.append( m2 )
+            
             return {
-                'minutiae': minutiae_return_list
+                'minutiae': minutiae_return_list,
+                'delta':    delta_return_list
             }
         
     def get_jar( self, idc = -1 ):
