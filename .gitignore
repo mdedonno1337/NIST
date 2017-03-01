@@ -11,3 +11,4 @@ NISTold/
 sample/
 doc/_build/*
 doc/version.py
+*.orig
