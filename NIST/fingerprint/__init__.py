@@ -27,7 +27,7 @@ from ..traditional.exceptions import *
 from ..traditional.functions import decode_gca
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
-from .functions import Minutia, Core, AnnotationList
+from .functions import Minutia, Core, Delta, AnnotationList
 from .voidType import voidType
 
 voidType.update( voidType )
@@ -447,7 +447,32 @@ class NISTf( NIST ):
         
         except:
             return None
+    
+    def get_delta( self, idc = -1 ):
+        """
+            Process and return the coordinate of the deltas.
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: List of deltas
+            :rtype: AnnotationList
+        """
+        try:
+            deltas = self.get_field( "9.009", idc ).split( RS )
+            
+            ret = AnnotationList()
+            for c in deltas:
+                x = int( c[ 0:4 ] ) / 100
+                y = int( c[ 4:8 ] ) / 100
+                
+                ret.append( Delta( [ x, y ] ) )
+                
+            return ret
         
+        except:
+            return None
+    
     def set_cores( self, data, idc = -1 ):
         """
             Set the core position in field 9.008. The data passed in parameter
