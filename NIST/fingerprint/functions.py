@@ -1079,6 +1079,12 @@ class Core( Annotation ):
     """
     defaultformat = "xy"
 
+class Delta( Annotation ):
+    """
+        Overload of the :func:`NIST.fingerprint.functions.Annotation` class.
+    """
+    defaultformat = "xyabc"
+
 class Point( Annotation ):
     defaultformat = "xy"
 
