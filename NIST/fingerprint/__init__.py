@@ -1016,6 +1016,7 @@ class NISTf( NIST ):
             
             # Colors
             red = ( 250, 0, 0 )
+            yellow = ( 255, 255, 50 )
             
             if type == "minutiae":
                 # Minutia
@@ -1056,6 +1057,25 @@ class NISTf( NIST ):
                     
                     image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = centermark )
             
+            elif type == "delta":
+                endmark = Image.open( self.imgdir + "/end.png" )
+                newsize = ( int( endmark.size[ 0 ] * fac ), int( endmark.size[ 1 ] * fac ) )
+                endmark = endmark.resize( newsize, Image.BICUBIC )
+                
+                # Center
+                for m in data:
+                    cx = m.x / 25.4 * res
+                    cy = m.y / 25.4 * res
+                    cy = height - cy
+                    
+                    for theta in [ m.a, m.b, m.c ]:
+                        end2 = endmark.rotate( theta + 180, Image.BICUBIC, True )
+                        offsetx = end2.size[ 0 ] / 2
+                        offsety = end2.size[ 1 ] / 2
+                        
+                        endcolor = Image.new( 'RGBA', end2.size, yellow )
+                        
+                        image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
             else:
                 raise notImplemented
             
@@ -1173,6 +1193,7 @@ class NISTf( NIST ):
         try:
             img = self.annotate( img, self.get_minutiae( idc ), "minutiae", idc = idc )
             img = self.annotate( img, self.get_cores( idc ), "center", idc = idc )
+            img = self.annotate( img, self.get_delta( idc ), "delta", idc = idc )
         except recordNotFound:
             pass
         
@@ -1657,6 +1678,7 @@ class NISTf( NIST ):
         """
         img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( idc ), "minutiae", self.get_resolution( idc ) )
         img = self.annotate( img, self.get_cores( idc ), "center", self.get_resolution( idc ) )
+        img = self.annotate( img, self.get_delta( idc ), "delta", self.get_resolution( idc ) )
         
         return img
     
