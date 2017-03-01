@@ -113,7 +113,7 @@ class NIST_Morpho( NISTf ):
                 
                 lst = AnnotationList()
                 
-                def MorphoXML2Annotation( data ):
+                def MorphoXML2Minutia( data ):
                     return Minutia( 
                         [ int( data[ k ] ) for k in [ '@x', '@y', '@angle', '@minutiaType', '@confidence' ] ],
                         format = "xytdq"
@@ -125,16 +125,16 @@ class NIST_Morpho( NISTf ):
                             if action == "newMinutiaSet":
                                 for key, v in value[ action ].iteritems():
                                     for vv in v:
-                                        m = MorphoXML2Annotation( vv )
+                                        m = MorphoXML2Minutia( vv )
                                         m.source = "auto"
                                         lst.append( m )
                                 
                             elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
-                                m = MorphoXML2Annotation( value[ action ] )
+                                m = MorphoXML2Minutia( value[ action ] )
                                 lst.remove( m )
                             
                             elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
-                                m = MorphoXML2Annotation( value[ action ] )
+                                m = MorphoXML2Minutia( value[ action ] )
                                 m.source = "expert"
                                 lst.append( m )
                             
