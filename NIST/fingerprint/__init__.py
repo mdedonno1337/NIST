@@ -1188,12 +1188,14 @@ class NISTf( NIST ):
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         img = self.get_latent( 'PIL', idc )
+        res = self.get_resolution( idc )
         
         try:
-            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", idc = idc )
-            img = self.annotate( img, self.get_cores( idc ), "center", idc = idc )
-            img = self.annotate( img, self.get_delta( idc ), "delta", idc = idc )
-        except recordNotFound:
+            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
+            img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
+            
+        except:
             pass
         
         return img
@@ -1675,9 +1677,16 @@ class NISTf( NIST ):
                 >>> pr.get_print_annotated( 1 ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = self.annotate( self.get_print( 'PIL', idc ), self.get_minutiae( idc ), "minutiae", self.get_resolution( idc ) )
-        img = self.annotate( img, self.get_cores( idc ), "center", self.get_resolution( idc ) )
-        img = self.annotate( img, self.get_delta( idc ), "delta", self.get_resolution( idc ) )
+        img = self.get_print( 'PIL', idc )
+        res = self.get_resolution( idc )
+        
+        try:
+            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
+            img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
+            
+        except:
+            raise
         
         return img
     
