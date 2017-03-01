@@ -81,85 +81,101 @@ class NIST_Morpho( NISTf ):
         except AttributeError:
             if isinstance( format, int ):
                 idc, format = format, self.minutiaeformat
-                
-            data = self.get_jar( idc )[ 'imageenh.2' ]
             
-            data = xmltodict.parse( data )
+            return self.process_imageenh( idc )[ 'minutiae' ].get( format )
             
-            try:
-                ops = data[ 'enhancementHistory' ][ 'enhancements' ][ 'enhancementOperation' ]
+    def process_imageenh( self, idc = -1 ):
+        """
+            Function to process the imgageenh.2 content stored in the jar field.
+            This function replays the actions done by the user. The result is
+            the final annotation as seen in the MBIS interface.
             
-            except TypeError:
-                return None
+            :param idc: IDC value.
+            :type idc: int
             
-            else:
-                if not isinstance( ops, list ):
-                    ops = [ ops ]
-                
-                with nowarnings( UnicodeWarning ):
-                    minutiae_ops = sorted( 
-                        ops,
-                        key = lambda k: k.items()[ 0 ][ 1 ][ 'timestamp' ],
-                        reverse = False
-                    )
-                
-                corr = {
-                    'autoEncode': ( 'newMinutiaSet', ),
-                    'addMinutia': ( 'addedMinutia', ),
-                    'moveMinutia': ( 'movedFromMinutia', 'movedToMinutia', ),
-                    'rotateMinutia': ( 'rotatedFromMinutia', 'rotatedToMinutia', ),
-                    'deleteMinutia': ( 'deletedMinutia', )
-                }
-                
-                lst = AnnotationList()
-                
-                def MorphoXML2Minutia( data ):
-                    return Minutia( 
-                        [ int( data[ k ] ) for k in [ '@x', '@y', '@angle', '@minutiaType', '@confidence' ] ],
-                        format = "xytdq"
-                    )
-                
-                for d in minutiae_ops:
-                    for op, value in d.items():
-                        for action in corr[ op ]:
-                            if action == "newMinutiaSet":
-                                for key, v in value[ action ].iteritems():
-                                    for vv in v:
-                                        m = MorphoXML2Minutia( vv )
-                                        m.source = "auto"
-                                        lst.append( m )
-                                
-                            elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
-                                m = MorphoXML2Minutia( value[ action ] )
-                                lst.remove( m )
+            :return: Dictionnary of the processed data.
+            :rtype: python dict
+        """
+        data = self.get_jar( idc )[ 'imageenh.2' ]
+        
+        data = xmltodict.parse( data )
+        
+        try:
+            ops = data[ 'enhancementHistory' ][ 'enhancements' ][ 'enhancementOperation' ]
+        
+        except TypeError:
+            return None
+        
+        else:
+            if not isinstance( ops, list ):
+                ops = [ ops ]
+            
+            with nowarnings( UnicodeWarning ):
+                minutiae_ops = sorted( 
+                    ops,
+                    key = lambda k: k.items()[ 0 ][ 1 ][ 'timestamp' ],
+                    reverse = False
+                )
+            
+            corr = {
+                'autoEncode': ( 'newMinutiaSet', ),
+                'addMinutia': ( 'addedMinutia', ),
+                'moveMinutia': ( 'movedFromMinutia', 'movedToMinutia', ),
+                'rotateMinutia': ( 'rotatedFromMinutia', 'rotatedToMinutia', ),
+                'deleteMinutia': ( 'deletedMinutia', )
+            }
+            
+            minutiae_list = AnnotationList()
+            
+            def MorphoXML2Minutia( data ):
+                return Minutia( 
+                    [ int( data[ k ] ) for k in [ '@x', '@y', '@angle', '@minutiaType', '@confidence' ] ],
+                    format = "xytdq"
+                )
+            
+            for d in minutiae_ops:
+                for op, value in d.items():
+                    for action in corr[ op ]:
+                        if action == "newMinutiaSet":
+                            for key, v in value[ action ].iteritems():
+                                for vv in v:
+                                    m = MorphoXML2Minutia( vv )
+                                    m.source = "auto"
+                                    minutiae_list.append( m )
                             
-                            elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
-                                m = MorphoXML2Minutia( value[ action ] )
-                                m.source = "expert"
-                                lst.append( m )
-                            
-                            else:
-                                raise notImplemented
-                
-                res = self.get_resolution( idc )
-                height = self.get_height( idc )
-                
-                lst2 = AnnotationList()
-                for m in lst:
-                    m2 = Minutia( 
-                        [
-                            m.x * 25.4 / res,
-                            ( height - m.y ) * 25.4 / res,
-                            ( m.t + 180 ) % 360,
-                            m.d,
-                            m.q
-                        ],
-                        format = "xytdq"
-                    )
-                    m2.source = m.source
-                    lst2.append( m2 )
-                
-                return lst2
+                        elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
+                            m = MorphoXML2Minutia( value[ action ] )
+                            minutiae_list.remove( m )
+                        
+                        elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
+                            m = MorphoXML2Minutia( value[ action ] )
+                            m.source = "expert"
+                            minutiae_list.append( m )
+                        
+                        else:
+                            raise notImplemented
+            
+            res = self.get_resolution( idc )
+            height = self.get_height( idc )
+            
+            minutiae_return_list = AnnotationList()
+            for m in minutiae_list:
+                m2 = Minutia( 
+                    [
+                        m.x * 25.4 / res,
+                        ( height - m.y ) * 25.4 / res,
+                        ( m.t + 180 ) % 360,
+                        m.d,
+                        m.q
+                    ],
+                    format = "xytdq"
+                )
+                m2.source = m.source
+                minutiae_return_list.append( m2 )
+            
+            return {
+                'minutiae': minutiae_return_list
+            }
         
     def get_jar( self, idc = -1 ):
         """
