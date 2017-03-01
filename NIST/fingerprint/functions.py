@@ -404,8 +404,11 @@ class Annotation( object ):
             self.set_format( format = kwargs.keys() )
             self._data = OrderedDict( kwargs.iteritems() )
         
-        elif args != []:
+        elif len( args ) != 0:
             self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
+        
+        else:
+            self._data = OrderedDict( [] )
         
     def set_format( self, format = None, **kwargs ):
         """
