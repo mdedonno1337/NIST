@@ -1,0 +1,13 @@
+void*.py
+*.jpeg
+*.nist
+*.an2
+*.pyc
+NIST.egg-info/
+build/
+dist/
+NIST/version.py
+NISTold/
+sample/
+doc/_build/*
+doc/version.py
