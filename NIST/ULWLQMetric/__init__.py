@@ -100,6 +100,21 @@ try:
                 
                 return lst
         
+        def get_minutiae_by_LQM( self, criteria, higher = True, format = None, idc = -1, field = None ):
+            """
+                Filter out the minutiae based on the LQMetric value
+            """
+            lst = AnnotationList()
+            
+            for m in self.get_minutiae( format, idc, field ):
+                if m.LQM >= criteria and higher:
+                    lst.append( m )
+                
+                elif m.LQM <= criteria and not higher:
+                    lst.append( m )
+            
+            return lst
+        
         def get_latent_triptych( self, content = "quality", idc = -1 ):
             """
                 Get the triptych : latent, annotated latent, quality map (ULW).
