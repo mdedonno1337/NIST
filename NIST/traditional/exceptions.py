@@ -4,6 +4,9 @@
 class needIDC( BaseException ):
     pass
 
+class needNtype( BaseException ):
+    pass
+
 class intIDC( BaseException ):
     pass
 

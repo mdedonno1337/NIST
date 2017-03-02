@@ -15,6 +15,7 @@ from SoftPillow import Image
 from ..fingerprint import NISTf
 from ..fingerprint import AnnotationList, Minutia
 from ..traditional import RS, US
+from ..traditional import needNtype
     
 try:
     from ULWLQMetric import ULWLQMetric
@@ -37,7 +38,7 @@ try:
             self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
             self.clean()
         
-        def get_minutiae( self, format = None, idc = -1 ):
+        def get_minutiae( self, format = None, idc = -1, field = None ):
             """
                 Overload of the `NIST.fingerprint.NISTf.get_minutiae()` function
                 to extract the information from the 9.331 field if not present
@@ -45,45 +46,59 @@ try:
                 
                 .. see:: :func:`NIST.fingerprint.NISTf.get_minutiae()`
             """
-            try:
-                return super().get_minutiae( format = format, idc = idc )
+            if field == None and self.get_field( "9.012", idc ) != None and self.get_field( "9.331", idc ) != None:
+                raise needNtype( "Field 9.012 and 9.331 present. Need to specify the one to use in parameter" )
             
-            except AttributeError:
-                lst = AnnotationList()
+            else:
+                if field == None:
+                    if self.get_field( "9.012", idc ) != None:
+                        field = "9.012"
+                        
+                    elif self.get_field( "9.331", idc ) != None:
+                        field = "9.331"
                 
-                # Process the 9.331 field
-                for m in split_r( [ RS, US ], self.get_field( "9.331", idc ) ):
-                    if m == [ '' ]:
-                        break
+                if field == "9.012":
+                    return super().get_minutiae( format = format, idc = idc )
+                
+                elif field == "9.331":
+                    lst = AnnotationList()
                     
-                    else:
-                        x, y, theta, d, dr, dt = m
+                    # Process the 9.331 field
+                    for m in split_r( [ RS, US ], self.get_field( "9.331", idc ) ):
+                        if m == [ '' ]:
+                            break
                         
-                        x = int( x ) / 100
-                        y = int( y ) / 100
-                        y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
-                        theta = ( int( theta ) + 180 ) % 360 
-                        
-                        dr = int( dr )
-                        dt = int( dt )
-                        
-                        lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
-                
-                # Add the LQMetric quality 
-                qmap = self.get_field( "9.308" )
-                if qmap != None:
-                    qmap = map( list, split( RS, qmap ) )
-                    h = self.get_height( idc )
-                    res = self.get_resolution( idc )
+                        else:
+                            x, y, theta, d, dr, dt = m
+                            
+                            x = int( x ) / 100
+                            y = int( y ) / 100
+                            y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
+                            theta = ( int( theta ) + 180 ) % 360 
+                            
+                            dr = int( dr )
+                            dt = int( dt )
+                            
+                            lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
                     
-                    for m in lst:
-                        coo = cooNIST2PIL( ( m.x, m.y ), h, res )
-                        x, y = map_r( lambda x: int( x / 4 ), coo )
-                        m.LQM = qmap[ y ][ x ]
-                     
-                    lst.set_format( [ "x", "y", "t", "d", "a", "b", "LQM" ] )
+                    # Add the LQMetric quality 
+                    qmap = self.get_field( "9.308" )
+                    if qmap != None:
+                        qmap = map( list, split( RS, qmap ) )
+                        h = self.get_height( idc )
+                        res = self.get_resolution( idc )
+                        
+                        for m in lst:
+                            coo = cooNIST2PIL( ( m.x, m.y ), h, res )
+                            x, y = map_r( lambda x: int( x / 4 ), coo )
+                            m.LQM = qmap[ y ][ x ]
+                         
+                        lst.set_format( [ "x", "y", "t", "d", "a", "b", "LQM" ] )
+                    
+                    return lst
                 
-                return lst
+                else:
+                    return None
         
         def get_latent_triptych( self, content = "quality", idc = -1 ):
             """
