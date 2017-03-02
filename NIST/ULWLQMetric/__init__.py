@@ -57,12 +57,12 @@ try:
                     elif self.get_field( "9.331", idc ) != None:
                         field = "9.331"
                 
+                lst = AnnotationList()
+
                 if field == "9.012":
-                    return super().get_minutiae( format = format, idc = idc )
+                    lst = super().get_minutiae( format = format, idc = idc )
                 
                 elif field == "9.331":
-                    lst = AnnotationList()
-                    
                     # Process the 9.331 field
                     for m in split_r( [ RS, US ], self.get_field( "9.331", idc ) ):
                         if m == [ '' ]:
@@ -81,24 +81,24 @@ try:
                             
                             lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
                     
-                    # Add the LQMetric quality 
-                    qmap = self.get_field( "9.308" )
-                    if qmap != None:
-                        qmap = map( list, split( RS, qmap ) )
-                        h = self.get_height( idc )
-                        res = self.get_resolution( idc )
-                        
-                        for m in lst:
-                            coo = cooNIST2PIL( ( m.x, m.y ), h, res )
-                            x, y = map_r( lambda x: int( x / 4 ), coo )
-                            m.LQM = int( qmap[ y ][ x ] )
-                         
-                        lst.set_format( [ "x", "y", "t", "d", "a", "b", "LQM" ] )
+                # Add the LQMetric quality 
+                qmap = self.get_field( "9.308" )
+                if qmap != None:
+                    qmap = map( list, split( RS, qmap ) )
+                    h = self.get_height( idc )
+                    res = self.get_resolution( idc )
                     
-                    return lst
+                    for m in lst:
+                        coo = cooNIST2PIL( ( m.x, m.y ), h, res )
+                        x, y = map_r( lambda x: int( x / 4 ), coo )
+                        m.LQM = int( qmap[ y ][ x ] )
+                    
+                    newformat = list( lst[ 0 ]._format )
+                    newformat.append( "LQM" )
+                    
+                    lst.set_format( newformat )
                 
-                else:
-                    return None
+                return lst
         
         def get_latent_triptych( self, content = "quality", idc = -1 ):
             """
