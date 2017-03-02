@@ -4,12 +4,32 @@
 Develop
 ~~~~~~~
 
+Add:
+
+* Add support for loading dict objects in NIST.
+* Add support for tuple in the :func:`NIST.MDD.NIST_MDD.set_pairing()` function.
+* Add the :func:`NIST.fingerprint.NISTf.get_latent_hull()` function.
+* Add the :func:`NIST.fingerprint.functions.Point` and :func:`NIST.fingerprint.functions.Delta` objects.
+* Overload the '>>' operator for the :func:`NIST.fingerprint.functions.Annotation` object.
+* Add the function to sort :func:`NIST.fingerprint.functions.AnnotationsList` object based on the distance to a particular point.
+* Add the :func:`NIST.MDD.NIST_MDD.unpair()` function.
+* Add the :func:`NIST.fingerprint.NISTf.get_delta()` function, and the annotation of the deltas in the :func:`NIST.fingerprint.NISTf.annotate()` function.
+* Add the :func:`NIST.Morpho.NIST_Morpho.process_imageenh()` and :func:`NIST.Morpho.NIST_Morpho.get_delta()` functions.
+* Add support for WSQ as input for the :func:`NIST.fingerprint.functions.changeFormatImage()` function.
+* Add the :func:`NIST.ULWLQMetric.NISTULWLQMetric.get_minutiae()` function.
+
+Change:
+
+* Overload of the set_minutiae in the NIST_MDD class (to set the pairing information).
+* The :func:`NIST.fingerprint.NISTf.get_latent_triptych()` function returns the convex hull by default.
+* Set the resolution in the latent and print exported images.
+
 Commits since latest release:
 
 .. git_changelog::
     :rev-list: latest..
 
-v0.22 (2017.01.26)
+v0.22 (2017-01-26)
 ~~~~~~~~~~~~~~~~~~
 
 Add:
