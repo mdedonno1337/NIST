@@ -7,7 +7,9 @@ from future.builtins import super
 
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
-from MDmisc.string import split_r
+from MDmisc.map_r import map_r
+from MDmisc.string import split_r, split
+from PMlib.formatConverter import cooNIST2PIL
 from SoftPillow import Image
     
 from ..fingerprint import NISTf
@@ -26,7 +28,7 @@ try:
         def img( self ): 
             return self.get_latent( 'PIL' )
         
-        def ULWLQMetric_encode( self, idc = -1 ):
+        def ULWLQMetric_update_data( self, idc = -1 ):
             """
                 Encode the quality of the image, and update the correspondings
                 filds in the NIST object.
@@ -49,6 +51,7 @@ try:
             except AttributeError:
                 lst = AnnotationList()
                 
+                # Process the 9.331 field
                 for m in split_r( [ RS, US ], self.get_field( "9.331", idc ) ):
                     if m == [ '' ]:
                         break
@@ -65,6 +68,20 @@ try:
                         dt = int( dt )
                         
                         lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
+                
+                # Add the LQMetric quality 
+                qmap = self.get_field( "9.308" )
+                if qmap != None:
+                    qmap = map( list, split( RS, qmap ) )
+                    h = self.get_height( idc )
+                    res = self.get_resolution( idc )
+                    
+                    for m in lst:
+                        coo = cooNIST2PIL( ( m.x, m.y ), h, res )
+                        x, y = map_r( lambda x: int( x / 4 ), coo )
+                        m.LQM = qmap[ y ][ x ]
+                     
+                    lst.set_format( [ "x", "y", "t", "d", "a", "b", "LQM" ] )
                 
                 return lst
         
