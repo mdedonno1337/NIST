@@ -91,7 +91,7 @@ try:
                         for m in lst:
                             coo = cooNIST2PIL( ( m.x, m.y ), h, res )
                             x, y = map_r( lambda x: int( x / 4 ), coo )
-                            m.LQM = qmap[ y ][ x ]
+                            m.LQM = int( qmap[ y ][ x ] )
                          
                         lst.set_format( [ "x", "y", "t", "d", "a", "b", "LQM" ] )
                     
