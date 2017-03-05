@@ -1145,7 +1145,9 @@ class NISTf( NIST ):
                 True
         """
         idc = self.checkIDC( 13, idc )
-        self.get_latent( "PIL", idc ).save( f )
+        res = self.get_resolution( idc )
+        
+        self.get_latent( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
     def export_latent_annotated( self, f, idc = -1 ):
