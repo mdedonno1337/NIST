@@ -175,8 +175,8 @@ class NIST_MDD( NISTf ):
                 except:
                     m.n = None
                 
-            format = lst[ 0 ]._format
-            list( format ).append( "n" )
+            format = list( lst[ 0 ]._format )
+            format.append( "n" )
             lst.set_format( format )
             
             lst.__class__ = AnnotationList
