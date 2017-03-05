@@ -36,7 +36,6 @@ try:
             """
             idc = self.checkIDC( 9, idc )
             self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
-            self.clean()
         
         def get_minutiae( self, format = None, idc = -1, field = None ):
             """
