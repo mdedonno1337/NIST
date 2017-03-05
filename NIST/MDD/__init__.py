@@ -150,14 +150,37 @@ class NIST_MDD( NISTf ):
         lst = super().get_minutiae( format = format, idc = idc )
         lst.__class__ = AnnotationList
         
+        return self.add_pairing( lst )
+    
+    def add_pairing( self, lst, idc = -1 ):
+        """
+            Add the pairing information into the AnnotationList passed in
+            argument.
+            
+            :param lst: List of Annotations to process
+            :type lst: AnnotationList
+            
+            :param idc: IDC value
+            :type idc: int
+            
+            :return: Updated AnnotationList
+            :rtype: AnnotationList
+        """
         try:
             pairing = dict( self.get_pairing( idc ) )
         
-            for t, _ in enumerate( lst ):
+            for m in lst:
                 try:
-                    lst[ t ].n = pairing[ lst[ t ].i ]
+                    m.n = pairing[ m.i ]
                 except:
-                    lst[ t ].n = None
+                    m.n = None
+                
+            format = lst[ 0 ]._format
+            list( format ).append( "n" )
+            lst.set_format( format )
+            
+            lst.__class__ = AnnotationList
+        
         except:
             pass
         
