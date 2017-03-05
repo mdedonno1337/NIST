@@ -65,12 +65,16 @@ class AnnotationList( _AnnotationList ):
             :param lst: List of pairing name to delete
             :type lst: Python list
         """
+        lst = [ int( e ) for e in lst if not e == None ]
+        
         deleted = []
-        lst = map( int, lst )
         for m in self:
-            if int( m.n ) in lst:
-                deleted.append( m.n )
-                m.n = None
+            try:
+                if int( m.n ) in lst:
+                    deleted.append( m.n )
+                    m.n = None
+            except:
+                pass
         
         return deleted
     
