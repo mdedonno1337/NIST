@@ -92,7 +92,7 @@ try:
                             
                             lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
                 
-                return self.add_LQMetric_data( lst, idc )
+                return self.add_LQMetric_data( lst, idc ).get( format )
                 
         def add_LQMetric_data( self, lst, idc = -1 ):
             """
