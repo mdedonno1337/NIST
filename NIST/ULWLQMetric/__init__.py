@@ -37,6 +37,18 @@ try:
             idc = self.checkIDC( 9, idc )
             self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
         
+        def get_LQMetric_map( self, idc = -1 ):
+            """
+                Get the LQMetric map of quality (field 9.308).
+                
+                :param idc: IDC value.
+                :type idc: int
+                
+                :return: Quality map
+                :rtype: str
+            """
+            return super().ULWLQMetric_encode( "EFS" )[ 308 ]
+        
         def get_minutiae( self, format = None, idc = -1, field = None ):
             """
                 Overload of the `NIST.fingerprint.NISTf.get_minutiae()` function
