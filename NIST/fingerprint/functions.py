@@ -16,7 +16,6 @@ from MDmisc.string import join, join_r
 
 from ..traditional.config import *
 from ..traditional.exceptions import notImplemented
-from WSQ import WSQ
 
 
 #    Field 9.012 to list (and reverse)
@@ -213,14 +212,10 @@ def changeFormatImage( input, outformat, **options ):
             img = Image.open( buff )
             
         except:
-            try:
-                img = RAWToPIL( WSQ().decode( input ), **options )
-                
-            except:
-                if outformat == "RAW":
-                    return input
-                else:
-                    img = RAWToPIL( input, **options )
+            if outformat == "RAW":
+                return input
+            else:
+                img = RAWToPIL( input, **options )
     
     elif isinstance( input, ( OutputType, InputType ) ):
         img = Image.open( input )
