@@ -140,7 +140,7 @@ class NISTf( NIST ):
     #
     ############################################################################
     
-    def get_minutiae( self, format = None, idc = -1 ):
+    def get_minutiae( self, format = None, idc = -1, **options ):
         """
             Get the minutiae information from the field 9.012 for the IDC passed
             in argument.
@@ -194,26 +194,52 @@ class NISTf( NIST ):
         if isinstance( format, int ):
             idc, format = format, self.minutiaeformat
         
-        # Get the minutiae string, without the final <FS> character.
-        minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
+        # Options processing
+        field = options.get( "field", "9.012" )
         
+        # Field processing
         lst = AnnotationList()
-        for m in split_r( [ RS, US ], minutiae ):
-            if m == ['']:
-                break
-            
-            else:
-                id, xyt, q, d = m
-                
-                d = d.upper()
-                
-                x = int( xyt[ 0:4 ] ) / 100
-                y = int( xyt[ 4:8 ] ) / 100
-                t = int( xyt[ 8:11 ] )
-    
-                lst.append( Minutia( [ id, x, y, t, q, d ] ) )
         
-        lst.set_format( format )
+        if field == "9.012":
+            # Get the minutiae string, without the final <FS> character.
+            minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
+            
+            for m in split_r( [ RS, US ], minutiae ):
+                if m == [ '' ]:
+                    break
+                
+                else:
+                    id, xyt, q, d = m
+                    
+                    d = d.upper()
+                    
+                    x = int( xyt[ 0:4 ] ) / 100
+                    y = int( xyt[ 4:8 ] ) / 100
+                    t = int( xyt[ 8:11 ] )
+        
+                    lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+            
+            lst.set_format( format )
+        
+        elif field == "9.331":
+            minutiae = self.get_field( "9.331", idc )
+            
+            for m in split_r( [ RS, US ], minutiae ):
+                if m == [ '' ]:
+                    break
+                
+                else:
+                    x, y, theta, d, dr, dt = m
+                    
+                    x = int( x ) / 100
+                    y = int( y ) / 100
+                    y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
+                    theta = ( int( theta ) + 180 ) % 360 
+                    
+                    dr = int( dr )
+                    dt = int( dt )
+                    
+                    lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
         
         return lst
         

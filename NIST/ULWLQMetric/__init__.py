@@ -49,51 +49,6 @@ try:
             """
             return super().ULWLQMetric_encode( "EFS" )[ 308 ]
         
-        def get_minutiae( self, format = None, idc = -1, field = None ):
-            """
-                Overload of the `NIST.fingerprint.NISTf.get_minutiae()` function
-                to extract the information from the 9.331 field if not present
-                in the 9.012 field.
-                
-                .. see:: :func:`NIST.fingerprint.NISTf.get_minutiae()`
-            """
-            if field == None and self.get_field( "9.012", idc ) != None and self.get_field( "9.331", idc ) != None:
-                raise needNtype( "Field 9.012 and 9.331 present. Need to specify the one to use in parameter" )
-            
-            else:
-                if field == None:
-                    if self.get_field( "9.012", idc ) != None:
-                        field = "9.012"
-                        
-                    elif self.get_field( "9.331", idc ) != None:
-                        field = "9.331"
-                
-                lst = AnnotationList()
-
-                if field == "9.012":
-                    lst = super().get_minutiae( format = format, idc = idc )
-                
-                elif field == "9.331":
-                    # Process the 9.331 field
-                    for m in split_r( [ RS, US ], self.get_field( "9.331", idc ) ):
-                        if m == [ '' ]:
-                            break
-                        
-                        else:
-                            x, y, theta, d, dr, dt = m
-                            
-                            x = int( x ) / 100
-                            y = int( y ) / 100
-                            y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
-                            theta = ( int( theta ) + 180 ) % 360 
-                            
-                            dr = int( dr )
-                            dt = int( dt )
-                            
-                            lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
-                
-                return self.add_LQMetric_data( lst, idc ).get( format )
-                
         def add_LQMetric_data( self, lst, idc = -1 ):
             """
                 Add the ULW LQMetric for each Annotation passed in parameter.
