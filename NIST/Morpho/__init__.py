@@ -129,7 +129,7 @@ class NIST_Morpho( NISTf ):
                 
                 'addDelta': ( 'addedDelta', ),
                 'moveDelta': ( 'movedFromDelta', 'movedToDelta', ),
-                'rotateDelta': ( 'rotatedFromDelta', ),
+                'rotateDelta': ( 'rotatedFromDelta', 'rotatedToDelta' ),
                 'deleteDelta': ( 'deletedDelta', ),
             }
             
