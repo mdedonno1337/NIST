@@ -145,7 +145,7 @@ class NIST_MDD( NISTf ):
             .. seealso::
                 :func:`NIST.fingerprint.NISTf.get_minutiae`
         """
-        lst = super().get_minutiae( format = format, idc = idc )
+        lst = NISTf.get_minutiae( self, format = format, idc = idc )
         lst.__class__ = AnnotationList
         
         return self.add_pairing( lst )
@@ -195,7 +195,7 @@ class NIST_MDD( NISTf ):
             .. seealso::
                 :func:`NIST.fingerprint.NISTf.checkMinutiae`
         """
-        data = super().checkMinutiae( idc = idc )
+        data = NISTf.checkMinutiae( self, idc = idc )
         
         try:
             self.set_pairing( data.get( "in" ) )
@@ -257,7 +257,7 @@ class NIST_MDD( NISTf ):
             .. seealso::
                 :func:`NIST.fingerprint.NISTf.add_Type09`
         """
-        super().add_Type09( minutiae = minutiae, idc = idc, **options )
+        NISTf.add_Type09( self, minutiae = minutiae, idc = idc, **options )
         self.set_pairing( **options )
     
     def set_minutiae( self, data, idc = -1 ):
