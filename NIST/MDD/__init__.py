@@ -448,7 +448,7 @@ class NIST_MDD( NISTf ):
                 >>> pr.get_print_annotated( 1 ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = super().get_print_annotated( idc )
+        img = super( NIST_MDD, self ).get_print_annotated( idc )
         img = self.annotate( img, self.get_minutiae_paired( idc ), "pairing" )
         
         return img
