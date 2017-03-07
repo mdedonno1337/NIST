@@ -238,21 +238,25 @@ class NIST_Morpho( NISTf ):
         idc = self.checkIDC( 9, idc )
         
         data = self.get_field( "9.184", idc )
-        data = base64.decodestring( data )
+        if data != None:
+            data = base64.decodestring( data )
+            
+            buffer = StringIO()
+            buffer.write( data )
+            
+            ret = defaultdict()
+            
+            with zipfile.ZipFile( buffer, "r" ) as zip:
+                for f in zip.namelist():
+                    name, _ = os.path.splitext( f )
+                    
+                    with zip.open( f, "r" ) as fp:
+                        ret[ name ] = fp.read()
+            
+            return dict( ret )
         
-        buffer = StringIO()
-        buffer.write( data )
-        
-        ret = defaultdict()
-        
-        with zipfile.ZipFile( buffer, "r" ) as zip:
-            for f in zip.namelist():
-                name, _ = os.path.splitext( f )
-                
-                with zip.open( f, "r" ) as fp:
-                    ret[ name ] = fp.read()
-        
-        return dict( ret )
+        else:
+            return None
     
     ############################################################################
     # 
