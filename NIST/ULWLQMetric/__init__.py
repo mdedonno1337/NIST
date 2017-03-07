@@ -3,8 +3,6 @@
 
 from __future__ import division
 
-from future.builtins import super
-
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r
@@ -35,7 +33,7 @@ try:
                 filds in the NIST object.
             """
             idc = self.checkIDC( 9, idc )
-            self.data[ 9 ][ idc ].update( super().ULWLQMetric_encode( 'EFS' ) )
+            self.data[ 9 ][ idc ].update( super( NISTULWLQMetric, self ).ULWLQMetric_encode( 'EFS' ) )
         
         def get_LQMetric_map( self, idc = -1 ):
             """
@@ -47,7 +45,7 @@ try:
                 :return: Quality map
                 :rtype: str
             """
-            return super().ULWLQMetric_encode( "EFS" )[ 308 ]
+            return super( NISTULWLQMetric, self ).ULWLQMetric_encode( "EFS" )[ 308 ]
         
         def add_LQMetric_data( self, lst, idc = -1 ):
             """
@@ -98,7 +96,7 @@ try:
             if content == "quality":
                 diptych = self.get_latent_diptych( idc )
                 
-                qmap = super().ULWLQMetric_encode( "image" )
+                qmap = super( NISTULWLQMetric, self ).ULWLQMetric_encode( "image" )
                 
                 qmap = qmap.chroma( ( 0, 0, 0 ) )
                 qmap = qmap.transparency( 0.5 )
@@ -116,7 +114,7 @@ try:
                 return new
             
             else:
-                super().get_latent_triptych( content, idc )
+                super( NISTULWLQMetric, self ).get_latent_triptych( content, idc )
             
 except:
     debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )

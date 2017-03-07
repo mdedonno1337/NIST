@@ -3,8 +3,6 @@
 
 from __future__ import division
 
-from future.builtins import super
-
 from PIL import Image
 
 from MDmisc.eint import str_int_cmp
@@ -271,7 +269,7 @@ class NIST_MDD( NISTf ):
                 :func:`NIST.fingerprint.NISTf.set_minutiae`
                 :func:`NIST.fingerprint.NISTf.set_pairing`
         """
-        ret = super().set_minutiae( data, idc = idc )
+        ret = super( NIST_MDD, self ).set_minutiae( data, idc = idc )
         self.set_pairing( data, idc )
         return ret
     
@@ -429,7 +427,7 @@ class NIST_MDD( NISTf ):
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         
-        img = super().get_latent_annotated( idc )
+        img = super( NIST_MDD, self ).get_latent_annotated( idc )
         img = self.annotate( img, self.get_minutiae_paired( idc ), "pairing" )
         
         return img
@@ -509,7 +507,7 @@ class NIST_MDD( NISTf ):
             return image
         
         else:
-            return super().annotate( image, data, type, res )
+            return super( NIST_MDD, self ).annotate( image, data, type, res )
         
         return image
 
