@@ -80,7 +80,10 @@ try:
             """
             lst = AnnotationList()
             
-            for m in self.get_minutiae( format, idc, field ):
+            minu = self.get_minutiae( format, idc, field = field )
+            minu = self.add_LQMetric_data( minu, idc )
+            
+            for m in minu:
                 if m.LQM >= criteria and higher:
                     lst.append( m )
                 
