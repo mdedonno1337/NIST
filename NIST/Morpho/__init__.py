@@ -85,7 +85,10 @@ class NIST_Morpho( NISTf ):
             return self.process_imageenh( idc )[ 'minutiae' ].get( format )
     
     def get_delta( self, idc = -1 ):
-        return self.process_imageenh( idc )[ 'delta' ]
+        try:
+            return self.process_imageenh( idc )[ 'delta' ]
+        except:
+            return None
     
     def process_imageenh( self, idc = -1 ):
         """
