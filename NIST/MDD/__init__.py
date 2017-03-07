@@ -128,7 +128,7 @@ class NIST_MDD( NISTf ):
     # 
     ############################################################################
     
-    def get_minutiae( self, format = None, idc = -1 ):
+    def get_minutiae( self, format = None, idc = -1, **options ):
         """
             Overload of the :func:`NIST.fingerprint.NISTf.get_minutiae` function
             to add the pairing number.
