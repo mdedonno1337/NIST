@@ -140,8 +140,20 @@ class NIST_Morpho( NISTf ):
             delta_list = AnnotationList()
             
             def MorphoXML2Minutia( data ):
+                x = int( data[ '@x' ] )
+                y = int( data[ '@y' ] )
+                t = int( data[ '@angle' ] )
+                if int( data[ '@minutiaType' ] ) == 1:
+                    d = 'A'
+                elif int( data[ '@minutiaType' ] ) == 2:
+                    d = 'B'
+                else:
+                    d = 'D'
+                    
+                q = int( data[ '@confidence' ] )
+                
                 return Minutia( 
-                    [ int( data[ k ] ) for k in [ '@x', '@y', '@angle', '@minutiaType', '@confidence' ] ],
+                    [ x, y, t, d, q ],
                     format = "xytdq"
                 )
             
