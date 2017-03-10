@@ -1043,12 +1043,15 @@ class NISTf( NIST ):
             red = ( 250, 0, 0 )
             yellow = ( 255, 255, 50 )
             
+            # Markers
+            markers = {}
+            for file in [ "end", "center" ]:
+                tmp = Image.open( self.imgdir + "/" + file + ".png" )
+                newsize = ( int( tmp.size[ 0 ] * fac ), int( tmp.size[ 1 ] * fac ) )
+                markers[ file ] = tmp.resize( newsize, Image.BICUBIC )
+            
+            # Annotations processing
             if type == "minutiae":
-                # Minutia
-                endmark = Image.open( self.imgdir + "/end.png" )
-                newsize = ( int( endmark.size[ 0 ] * fac ), int( endmark.size[ 1 ] * fac ) )
-                endmark = endmark.resize( newsize, Image.BICUBIC )
-                
                 for m in data: 
                     x = m.x / 25.4 * res
                     y = m.y / 25.4 * res
@@ -1056,7 +1059,7 @@ class NISTf( NIST ):
                     
                     y = height - y
                     
-                    end2 = endmark.rotate( theta, Image.BICUBIC, True )
+                    end2 = markers[ 'end' ].rotate( theta, Image.BICUBIC, True )
                     offsetx = end2.size[ 0 ] / 2
                     offsety = end2.size[ 1 ] / 2
                     
@@ -1065,36 +1068,26 @@ class NISTf( NIST ):
                     image.paste( endcolor, ( int( x - offsetx ), int( y - offsety ) ), mask = end2 )
             
             elif type == "center":
-                centermark = Image.open( self.imgdir + "/center.png" )
-                newsize = ( int( centermark.size[ 0 ] * fac ), int( centermark.size[ 1 ] * fac ) )
-                centermark = centermark.resize( newsize, Image.BICUBIC )
-                    
-                # Center
                 for cx, cy in data:
                     cx = cx / 25.4 * res
                     cy = cy / 25.4 * res
                     cy = height - cy
                     
-                    offsetx = centermark.size[ 0 ] / 2
-                    offsety = centermark.size[ 1 ] / 2
+                    offsetx = markers[ 'center' ].size[ 0 ] / 2
+                    offsety = markers[ 'center' ].size[ 1 ] / 2
                     
-                    centercolor = Image.new( 'RGBA', centermark.size, red )
+                    centercolor = Image.new( 'RGBA', markers[ 'center' ].size, red )
                     
-                    image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = centermark )
+                    image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markers[ 'center' ] )
             
             elif type == "delta":
-                endmark = Image.open( self.imgdir + "/end.png" )
-                newsize = ( int( endmark.size[ 0 ] * fac ), int( endmark.size[ 1 ] * fac ) )
-                endmark = endmark.resize( newsize, Image.BICUBIC )
-                
-                # Center
                 for m in data:
                     cx = m.x / 25.4 * res
                     cy = m.y / 25.4 * res
                     cy = height - cy
                     
                     for theta in [ m.a, m.b, m.c ]:
-                        end2 = endmark.rotate( theta + 180, Image.BICUBIC, True )
+                        end2 = markers[ 'end' ].rotate( theta + 180, Image.BICUBIC, True )
                         offsetx = end2.size[ 0 ] / 2
                         offsety = end2.size[ 1 ] / 2
                         
