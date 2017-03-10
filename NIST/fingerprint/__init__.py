@@ -1045,7 +1045,7 @@ class NISTf( NIST ):
             
             # Markers
             markers = {}
-            for file in [ "end", "center" ]:
+            for file in [ "end", "bifurcation", "center", "undetermined" ]:
                 tmp = Image.open( self.imgdir + "/" + file + ".png" )
                 newsize = ( int( tmp.size[ 0 ] * fac ), int( tmp.size[ 1 ] * fac ) )
                 markers[ file ] = tmp.resize( newsize, Image.BICUBIC )
@@ -1059,13 +1059,20 @@ class NISTf( NIST ):
                     
                     theta = m.t
                     
-                    end2 = markers[ 'end' ].rotate( theta, Image.BICUBIC, True )
-                    offsetx = end2.size[ 0 ] / 2
-                    offsety = end2.size[ 1 ] / 2
+                    if m.d == 'A':
+                        markertype = 'end'
+                    elif m.d == 'B':
+                        markertype = 'bifurcation'
+                    else:
+                        markertype = 'undetermined'
                     
-                    endcolor = Image.new( 'RGBA', end2.size, red )
+                    markerminutia = markers[ markertype ].rotate( theta, Image.BICUBIC, True )
+                    offsetx = markerminutia.size[ 0 ] / 2
+                    offsety = markerminutia.size[ 1 ] / 2
                     
-                    image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
+                    endcolor = Image.new( 'RGBA', markerminutia.size, red )
+                    
+                    image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
             elif type == "center":
                 for m in data:
