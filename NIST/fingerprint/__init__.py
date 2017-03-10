@@ -1025,9 +1025,8 @@ class NISTf( NIST ):
                 >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae() ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        image = image.convert( "RGB" )
-        
         if data != None and len( data ) != 0:
+            image = image.convert( "RGB" )
             width, height = image.size
             
             if res == None:
