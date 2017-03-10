@@ -1053,11 +1053,11 @@ class NISTf( NIST ):
             # Annotations processing
             if type == "minutiae":
                 for m in data: 
-                    x = m.x / 25.4 * res
-                    y = m.y / 25.4 * res
-                    theta = m.t
+                    cx = m.x / 25.4 * res
+                    cy = m.y / 25.4 * res
+                    cy = height - cy
                     
-                    y = height - y
+                    theta = m.t
                     
                     end2 = markers[ 'end' ].rotate( theta, Image.BICUBIC, True )
                     offsetx = end2.size[ 0 ] / 2
@@ -1065,12 +1065,12 @@ class NISTf( NIST ):
                     
                     endcolor = Image.new( 'RGBA', end2.size, red )
                     
-                    image.paste( endcolor, ( int( x - offsetx ), int( y - offsety ) ), mask = end2 )
+                    image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
             
             elif type == "center":
-                for cx, cy in data:
-                    cx = cx / 25.4 * res
-                    cy = cy / 25.4 * res
+                for m in data:
+                    cx = m.x / 25.4 * res
+                    cy = m.y / 25.4 * res
                     cy = height - cy
                     
                     offsetx = markers[ 'center' ].size[ 0 ] / 2
