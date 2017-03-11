@@ -14,7 +14,7 @@ from cStringIO import StringIO
 from MDmisc.ewarning import nowarnings
 
 from ..fingerprint import NISTf
-from ..fingerprint.functions import AnnotationList, Minutia, Delta
+from ..fingerprint.functions import AnnotationList, Minutia, Delta, Core
 from ..traditional.exceptions import notImplemented
 from ..traditional.functions import bindump
 
@@ -134,10 +134,16 @@ class NIST_Morpho( NISTf ):
                 'moveDelta': ( 'movedFromDelta', 'movedToDelta', ),
                 'rotateDelta': ( 'rotatedFromDelta', 'rotatedToDelta' ),
                 'deleteDelta': ( 'deletedDelta', ),
+                
+                'addCore': ( 'addedCore', ),
+                'moveCore': ( 'movedFromCore', 'movedToCore' ),
+                'rotateCore': ( 'rotatedFromCore', 'rotatedToCore' ),
+                'deleteCore': ( 'deletedCore', )
             }
             
             minutiae_list = AnnotationList()
             delta_list = AnnotationList()
+            cores_list = AnnotationList()
             
             def MorphoXML2Minutia( data ):
                 x = int( data[ '@x' ] )
@@ -161,6 +167,12 @@ class NIST_Morpho( NISTf ):
                 return Delta( 
                     [ int( data[ k ] ) for k in [ '@x', '@y', '@angle1', '@angle2', '@angle3' ] ],
                     format = "xyabc"
+                )
+            
+            def MorphoXML2Core( data ):
+                return Core( 
+                    [ int( data[ k ] ) for k in [ '@x', '@y', '@angle', '@confidence' ] ],
+                    format = "xytq"
                 )
             
             for d in minutiae_ops:
@@ -190,6 +202,15 @@ class NIST_Morpho( NISTf ):
                         elif action in [ "deletedDelta", "movedFromDelta", "rotatedFromDelta" ]:
                             m = MorphoXML2Delta( value[ action ] )
                             delta_list.remove( m )
+                        
+                        elif action in [ "addedCore", "movedToCore", "rotatedToCore" ]:
+                            m = MorphoXML2Core( value[ action ] )
+                            m.source = "expert"
+                            cores_list.append( m )
+                        
+                        elif action in [ "deletedCore", "movedFromCore", "rotatedFromCore" ]:
+                            m = MorphoXML2Core( value[ action ] )
+                            cores_list.remove( m )
                         
                         else:
                             raise notImplemented
@@ -227,9 +248,24 @@ class NIST_Morpho( NISTf ):
                 m2.source = m.source
                 delta_return_list.append( m2 )
             
+            cores_return_list = AnnotationList()
+            for m in cores_list:
+                m2 = Core( 
+                    [
+                        m.x * 25.4 / res,
+                        ( height - m.y ) * 25.4 / res,
+                        m.t,
+                        m.q
+                    ],
+                    format = "xytq"
+                )
+                m2.source = m.source
+                cores_return_list.append( m2 )
+            
             return {
                 'minutiae': minutiae_return_list,
-                'delta':    delta_return_list
+                'delta':    delta_return_list,
+                'cores':    cores_return_list
             }
         
     def get_jar( self, idc = -1 ):
