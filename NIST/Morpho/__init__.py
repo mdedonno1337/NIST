@@ -65,6 +65,19 @@ class NIST_Morpho( NISTf ):
         """
         return self.get_jar( idc )[ 'features' ]
     
+    def export_cfv( self, file, idc = -1 ):
+        """
+            Export the CFV content to a file on disk.
+            
+            :param file: File to export to.
+            :type file: string
+            
+            :param idc: IDC value.
+            :type idc: int
+        """
+        with open( file, "wb+" ) as fp:
+            fp.write( self.get_cfv( idc ) )
+    
     def get_minutiae( self, format = None, idc = -1 ):
         """
             Overload of the NISTf.get_minutiae() function to extract the
