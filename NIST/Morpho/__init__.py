@@ -124,25 +124,25 @@ class NIST_Morpho( NISTf ):
                 )
             
             corr = {
-                'autoEncode': ( 'newMinutiaSet', ),
-                'addMinutia': ( 'addedMinutia', ),
-                'moveMinutia': ( 'movedFromMinutia', 'movedToMinutia', ),
+                'autoEncode':    ( 'newMinutiaSet', ),
+                'addMinutia':    ( 'addedMinutia', ),
+                'moveMinutia':   ( 'movedFromMinutia', 'movedToMinutia', ),
                 'rotateMinutia': ( 'rotatedFromMinutia', 'rotatedToMinutia', ),
                 'deleteMinutia': ( 'deletedMinutia', ),
                 
-                'addDelta': ( 'addedDelta', ),
-                'moveDelta': ( 'movedFromDelta', 'movedToDelta', ),
-                'rotateDelta': ( 'rotatedFromDelta', 'rotatedToDelta' ),
-                'deleteDelta': ( 'deletedDelta', ),
+                'addDelta':      ( 'addedDelta', ),
+                'moveDelta':     ( 'movedFromDelta', 'movedToDelta', ),
+                'rotateDelta':   ( 'rotatedFromDelta', 'rotatedToDelta' ),
+                'deleteDelta':   ( 'deletedDelta', ),
                 
-                'addCore': ( 'addedCore', ),
-                'moveCore': ( 'movedFromCore', 'movedToCore' ),
-                'rotateCore': ( 'rotatedFromCore', 'rotatedToCore' ),
-                'deleteCore': ( 'deletedCore', )
+                'addCore':       ( 'addedCore', ),
+                'moveCore':      ( 'movedFromCore', 'movedToCore' ),
+                'rotateCore':    ( 'rotatedFromCore', 'rotatedToCore' ),
+                'deleteCore':    ( 'deletedCore', )
             }
             
             minutiae_list = AnnotationList()
-            delta_list = AnnotationList()
+            deltas_list = AnnotationList()
             cores_list = AnnotationList()
             
             def MorphoXML2Minutia( data ):
@@ -178,31 +178,34 @@ class NIST_Morpho( NISTf ):
             for d in minutiae_ops:
                 for op, value in d.items():
                     for action in corr[ op ]:
+                        # Minutiae processing
                         if action == "newMinutiaSet":
                             for key, v in value[ action ].iteritems():
                                 for vv in v:
                                     m = MorphoXML2Minutia( vv )
                                     m.source = "auto"
                                     minutiae_list.append( m )
-                            
-                        elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
-                            m = MorphoXML2Minutia( value[ action ] )
-                            minutiae_list.remove( m )
                         
                         elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
                             m = MorphoXML2Minutia( value[ action ] )
                             m.source = "expert"
                             minutiae_list.append( m )
+                            
+                        elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
+                            m = MorphoXML2Minutia( value[ action ] )
+                            minutiae_list.remove( m )
                         
+                        # Delta processing
                         elif action in [ "addedDelta", "movedToDelta", "rotatedToDelta" ]:
                             m = MorphoXML2Delta( value[ action ] )
                             m.source = "expert"
-                            delta_list.append( m )
+                            deltas_list.append( m )
                         
                         elif action in [ "deletedDelta", "movedFromDelta", "rotatedFromDelta" ]:
                             m = MorphoXML2Delta( value[ action ] )
-                            delta_list.remove( m )
+                            deltas_list.remove( m )
                         
+                        # Core processing
                         elif action in [ "addedCore", "movedToCore", "rotatedToCore" ]:
                             m = MorphoXML2Core( value[ action ] )
                             m.source = "expert"
@@ -212,6 +215,7 @@ class NIST_Morpho( NISTf ):
                             m = MorphoXML2Core( value[ action ] )
                             cores_list.remove( m )
                         
+                        # Raise exception if not implemented
                         else:
                             raise notImplemented
             
@@ -233,8 +237,8 @@ class NIST_Morpho( NISTf ):
                 m2.source = m.source
                 minutiae_return_list.append( m2 )
             
-            delta_return_list = AnnotationList()
-            for m in delta_list:
+            deltas_return_list = AnnotationList()
+            for m in deltas_list:
                 m2 = Delta( 
                     [
                         m.x * 25.4 / res,
@@ -246,7 +250,7 @@ class NIST_Morpho( NISTf ):
                     format = "xyabc"
                 )
                 m2.source = m.source
-                delta_return_list.append( m2 )
+                deltas_return_list.append( m2 )
             
             cores_return_list = AnnotationList()
             for m in cores_list:
@@ -264,7 +268,7 @@ class NIST_Morpho( NISTf ):
             
             return {
                 'minutiae': minutiae_return_list,
-                'delta':    delta_return_list,
+                'deltas':   deltas_return_list,
                 'cores':    cores_return_list
             }
         
