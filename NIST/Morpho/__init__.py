@@ -99,7 +99,7 @@ class NIST_Morpho( NISTf ):
     
     def get_delta( self, idc = -1 ):
         try:
-            return self.process_imageenh( idc )[ 'delta' ]
+            return self.process_imageenh( idc )[ 'deltas' ]
         except:
             return None
     
