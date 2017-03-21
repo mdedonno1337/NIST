@@ -937,20 +937,10 @@ class NIST( object ):
         """
             Check some requirements for the NIST file. Fields checked:
             
-                * 1.002
                 * 1.011
                 * 1.012
         """
         debug.info( "Patch some fields regaring the ANSI/NIST-ITL standard" )
-        
-        #    1.002 : Standard version:
-        #        0300 : ANSI/NIST-ITL 1-2000
-        #        0400 : ANSI/NIST-ITL 1-2007
-        #        0500 : ANSI/NIST-ITL 1-2011
-        #        0501 : ANSI/NIST-ITL 1-2011 Update: 2013 Traditional Encoding
-        #        0502 : ANSI/NIST-ITL 1-2011 Update: 2015 Traditional Encoding
-        debug.debug( "set version to 0300 (ANSI/NIST-ITL 1-2000)", 1 )
-        self.set_field( "1.002", self.stdver )
         
         #    1.011 and 1.012
         #        For transactions that do not contain Type-3 through Type-7
