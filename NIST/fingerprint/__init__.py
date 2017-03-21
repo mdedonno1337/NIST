@@ -89,6 +89,7 @@ class NISTf( NIST ):
         """
             Check some requirements for the NIST file. Fields checked:
             
+                * 1.011 and 1.012
                 * 4.005
                 * 9.004
             
@@ -96,6 +97,16 @@ class NISTf( NIST ):
             function afterward.
         """
         ntypes = self.get_ntype()
+        
+        #    Type-01
+        #    1.011 and 1.012
+        #        For transactions that do not contain Type-3 through Type-7
+        #        fingerprint image records, this field shall be set to "00.00"
+        if not ifany( [ 3, 4, 5, 6, 7 ], ntypes ):
+            debug.debug( "Fields 1.011 and 1.012 patched: no Type-03 through Type-07 in this NIST file", 1 )
+            self.set_field( "1.011", "00.00" )
+            self.set_field( "1.012", "00.00" )
+        
         #    Type-04
         if 4 in ntypes:
             for idc in self.get_idc( 4 ):
