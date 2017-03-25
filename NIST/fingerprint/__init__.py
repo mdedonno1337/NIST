@@ -1220,6 +1220,15 @@ class NISTf( NIST ):
         self.get_latent_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
+    def export_latent_diptych( self, f, idc = -1 ):
+        """
+            Export the latent diptych to file.
+            
+            :param f: Output file
+            :type f: str
+        """
+        self.get_latent_diptych( idc ).save( f )
+    
     def get_latent_annotated( self, idc = -1 ):
         """
             Function to return the annotated latent.
