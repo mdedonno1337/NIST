@@ -19,7 +19,6 @@ from MDmisc.elist import ifany, map_r
 from MDmisc.eint import str_int_cmp
 from MDmisc.logger import debug
 from MDmisc.string import upper, split_r, join
-from WSQ import WSQ
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, FS, default_origin
@@ -29,6 +28,17 @@ from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
 from .functions import Minutia, Core, Delta, AnnotationList
 from .voidType import voidType
+
+try:
+    from WSQ import WSQ
+    wsq_enable = True
+
+except:
+    class WSQ( object ):
+        def __init__( self ):
+            raise Exception( "WSQ not supported" )
+    
+    wsq_enable = False
 
 voidType.update( voidType )
 
