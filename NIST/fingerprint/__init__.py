@@ -1066,7 +1066,7 @@ class NISTf( NIST ):
             # Markers
             markers = {}
             for file in [ "end", "bifurcation", "center", "undetermined" ]:
-                tmp = Image.open( self.imgdir + "/" + file + ".png" )
+                tmp = Image.open( self.imgdir + "/" + file + ".png" ).convert( "L" )
                 newsize = ( int( tmp.size[ 0 ] * fac ), int( tmp.size[ 1 ] * fac ) )
                 markers[ file ] = tmp.resize( newsize, Image.BICUBIC )
             
