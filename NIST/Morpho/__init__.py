@@ -151,7 +151,9 @@ class NIST_Morpho( NISTf ):
                 'addCore':       ( 'addedCore', ),
                 'moveCore':      ( 'movedFromCore', 'movedToCore' ),
                 'rotateCore':    ( 'rotatedFromCore', 'rotatedToCore' ),
-                'deleteCore':    ( 'deletedCore', )
+                'deleteCore':    ( 'deletedCore', ),
+                
+                'deleteAllFeatures': ( 'deletedMinutiae', 'deletedCores', 'deletedDeltas' ),
             }
             
             minutiae_list = AnnotationList()
@@ -188,49 +190,77 @@ class NIST_Morpho( NISTf ):
                     format = "xytq"
                 )
             
+            def actionProcess( action, minutiae_list, deltas_list, cores_list ):
+                # Minutiae processing
+                if action == "newMinutiaSet":
+                    for key, v in value[ action ].iteritems():
+                        for vv in v:
+                            m = MorphoXML2Minutia( vv )
+                            m.source = "auto"
+                            minutiae_list.append( m )
+                
+                elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
+                    m = MorphoXML2Minutia( value[ action ] )
+                    m.source = "expert"
+                    minutiae_list.append( m )
+                    
+                elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
+                    m = MorphoXML2Minutia( value[ action ] )
+                    minutiae_list.remove( m )
+                
+                # Delta processing
+                elif action in [ "addedDelta", "movedToDelta", "rotatedToDelta" ]:
+                    m = MorphoXML2Delta( value[ action ] )
+                    m.source = "expert"
+                    deltas_list.append( m )
+                
+                elif action in [ "deletedDelta", "movedFromDelta", "rotatedFromDelta" ]:
+                    m = MorphoXML2Delta( value[ action ] )
+                    deltas_list.remove( m )
+                
+                # Core processing
+                elif action in [ "addedCore", "movedToCore", "rotatedToCore" ]:
+                    m = MorphoXML2Core( value[ action ] )
+                    m.source = "expert"
+                    cores_list.append( m )
+                
+                elif action in [ "deletedCore", "movedFromCore", "rotatedFromCore" ]:
+                    m = MorphoXML2Core( value[ action ] )
+                    cores_list.remove( m )
+                
+                elif action == "deletedMinutiae":
+                    if value[ action ] != None:
+                        for m in value[ action ][ 'minutia' ]:
+                            m = MorphoXML2Minutia( m )
+                            minutiae_list.remove( m )
+                
+                elif action == "deletedCores":
+                    if value[ action ] != None:
+                        m = value[ action ][ 'core' ]
+                        m = MorphoXML2Core( m )
+                        cores_list.remove( m )
+                
+                elif action == "deletedDeltas":
+                    if value[ action ] != None:
+                        if isinstance( value[ action ][ 'delta' ], list ):
+                            for m in value[ action ][ 'delta' ]:
+                                m = MorphoXML2Delta( m )
+                                deltas_list.remove( m )
+                        
+                        else:
+                            m = MorphoXML2Delta( value[ action ][ 'delta' ] )
+                            deltas_list.remove( m )
+                        
+                # Raise exception if not implemented
+                else:
+                    raise notImplemented( action + " not implemeted" )
+                
+                return minutiae_list, deltas_list, cores_list 
+            
             for d in minutiae_ops:
                 for op, value in d.items():
                     for action in corr[ op ]:
-                        # Minutiae processing
-                        if action == "newMinutiaSet":
-                            for key, v in value[ action ].iteritems():
-                                for vv in v:
-                                    m = MorphoXML2Minutia( vv )
-                                    m.source = "auto"
-                                    minutiae_list.append( m )
-                        
-                        elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
-                            m = MorphoXML2Minutia( value[ action ] )
-                            m.source = "expert"
-                            minutiae_list.append( m )
-                            
-                        elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
-                            m = MorphoXML2Minutia( value[ action ] )
-                            minutiae_list.remove( m )
-                        
-                        # Delta processing
-                        elif action in [ "addedDelta", "movedToDelta", "rotatedToDelta" ]:
-                            m = MorphoXML2Delta( value[ action ] )
-                            m.source = "expert"
-                            deltas_list.append( m )
-                        
-                        elif action in [ "deletedDelta", "movedFromDelta", "rotatedFromDelta" ]:
-                            m = MorphoXML2Delta( value[ action ] )
-                            deltas_list.remove( m )
-                        
-                        # Core processing
-                        elif action in [ "addedCore", "movedToCore", "rotatedToCore" ]:
-                            m = MorphoXML2Core( value[ action ] )
-                            m.source = "expert"
-                            cores_list.append( m )
-                        
-                        elif action in [ "deletedCore", "movedFromCore", "rotatedFromCore" ]:
-                            m = MorphoXML2Core( value[ action ] )
-                            cores_list.remove( m )
-                        
-                        # Raise exception if not implemented
-                        else:
-                            raise notImplemented
+                        minutiae_list, deltas_list, cores_list = actionProcess( action, minutiae_list, deltas_list, cores_list )
             
             res = self.get_resolution( idc )
             height = self.get_height( idc )
