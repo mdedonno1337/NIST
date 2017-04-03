@@ -353,7 +353,15 @@ class NISTf( NIST ):
                     Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' )
                 ]
         """
-        return AnnotationList( [ m for m in self.get_minutiae( format, idc ) if str_int_cmp( m.n, name ) ] )
+        lst = []
+        for m in self.get_minutiae( format, idc ):
+            try:
+                if str_int_cmp( m.n, name ):
+                    lst.append( m )
+            except:
+                continue
+        
+        return AnnotationList( lst )
     
     def get_minutia_by_id( self, id, format = None, idc = -1 ):
         """
