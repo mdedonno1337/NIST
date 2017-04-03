@@ -1068,7 +1068,7 @@ class NISTf( NIST ):
             for file in [ "end", "bifurcation", "center", "undetermined" ]:
                 tmp = Image.open( self.imgdir + "/" + file + ".png" )
                 newsize = ( int( tmp.size[ 0 ] * fac ), int( tmp.size[ 1 ] * fac ) )
-                markers[ file ] = tmp.resize( newsize, Image.BICUBIC )
+                markers[ file ] = tmp.resize( newsize, Image.BICUBIC ).convert( "L" )
             
             # Annotations processing
             if type == "minutiae":

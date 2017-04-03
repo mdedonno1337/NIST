@@ -488,7 +488,7 @@ class NIST_MDD( NISTf ):
             
             pairingmark = Image.open( self.imgdir + "/pairing.png" )
             newsize = ( int( pairingmark.size[ 0 ] * fac ), int( pairingmark.size[ 1 ] * fac ) )
-            pairingmark = pairingmark.resize( newsize, Image.BICUBIC )
+            pairingmark = pairingmark.resize( newsize, Image.BICUBIC ).convert( "L" )
                
             offsetx = pairingmark.size[ 0 ] / 2
             offsety = pairingmark.size[ 1 ] / 2
