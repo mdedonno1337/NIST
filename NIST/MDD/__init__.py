@@ -404,8 +404,8 @@ class NIST_MDD( NISTf ):
             
                 >>> mark.get_minutiae_by_pairing_name( [ 1, 2 ] ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' )
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' )
                 ]
         """
         return AnnotationList( self.get_minutiae( idc ) ).get_by_pairing_name( name, format )

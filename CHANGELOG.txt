@@ -16,13 +16,24 @@ Add:
 * Add the :func:`NIST.fingerprint.NISTf.get_delta()` function, and the annotation of the deltas in the :func:`NIST.fingerprint.NISTf.annotate()` function.
 * Add the :func:`NIST.Morpho.NIST_Morpho.process_imageenh()` and :func:`NIST.Morpho.NIST_Morpho.get_delta()` functions.
 * Add support for WSQ as input for the :func:`NIST.fingerprint.functions.changeFormatImage()` function.
-* Add the :func:`NIST.ULWLQMetric.NISTULWLQMetric.get_minutiae()` function.
+* Add the :func:`NIST.ULWLQMetric.NISTULWLQMetric.get_minutiae_by_LQM()`, :func:`NIST.ULWLQMetric.NISTULWLQMetric.get_LQMetric_map()` functions.
+* Add the LQMetric Quality Map if available.
+* Add support for WSQ in the Fingerprint module.
+* Add support for bifurcations and undetermined minutiae type.
+* Add support for the Core annotations in the Morho_NIST() class.
+* Add the :func:`NIST.fingerprint.NISTf.export_latent_diptych()` function.
 
 Change:
 
 * Overload of the set_minutiae in the NIST_MDD class (to set the pairing information).
 * The :func:`NIST.fingerprint.NISTf.get_latent_triptych()` function returns the convex hull by default.
 * Set the resolution in the latent and print exported images.
+* Move the processing of the field 9.331 into the NISTf module.
+* Use the builtin super() function instead of the future.super() function.
+* Add **options to the :func:`NIST.MDD.NIST_MDD.get_minutiae()` function.
+* Remove the change of the NIST standard version (field 1.003) in the cleaning function.
+* Move the processing of the 1.011 and 1.012 filds in the Fingerprint module.
+* Made the WSQ module optional (raise an exception if not loaded AND used).
 
 Commits since latest release:
 

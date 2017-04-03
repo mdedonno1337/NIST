@@ -193,19 +193,19 @@ class NISTf( NIST ):
                 >>> mark2 = mark.get()
                 >>> mark2.get_minutiae() # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B', n='3' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A', n='None' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B', n='None' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A', n='None' ),
+                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C', n='None' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A', n='None' ),
+                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D', n='None' ),
+                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D', n='None' )
                 ]
                 >>> [ m.as_list() for m in mark.get_minutiae() ]
-                [['1', 7.85, 7.05, 290, '0', 'A'], ['2', 13.8, 15.3, 155, '0', 'A'], ['3', 11.46, 22.32, 224, '0', 'B'], ['4', 22.61, 25.17, 194, '0', 'A'], ['5', 6.97, 8.48, 153, '0', 'B'], ['6', 12.58, 19.88, 346, '0', 'A'], ['7', 19.69, 19.8, 111, '0', 'C'], ['8', 12.31, 3.87, 147, '0', 'A'], ['9', 13.88, 14.29, 330, '0', 'D'], ['10', 15.47, 22.49, 271, '0', 'D']]
+                [['1', 7.85, 7.05, 290, '0', 'A', '1'], ['2', 13.8, 15.3, 155, '0', 'A', '2'], ['3', 11.46, 22.32, 224, '0', 'B', '3'], ['4', 22.61, 25.17, 194, '0', 'A', 'None'], ['5', 6.97, 8.48, 153, '0', 'B', 'None'], ['6', 12.58, 19.88, 346, '0', 'A', 'None'], ['7', 19.69, 19.8, 111, '0', 'C', 'None'], ['8', 12.31, 3.87, 147, '0', 'A', 'None'], ['9', 13.88, 14.29, 330, '0', 'D', 'None'], ['10', 15.47, 22.49, 271, '0', 'D', 'None']]
             
             The format parameter is used by the :func:`~NIST.fingerprint.functions.AnnotationsList`
             object to sort the fields returned.
@@ -349,8 +349,8 @@ class NISTf( NIST ):
                 >>> mark2 = mark.get()
                 >>> mark2.get_minutiae_by_name( [ "001", "002" ] ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' )
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' )
                 ]
         """
         lst = []
@@ -436,8 +436,8 @@ class NISTf( NIST ):
             
                 >>> mark.get_minutiae_by_type( "D" ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D', n='None' ),
+                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D', n='None' )
                 ]
         """
         return self.get_minutiae( idc ).get_by_type( designation, format )
@@ -702,16 +702,16 @@ class NISTf( NIST ):
             >>> mark2 = mark.get()
             >>> mark2.checkMinutiae() # doctest: +NORMALIZE_WHITESPACE
             [
-                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' ),
+                Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B', n='3' ),
+                Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A', n='None' ),
+                Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B', n='None' ),
+                Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A', n='None' ),
+                Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C', n='None' ),
+                Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A', n='None' ),
+                Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D', n='None' ),
+                Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D', n='None' )
             ]
             >>> pr2 = pr.get()
             >>> pr2.checkMinutiae() # doctest: +NORMALIZE_WHITESPACE
@@ -799,36 +799,35 @@ class NISTf( NIST ):
                 >>> mark2 = mark.get()
                 >>> mark2.filter_minutiae( d = "AB" ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' )
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B', n='3' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A', n='None' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B', n='None' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A', n='None' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A', n='None' )
                 ]
-                
             
             To get the list filtered by designation, removing Type undetermined (D):
             
                 >>> mark2.filter_minutiae( d = "D", invert = True ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' )
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B', n='3' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A', n='None' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B', n='None' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A', n='None' ),
+                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C', n='None' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A', n='None' )
                 ]
                 
             To get only the Minutiae id 1 and 5:
             
                 >>> mark2.filter_minutiae( i = [ "1", "5" ] ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A', n='1' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B', n='None' )
                 ]
         """
         tofilter = [ ( key, value ) for key, value in kwargs.iteritems() ]
