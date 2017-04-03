@@ -17,6 +17,16 @@ from MDmisc.string import join, join_r
 from ..traditional.config import *
 from ..traditional.exceptions import notImplemented
 
+try:
+    from WSQ import WSQ
+    wsq_enable = True
+
+except:
+    class WSQ( object ):
+        def __init__( self ):
+            raise Exception( "WSQ not supported" )
+    
+    wsq_enable = False
 
 #    Field 9.012 to list (and reverse)
 def lstTo012( lst, format = None ):
@@ -212,10 +222,14 @@ def changeFormatImage( input, outformat, **options ):
             img = Image.open( buff )
             
         except:
-            if outformat == "RAW":
-                return input
-            else:
-                img = RAWToPIL( input, **options )
+            try:
+                img = RAWToPIL( WSQ().decode( input ), **options )
+                
+            except:
+                if outformat == "RAW":
+                    return input
+                else:
+                    img = RAWToPIL( input, **options )
     
     elif isinstance( input, ( OutputType, InputType ) ):
         img = Image.open( input )
