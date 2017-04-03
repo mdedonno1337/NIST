@@ -1284,32 +1284,35 @@ class NISTf( NIST ):
                 >>> mark.get_latent_hull() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        xy = self.get_minutiae( "xy", idc )
-        xy = np.asarray( xy )
-        hull = ConvexHull( xy )
-          
         img = self.get_latent( "PIL", idc )
         img = img.convert( "RGB" )
         draw = ImageDraw.Draw( img )
-          
-        res = self.get_resolution( idc )
-        height = self.get_height()
-          
-        if linewidth == None:
-            linewidth = res / 40
-        linewidth = int( linewidth )
-          
-        for simplex in hull.simplices:
-            t1, t2 = xy[ simplex, ] * res / 25.4
-            a, b = t1
-            c, d = t2
+        
+        try:
+            xy = self.get_minutiae( "xy", idc )
+            xy = np.asarray( xy )
+            hull = ConvexHull( xy )
               
-            b = height - b
-            d = height - d
+            res = self.get_resolution( idc )
+            height = self.get_height()
               
-            a, b, c, d = map( int, ( a, b, c, d ) )
+            if linewidth == None:
+                linewidth = res / 40
+            linewidth = int( linewidth )
               
-            draw.line( ( a, b, c, d ), fill = ( 255, 0, 0 ), width = linewidth )
+            for simplex in hull.simplices:
+                t1, t2 = xy[ simplex, ] * res / 25.4
+                a, b = t1
+                c, d = t2
+                  
+                b = height - b
+                d = height - d
+                  
+                a, b, c, d = map( int, ( a, b, c, d ) )
+                  
+                draw.line( ( a, b, c, d ), fill = ( 255, 0, 0 ), width = linewidth )
+        except:
+            pass
               
         return img
     
