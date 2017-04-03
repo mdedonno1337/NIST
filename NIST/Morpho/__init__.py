@@ -103,6 +103,12 @@ class NIST_Morpho( NISTf ):
         except:
             return None
     
+    def get_cores( self, idc = -1 ):
+        try:
+            return self.process_imageenh( idc )[ 'cores' ]
+        except:
+            return None
+    
     def process_imageenh( self, idc = -1 ):
         """
             Function to process the imgageenh.2 content stored in the jar field.
