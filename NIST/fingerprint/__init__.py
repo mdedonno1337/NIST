@@ -1110,7 +1110,7 @@ class NISTf( NIST ):
                     offsetx = markers[ 'center' ].size[ 0 ] / 2
                     offsety = markers[ 'center' ].size[ 1 ] / 2
                     
-                    centercolor = Image.new( 'RGBA', markers[ 'center' ].size, red )
+                    centercolor = Image.new( 'RGBA', markers[ 'center' ].size, yellow )
                     
                     image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markers[ 'center' ] )
             
