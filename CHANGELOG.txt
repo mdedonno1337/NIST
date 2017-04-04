@@ -4,6 +4,14 @@
 Develop
 ~~~~~~~
 
+Commits since latest release:
+
+.. git_changelog::
+    :rev-list: latest..
+
+v0.23 (2017-04-04)
+~~~~~~~~~~~~~~~~~~
+
 Incompatibles changes:
 
 * Rename in all function 'center' to 'core'.
@@ -38,11 +46,6 @@ Change:
 * Remove the change of the NIST standard version (field 1.003) in the cleaning function.
 * Move the processing of the 1.011 and 1.012 filds in the Fingerprint module.
 * Made the WSQ module optional (raise an exception if not loaded AND used).
-
-Commits since latest release:
-
-.. git_changelog::
-    :rev-list: latest..
 
 v0.22 (2017-01-26)
 ~~~~~~~~~~~~~~~~~~
