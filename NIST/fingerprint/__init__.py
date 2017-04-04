@@ -897,6 +897,9 @@ class NISTf( NIST ):
         elif 14 in ntypes: 
             return int( self.get_field( "14.006", idc ) )
         
+        elif 16 in ntypes:
+            return int( self.get_field( "16.006", idc ) )
+        
         else:
             raise notImplemented
     
@@ -925,6 +928,9 @@ class NISTf( NIST ):
         
         elif 14 in ntypes: 
             return int( self.get_field( "14.007", idc ) )
+        
+        elif 16 in ntypes:
+            return int( self.get_field( "16.007", idc ) )
         
         else:
             raise notImplemented
