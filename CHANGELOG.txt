@@ -4,6 +4,10 @@
 Develop
 ~~~~~~~
 
+Incompatibles changes:
+
+* Rename in all function 'center' to 'core'.
+
 Add:
 
 * Add support for loading dict objects in NIST.

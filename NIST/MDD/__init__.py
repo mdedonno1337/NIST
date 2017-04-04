@@ -464,7 +464,7 @@ class NIST_MDD( NISTf ):
             :param data: Data used to annotate the image.
             :type data: AnnotationList
             
-            :param type: Type of annotation (minutiae or center).
+            :param type: Type of annotation (minutiae or core).
             :type type: str
             
             :param res: Resolution of the image in DPI.
