@@ -174,8 +174,9 @@ class NIST_MDD( NISTf ):
                     m.n = None
                 
             format = list( lst[ 0 ]._format )
-            format.append( "n" )
-            lst.set_format( format )
+            if not "n" in format:
+                format.append( "n" )
+                lst.set_format( format )
             
             lst.__class__ = AnnotationList
         
