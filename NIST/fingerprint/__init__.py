@@ -1048,7 +1048,7 @@ class NISTf( NIST ):
             :param data: Data used to annotate the image
             :type data: AnnotationList
             
-            :param type: Type of annotation (minutiae or core).
+            :param type: Type of annotation (minutiae or center).
             :type type: str
             
             :param res: Resolution in DPI.
@@ -1078,7 +1078,7 @@ class NISTf( NIST ):
             
             # Markers
             markers = {}
-            for file in [ "end", "bifurcation", "core", "undetermined" ]:
+            for file in [ "end", "bifurcation", "center", "undetermined" ]:
                 tmp = Image.open( self.imgdir + "/" + file + ".png" )
                 newsize = ( int( tmp.size[ 0 ] * fac ), int( tmp.size[ 1 ] * fac ) )
                 markers[ file ] = tmp.resize( newsize, Image.BICUBIC ).convert( "L" )
@@ -1107,18 +1107,18 @@ class NISTf( NIST ):
                     
                     image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
-            elif type == "core":
+            elif type == "center":
                 for m in data:
                     cx = m.x / 25.4 * res
                     cy = m.y / 25.4 * res
                     cy = height - cy
                     
-                    offsetx = markers[ 'core' ].size[ 0 ] / 2
-                    offsety = markers[ 'core' ].size[ 1 ] / 2
+                    offsetx = markers[ 'center' ].size[ 0 ] / 2
+                    offsety = markers[ 'center' ].size[ 1 ] / 2
                     
-                    corecolor = Image.new( 'RGBA', markers[ 'core' ].size, yellow )
+                    centercolor = Image.new( 'RGBA', markers[ 'center' ].size, yellow )
                     
-                    image.paste( corecolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markers[ 'core' ] )
+                    image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markers[ 'center' ] )
             
             elif type == "delta":
                 for m in data:
@@ -1262,7 +1262,7 @@ class NISTf( NIST ):
         
         try:
             img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
-            img = self.annotate( img, self.get_cores( idc ), "core", res, idc )
+            img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
             
         except:
@@ -1476,15 +1476,15 @@ class NISTf( NIST ):
             else:
                 raise notImplemented
     
-    def crop_latent( self, size, core = None, idc = -1, **options ):
+    def crop_latent( self, size, center = None, idc = -1, **options ):
         """
             Crop the latent image.
             
             :param size: Size of the output image.
             :type size: tuple
             
-            :param core: Coordinate of the core of the image, in mm.
-            :type core: tuple
+            :param center: Coordinate of the center of the image, in mm.
+            :type center: tuple
             
             :param idc: IDC value.
             :type idc: int
@@ -1497,20 +1497,20 @@ class NISTf( NIST ):
                 >>> mark2.crop_latent( ( 500, 500 ), ( 12.7, 12.7 ) )
         """
         if 13 in self.get_ntype():
-            return self.crop( size, core, 13, idc )
+            return self.crop( size, center, 13, idc )
         
         else:
             raise notImplemented
     
-    def crop_print( self, size, core = None, idc = -1, **options ):
+    def crop_print( self, size, center = None, idc = -1, **options ):
         """
             Crop the print image.
             
             :param size: Size of the output image.
             :type size: tuple
             
-            :param core: Coordinate of the core of the image, in mm.
-            :type core: tuple
+            :param center: Coordinate of the center of the image, in mm.
+            :type center: tuple
             
             :param idc: IDC value.
             :type idc: int
@@ -1532,7 +1532,7 @@ class NISTf( NIST ):
         else:
             raise notImplemented
         
-        return self.crop( size, core, ntype, idc )
+        return self.crop( size, center, ntype, idc )
     
     def crop_auto( self, *args, **kwargs ):
         try:
@@ -1540,15 +1540,15 @@ class NISTf( NIST ):
         except:
             self.crop_print( *args, **kwargs )
     
-    def crop( self, size, core = None, ntype = None, idc = -1 ):
+    def crop( self, size, center = None, ntype = None, idc = -1 ):
         """
             Crop the latent or the print image.
             
             :param size: Size of the output image.
             :type size: tuple
             
-            :param core: Coordinate of the core of the image, in mm.
-            :type core: tuple
+            :param center: Coordinate of the center of the image, in mm.
+            :type center: tuple
             
             :param ntype: ntype to crop (4, 13 or 14).
             :type ntype: int
@@ -1567,25 +1567,25 @@ class NISTf( NIST ):
         """
         idc = self.checkIDC( ntype, idc )
         
-        if core == None:
-            core = self.get_size( idc )
-            core = map( lambda x: int( 0.5 * x ), core )
-            core = map( int, core )
+        if center == None:
+            center = self.get_size( idc )
+            center = map( lambda x: int( 0.5 * x ), center )
+            center = map( int, center )
         else:
-            if isinstance( core[ 0 ], list ):
-                core = core[ 0 ]
+            if isinstance( center[ 0 ], list ):
+                center = center[ 0 ]
                 
-            cx, cy = mm2px( core, self.get_resolution( idc ) )
+            cx, cy = mm2px( center, self.get_resolution( idc ) )
             cy = self.get_height( idc ) - cy
-            core = ( cx, cy )
-            core = map( int, core )
+            center = ( cx, cy )
+            center = map( int, center )
         
         img = self.get_image( "PIL", idc )
         
-        offset = ( ( size[ 0 ] / 2 ) - core[ 0 ], ( size[ 1 ] / 2 ) - core[ 1 ] )
+        offset = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( size[ 1 ] / 2 ) - center[ 1 ] )
         offset = tuple( map( int, offset ) )
         
-        offsetmin = ( ( size[ 0 ] / 2 ) - core[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - core[ 1 ] - size[ 1 ] ) ) )
+        offsetmin = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - center[ 1 ] - size[ 1 ] ) ) )
         offsetmin = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
         
         # Image cropping
@@ -1755,7 +1755,7 @@ class NISTf( NIST ):
         
         try:
             img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
-            img = self.annotate( img, self.get_cores( idc ), "core", res, idc )
+            img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
             
         except:

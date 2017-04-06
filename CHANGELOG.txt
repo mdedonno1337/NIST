@@ -12,10 +12,6 @@ Commits since latest release:
 v0.23 (2017-04-04)
 ~~~~~~~~~~~~~~~~~~
 
-Incompatibles changes:
-
-* Rename in all function 'center' to 'core'.
-
 Add:
 
 * Add support for loading dict objects in NIST.
