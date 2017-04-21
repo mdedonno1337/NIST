@@ -12,6 +12,7 @@ from scipy.spatial.qhull import ConvexHull
 import os
 import numpy as np
 
+from MDmisc import fuckit
 from MDmisc.deprecated import deprecated
 from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.ebool import xor
@@ -1260,13 +1261,14 @@ class NISTf( NIST ):
         img = self.get_latent( 'PIL', idc )
         res = self.get_resolution( idc )
         
-        try:
+        with fuckit:
             img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+        
+        with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
+        
+        with fuckit:
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
-            
-        except:
-            pass
         
         return img
     
@@ -1753,13 +1755,14 @@ class NISTf( NIST ):
         img = self.get_print( 'PIL', idc )
         res = self.get_resolution( idc )
         
-        try:
+        with fuckit:
             img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+
+        with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
+        
+        with fuckit:
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
-            
-        except:
-            raise
         
         return img
     
