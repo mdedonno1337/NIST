@@ -66,7 +66,10 @@ try:
                 for m in lst:
                     coo = cooNIST2PIL( ( m.x, m.y ), h, res )
                     x, y = map_r( lambda x: int( x / 4 ), coo )
-                    m.LQM = int( qmap[ y ][ x ] )
+                    try:
+                        m.LQM = int( qmap[ y ][ x ] )
+                    except:
+                        m.LQM = None
                 
                 newformat = list( lst[ 0 ]._format )
                 newformat.append( "LQM" )
