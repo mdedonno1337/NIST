@@ -3,6 +3,7 @@
 
 from __future__ import division
 
+from MDmisc import fuckit
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r
@@ -74,14 +75,24 @@ try:
             
             return lst
         
+        def get_minutiae( self, format = None, idc = -1, **options ):
+            """
+                Overload of the get_minutiae function to add the LQMetric information.
+            """
+            lst = super( NISTULWLQMetric, self ).get_minutiae( format = format, idc = idc, **options )
+            
+            with fuckit:
+                lst = self.add_LQMetric_data( lst )
+            
+            return lst
+            
         def get_minutiae_by_LQM( self, criteria, higher = True, format = None, idc = -1, field = None ):
             """
                 Filter out the minutiae based on the LQMetric value
             """
             lst = AnnotationList()
             
-            minu = self.get_minutiae( format, idc, field = field )
-            minu = self.add_LQMetric_data( minu, idc )
+            minu = self.get_minutiae( format, idc = idc, field = field )
             
             for m in minu:
                 if m.LQM >= criteria and higher:
