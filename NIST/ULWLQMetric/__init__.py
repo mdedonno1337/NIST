@@ -72,7 +72,8 @@ try:
                         m.LQM = None
                 
                 newformat = list( lst[ 0 ]._format )
-                newformat.append( "LQM" )
+                if "LQM" not in newformat:
+                    newformat.append( "LQM" )
                 
                 lst.set_format( newformat )
             
