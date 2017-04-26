@@ -217,7 +217,7 @@ class NISTf( NIST ):
             idc, format = format, self.minutiaeformat
         
         # Options processing
-        field = options.get( "field", "9.012" )
+        field = options.get( "field", None ) or "9.012"
         
         # Field processing
         lst = AnnotationList()
