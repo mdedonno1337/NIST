@@ -88,6 +88,7 @@ try:
             with fuckit:
                 lst = self.add_LQMetric_data( lst )
             
+            lst.set_format( format )
             return lst
             
         def get_minutiae_by_LQM( self, criteria, higher = True, format = None, idc = -1, field = None ):
