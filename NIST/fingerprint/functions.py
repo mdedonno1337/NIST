@@ -8,6 +8,7 @@ from cStringIO import StringIO, InputType, OutputType
 from itertools import izip
 from PIL import Image
 
+from MDmisc.binary import string_to_hex
 from MDmisc.elist import flatten
 from MDmisc.eobject import eobject
 from MDmisc.imageprocessing import PILToRAW, RAWToPIL
@@ -222,10 +223,10 @@ def changeFormatImage( input, outformat, **options ):
             img = Image.open( buff )
             
         except:
-            try:
+            if string_to_hex( input[ 0 : 4 ] ) in [ "FFA0FFA4", "FFA0FFA5", "FFA0FFA6", "FFA0FFA2", "FFA0FFA8" ]:
                 img = RAWToPIL( WSQ().decode( input ), **options )
                 
-            except:
+            else:
                 if outformat == "RAW":
                     return input
                 else:
