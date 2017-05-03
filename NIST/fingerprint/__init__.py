@@ -1272,7 +1272,7 @@ class NISTf( NIST ):
         
         return img
     
-    def get_latent_hull( self, idc = -1, linewidth = None ):
+    def get_latent_hull( self, idc = -1, linewidth = None, **options ):
         """
             Annotate the convex Hull on the latent image. This convex Hull is
             calculated based on the minutiae stored in the NIST object.
