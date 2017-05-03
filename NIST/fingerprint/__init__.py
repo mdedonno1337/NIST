@@ -1296,7 +1296,7 @@ class NISTf( NIST ):
         draw = ImageDraw.Draw( img )
         
         try:
-            xy = self.get_minutiae( "xy", idc )
+            xy = [ ( m.x, m.y ) for m in self.get_minutiae( idc ) ]
             xy = np.asarray( xy )
             hull = ConvexHull( xy )
               
