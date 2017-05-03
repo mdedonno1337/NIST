@@ -1243,7 +1243,7 @@ class NISTf( NIST ):
         """
         self.get_latent_diptych( idc ).save( f )
     
-    def get_latent_annotated( self, idc = -1 ):
+    def get_latent_annotated( self, idc = -1, **options ):
         """
             Function to return the annotated latent.
             
@@ -1258,7 +1258,7 @@ class NISTf( NIST ):
                 >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = self.get_latent( 'PIL', idc )
+        img = options.get( "img", self.get_latent( 'PIL', idc ) )
         res = self.get_resolution( idc )
         
         with fuckit:
@@ -1272,7 +1272,7 @@ class NISTf( NIST ):
         
         return img
     
-    def get_latent_hull( self, idc = -1, linewidth = None ):
+    def get_latent_hull( self, idc = -1, linewidth = None, **options ):
         """
             Annotate the convex Hull on the latent image. This convex Hull is
             calculated based on the minutiae stored in the NIST object.
@@ -1291,7 +1291,7 @@ class NISTf( NIST ):
                 >>> mark.get_latent_hull() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
-        img = self.get_latent( "PIL", idc )
+        img = options.get( "img", self.get_latent( "PIL", idc ) )
         img = img.convert( "RGB" )
         draw = ImageDraw.Draw( img )
         
