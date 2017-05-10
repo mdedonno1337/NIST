@@ -20,6 +20,7 @@ from MDmisc.elist import ifany, map_r
 from MDmisc.eint import str_int_cmp
 from MDmisc.logger import debug
 from MDmisc.string import upper, split_r, join
+from PMlib.misc import minmaxXY, shift_list
 
 from ..traditional import NIST
 from ..traditional.config import RS, US, FS, default_origin
@@ -1298,6 +1299,16 @@ class NISTf( NIST ):
         try:
             xy = [ ( m.x, m.y ) for m in self.get_minutiae( idc ) ]
             xy = np.asarray( xy )
+            
+            dilatation_factor = options.get( "dilatation_factor", 1 )
+            if dilatation_factor != 1:
+                delta = minmaxXY( xy )
+                tmp = shift_list( xy, delta, True )
+                tmp = np.asarray( tmp )
+                tmp *= dilatation_factor
+                tmp = shift_list( tmp, delta )
+                xy = np.asarray( tmp )
+            
             hull = ConvexHull( xy )
               
             res = self.get_resolution( idc )
