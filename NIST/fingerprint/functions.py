@@ -309,6 +309,20 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
     
     return new
 
+def diptych( mark, pr, markidc = -1, pridc = -1 ):
+    markwidth, markheight = mark.get_size( markidc )
+    prwidth, prheight = pr.get_size( pridc )
+    maxheight = max( markheight, prheight )
+    
+    mark_annotated = mark.get_latent_annotated( markidc )
+    pr_annotated = pr.get_image_annotated( pridc )
+    
+    new = Image.new( "RGB", ( markwidth + prwidth, maxheight ), "white" )
+    new.paste( mark_annotated, ( 0, 0 ) )
+    new.paste( pr_annotated, ( markwidth, 0 ) )
+    
+    return new
+
 ################################################################################
 #    
 #    Coordinates changes
