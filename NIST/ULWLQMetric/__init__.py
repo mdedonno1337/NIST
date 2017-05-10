@@ -111,6 +111,41 @@ try:
             
             return lst
         
+        def get_latent_lqmap( self, idc = -1, **options ):
+            data = self.get_field( "9.308" )
+            
+            img = Image.new( "RGBA", self.get_size(), ( 0, 0, 0, 0 ) )
+            pixels = img.load()
+            
+            alpha = int( options.get( "alpha", 100 ) )
+            
+            ULWcolour = {
+                '0': ( 0, 0, 0, alpha ),
+                '1': ( 255, 0, 0, alpha ),
+                '2': ( 255, 255, 0, alpha ),
+                '3': ( 0, 255, 0, alpha ),
+                '4': ( 0, 0, 255, alpha ),
+                '5': ( 0, 240, 240, alpha )
+            }
+            
+            data = [ list( s ) for s in data.split( RS ) ]
+            fac = int( self.get_resolution( idc ) * 4 / 500 )
+            toplot = options.get( "q", [ '1', '2', '3', '4', '5' ] )
+            toplot = map( str, toplot )
+            
+            for y, v in enumerate( data ):
+                for x, vv in enumerate( v ):
+                    if vv in toplot:
+                        for a in xrange( 0, fac ):
+                            for b in xrange( 0, fac ):
+                                pixels[ fac * x + a, fac * y + b ] = ULWcolour[ vv ]
+            
+            latent = options.get( "img", self.get_latent( "PIL", idc ) )
+            latent = latent.convert( "RGBA" )
+            latent.paste( img, ( 0, 0 ), mask = img )
+            
+            return latent
+        
         def get_latent_triptych( self, content = "quality", idc = -1 ):
             """
                 Get the triptych : latent, annotated latent, quality map (ULW).
