@@ -80,6 +80,9 @@ try:
             return lst
         
         def get_minutiae( self, format = None, idc = -1, **options ):
+            return self.ULW_get_minutiae( self, format = format, idc = idc, **options )
+        
+        def ULW_get_minutiae( self, format = None, idc = -1, **options ):
             """
                 Overload of the get_minutiae function to add the LQMetric information.
             """
@@ -97,7 +100,7 @@ try:
             """
             lst = AnnotationList()
             
-            minu = self.get_minutiae( format, idc = idc, field = field )
+            minu = self.ULW_get_minutiae( format, idc = idc, field = field )
             
             for m in minu:
                 if m.LQM >= criteria and higher:
