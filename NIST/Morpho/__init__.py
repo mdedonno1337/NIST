@@ -163,6 +163,7 @@ class NIST_Morpho( NISTf ):
             }
             
             minutiae_list = AnnotationList()
+            autominutiae_list = AnnotationList()
             deltas_list = AnnotationList()
             cores_list = AnnotationList()
             
@@ -196,7 +197,7 @@ class NIST_Morpho( NISTf ):
                     format = "xytq"
                 )
             
-            def actionProcess( action, minutiae_list, deltas_list, cores_list ):
+            def actionProcess( action, minutiae_list, autominutiae_list, deltas_list, cores_list ):
                 # Minutiae processing
                 if action == "newMinutiaSet":
                     for key, v in value[ action ].iteritems():
@@ -204,6 +205,7 @@ class NIST_Morpho( NISTf ):
                             m = MorphoXML2Minutia( vv )
                             m.source = "auto"
                             minutiae_list.append( m )
+                            autominutiae_list.append( m )
                 
                 elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
                     m = MorphoXML2Minutia( value[ action ] )
@@ -261,12 +263,12 @@ class NIST_Morpho( NISTf ):
                 else:
                     raise notImplemented( action + " not implemeted" )
                 
-                return minutiae_list, deltas_list, cores_list 
+                return minutiae_list, autominutiae_list, deltas_list, cores_list 
             
             for d in minutiae_ops:
                 for op, value in d.items():
                     for action in corr[ op ]:
-                        minutiae_list, deltas_list, cores_list = actionProcess( action, minutiae_list, deltas_list, cores_list )
+                        minutiae_list, autominutiae_list, deltas_list, cores_list = actionProcess( action, minutiae_list, autominutiae_list, deltas_list, cores_list )
             
             res = self.get_resolution( idc )
             height = self.get_height( idc )
@@ -285,6 +287,21 @@ class NIST_Morpho( NISTf ):
                 )
                 m2.source = m.source
                 minutiae_return_list.append( m2 )
+            
+            autominutiae_return_list = AnnotationList()
+            for m in minutiae_list:
+                m2 = Minutia( 
+                    [
+                        m.x * 25.4 / res,
+                        ( height - m.y ) * 25.4 / res,
+                        ( m.t + 180 ) % 360,
+                        m.d,
+                        m.q
+                    ],
+                    format = "xytdq"
+                )
+                m2.source = m.source
+                autominutiae_return_list.append( m2 )
             
             deltas_return_list = AnnotationList()
             for m in deltas_list:
@@ -316,6 +333,7 @@ class NIST_Morpho( NISTf ):
                 cores_return_list.append( m2 )
             
             return {
+                'autominutiae': autominutiae_return_list,
                 'minutiae': minutiae_return_list,
                 'deltas':   deltas_return_list,
                 'cores':    cores_return_list
