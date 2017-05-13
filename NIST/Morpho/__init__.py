@@ -204,13 +204,16 @@ class NIST_Morpho( NISTf ):
                         for vv in v:
                             m = MorphoXML2Minutia( vv )
                             m.source = "auto"
-                            minutiae_list.append( m )
-                            autominutiae_list.append( m )
+                            if m not in minutiae_list:
+                                minutiae_list.append( m )
+                            if m not in autominutiae_list:
+                                autominutiae_list.append( m )
                 
                 elif action in [ "addedMinutia", "movedToMinutia", "rotatedToMinutia" ]:
                     m = MorphoXML2Minutia( value[ action ] )
                     m.source = "expert"
-                    minutiae_list.append( m )
+                    if m not in minutiae_list:
+                        minutiae_list.append( m )
                     
                 elif action in [ "deletedMinutia", "movedFromMinutia", "rotatedFromMinutia" ]:
                     m = MorphoXML2Minutia( value[ action ] )
@@ -220,7 +223,8 @@ class NIST_Morpho( NISTf ):
                 elif action in [ "addedDelta", "movedToDelta", "rotatedToDelta" ]:
                     m = MorphoXML2Delta( value[ action ] )
                     m.source = "expert"
-                    deltas_list.append( m )
+                    if m not in deltas_list:
+                        deltas_list.append( m )
                 
                 elif action in [ "deletedDelta", "movedFromDelta", "rotatedFromDelta" ]:
                     m = MorphoXML2Delta( value[ action ] )
@@ -230,7 +234,8 @@ class NIST_Morpho( NISTf ):
                 elif action in [ "addedCore", "movedToCore", "rotatedToCore" ]:
                     m = MorphoXML2Core( value[ action ] )
                     m.source = "expert"
-                    cores_list.append( m )
+                    if m not in cores_list:
+                        cores_list.append( m )
                 
                 elif action in [ "deletedCore", "movedFromCore", "rotatedFromCore" ]:
                     m = MorphoXML2Core( value[ action ] )
@@ -289,7 +294,7 @@ class NIST_Morpho( NISTf ):
                 minutiae_return_list.append( m2 )
             
             autominutiae_return_list = AnnotationList()
-            for m in minutiae_list:
+            for m in autominutiae_list:
                 m2 = Minutia( 
                     [
                         m.x * 25.4 / res,
