@@ -148,7 +148,10 @@ class NIST_MDD( NISTf ):
         lst = NISTf.get_minutiae( self, format = format, idc = idc )
         lst.__class__ = AnnotationList
         
-        return self.add_pairing( lst )
+        ret = self.add_pairing( lst )
+        ret.set_format( format )
+        
+        return ret
     
     def add_pairing( self, lst, idc = -1 ):
         """
@@ -346,6 +349,8 @@ class NIST_MDD( NISTf ):
         for m in self.get_minutiae( format, idc ):
             if m.i != None:
                 ret.append( m )
+        
+        ret.set_format( format )
         
         return ret
     
