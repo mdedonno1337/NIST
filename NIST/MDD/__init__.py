@@ -334,24 +334,7 @@ class NIST_MDD( NISTf ):
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
         """
-            Return all minutiae which are paired. The pairing information is not
-            returned here.
-            
-                >>> mark.get_minutiae_paired() # doctest: +NORMALIZE_WHITESPACE
-                [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' )
-                ]
-            
-            It is also possible to filter out the interesting fields:
-            
-                >>> mark.get_minutiae_paired( 'xy' ) # doctest: +NORMALIZE_WHITESPACE
-                [
-                    Minutia( x='7.85', y='7.05' ),
-                    Minutia( x='13.8', y='15.3' ),
-                    Minutia( x='11.46', y='22.32' )
-                ]
+            Return all minutiae which are paired.
         """
         if isinstance( format, int ):
             idc, format = format, self.minutiaeformat
@@ -359,12 +342,12 @@ class NIST_MDD( NISTf ):
         elif format == None:
             format = self.minutiaeformat
         
-        try:
-            lst = [ self.get_minutia_by_id( minutiaid, format, idc ) for minutiaid, minutiaename in self.get_pairing( idc ) if minutiaename != "None" ]
-            return AnnotationList( [ m for m in lst if m is not None ] )
-         
-        except TypeError:
-            return AnnotationList( [] )
+        ret = AnnotationList()
+        for m in self.get_minutiae( format, idc ):
+            if m.i != None:
+                ret.append( m )
+        
+        return ret
     
     def get_minutiae_paired_count( self, idc = -1 ):
         """
