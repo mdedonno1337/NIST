@@ -104,10 +104,12 @@ class NIST_Morpho( NISTf ):
             return None
     
     def get_cores( self, idc = -1 ):
-        try:
+        ret = super().get_cores( idc = idc )
+        if ret != None:
+            return ret
+        
+        else:
             return self.process_imageenh( idc )[ 'cores' ]
-        except:
-            return None
     
     def process_imageenh( self, idc = -1 ):
         """
