@@ -126,11 +126,10 @@ class NIST_Morpho( NISTf ):
             :return: Dictionnary of the processed data.
             :rtype: python dict
         """
-        data = self.get_jar( idc )[ 'imageenh.2' ]
-        
-        data = xmltodict.parse( data )
         
         try:
+            data = self.get_jar( idc )[ 'imageenh.2' ]
+            data = xmltodict.parse( data )
             ops = data[ 'enhancementHistory' ][ 'enhancements' ][ 'enhancementOperation' ]
         
         except TypeError:
