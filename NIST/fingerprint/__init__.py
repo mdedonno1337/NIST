@@ -409,7 +409,7 @@ class NISTf( NIST ):
         if format == None:
             format = self.minutiaeformat
         
-        for m in self.get_minutiae( idc ):
+        for m in self.get_minutiae( idc = idc ):
             if int( m.i ) == int( id ):
                 t = Minutia( m )
                 t.set_format( format = format )
