@@ -108,8 +108,11 @@ class NIST_Morpho( NISTf ):
         if ret != None:
             return ret
         
-        else:
-            return self.process_imageenh( idc )[ 'cores' ]
+        ret = self.process_imageenh( idc )
+        if ret != None:
+            return ret[ 'cores' ]
+        
+        return None
     
     def process_imageenh( self, idc = -1 ):
         """
