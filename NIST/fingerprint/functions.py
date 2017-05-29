@@ -955,8 +955,8 @@ class AnnotationList( eobject ):
         except KeyError:
             cls = Annotation
         
-        self._data = [ cls( d, format = format ) for d in data ]
         try:
+            self._data = [ cls( d, format = format ) for d in data ]
             if not "i" in format:
                 for id, _ in enumerate( self._data ):
                     self._data[ id ].i = id + 1
