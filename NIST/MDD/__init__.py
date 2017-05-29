@@ -347,8 +347,11 @@ class NIST_MDD( NISTf ):
         
         ret = AnnotationList()
         for m in self.get_minutiae( format, idc ):
-            if m.i != None:
-                ret.append( m )
+            try:
+                if m.n not in [ "None", None ]:
+                    ret.append( m )
+            except:
+                continue
         
         ret.set_format( format )
         
