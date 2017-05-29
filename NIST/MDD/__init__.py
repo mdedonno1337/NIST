@@ -464,7 +464,7 @@ class NIST_MDD( NISTf ):
             except:
                 res = self.get_resolution()
                
-            red = ( 250, 250, 0 )
+            yellow = ( 250, 250, 0 )
             
             width, height = image.size
             
@@ -478,7 +478,7 @@ class NIST_MDD( NISTf ):
             offsetx = pairingmark.size[ 0 ] / 2
             offsety = pairingmark.size[ 1 ] / 2
                
-            pairingcolor = Image.new( 'RGBA', pairingmark.size, red )
+            pairingcolor = Image.new( 'RGBA', pairingmark.size, yellow )
             
             for d in data:
                 cx, cy = d.x, d.y
