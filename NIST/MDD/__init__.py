@@ -481,6 +481,9 @@ class NIST_MDD( NISTf ):
             pairingcolor = Image.new( 'RGBA', pairingmark.size, yellow )
             
             for d in data:
+                if d.n in [ "None", None ]:
+                    continue
+                 
                 cx, cy = d.x, d.y
                 
                 cx = cx / 25.4 * res
