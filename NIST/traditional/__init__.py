@@ -821,7 +821,7 @@ class NIST( object ):
             
                 >>> from NIST import NIST
                 >>> n = NIST()
-                >>> n.from_json( "sample/mark-pairing-nobinary.json" )
+                >>> n.from_json( "sample/pass-type-9-13-m1-nobinary.json" )
                 >>> n
                 NIST object, Type-01, Type-02, Type-09, Type-13
         """

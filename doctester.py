@@ -119,34 +119,6 @@ def NISTtests():
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.__init__, vars ) )
     tests.addTests( doctest.DocTestSuite( NIST.fingerprint.functions, vars ) )
     
-    ############################################################################
-    # 
-    #    Test for the MDD module
-    # 
-    ############################################################################
-    
-    mark.changeClassTo( NIST.MDD.NIST_MDD )
-    
-    data = [
-        ( '1', '1' ), # Minutiae '1' nammed '1'
-        ( '2', '2' ), # Minutiae '2' nammed '2'
-        ( '3', '3' ) # Minutiae '3' nammed '3'
-    ]
-    pairing = AnnotationList()
-    pairing.from_list( data, format = "in", type = "Pairing" )
-    
-    mark.set_pairing( pairing )
-    
-    ############################################################################
-    
-    vars = {
-        'mark': mark,
-        'pr': pr,
-        'minutiae': minutiae
-    }
-    
-    tests.addTests( doctest.DocTestSuite( NIST.MDD.__init__, vars ) )
-    
     return tests
 
 if __name__ == "__main__":
