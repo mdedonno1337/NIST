@@ -9,11 +9,10 @@ from MDmisc.boxer import boxer
 from MDmisc.elist import ifany
 from MDmisc.logger import debug
 from MDmisc.string import stringIterator, join
-from NIST.core.functions import tagger
 
 from ..core import NIST as NISTCore
 from ..core.config import FS, GS, RS, US
-from ..core.functions import fieldSplitter, bindump, decode_gca
+from ..core.functions import fieldSplitter, bindump, decode_gca, tagger
 
 class NIST( NISTCore ):
     def load_auto( self, p ):

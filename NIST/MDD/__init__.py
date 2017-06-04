@@ -10,14 +10,12 @@ from MDmisc.eint import str_int_cmp
 from MDmisc.elist import ifall
 from MDmisc.string import split_r, join_r
 
-from NIST.fingerprint.functions import Annotation
-
 from .exceptions import pairingNameNotFound
 
 from ..core.config import RS, US
 from ..fingerprint import NISTf
 from ..fingerprint.functions import AnnotationList as _AnnotationList
-from ..fingerprint.functions import AnnotationTypes
+from ..fingerprint.functions import Annotation, AnnotationTypes
 
 ################################################################################
 # 
