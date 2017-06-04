@@ -69,7 +69,7 @@ class NIST( object ):
         """
         debug.info( "Initialization of the NIST object" )
         
-        self.stdver = "0300"
+        self.stdver = ""
         
         self.fileuri = None
         self.filename = None
