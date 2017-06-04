@@ -80,3 +80,20 @@ class NIST( NISTt ):
                 CSV = ""
             
             self.set_field( "1.015", CSI + US + CSN + US + CSV, 0 )
+        
+        #   NIST Type02
+        debug.debug( "Type-02 parsing", 1 )
+        
+        self.add_ntype( 2 )
+        self.add_idc( 2, 0 )
+        
+        t02 = data.get( "itl:PackageDescriptiveTextRecord", None )
+        if t02 != None:
+            self.set_field( "2.002", t02[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
+        
+        with fuckit:
+            i = 3
+            for key, values in t02[ "itl:UserDefinedDescriptiveDetail" ].iteritems():
+                for detail, value in values.iteritems():
+                    self.set_field( ( 2, i ), detail + US + value )
+                    i += 1
