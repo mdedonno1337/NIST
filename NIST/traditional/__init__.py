@@ -1399,17 +1399,3 @@ class NIST( object ):
                 content is the same).
         """
         return deepcopy( self )
-    
-class NIST_deprecated( NIST ):
-    """
-        This class define all the deprecated functions (for backward
-        compatibility). To use it, load the NISTf_deprecated class instead of
-        the NISTf super class.
-    """
-    @deprecated( "user the read() function instead" )
-    def loadFromFile( self, infile ):
-        return self.read( infile )
-    
-    @deprecated( "use the write() function instead" )
-    def saveToFile( self, outfile ):
-        return self.write( outfile )
