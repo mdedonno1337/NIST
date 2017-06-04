@@ -5,8 +5,7 @@ import doctest
 import unittest
 
 from MDmisc.string import join_r
-from NIST.traditional.config import US
-from NIST.traditional.config import RS
+from NIST.core.config import US, RS
 
 ################################################################################
 #
@@ -14,8 +13,8 @@ from NIST.traditional.config import RS
 #
 ################################################################################
 
+import NIST.core.functions
 import NIST.traditional.__init__
-import NIST.traditional.functions
 
 import NIST.fingerprint.__init__
 import NIST.fingerprint.functions
@@ -44,7 +43,6 @@ def NISTtests():
     n.add_Type02()
     
     tests.addTests( doctest.DocTestSuite( NIST.traditional.__init__, { 'n': n } ) )
-    tests.addTests( doctest.DocTestSuite( NIST.traditional.functions ) )
     
     ############################################################################
     # 

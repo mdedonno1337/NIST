@@ -11,10 +11,10 @@ from MDmisc.string import split_r, split
 from PMlib.formatConverter import cooNIST2PIL
 from SoftPillow import Image
     
+from ..core import needNtype
 from ..fingerprint import NISTf
 from ..fingerprint import AnnotationList, Minutia
 from ..traditional import RS, US
-from ..traditional import needNtype
     
 try:
     from ULWLQMetric import ULWLQMetric

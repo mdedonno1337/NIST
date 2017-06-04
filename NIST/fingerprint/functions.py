@@ -15,8 +15,8 @@ from MDmisc.imageprocessing import PILToRAW, RAWToPIL
 from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
 
-from ..traditional.config import *
-from ..traditional.exceptions import notImplemented
+from ..core.config import *
+from ..core.exceptions import notImplemented
 
 try:
     from WSQ import WSQ
