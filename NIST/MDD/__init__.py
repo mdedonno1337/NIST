@@ -4,6 +4,7 @@
 from __future__ import division
 
 from PIL import Image
+from _collections import defaultdict
 
 from MDmisc.eint import str_int_cmp
 from MDmisc.elist import ifall
@@ -13,12 +14,10 @@ from NIST.fingerprint.functions import Annotation
 
 from .exceptions import pairingNameNotFound
 
+from ..core.config import RS, US
 from ..fingerprint import NISTf
 from ..fingerprint.functions import AnnotationList as _AnnotationList
 from ..fingerprint.functions import AnnotationTypes
-from ..traditional.config import RS
-from ..traditional.config import US
-from _collections import defaultdict
 
 ################################################################################
 # 

@@ -396,7 +396,7 @@ LABEL = {
         996: ( 'HAS', 'Hash' ),
         997: ( 'SOR', 'Source representation' ),
         998: ( 'GEO', 'Geographic sample acquisition location' ),
-        999: ( 'DAT A', 'Test data' )
+        999: ( 'DATA', 'Test data' )
     },
     17: {
         1:   ( 'LEN', 'Logical record length' ),
