@@ -19,6 +19,7 @@ from MDmisc.map_r import map_r
 from MDmisc.RecursiveDefaultDict import defDict
 from MDmisc.string import join, upper, stringIterator, split_r
 
+from .binary import *
 from .config import *
 from .exceptions import *
 from .functions import *
@@ -401,11 +402,8 @@ class NIST( object ):
         if tagid == 999:
             return True
         
-        elif ntype == 18 and tagid == 19:
-            return True
-            
         else:
-            return False
+            return ( ntype, tagid ) in binary_fields
     
     def format_field( self, ntype, tagid, idc = -1 ):
         """
