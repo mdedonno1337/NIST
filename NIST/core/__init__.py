@@ -757,7 +757,21 @@ class NIST( object ):
         """
         ntype, tagid = tagSplitter( tag )
         
-        idc = self.checkIDC( ntype, idc )
+        try:
+            idc = self.checkIDC( ntype, idc )
+        
+        except recordNotFound:
+            try:
+                self.add_ntype( ntype )
+                self.add_idc( ntype, idc )
+            except:
+                raise recordNotFound
+        
+        except idcNotFound:
+            try:
+                self.add_idc( ntype, idc )
+            except:
+                raise idcNotFound
         
         if type( value ) != str:
             value = str( value )
