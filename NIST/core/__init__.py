@@ -773,7 +773,7 @@ class NIST( object ):
             except:
                 raise idcNotFound
         
-        if type( value ) != str:
+        if not isinstance( value, str ):
             value = str( value )
         
         if len( value ) == 0:
