@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
+from collections import OrderedDict
 import datetime
 import os
 import time
@@ -14,6 +15,7 @@ from MDmisc.string import join
 
 from ..core import NIST as NISTcore
 from ..core.config import RS, US
+from ..core.exceptions import needStringValue
 from ..core.functions import tagSplitter
 
 class NIST( NISTcore ):
@@ -98,3 +100,16 @@ class NIST( NISTcore ):
                 for detail, value in values.iteritems():
                     self.set_field( ( 2, i ), detail + US + value )
                     i += 1
+    
+    ############################################################################
+    # 
+    #    Set fields
+    # 
+    ############################################################################
+    
+    def set_field( self, tag, value, idc = -1 ):
+        if isinstance( value, OrderedDict ):
+            raise needStringValue
+        
+        else:
+            return super( NIST, self ).set_field( tag, value, idc )

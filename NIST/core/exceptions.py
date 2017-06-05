@@ -10,6 +10,9 @@ class needNtype( BaseException ):
 class intIDC( BaseException ):
     pass
 
+class needStringValue( BaseException ):
+    pass
+
 class notImplemented( BaseException ):
     pass
 
