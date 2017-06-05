@@ -10,6 +10,7 @@ from MDmisc import fuckit
 from MDmisc.RecursiveDefaultDict import defDict
 from MDmisc.elist import ifany
 from MDmisc.logger import debug
+from MDmisc.string import join
 
 from ..core.config import RS, US
 from ..core.functions import tagSplitter
@@ -48,10 +49,10 @@ class NIST( NISTt ):
         self.set_field( "1.007", t01[ "biom:TransactionDestinationOrganization" ][ "nc:OrganizationIdentification" ][ "nc:IdentificationID" ], 0 )
         self.set_field( "1.008", t01[ "biom:TransactionOriginatingOrganization" ][ "nc:OrganizationIdentification" ][ "nc:IdentificationID" ], 0 )
         
-        DAN = t01[ "biom:TransactionDestinationOrganization" ].get( "nc:OrganizationName", "" )
-        OAN = t01[ "biom:TransactionOriginatingOrganization" ].get( "nc:OrganizationName", "" )
+        DAN = t01[ "biom:TransactionDestinationOrganization" ].get( "nc:OrganizationName", "" ) or ""
+        OAN = t01[ "biom:TransactionOriginatingOrganization" ].get( "nc:OrganizationName", "" ) or ""
         if DAN != "" or OAN != "":
-            self.set_field( "1.017", DAN + US + OAN, 0 )
+            self.set_field( "1.017", join( US, [ DAN, OAN ] ), 0 )
         
         self.set_field( "1.009", t01[ "biom:TransactionControlIdentification" ][ "nc:IdentificationID" ], 0 )
         
