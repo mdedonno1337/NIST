@@ -2,16 +2,17 @@
 # -*- coding: UTF-8 -*-
 
 from collections import OrderedDict
+
 import datetime
 import os
 import time
 import xmltodict
 
 from MDmisc import fuckit
-from MDmisc.RecursiveDefaultDict import defDict
 from MDmisc.elist import ifany
 from MDmisc.logger import debug
 from MDmisc.string import join
+from MDmisc.RecursiveDefaultDict import defDict
 
 from ..core import NIST as NISTcore
 from ..core.config import RS, US
