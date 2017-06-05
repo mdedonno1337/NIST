@@ -12,11 +12,11 @@ from MDmisc.elist import ifany
 from MDmisc.logger import debug
 from MDmisc.string import join
 
+from ..core import NIST as NISTcore
 from ..core.config import RS, US
 from ..core.functions import tagSplitter
-from ..traditional import NIST as NISTt
 
-class NIST( NISTt ):
+class NIST( NISTcore ):
     def load_auto( self, p ):
         if isinstance( p, ( str, unicode ) ):
             if ifany( [ "<", ">", "<?xml" ], p ):
