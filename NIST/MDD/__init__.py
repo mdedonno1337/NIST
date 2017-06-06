@@ -145,10 +145,10 @@ class NIST_MDD( NISTf ):
         lst = NISTf.get_minutiae( self, format = format, idc = idc )
         lst.__class__ = AnnotationList
         
-        ret = self.add_pairing( lst )
-        ret.set_format( format )
+        lst = self.add_pairing( lst, idc )
+        lst.set_format( format )
         
-        return ret
+        return lst
     
     def add_pairing( self, lst, idc = -1 ):
         """
@@ -235,15 +235,15 @@ class NIST_MDD( NISTf ):
                     Pairing( i='3', n='3' )
                 ]
         """
-        ret = AnnotationList()
+        lst = AnnotationList()
         
         pairing = split_r( [ RS, US ], self.get_field( "9.255", idc ) )
         
         if clean:
             pairing = [ [ minid, pairingid ] for minid, pairingid in pairing if pairingid != 'None' ]
         
-        ret.from_list( pairing, 'in', 'Pairing' )
-        return ret
+        lst.from_list( pairing, 'in', 'Pairing' )
+        return lst
     
     def add_Type09( self, minutiae = None, idc = 0, **options ):
         """
@@ -266,9 +266,9 @@ class NIST_MDD( NISTf ):
                 :func:`NIST.fingerprint.NISTf.set_minutiae`
                 :func:`NIST.fingerprint.NISTf.set_pairing`
         """
-        ret = super( NIST_MDD, self ).set_minutiae( data, idc = idc )
+        lst = super( NIST_MDD, self ).set_minutiae( data, idc = idc )
         self.set_pairing( data, idc )
-        return ret
+        return lst
     
     def set_pairing( self, pairing = None, idc = -1, **options ):
         """
@@ -342,17 +342,17 @@ class NIST_MDD( NISTf ):
         elif format == None:
             format = self.minutiaeformat
         
-        ret = AnnotationList()
+        lst = AnnotationList()
         for m in self.get_minutiae( format, idc ):
             try:
                 if m.n not in [ "None", None ]:
-                    ret.append( m )
+                    lst.append( m )
             except:
                 continue
         
-        ret.set_format( format )
+        lst.set_format( format )
         
-        return ret
+        return lst
     
     def get_minutiae_paired_count( self, idc = -1 ):
         """
