@@ -4,6 +4,26 @@
 Develop
 ~~~~~~~
 
+Add:
+
+* Add the :func:`NIST.fingerprint.functions.diptych` function.
+* Add the functions to process the LQMetic data generated with ULW.
+* Add the `tool` directory (AN-FieldDefinition parser (and other scripts in the future)).
+
+Remove:
+
+* Remove the deprecated functions in the NIST class.
+
+Change:
+
+* Split the main NIST object into the NIST_core and NIST_traditional parts.
+* Move the MDD, Morpho and ULWLQMetric NIST classes to the plugin module.
+* Misc refactoring.
+
+Patch:
+
+* Remove the duplicates minutiae in the NIST_Morpho class.
+
 Commits since latest release:
 
 .. git_changelog::

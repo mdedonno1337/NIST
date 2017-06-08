@@ -13,10 +13,10 @@ from cStringIO import StringIO
 
 from MDmisc.ewarning import nowarnings
 
-from ..core.exceptions import notImplemented
-from ..core.functions import bindump
-from ..fingerprint import NISTf
-from ..fingerprint.functions import AnnotationList, Minutia, Delta, Core
+from ...core.functions import bindump
+from ...core.exceptions import notImplemented
+from ...fingerprint import NISTf
+from ...fingerprint.functions import AnnotationList, Minutia, Delta, Core
 
 
 class NIST_Morpho( NISTf ):
