@@ -142,6 +142,9 @@ class NIST_MDD( NISTf ):
             .. seealso::
                 :func:`NIST.fingerprint.NISTf.get_minutiae`
         """
+        if isinstance( format, int ):
+            format, idc = None, format
+        
         lst = NISTf.get_minutiae( self, format = format, idc = idc )
         lst.__class__ = AnnotationList
         
