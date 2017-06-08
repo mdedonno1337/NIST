@@ -19,7 +19,7 @@ import NIST.traditional.__init__
 import NIST.fingerprint.__init__
 import NIST.fingerprint.functions
 
-import NIST.MDD.__init__
+import NIST.Vendors.MDD.__init__
 from NIST.fingerprint.functions import AnnotationList
 
 ################################################################################
