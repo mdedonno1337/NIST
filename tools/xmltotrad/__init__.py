@@ -24,6 +24,9 @@ for e in d:
         if xmlpath.startswith( "if " ):
             continue
         
+        elif e.get( "InfoItem", None ) == "SET":
+            continue
+        
         elif field.endswith( ".001" ):
             continue
         
