@@ -1039,7 +1039,7 @@ class AnnotationList( eobject ):
             :param index: Index of the value to retrive.
             :type index: int
         """
-        return self._data[ index ]
+        return AnnotationList( self._data[ index ] )
     
     def __setitem__( self, key, value ):
         """
