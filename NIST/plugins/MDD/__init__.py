@@ -178,7 +178,7 @@ class NIST_MDD( NISTf ):
             except:
                 m.n = None
             
-        format = list( lst[ 0 ]._format )
+        format = list( lst.get_format() )
         if not "n" in format:
             format.append( "n" )
             lst.set_format( format )
