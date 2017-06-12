@@ -148,8 +148,11 @@ class NIST_MDD( NISTf ):
         lst = NISTf.get_minutiae( self, format = format, idc = idc )
         lst.__class__ = AnnotationList
         
-        lst = self.add_pairing( lst, idc )
-        lst.set_format( format )
+        try:
+            lst = self.add_pairing( lst, idc )
+            lst.set_format( format )
+        except:
+            pass
         
         return lst
     
@@ -167,24 +170,20 @@ class NIST_MDD( NISTf ):
             :return: Updated AnnotationList
             :rtype: AnnotationList
         """
-        try:
-            pairing = dict( self.get_pairing( idc ) )
-        
-            for m in lst:
-                try:
-                    m.n = pairing[ m.i ]
-                except:
-                    m.n = None
-                
-            format = list( lst[ 0 ]._format )
-            if not "n" in format:
-                format.append( "n" )
-                lst.set_format( format )
+        pairing = dict( self.get_pairing( idc ) )
+    
+        for m in lst:
+            try:
+                m.n = pairing[ m.i ]
+            except:
+                m.n = None
             
-            lst.__class__ = AnnotationList
+        format = list( lst[ 0 ]._format )
+        if not "n" in format:
+            format.append( "n" )
+            lst.set_format( format )
         
-        except:
-            pass
+        lst.__class__ = AnnotationList
         
         return lst
     
