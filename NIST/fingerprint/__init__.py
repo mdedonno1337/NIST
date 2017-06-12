@@ -25,7 +25,7 @@ from PMlib.misc import minmaxXY, shift_list
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
 from ..core.functions import decode_gca
-from ..traditional import NIST
+from ..traditional import NIST as NIST_traditional
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
 from .functions import Minutia, Core, Delta, AnnotationList
@@ -44,7 +44,7 @@ except:
 
 voidType.update( voidType )
 
-class NISTf( NIST ):
+class NISTf( NIST_traditional ):
     """
         Overload of the :class:`NIST.traditional.NIST` class. This class
         overload the main class to implement fingerprint oriented functions.
