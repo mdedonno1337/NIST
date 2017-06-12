@@ -151,6 +151,7 @@ class NIST_MDD( NISTf ):
         try:
             lst = self.add_pairing( lst, idc )
             lst.set_format( format )
+            lst.__class__ = AnnotationList
         except:
             pass
         
