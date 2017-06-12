@@ -11,6 +11,7 @@ from MDmisc.elist import ifall
 from MDmisc.string import split_r, join_r
 
 from .exceptions import pairingNameNotFound
+from .functions import add_pairing
 
 from ...core.config import RS, US
 from ...fingerprint import NISTf
@@ -172,21 +173,10 @@ class NIST_MDD( NISTf ):
             :rtype: AnnotationList
         """
         pairing = dict( self.get_pairing( idc ) )
-    
-        for m in lst:
-            try:
-                m.n = pairing[ m.i ]
-            except:
-                m.n = None
-            
-        format = list( lst.get_format() )
-        if not "n" in format:
-            format.append( "n" )
-            lst.set_format( format )
+        ret = add_pairing(lst, pairing)
+        ret.__class__ = AnnotationList
         
-        lst.__class__ = AnnotationList
-        
-        return lst
+        return ret
     
     def checkMinutiae( self, idc = -1 ):
         """
