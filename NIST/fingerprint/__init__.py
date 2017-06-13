@@ -327,6 +327,12 @@ class NISTf( NIST_traditional ):
                     ret.append( [] )
             
             return ret
+        
+        elif 13 in self.get_ntype():
+            ret = [ [] ] * 10
+            ret[ 0 ] = self.get_minutiae( format = format )
+            return ret
+        
         else:
             raise notImplemented
     
