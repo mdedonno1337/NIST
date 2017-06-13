@@ -792,7 +792,10 @@ class AnnotationList( eobject ):
             :return: List of values
             :rtype: list
         """
-        return self._data[ 0 ]._format
+        try:
+            return self._data[ 0 ]._format
+        except:
+            return None
     
     def get_by_type( self, designation, format = None ):
         """
