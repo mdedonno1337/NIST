@@ -390,7 +390,7 @@ class NIST_MDD( NISTf ):
                     Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' )
                 ]
         """
-        return AnnotationList( self.get_minutiae( idc ) ).get_by_pairing_name( name, format )
+        return AnnotationList( self.get_minutiae( idc = idc ) ).get_by_pairing_name( name, format )
             
     def get_latent_annotated( self, idc = -1 ):
         """

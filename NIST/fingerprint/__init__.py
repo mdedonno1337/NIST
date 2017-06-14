@@ -330,7 +330,7 @@ class NISTf( NIST_traditional ):
             
             for idc in xrange( 1, 11 ):
                 try:
-                    ret.append( self.get_minutiae( format, idc ) )
+                    ret.append( self.get_minutiae( format = format, idc = idc ) )
                 except idcNotFound:
                     ret.append( [] )
             
@@ -421,7 +421,7 @@ class NISTf( NIST_traditional ):
                     Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
                 ]
         """
-        return self.get_minutiae( idc ).get_by_type( designation, format )
+        return self.get_minutiae( idc = idc ).get_by_type( designation, format )
     
     def get_minutiaeCount( self, idc = -1 ):
         """
@@ -737,13 +737,13 @@ class NISTf( NIST_traditional ):
                         h = self.px2mm( self.get_height( idc ), idc )
                     
                     except notImplemented:
-                        return self.get_minutiae( idc )
+                        return self.get_minutiae( idc = idc )
                       
                     else:
                         id = 0
                         lst = AnnotationList()
                         
-                        for m in self.get_minutiae( idc ):
+                        for m in self.get_minutiae( idc = idc ):
                             if ( not m.x < 0 and not m.x > w ) and ( not m.y < 0 and not m.y > h ):
                                 id += 1
                                 m.i = id
@@ -813,11 +813,11 @@ class NISTf( NIST_traditional ):
         """
         tofilter = [ ( key, value ) for key, value in kwargs.iteritems() ]
         if len( tofilter ) == 0:
-            return self.get_minutiae( idc )
+            return self.get_minutiae( idc = idc )
         
         else:
             lst = AnnotationList()
-            for m in self.get_minutiae( idc ):
+            for m in self.get_minutiae( idc = idc ):
                 for key, value in tofilter: 
                     if xor( m.__getattr__( key ) in value, invert ):
                         if m not in lst:
@@ -1242,7 +1242,7 @@ class NISTf( NIST_traditional ):
         res = self.get_resolution( idc )
         
         with fuckit:
-            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
         
         with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
@@ -1276,7 +1276,7 @@ class NISTf( NIST_traditional ):
         draw = ImageDraw.Draw( img )
         
         try:
-            xy = [ ( m.x, m.y ) for m in self.get_minutiae( idc ) ]
+            xy = [ ( m.x, m.y ) for m in self.get_minutiae( idc = idc ) ]
             xy = np.asarray( xy )
             
             dilatation_factor = options.get( "dilatation_factor", 1 )
@@ -1746,7 +1746,7 @@ class NISTf( NIST_traditional ):
         res = self.get_resolution( idc )
         
         with fuckit:
-            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
 
         with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
