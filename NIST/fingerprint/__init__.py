@@ -4,7 +4,6 @@
 from __future__ import absolute_import, division
 
 from cStringIO import StringIO
-from future.builtins.misc import super
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from scipy.spatial.qhull import ConvexHull
@@ -63,7 +62,7 @@ class NISTf( NIST_traditional ):
         
         self.minutiaeformat = "ixytqd"
         
-        super().__init__( *args, **kwargs )
+        super( NISTf, self ).__init__( *args, **kwargs )
         
         if kwargs:
             try:
@@ -94,8 +93,8 @@ class NISTf( NIST_traditional ):
         if 9 in self.get_ntype():
             self.checkMinutiae()
         
-        #    Call the super().clean() functions
-        super().clean()
+        #    Super cleaning
+        super( NISTf, self ).clean()
         
     def patch_to_standard( self ):
         """
@@ -155,7 +154,7 @@ class NISTf( NIST_traditional ):
                     self.set_field( "9.004", "U", idc )
         
         #    Generic function to patch to standard
-        super().patch_to_standard()
+        super( NISTf, self ).patch_to_standard()
         
     ############################################################################
     #
