@@ -1,8 +1,6 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from future.builtins import super
-
 import base64
 import os
 import xmltodict
@@ -89,7 +87,7 @@ class NIST_Morpho( NISTf ):
             .. see:: :func:`NIST.fingerprint.NISTf.get_minutiae()`
         """
         try:
-            return super().get_minutiae( format = format, idc = idc )
+            return super( NIST_Morpho, self ).get_minutiae( format = format, idc = idc )
         
         except AttributeError:
             if isinstance( format, int ):
@@ -104,7 +102,7 @@ class NIST_Morpho( NISTf ):
             return None
     
     def get_cores( self, idc = -1 ):
-        ret = super().get_cores( idc = idc )
+        ret = super( NIST_Morpho, self ).get_cores( idc = idc )
         if ret != None:
             return ret
         
@@ -404,4 +402,4 @@ class NIST_Morpho( NISTf ):
             return True
         
         else:
-            return super().is_binary( ntype, tagid )
+            return super( NIST_Morpho, self ).is_binary( ntype, tagid )

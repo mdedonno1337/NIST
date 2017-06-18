@@ -4,7 +4,6 @@
 from __future__ import absolute_import, division
 
 from cStringIO import StringIO
-from future.builtins.misc import super
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from scipy.spatial.qhull import ConvexHull
@@ -25,7 +24,7 @@ from PMlib.misc import minmaxXY, shift_list
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
 from ..core.functions import decode_gca
-from ..traditional import NIST
+from ..traditional import NIST as NIST_traditional
 from .exceptions import minutiaeFormatNotSupported
 from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
 from .functions import Minutia, Core, Delta, AnnotationList
@@ -44,7 +43,7 @@ except:
 
 voidType.update( voidType )
 
-class NISTf( NIST ):
+class NISTf( NIST_traditional ):
     """
         Overload of the :class:`NIST.traditional.NIST` class. This class
         overload the main class to implement fingerprint oriented functions.
@@ -63,7 +62,7 @@ class NISTf( NIST ):
         
         self.minutiaeformat = "ixytqd"
         
-        super().__init__( *args, **kwargs )
+        super( NISTf, self ).__init__( *args, **kwargs )
         
         if kwargs:
             try:
@@ -94,8 +93,8 @@ class NISTf( NIST ):
         if 9 in self.get_ntype():
             self.checkMinutiae()
         
-        #    Call the super().clean() functions
-        super().clean()
+        #    Super cleaning
+        super( NISTf, self ).clean()
         
     def patch_to_standard( self ):
         """
@@ -155,7 +154,7 @@ class NISTf( NIST ):
                     self.set_field( "9.004", "U", idc )
         
         #    Generic function to patch to standard
-        super().patch_to_standard()
+        super( NISTf, self ).patch_to_standard()
         
     ############################################################################
     #
@@ -305,14 +304,23 @@ class NISTf( NIST ):
                     Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
                 ], [], [], [], [], [], [], [], []]
             
-            If the NIST object does not contain a Type04 or Type14 record, the
-            function will rise an notImplemented exception:
+            If the NIST object does not contain a Type04, Type14 or Type13
+            record, the function will rise an notImplemented exception:
             
                 >>> mark2 = mark.get()
-                >>> mark2.get_minutiae_all()
-                Traceback (most recent call last):
-                ...
-                notImplemented
+                >>> mark2.get_minutiae_all() # doctest: +NORMALIZE_WHITESPACE
+                [[
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
+                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
+                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
+                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
+                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
+                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                ], [], [], [], [], [], [], [], [], []]
         """
         if ifany( [ 4, 14 ], self.get_ntype() ):
             if format == None:
@@ -322,11 +330,17 @@ class NISTf( NIST ):
             
             for idc in xrange( 1, 11 ):
                 try:
-                    ret.append( self.get_minutiae( format, idc ) )
+                    ret.append( self.get_minutiae( format = format, idc = idc ) )
                 except idcNotFound:
                     ret.append( [] )
             
             return ret
+        
+        elif 13 in self.get_ntype():
+            ret = [ [] ] * 10
+            ret[ 0 ] = self.get_minutiae( format = format )
+            return ret
+        
         else:
             raise notImplemented
     
@@ -407,7 +421,7 @@ class NISTf( NIST ):
                     Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
                 ]
         """
-        return self.get_minutiae( idc ).get_by_type( designation, format )
+        return self.get_minutiae( idc = idc ).get_by_type( designation, format )
     
     def get_minutiaeCount( self, idc = -1 ):
         """
@@ -723,13 +737,13 @@ class NISTf( NIST ):
                         h = self.px2mm( self.get_height( idc ), idc )
                     
                     except notImplemented:
-                        return self.get_minutiae( idc )
+                        return self.get_minutiae( idc = idc )
                       
                     else:
                         id = 0
                         lst = AnnotationList()
                         
-                        for m in self.get_minutiae( idc ):
+                        for m in self.get_minutiae( idc = idc ):
                             if ( not m.x < 0 and not m.x > w ) and ( not m.y < 0 and not m.y > h ):
                                 id += 1
                                 m.i = id
@@ -799,11 +813,11 @@ class NISTf( NIST ):
         """
         tofilter = [ ( key, value ) for key, value in kwargs.iteritems() ]
         if len( tofilter ) == 0:
-            return self.get_minutiae( idc )
+            return self.get_minutiae( idc = idc )
         
         else:
             lst = AnnotationList()
-            for m in self.get_minutiae( idc ):
+            for m in self.get_minutiae( idc = idc ):
                 for key, value in tofilter: 
                     if xor( m.__getattr__( key ) in value, invert ):
                         if m not in lst:
@@ -1228,7 +1242,7 @@ class NISTf( NIST ):
         res = self.get_resolution( idc )
         
         with fuckit:
-            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
         
         with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
@@ -1262,7 +1276,7 @@ class NISTf( NIST ):
         draw = ImageDraw.Draw( img )
         
         try:
-            xy = [ ( m.x, m.y ) for m in self.get_minutiae( idc ) ]
+            xy = [ ( m.x, m.y ) for m in self.get_minutiae( idc = idc ) ]
             xy = np.asarray( xy )
             
             dilatation_factor = options.get( "dilatation_factor", 1 )
@@ -1732,7 +1746,7 @@ class NISTf( NIST ):
         res = self.get_resolution( idc )
         
         with fuckit:
-            img = self.annotate( img, self.get_minutiae( idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
 
         with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )

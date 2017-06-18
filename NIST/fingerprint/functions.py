@@ -784,7 +784,19 @@ class AnnotationList( eobject ):
         if not format == None:
             for a in self._data:
                 a.set_format( format = format )
-
+    
+    def get_format( self ):
+        """
+            Get the format of the first Annotation in the AnnotationList
+            
+            :return: List of values
+            :rtype: list
+        """
+        try:
+            return self._data[ 0 ]._format
+        except:
+            return None
+    
     def get_by_type( self, designation, format = None ):
         """
             Filter the content of the AnnotationList by type designation.
@@ -990,6 +1002,20 @@ class AnnotationList( eobject ):
                 ]
         """
         self._data.sort( key = lambda m: m >> p )
+    
+    def get_n_closest_from_point( self, n, p ):
+        """
+            Return the n closest Annotations from a particular point p.
+            
+            :param n: Number of points to return
+            :type n: int
+            
+            :param p: Point
+            :type p: Annotation
+        """
+        tmp = self.get()
+        tmp.sort_dist_point( p )
+        return tmp[ 0 : n ]
     
     ############################################################################
     

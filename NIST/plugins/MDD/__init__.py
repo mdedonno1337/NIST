@@ -11,6 +11,7 @@ from MDmisc.elist import ifall
 from MDmisc.string import split_r, join_r
 
 from .exceptions import pairingNameNotFound
+from .functions import add_pairing
 
 from ...core.config import RS, US
 from ...fingerprint import NISTf
@@ -148,8 +149,12 @@ class NIST_MDD( NISTf ):
         lst = NISTf.get_minutiae( self, format = format, idc = idc )
         lst.__class__ = AnnotationList
         
-        lst = self.add_pairing( lst, idc )
-        lst.set_format( format )
+        try:
+            lst = self.add_pairing( lst, idc )
+            lst.set_format( format )
+            lst.__class__ = AnnotationList
+        except:
+            pass
         
         return lst
     
@@ -167,26 +172,11 @@ class NIST_MDD( NISTf ):
             :return: Updated AnnotationList
             :rtype: AnnotationList
         """
-        try:
-            pairing = dict( self.get_pairing( idc ) )
+        pairing = dict( self.get_pairing( idc ) )
+        ret = add_pairing(lst, pairing)
+        ret.__class__ = AnnotationList
         
-            for m in lst:
-                try:
-                    m.n = pairing[ m.i ]
-                except:
-                    m.n = None
-                
-            format = list( lst[ 0 ]._format )
-            if not "n" in format:
-                format.append( "n" )
-                lst.set_format( format )
-            
-            lst.__class__ = AnnotationList
-        
-        except:
-            pass
-        
-        return lst
+        return ret
     
     def checkMinutiae( self, idc = -1 ):
         """
@@ -400,7 +390,7 @@ class NIST_MDD( NISTf ):
                     Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A', n='2' )
                 ]
         """
-        return AnnotationList( self.get_minutiae( idc ) ).get_by_pairing_name( name, format )
+        return AnnotationList( self.get_minutiae( idc = idc ) ).get_by_pairing_name( name, format )
             
     def get_latent_annotated( self, idc = -1 ):
         """
