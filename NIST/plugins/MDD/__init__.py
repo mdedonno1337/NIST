@@ -3,8 +3,8 @@
 
 from __future__ import division
 
-from PIL import Image
 from _collections import defaultdict
+from PIL import Image
 
 from MDmisc.eint import str_int_cmp
 from MDmisc.elist import ifall

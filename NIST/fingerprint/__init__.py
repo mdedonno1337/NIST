@@ -13,22 +13,21 @@ import numpy as np
 
 from MDmisc import fuckit
 from MDmisc.deprecated import deprecated
-from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.ebool import xor
-from MDmisc.elist import ifany, map_r
 from MDmisc.eint import str_int_cmp
+from MDmisc.elist import ifany, map_r
+from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.logger import debug
 from MDmisc.string import upper, split_r, join
 from PMlib.misc import minmaxXY, shift_list
 
+from .exceptions import minutiaeFormatNotSupported
+from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage, Minutia, Core, Delta, AnnotationList
+from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
 from ..core.functions import decode_gca
 from ..traditional import NIST as NIST_traditional
-from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
-from .functions import Minutia, Core, Delta, AnnotationList
-from .voidType import voidType
 
 try:
     from WSQ import WSQ

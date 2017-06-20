@@ -2,7 +2,8 @@
 # -*- coding: UTF-8 -*-
 
 from MDmisc.edict import edict
-from NIST.fingerprint.functions import AnnotationList
+
+from ...fingerprint.functions import AnnotationList
 
 def add_pairing( lst, pairing ):
     pairing = dict( pairing )

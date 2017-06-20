@@ -10,11 +10,11 @@ from MDmisc.elist import ifany
 from MDmisc.logger import debug
 from MDmisc.string import stringIterator, join
 
-from ..core import NIST as NISTCore
+from ..core import NIST as NIST_Core
 from ..core.config import FS, GS, RS, US
 from ..core.functions import fieldSplitter, bindump, decode_gca, tagger
 
-class NIST( NISTCore ):
+class NIST( NIST_Core ):
     def load_auto( self, p ):
         """
             Function to detect and load automatically the 'p' value passed in
