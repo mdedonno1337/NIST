@@ -1,4 +1,4 @@
-.. automodule:: NIST.ULWLQMetric
+.. automodule:: NIST.plugins.ULWLQMetric
 
 ULWLQMetric Fingerprint module overloading
 ##########################################
@@ -8,7 +8,7 @@ This section contains all the docstring related to the ULWLQMetric format, imple
 `ULWLQMetric` module
 ====================
 
-.. autoclass:: NIST.ULWLQMetric.NISTULWLQMetric
+.. autoclass:: NIST.plugins.ULWLQMetric.NISTULWLQMetric
     :members:
     :undoc-members:
     :show-inheritance:

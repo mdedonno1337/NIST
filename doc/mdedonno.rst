@@ -1,4 +1,4 @@
-.. automodule:: NIST.MDD
+.. automodule:: NIST.plugins.MDD
 
 Marco De Donno's Fingerprint module overloading
 ###############################################
@@ -8,7 +8,7 @@ This section contains all the docstring related to the NIST_MDD format, implemen
 `NIST_MDD` module
 =================
 
-.. autoclass:: NIST.MDD.NIST_MDD
+.. autoclass:: NIST.plugins.MDD.NIST_MDD
     :members:
     :undoc-members:
     :show-inheritance:
