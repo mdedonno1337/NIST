@@ -223,45 +223,49 @@ class NISTf( NIST_traditional ):
         lst = AnnotationList()
         
         if field == "9.012":
-            # Get the minutiae string, without the final <FS> character.
-            minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
+            minutiae = self.get_field( "9.012", idc )
             
-            for m in split_r( [ RS, US ], minutiae ):
-                if m == [ '' ]:
-                    break
+            if minutiae != None:
+                # Get the minutiae string, without the final <FS> character.
+                minutiae = minutiae.replace( FS, "" )
                 
-                else:
-                    id, xyt, q, d = m
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
                     
-                    d = d.upper()
-                    
-                    x = int( xyt[ 0:4 ] ) / 100
-                    y = int( xyt[ 4:8 ] ) / 100
-                    t = int( xyt[ 8:11 ] )
-        
-                    lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+                    else:
+                        id, xyt, q, d = m
+                        
+                        d = d.upper()
+                        
+                        x = int( xyt[ 0:4 ] ) / 100
+                        y = int( xyt[ 4:8 ] ) / 100
+                        t = int( xyt[ 8:11 ] )
             
-            lst.set_format( format )
+                        lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+                
+                lst.set_format( format )
         
         elif field == "9.331":
             minutiae = self.get_field( "9.331", idc )
             
-            for m in split_r( [ RS, US ], minutiae ):
-                if m == [ '' ]:
-                    break
-                
-                else:
-                    x, y, theta, d, dr, dt = m
+            if minutiae != None:
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
                     
-                    x = int( x ) / 100
-                    y = int( y ) / 100
-                    y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
-                    theta = ( int( theta ) + 180 ) % 360 
-                    
-                    dr = int( dr )
-                    dt = int( dt )
-                    
-                    lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
+                    else:
+                        x, y, theta, d, dr, dt = m
+                        
+                        x = int( x ) / 100
+                        y = int( y ) / 100
+                        y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
+                        theta = ( int( theta ) + 180 ) % 360 
+                        
+                        dr = int( dr )
+                        dt = int( dt )
+                        
+                        lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
         
         return lst
         
