@@ -80,7 +80,7 @@ try:
             return lst
         
         def get_minutiae( self, format = None, idc = -1, **options ):
-            return self.ULW_get_minutiae( self, format = format, idc = idc, **options )
+            return self.ULW_get_minutiae( format = format, idc = idc, **options )
         
         def ULW_get_minutiae( self, format = None, idc = -1, **options ):
             """
