@@ -1562,7 +1562,7 @@ class NISTf( NIST_traditional ):
         """
         idc = self.checkIDC( ntype, idc )
         
-        if center == None:
+        if center in [ None, [] ]:
             center = self.get_size( idc )
             center = map( lambda x: int( 0.5 * x ), center )
             center = map( int, center )
