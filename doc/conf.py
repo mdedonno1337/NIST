@@ -11,7 +11,7 @@ sys.path.insert( 0, os.path.abspath( "./" ) )
 ################################################################################
 
 project = u'NIST'
-copyright = u'2016, Marco De Donno'
+copyright = u'2016-2017, Marco De Donno'
 author = u'Marco De Donno'
 
 from version import __version__
