@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from math import sqrt
 from collections import OrderedDict, Counter
 from copy import deepcopy
 from cStringIO import StringIO, InputType, OutputType
 from itertools import izip
+from math import sqrt
 from PIL import Image
 
 from MDmisc.binary import string_to_hex
@@ -15,7 +15,7 @@ from MDmisc.imageprocessing import PILToRAW, RAWToPIL
 from MDmisc.map_r import map_r
 from MDmisc.string import join, join_r
 
-from ..core.config import *
+from ..core.config import RS, US
 from ..core.exceptions import notImplemented
 
 try:

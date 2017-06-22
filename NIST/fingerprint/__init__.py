@@ -13,22 +13,21 @@ import numpy as np
 
 from MDmisc import fuckit
 from MDmisc.deprecated import deprecated
-from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.ebool import xor
-from MDmisc.elist import ifany, map_r
 from MDmisc.eint import str_int_cmp
+from MDmisc.elist import ifany, map_r
+from MDmisc.imageprocessing import RAWToPIL
 from MDmisc.logger import debug
 from MDmisc.string import upper, split_r, join
 from PMlib.misc import minmaxXY, shift_list
 
+from .exceptions import minutiaeFormatNotSupported
+from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage, Minutia, Core, Delta, AnnotationList
+from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
 from ..core.functions import decode_gca
 from ..traditional import NIST as NIST_traditional
-from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage
-from .functions import Minutia, Core, Delta, AnnotationList
-from .voidType import voidType
 
 try:
     from WSQ import WSQ
@@ -223,45 +222,49 @@ class NISTf( NIST_traditional ):
         lst = AnnotationList()
         
         if field == "9.012":
-            # Get the minutiae string, without the final <FS> character.
-            minutiae = self.get_field( "9.012", idc ).replace( FS, "" )
+            minutiae = self.get_field( "9.012", idc )
             
-            for m in split_r( [ RS, US ], minutiae ):
-                if m == [ '' ]:
-                    break
+            if minutiae != None:
+                # Get the minutiae string, without the final <FS> character.
+                minutiae = minutiae.replace( FS, "" )
                 
-                else:
-                    id, xyt, q, d = m
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
                     
-                    d = d.upper()
-                    
-                    x = int( xyt[ 0:4 ] ) / 100
-                    y = int( xyt[ 4:8 ] ) / 100
-                    t = int( xyt[ 8:11 ] )
-        
-                    lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+                    else:
+                        id, xyt, q, d = m
+                        
+                        d = d.upper()
+                        
+                        x = int( xyt[ 0:4 ] ) / 100
+                        y = int( xyt[ 4:8 ] ) / 100
+                        t = int( xyt[ 8:11 ] )
             
-            lst.set_format( format )
+                        lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+                
+                lst.set_format( format )
         
         elif field == "9.331":
             minutiae = self.get_field( "9.331", idc )
             
-            for m in split_r( [ RS, US ], minutiae ):
-                if m == [ '' ]:
-                    break
-                
-                else:
-                    x, y, theta, d, dr, dt = m
+            if minutiae != None:
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
                     
-                    x = int( x ) / 100
-                    y = int( y ) / 100
-                    y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
-                    theta = ( int( theta ) + 180 ) % 360 
-                    
-                    dr = int( dr )
-                    dt = int( dt )
-                    
-                    lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
+                    else:
+                        x, y, theta, d, dr, dt = m
+                        
+                        x = int( x ) / 100
+                        y = int( y ) / 100
+                        y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
+                        theta = ( int( theta ) + 180 ) % 360 
+                        
+                        dr = int( dr )
+                        dt = int( dt )
+                        
+                        lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
         
         return lst
         
@@ -1559,7 +1562,7 @@ class NISTf( NIST_traditional ):
         """
         idc = self.checkIDC( ntype, idc )
         
-        if center == None:
+        if center in [ None, [] ]:
             center = self.get_size( idc )
             center = map( lambda x: int( 0.5 * x ), center )
             center = map( int, center )

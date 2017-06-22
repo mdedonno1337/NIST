@@ -22,9 +22,8 @@ Table of contents
 	Traditional
 	Fingerprint
 	
-	Morpho
-	ULWLQMetric
-	mdedonno
+	
+	plugins/index
 	
 	Changelog
 	

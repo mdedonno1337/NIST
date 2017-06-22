@@ -1,4 +1,4 @@
-.. automodule:: NIST.MDD
+.. automodule:: NIST.plugins.Morpho
 
 Morpho's Fingerprint module overloading
 #######################################
@@ -8,7 +8,7 @@ This section contains all the docstring related to the NIST_Morpho format, imple
 `NIST_Morpho` module
 ====================
 
-.. autoclass:: NIST.Morpho.NIST_Morpho
+.. autoclass:: NIST.plugins.Morpho.NIST_Morpho
     :members:
     :undoc-members:
     :show-inheritance:

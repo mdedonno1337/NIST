@@ -1,7 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from NIST.fingerprint.functions import AnnotationList
+from MDmisc.edict import edict
+
+from ...fingerprint.functions import AnnotationList
 
 def add_pairing( lst, pairing ):
     pairing = dict( pairing )
@@ -20,3 +22,14 @@ def add_pairing( lst, pairing ):
     lst.__class__ = AnnotationList
     
     return lst
+
+def get_minutiae_in_pairing_order( mark, ref ):
+    r_p = edict( ref.get_pairing() ).reverse()
+    m_p = edict( mark.get_pairing() ).reverse()
+    
+    keys = [ key for key in r_p.keys() if key != "None" ]
+    
+    src = [ ref.get_minutia_by_id( r_p[ key ], "xy" ) for key in keys ]
+    dst = [ mark.get_minutia_by_id( m_p[ key ], "xy" ) for key in keys ]
+    
+    return src, dst

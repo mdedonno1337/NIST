@@ -10,20 +10,22 @@ import time
 from collections import OrderedDict
 from copy import deepcopy
 
-from MDmisc.binary import *
+from MDmisc.binary import myhex, hex_to_int
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
 from MDmisc.elist import replace_r, ifany
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r
+from MDmisc.multimap import multimap
 from MDmisc.RecursiveDefaultDict import defDict
 from MDmisc.string import join, upper, stringIterator, split_r
 
-from .binary import *
-from .config import *
+from .binary import binary_fields
+from .config import RS, US
 from .exceptions import *
-from .functions import *
+from .functions import bindump, default_origin, get_label
 from .voidType import voidType
+from ..core.functions import leveler, printableFieldSeparator, split, tagSplitter
 
 ################################################################################
 # 
