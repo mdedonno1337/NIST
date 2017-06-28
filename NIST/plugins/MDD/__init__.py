@@ -392,7 +392,7 @@ class NIST_MDD( NISTf ):
         """
         return AnnotationList( self.get_minutiae( idc = idc ) ).get_by_pairing_name( name, format )
             
-    def get_latent_annotated( self, idc = -1 ):
+    def get_latent_annotated( self, idc = -1, **options ):
         """
             Overloading of the NISTf.get_latent_annotated() function to
             incorporate a special annotation for paired minutiae.
@@ -409,7 +409,7 @@ class NIST_MDD( NISTf ):
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         
-        img = super( NIST_MDD, self ).get_latent_annotated( idc )
+        img = super( NIST_MDD, self ).get_latent_annotated( idc, **options )
         img = self.annotate( img, self.get_minutiae_paired( idc ), "pairing" )
         
         return img

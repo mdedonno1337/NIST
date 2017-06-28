@@ -1245,7 +1245,7 @@ class NISTf( NIST_traditional ):
         res = self.get_resolution( idc )
         
         with fuckit:
-            img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_minutiae( idc = idc, **options ), "minutiae", res, idc )
         
         with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
