@@ -157,11 +157,12 @@ try:
             if content == "quality":
                 diptych = self.get_latent_diptych( idc )
                 
-                qmap = super( NISTULWLQMetric, self ).ULWLQMetric_encode( "image" )
-                
-                qmap = qmap.chroma( ( 0, 0, 0 ) )
-                qmap = qmap.transparency( 0.5 )
-                qmap = qmap.scale( self.get_resolution( idc ) * 4 / 500.0 )
+                qmap = self.get_latent_lqmap( idc )
+                if qmap == None:
+                    qmap = super( NISTULWLQMetric, self ).ULWLQMetric_encode( "image" ) 
+                    qmap = qmap.chroma( ( 0, 0, 0 ) )
+                    qmap = qmap.transparency( 0.5 )
+                    qmap = qmap.scale( self.get_resolution( idc ) * 4 / 500.0 )
                 
                 latentqmap = self.get_latent( 'PIL', idc )
                 latentqmap = latentqmap.convert( "RGBA" )
