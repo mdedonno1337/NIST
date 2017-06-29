@@ -217,57 +217,14 @@ class NISTf( NIST_traditional ):
         
         # Options processing
         field = options.get( "field", None ) or "9.012"
+        asfield = options.get( "asfield", None ) or field
         
-        # Field processing
-        lst = AnnotationList()
-        
-        if field == "9.012":
-            minutiae = self.get_field( "9.012", idc )
-            
-            if minutiae != None:
-                # Get the minutiae string, without the final <FS> character.
-                minutiae = minutiae.replace( FS, "" )
-                
-                for m in split_r( [ RS, US ], minutiae ):
-                    if m == [ '' ]:
-                        break
-                    
-                    else:
-                        id, xyt, q, d = m
-                        
-                        d = d.upper()
-                        
-                        x = int( xyt[ 0:4 ] ) / 100
-                        y = int( xyt[ 4:8 ] ) / 100
-                        t = int( xyt[ 8:11 ] )
-            
-                        lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
-                
-                lst.set_format( format )
-        
-        elif field == "9.331":
-            minutiae = self.get_field( "9.331", idc )
-            
-            if minutiae != None:
-                for m in split_r( [ RS, US ], minutiae ):
-                    if m == [ '' ]:
-                        break
-                    
-                    else:
-                        x, y, theta, d, dr, dt = m
-                        
-                        x = int( x ) / 100
-                        y = int( y ) / 100
-                        y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
-                        theta = ( int( theta ) + 180 ) % 360 
-                        
-                        dr = int( dr )
-                        dt = int( dt )
-                        
-                        lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
-        
+        # Minutiae data
+        minutiae = self.get_field( field, idc )
+        lst = self.process_minutiae_field( minutiae, asfield, idc )
+        lst.set_format( format )
         return lst
-        
+    
     def get_minutiae_all( self, format = None ):
         """
             Return the minutiae for all 10 fingers. If the idc is not present in
@@ -347,6 +304,49 @@ class NISTf( NIST_traditional ):
         else:
             raise notImplemented
     
+    def process_minutiae_field( self, minutiae, field, idc = -1 ):
+        lst = AnnotationList()
+        
+        if minutiae != None:
+            if field == "9.012":
+                # Get the minutiae string, without the final <FS> character.
+                minutiae = minutiae.replace( FS, "" )
+                
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
+                    
+                    else:
+                        id, xyt, q, d = m
+                        
+                        d = d.upper()
+                        
+                        x = int( xyt[ 0:4 ] ) / 100
+                        y = int( xyt[ 4:8 ] ) / 100
+                        t = int( xyt[ 8:11 ] )
+            
+                        lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+                
+            elif field == "9.331":
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
+                    
+                    else:
+                        x, y, theta, d, dr, dt = m
+                        
+                        x = int( x ) / 100
+                        y = int( y ) / 100
+                        y = ( self.get_height( idc ) / self.get_resolution( idc ) * 25.4 ) - y
+                        theta = ( int( theta ) + 180 ) % 360 
+                        
+                        dr = int( dr )
+                        dt = int( dt )
+                        
+                        lst.append( Minutia( [ x, y, theta, d, dr, dt ], format = "xytdab" ) )
+            
+        return lst
+            
     def get_minutia_by_id( self, id, format = None, idc = -1 ):
         """
             Return a minutia based on the id
@@ -1245,7 +1245,7 @@ class NISTf( NIST_traditional ):
         res = self.get_resolution( idc )
         
         with fuckit:
-            img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
+            img = self.annotate( img, self.get_minutiae( idc = idc, **options ), "minutiae", res, idc )
         
         with fuckit:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
