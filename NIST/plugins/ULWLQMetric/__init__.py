@@ -179,4 +179,6 @@ try:
                 super( NISTULWLQMetric, self ).get_latent_triptych( content, idc )
             
 except:
-    debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
+    class NISTULWLQMetric( object ):
+        def __init__( self ):
+            debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
