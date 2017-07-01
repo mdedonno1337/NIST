@@ -1348,16 +1348,16 @@ class NISTf( NIST_traditional ):
         if content == "hull":
             third = self.get_latent_hull( idc )
           
+            diptych = self.get_latent_diptych( idc, **options )
+              
+            new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
+            new.paste( diptych, ( 0, 0 ) )
+            new.paste( third, ( diptych.size[ 0 ], 0 ) )
+              
+            return new
+        
         else:
             raise notImplemented
-          
-        diptych = self.get_latent_diptych( idc, **options )
-          
-        new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
-        new.paste( diptych, ( 0, 0 ) )
-        new.paste( third, ( diptych.size[ 0 ], 0 ) )
-          
-        return new
     
     def set_latent( self, image = None, res = 500, idc = -1, **options ):
         """
