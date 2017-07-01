@@ -15,7 +15,11 @@ from ...core import needNtype
 from ...fingerprint import NISTf
 from ...fingerprint import AnnotationList, Minutia
 from ...traditional import RS, US
-    
+
+class NISTULWLQMetric( object ):
+    def __init__( self ):
+        debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
+ 
 try:
     from ULWLQMetric import ULWLQMetric
 
@@ -179,6 +183,4 @@ try:
                 super( NISTULWLQMetric, self ).get_latent_triptych( content, idc )
             
 except:
-    class NISTULWLQMetric( object ):
-        def __init__( self ):
-            debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
+    pass
