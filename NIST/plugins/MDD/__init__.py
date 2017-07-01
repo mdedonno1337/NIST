@@ -94,7 +94,7 @@ class NIST_MDD( NISTf ):
         Overload of the :func:`NIST.fingerprint.NISTf` class, to implement all
         functions related to the pairing information, from the function to store
         the pairingn information in the NIST file (in the user-defined field
-        9.255), to the function to annotate the pairing on the images.
+        9.225), to the function to annotate the pairing on the images.
     """
     
     ############################################################################
@@ -201,7 +201,7 @@ class NIST_MDD( NISTf ):
     def get_pairing( self, idc = -1, clean = False ):
         """
             Return the pairing information ( minutia id, pairing id ). This
-            information is stored in the field 9.255.
+            information is stored in the field 9.225.
             
             :param idc: IDC value.
             :type idc: int
@@ -234,7 +234,7 @@ class NIST_MDD( NISTf ):
         """
         lst = AnnotationList()
         
-        pairing = split_r( [ RS, US ], self.get_field( "9.255", idc ) )
+        pairing = split_r( [ RS, US ], self.get_field( "9.225", idc ) )
         
         if clean:
             pairing = [ [ minid, pairingid ] for minid, pairingid in pairing if pairingid != 'None' ]
@@ -270,7 +270,7 @@ class NIST_MDD( NISTf ):
     def set_pairing( self, pairing = None, idc = -1, **options ):
         """
             Function to set the pairing information in the User-defined field
-            9.255. The pairing information is stored as following:
+            9.225. The pairing information is stored as following:
             
                 minutia id <US> minutia name <RS> ...
                 
@@ -327,7 +327,7 @@ class NIST_MDD( NISTf ):
             for m in self.get_minutiae():
                 lst.append( ( m.i, pai[ int( m.i ) ] ) )
             
-            self.set_field( "9.255", join_r( [ US, RS ], lst ), idc )
+            self.set_field( "9.225", join_r( [ US, RS ], lst ), idc )
     
     def get_minutiae_paired( self, format = None, idc = -1 ):
         """
