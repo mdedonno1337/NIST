@@ -4,6 +4,10 @@
 Develop
 ~~~~~~~
 
+Bugfix:
+
+* Change the field used for pairing from 9.255 to 9.225.
+
 Add:
 
 * Add the :func:`NIST.fingerprint.functions.diptych` function.
