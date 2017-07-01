@@ -150,12 +150,12 @@ try:
             else:
                 return None 
         
-        def get_latent_triptych( self, content = "quality", idc = -1 ):
+        def get_latent_triptych( self, content = "quality", idc = -1, **options ):
             """
                 Get the triptych : latent, annotated latent, quality map (ULW).
             """
             if content == "quality":
-                diptych = self.get_latent_diptych( idc )
+                diptych = self.get_latent_diptych( idc, **options )
                 
                 qmap = self.get_latent_lqmap( idc )
                 if qmap == None:

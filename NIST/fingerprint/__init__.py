@@ -1316,7 +1316,7 @@ class NISTf( NIST_traditional ):
               
         return img
     
-    def get_latent_diptych( self, idc = -1 ):
+    def get_latent_diptych( self, idc = -1, **options ):
         """
             Function to return the diptych of the latent fingermark (latent and
             annotated latent)
@@ -1333,7 +1333,7 @@ class NISTf( NIST_traditional ):
                 <PIL.Image.Image image mode=RGB size=1000x500 at ...>
         """
         img = self.get_latent( 'PIL', idc )
-        anno = self.get_latent_annotated( idc )
+        anno = self.get_latent_annotated( idc, **options )
         
         new = Image.new( "RGB", ( img.size[ 0 ] * 2, img.size[ 1 ] ), "white" )
         
@@ -1342,7 +1342,7 @@ class NISTf( NIST_traditional ):
         
         return new
      
-    def get_latent_triptych( self, content = None, idc = -1 ):
+    def get_latent_triptych( self, content = None, idc = -1, **options ):
         idc = self.checkIDC( 13, idc )
           
         if content == "hull":
@@ -1351,7 +1351,7 @@ class NISTf( NIST_traditional ):
         else:
             raise notImplemented
           
-        diptych = self.get_latent_diptych( idc )
+        diptych = self.get_latent_diptych( idc, **options )
           
         new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
         new.paste( diptych, ( 0, 0 ) )
