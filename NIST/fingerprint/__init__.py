@@ -1190,6 +1190,9 @@ class NISTf( NIST_traditional ):
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
+        with fuckit:
+            os.makedirs( os.path.dirname( f ) )
+        
         self.get_latent( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
@@ -1213,6 +1216,9 @@ class NISTf( NIST_traditional ):
         """
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
+        
+        with fuckit:
+            os.makedirs( os.path.dirname( f ) )
         
         self.get_latent_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
