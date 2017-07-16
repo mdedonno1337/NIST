@@ -33,6 +33,13 @@ Commits since latest release:
 .. git_changelog::
     :rev-list: latest..
 
+v0.23.1 (2017-04-06)
+~~~~~~~~~~~~~~~~~~~~
+
+Major bugfix:
+
+* Revert the commit 728a91bfa26101f229a0c60bacb9723cfe3d2f91
+
 v0.23 (2017-04-04)
 ~~~~~~~~~~~~~~~~~~
 
