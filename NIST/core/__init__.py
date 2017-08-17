@@ -361,6 +361,11 @@ class NIST( object ):
         else:
             raise tagNotFound
     
+    def delete_tags( self, tags, idc = -1 ):
+        if isinstance( tags, list ):
+            for tag in tags:
+                self.delete_tag( tag, idc )
+    
     def move_idc( self, ntype, idcfrom, idcto ):
         """
             Move an IDC to an other value.
