@@ -6,6 +6,7 @@ import os
 import subprocess
 import unittest
 
+from MDmisc.egit import git_version
 from MDmisc.eprint import eprint
 
 ################################################################################
@@ -16,8 +17,7 @@ def _exe( cmd, wd ):
 ################################################################################
 
 try:
-    import versioneer
-    version = versioneer.get_version()
+    version = git_version( describe = [ "--match", "v*" ] )[ "commit_describe" ]
 
 except:
     version = "dev"

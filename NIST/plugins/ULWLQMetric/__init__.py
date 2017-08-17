@@ -9,7 +9,7 @@ from MDmisc.logger import debug
 from MDmisc.map_r import map_r
 from MDmisc.string import split_r, split
 from PMlib.formatConverter import cooNIST2PIL
-from SoftPillow import Image
+from SoftPillow import MyImage
     
 from ...core import needNtype
 from ...fingerprint import NISTf
@@ -119,7 +119,7 @@ try:
             data = self.get_field( "9.308" )
             
             if data != None:
-                img = Image.new( "RGBA", self.get_size(), ( 0, 0, 0, 0 ) )
+                img = MyImage.new( "RGBA", self.get_size(), ( 0, 0, 0, 0 ) )
                 pixels = img.load()
                 
                 alpha = int( options.get( "alpha", 100 ) )
@@ -172,7 +172,7 @@ try:
                 latentqmap = latentqmap.convert( "RGBA" )
                 latentqmap.paste( qmap, ( 0, 0 ), mask = qmap )
                 
-                new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
+                new = MyImage.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
                 
                 new.paste( diptych, ( 0, 0 ) )
                 new.paste( latentqmap, ( diptych.size[ 0 ], 0 ) )
