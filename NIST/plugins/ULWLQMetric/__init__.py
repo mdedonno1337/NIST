@@ -104,7 +104,7 @@ try:
             """
             lst = AnnotationList()
             
-            minu = self.ULW_get_minutiae( format, idc = idc, field = field )
+            minu = self.get_minutiae( format, idc = idc, field = field )
             
             for m in minu:
                 if m.LQM >= criteria and higher:
