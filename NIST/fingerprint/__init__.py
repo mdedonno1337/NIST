@@ -1190,6 +1190,9 @@ class NISTf( NIST_traditional ):
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
+        with fuckit:
+            os.makedirs( os.path.dirname( f ) )
+        
         self.get_latent( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
@@ -1213,6 +1216,9 @@ class NISTf( NIST_traditional ):
         """
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
+        
+        with fuckit:
+            os.makedirs( os.path.dirname( f ) )
         
         self.get_latent_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
@@ -1316,7 +1322,7 @@ class NISTf( NIST_traditional ):
               
         return img
     
-    def get_latent_diptych( self, idc = -1 ):
+    def get_latent_diptych( self, idc = -1, **options ):
         """
             Function to return the diptych of the latent fingermark (latent and
             annotated latent)
@@ -1333,7 +1339,7 @@ class NISTf( NIST_traditional ):
                 <PIL.Image.Image image mode=RGB size=1000x500 at ...>
         """
         img = self.get_latent( 'PIL', idc )
-        anno = self.get_latent_annotated( idc )
+        anno = self.get_latent_annotated( idc, **options )
         
         new = Image.new( "RGB", ( img.size[ 0 ] * 2, img.size[ 1 ] ), "white" )
         
@@ -1342,22 +1348,22 @@ class NISTf( NIST_traditional ):
         
         return new
      
-    def get_latent_triptych( self, content = None, idc = -1 ):
+    def get_latent_triptych( self, content = None, idc = -1, **options ):
         idc = self.checkIDC( 13, idc )
           
         if content == "hull":
             third = self.get_latent_hull( idc )
           
+            diptych = self.get_latent_diptych( idc, **options )
+              
+            new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
+            new.paste( diptych, ( 0, 0 ) )
+            new.paste( third, ( diptych.size[ 0 ], 0 ) )
+              
+            return new
+        
         else:
             raise notImplemented
-          
-        diptych = self.get_latent_diptych( idc )
-          
-        new = Image.new( "RGB", ( self.get_width( idc ) * 3, self.get_height( idc ) ), "white" )
-        new.paste( diptych, ( 0, 0 ) )
-        new.paste( third, ( diptych.size[ 0 ], 0 ) )
-          
-        return new
     
     def set_latent( self, image = None, res = 500, idc = -1, **options ):
         """

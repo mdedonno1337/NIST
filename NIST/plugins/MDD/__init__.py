@@ -146,7 +146,7 @@ class NIST_MDD( NISTf ):
         if isinstance( format, int ):
             format, idc = None, format
         
-        lst = NISTf.get_minutiae( self, format = format, idc = idc )
+        lst = NISTf.get_minutiae( self, format = format, idc = idc, **options )
         lst.__class__ = AnnotationList
         
         try:
@@ -329,7 +329,7 @@ class NIST_MDD( NISTf ):
             
             self.set_field( "9.225", join_r( [ US, RS ], lst ), idc )
     
-    def get_minutiae_paired( self, format = None, idc = -1 ):
+    def get_minutiae_paired( self, format = None, idc = -1, **options ):
         """
             Return all minutiae which are paired.
         """
@@ -340,7 +340,7 @@ class NIST_MDD( NISTf ):
             format = self.minutiaeformat
         
         lst = AnnotationList()
-        for m in self.get_minutiae( format, idc ):
+        for m in self.get_minutiae( format, idc, **options ):
             try:
                 if m.n not in [ "None", None ]:
                     lst.append( m )
@@ -410,7 +410,7 @@ class NIST_MDD( NISTf ):
         """
         
         img = super( NIST_MDD, self ).get_latent_annotated( idc, **options )
-        img = self.annotate( img, self.get_minutiae_paired( idc ), "pairing" )
+        img = self.annotate( img, self.get_minutiae_paired( idc, **options ), "pairing" )
         
         return img
     
