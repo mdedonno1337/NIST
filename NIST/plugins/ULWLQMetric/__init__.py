@@ -16,7 +16,11 @@ from ...core import needNtype
 from ...fingerprint import NISTf
 from ...fingerprint import AnnotationList, Minutia
 from ...traditional import RS, US
-    
+
+class NISTULWLQMetric( object ):
+    def __init__( self ):
+        debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
+ 
 try:
     from ULWLQMetric import ULWLQMetric
 
@@ -101,7 +105,7 @@ try:
             """
             lst = AnnotationList()
             
-            minu = self.ULW_get_minutiae( format, idc = idc, field = field )
+            minu = self.get_minutiae( format, idc = idc, field = field )
             
             for m in minu:
                 if m.LQM >= criteria and higher:
@@ -151,12 +155,12 @@ try:
             else:
                 return None 
         
-        def get_latent_triptych( self, content = "quality", idc = -1 ):
+        def get_latent_triptych( self, content = "quality", idc = -1, **options ):
             """
                 Get the triptych : latent, annotated latent, quality map (ULW).
             """
             if content == "quality":
-                diptych = self.get_latent_diptych( idc )
+                diptych = self.get_latent_diptych( idc, **options )
                 
                 qmap = self.get_latent_lqmap( idc )
                 if qmap == None:
@@ -180,6 +184,4 @@ try:
                 super( NISTULWLQMetric, self ).get_latent_triptych( content, idc )
             
 except:
-    class NISTULWLQMetric( object ):
-        def __init__( self ):
-            debug.critical( boxer( "ULWLQMetric module not found", "Have you installed the ULWLQMetric library?" ) )
+    pass
