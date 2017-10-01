@@ -1022,7 +1022,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def annotate( self, image, data, type = "minutiae", res = None, idc = -1 ):
+    def annotate( self, image, data, type = "minutiae", res = None, idc = -1, **options ):
         """
             Function to annotate the image with the data passed in argument.
             
