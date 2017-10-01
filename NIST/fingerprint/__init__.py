@@ -1091,6 +1091,26 @@ class NISTf( NIST_traditional ):
                     
                     image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
+            elif type == "minutiadata":
+                imagedraw = ImageDraw.Draw( image )
+                font = ImageFont.truetype( "./fonts/arial.ttf", size = 20 )
+                colour = options.get( "colour", red )
+                
+                dx, dy = options.get( "offset", ( 0, 0 ) )
+                variable = options.get( "variable", "i" )
+                
+                for m in data:
+                    cx = m.x / 25.4 * res
+                    cy = m.y / 25.4 * res
+                    cy = height - cy
+                    
+                    imagedraw.text( 
+                        ( cx + dx, cy + dy ),
+                        m.get( variable, "" ),
+                        colour,
+                        font = font
+                    )
+            
             elif type == "center":
                 for m in data:
                     cx = m.x / 25.4 * res
