@@ -503,7 +503,26 @@ class Annotation( object ):
         """
         for f in self._format:
             yield self._data[ f ]
-
+    
+    def get( self, name, default = None ):
+        """
+            Function to get a particular variable inside the Annotation object.
+            
+            Let 'a' be defined as follow:
+            
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1.0, 2.1, 3.18 ], format = "abc" )
+            
+            To retrieve the variable 'a', you can either call it with the variable name: 
+            
+                >>> a.get( 'a' )
+                1.0
+        """
+        try:
+            return self.__getattr__( name )
+        except:
+            return default
+    
     def __getitem__( self, index ):
         """
             Function to get an item stored in the Annotation object like in a
