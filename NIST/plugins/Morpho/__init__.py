@@ -86,14 +86,14 @@ class NIST_Morpho( NISTf ):
             
             .. see:: :func:`NIST.fingerprint.NISTf.get_minutiae()`
         """
-        try:
-            return super( NIST_Morpho, self ).get_minutiae( format = format, idc = idc )
-        
-        except AttributeError:
+        if self.get_field( "9.184" ) != None:
             if isinstance( format, int ):
                 idc, format = format, self.minutiaeformat
             
             return self.process_imageenh( idc )[ 'minutiae' ].get( format )
+        
+        else:
+            return super( NIST_Morpho, self ).get_minutiae( format = format, idc = idc )
     
     def get_delta( self, idc = -1 ):
         try:
