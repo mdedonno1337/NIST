@@ -1022,7 +1022,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def annotate( self, image, data, type = "minutiae", res = None, idc = -1, **options ):
+    def annotate( self, image, data, type = None, res = None, idc = -1, **options ):
         """
             Function to annotate the image with the data passed in argument.
             
@@ -1040,7 +1040,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae() ) # doctest: +ELLIPSIS
+                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae(), "minutiae" ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         if data != None and len( data ) != 0:
@@ -1091,7 +1091,7 @@ class NISTf( NIST_traditional ):
                     
                     image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
-            elif type == "minutiadata":
+            elif type == "minutiadata" or "variable" in options.keys():
                 imagedraw = ImageDraw.Draw( image )
                 font = ImageFont.truetype( "./fonts/arial.ttf", size = 20 )
                 colour = options.get( "colour", red )
@@ -1138,6 +1138,10 @@ class NISTf( NIST_traditional ):
                         endcolor = Image.new( 'RGBA', end2.size, yellow )
                         
                         image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
+            
+            elif type == None:
+                return image
+            
             else:
                 raise notImplemented
             
