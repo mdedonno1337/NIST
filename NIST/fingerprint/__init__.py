@@ -1565,7 +1565,7 @@ class NISTf( NIST_traditional ):
         except:
             self.crop_print( *args, **kwargs )
     
-    def crop( self, size, center = None, ntype = None, idc = -1 ):
+    def crop( self, size, center = None, ntype = None, idc = -1, **options ):
         """
             Crop the latent or the print image.
             
@@ -1622,7 +1622,7 @@ class NISTf( NIST_traditional ):
         self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
         
         # Minutia cropping
-        minu = self.get_minutiae( self.minutiaeformat, idc )
+        minu = self.get_minutiae( self.minutiaeformat, idc, **options )
         
         for i, _ in enumerate( minu ):
             minu[ i ] += offsetmin
