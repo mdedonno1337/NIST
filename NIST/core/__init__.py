@@ -55,7 +55,7 @@ class NIST( object ):
         :cvar datetime date: Creation date (YYYY-mm-dd).
         :cvar int timestamp: creation timestamp (UNIX time).
     """
-    def __init__( self, init = None ):
+    def __init__( self, init = None, *args, **kwargs ):
         """
             Initialization of the NIST Object.
             

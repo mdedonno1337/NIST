@@ -2,3 +2,4 @@ future
 pillow
 scipy
 xmltodict
+sphinx_git

@@ -1022,7 +1022,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def annotate( self, image, data, type = "minutiae", res = None, idc = -1 ):
+    def annotate( self, image, data, type = None, res = None, idc = -1, **options ):
         """
             Function to annotate the image with the data passed in argument.
             
@@ -1040,7 +1040,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae() ) # doctest: +ELLIPSIS
+                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae(), "minutiae" ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         if data != None and len( data ) != 0:
@@ -1091,6 +1091,26 @@ class NISTf( NIST_traditional ):
                     
                     image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
+            elif type == "minutiadata" or "variable" in options.keys():
+                imagedraw = ImageDraw.Draw( image )
+                font = ImageFont.truetype( "./fonts/arial.ttf", size = 20 )
+                colour = options.get( "colour", red )
+                
+                dx, dy = options.get( "offset", ( 0, 0 ) )
+                variable = options.get( "variable", "i" )
+                
+                for m in data:
+                    cx = m.x / 25.4 * res
+                    cy = m.y / 25.4 * res
+                    cy = height - cy
+                    
+                    imagedraw.text( 
+                        ( cx + dx, cy + dy ),
+                        m.get( variable, "" ),
+                        colour,
+                        font = font
+                    )
+            
             elif type == "center":
                 for m in data:
                     cx = m.x / 25.4 * res
@@ -1118,6 +1138,10 @@ class NISTf( NIST_traditional ):
                         endcolor = Image.new( 'RGBA', end2.size, yellow )
                         
                         image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
+            
+            elif type == None:
+                return image
+            
             else:
                 raise notImplemented
             
@@ -1541,7 +1565,7 @@ class NISTf( NIST_traditional ):
         except:
             self.crop_print( *args, **kwargs )
     
-    def crop( self, size, center = None, ntype = None, idc = -1 ):
+    def crop( self, size, center = None, ntype = None, idc = -1, **options ):
         """
             Crop the latent or the print image.
             
@@ -1598,7 +1622,7 @@ class NISTf( NIST_traditional ):
         self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
         
         # Minutia cropping
-        minu = self.get_minutiae( self.minutiaeformat, idc )
+        minu = self.get_minutiae( self.minutiaeformat, idc, **options )
         
         for i, _ in enumerate( minu ):
             minu[ i ] += offsetmin
@@ -1790,6 +1814,12 @@ class NISTf( NIST_traditional ):
         new.paste( anno, ( img.size[ 0 ], 0 ) )
         
         return new
+    
+    def export_print_diptych( self, f, idc = -1 ):
+        """
+            Function to export the reference diptych
+        """
+        self.get_print_diptych( idc ).save( f )
     
     def set_print( self, image = None, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
         """

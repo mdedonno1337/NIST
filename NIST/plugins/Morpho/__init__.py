@@ -9,6 +9,7 @@ import zipfile
 from _collections import defaultdict
 from cStringIO import StringIO
 
+from MDmisc.elist import ifany
 from MDmisc.ewarning import nowarnings
 
 from ...core.functions import bindump
@@ -76,7 +77,7 @@ class NIST_Morpho( NISTf ):
         with open( file, "wb+" ) as fp:
             fp.write( self.get_cfv( idc ) )
     
-    def get_minutiae( self, format = None, idc = -1 ):
+    def get_minutiae( self, format = None, idc = -1, **options ):
         """
             Overload of the NISTf.get_minutiae() function to extract the
             information from the JAR stored in the 9.184 field. The minutiae
@@ -86,10 +87,10 @@ class NIST_Morpho( NISTf ):
             
             .. see:: :func:`NIST.fingerprint.NISTf.get_minutiae()`
         """
-        try:
+        if ifany( options.keys(), [ "field", "asfield" ] ) or self.get_field( "9.184" ) == None:
             return super( NIST_Morpho, self ).get_minutiae( format = format, idc = idc )
         
-        except AttributeError:
+        else:
             if isinstance( format, int ):
                 idc, format = format, self.minutiaeformat
             

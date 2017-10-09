@@ -11,22 +11,4 @@ The developpement and maintainance have been made by Marco De Donno, School of C
 
 .. [NIST2013] Data Format for the Interchange of Fingerprint, Facial & Other Biometric Information, NIST Special Publication 500-290 Rev1 (2013), https://www.nist.gov/itl/iad/image-group/ansinist-itl-standard-references
 
-Table of contents
-=================
 
-.. toctree::
-	:maxdepth: 2
-	
-	Installation
-	
-	FirstSteps
-	
-	Traditional
-	Fingerprint
-	
-	
-	plugins/index
-	
-	Changelog
-	
-	Contact
