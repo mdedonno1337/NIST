@@ -1815,6 +1815,12 @@ class NISTf( NIST_traditional ):
         
         return new
     
+    def export_print_diptych( self, f, idc = -1 ):
+        """
+            Function to export the reference diptych
+        """
+        self.get_print_diptych( idc ).save( f )
+    
     def set_print( self, image = None, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
         """
             Function to set an print image to the 4.999 field, and set the size.
