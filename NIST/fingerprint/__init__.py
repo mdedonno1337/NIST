@@ -1093,7 +1093,7 @@ class NISTf( NIST_traditional ):
             
             elif type == "minutiadata" or "variable" in options.keys():
                 imagedraw = ImageDraw.Draw( image )
-                font = ImageFont.truetype( "./fonts/arial.ttf", size = 20 )
+                font = ImageFont.truetype( "./fonts/arial.ttf", size = int( self.get_resolution( idc ) * 15 / 500 ) )
                 colour = options.get( "colour", red )
                 
                 dx, dy = options.get( "offset", ( 0, 0 ) )
