@@ -1106,7 +1106,7 @@ class NISTf( NIST_traditional ):
                     
                     imagedraw.text( 
                         ( cx + dx, cy + dy ),
-                        m.get( variable, "" ),
+                        str( m.get( variable, "" ) ),
                         colour,
                         font = font
                     )
