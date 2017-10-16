@@ -59,29 +59,30 @@ try:
                 The LQMetric is evaluated from the quality map stored in the
                 NIST object (in the field 9.308). 
             """
-            # Add the LQMetric quality 
-            qmap = self.get_field( "9.308" )
-            
-            if qmap != None:
-                qmap = map( list, split( RS, qmap ) )
+            if len( lst ) != 0:
+                # Add the LQMetric quality 
+                qmap = self.get_field( "9.308" )
                 
-                h = self.get_height( idc )
-                res = self.get_resolution( idc )
+                if qmap != None:
+                    qmap = map( list, split( RS, qmap ) )
+                    
+                    h = self.get_height( idc )
+                    res = self.get_resolution( idc )
+                    
+                    for m in lst:
+                        coo = cooNIST2PIL( ( m.x, m.y ), h, res )
+                        x, y = map_r( lambda x: int( x / ( 4 * res / 500.0 ) ), coo )
+                        try:
+                            m.LQM = int( qmap[ y ][ x ] )
+                        except:
+                            m.LQM = None
+                    
+                    newformat = list( lst[ 0 ]._format )
+                    if "LQM" not in newformat:
+                        newformat.append( "LQM" )
+                    
+                    lst.set_format( newformat )
                 
-                for m in lst:
-                    coo = cooNIST2PIL( ( m.x, m.y ), h, res )
-                    x, y = map_r( lambda x: int( x / 4 ), coo )
-                    try:
-                        m.LQM = int( qmap[ y ][ x ] )
-                    except:
-                        m.LQM = None
-                
-                newformat = list( lst[ 0 ]._format )
-                if "LQM" not in newformat:
-                    newformat.append( "LQM" )
-                
-                lst.set_format( newformat )
-            
             return lst
         
         def get_minutiae( self, format = None, idc = -1, **options ):
