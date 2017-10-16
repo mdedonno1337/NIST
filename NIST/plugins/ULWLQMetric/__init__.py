@@ -70,7 +70,7 @@ try:
                 
                 for m in lst:
                     coo = cooNIST2PIL( ( m.x, m.y ), h, res )
-                    x, y = map_r( lambda x: int( x / 4 ), coo )
+                    x, y = map_r( lambda x: int( x / ( 4 * res / 500.0 ) ), coo )
                     try:
                         m.LQM = int( qmap[ y ][ x ] )
                     except:
