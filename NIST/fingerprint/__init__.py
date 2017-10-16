@@ -1059,6 +1059,7 @@ class NISTf( NIST_traditional ):
             # Colors
             red = ( 250, 0, 0 )
             yellow = ( 255, 255, 50 )
+            black = ( 0, 0, 0 )
             
             # Markers
             markers = {}
@@ -1138,6 +1139,18 @@ class NISTf( NIST_traditional ):
                         endcolor = Image.new( 'RGBA', end2.size, yellow )
                         
                         image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
+            
+            elif type == "title":
+                imagedraw = ImageDraw.Draw( image )
+                font = ImageFont.truetype( "./fonts/arial.ttf", size = int( self.get_resolution( idc ) * 15 / 500 ) )
+                colour = options.get( "colour", black )
+                pos = options.get( "offset", ( 0, 0 ) )
+                imagedraw.text( 
+                    pos,
+                    str( data ),
+                    colour,
+                    font = font
+                )
             
             elif type == None:
                 return image
