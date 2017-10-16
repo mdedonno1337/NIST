@@ -658,6 +658,10 @@ class NISTf( NIST_traditional ):
             data = lstTo012( data )
         
         if data == "":
+            with fuckit:
+                self.delete( "9.012", idc )
+                self.delete( "9.010", idc )
+                
             return 0
         
         if isinstance( data, str ):
