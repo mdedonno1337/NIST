@@ -2564,6 +2564,22 @@ class NISTf( NIST_traditional ):
             
             self.set_field( "14.013", idc, idc )
     
+    def add_Type15( self, idc = 1, **options ):
+        """
+            Add the Type-15 record to the NIST object.
+            
+            :param idc: IDC value.
+            :type idc: int
+        """
+        ntype = 15
+        
+        if isinstance( idc, list ):
+            for i in idc:
+                self.add_default( ntype, i )
+        
+        else:
+            self.add_default( ntype, idc )
+    
     ############################################################################
     # 
     #    Migrate a Type04 record to Type14
