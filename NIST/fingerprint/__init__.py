@@ -154,6 +154,35 @@ class NISTf( NIST_traditional ):
         
         #    Generic function to patch to standard
         super( NISTf, self ).patch_to_standard()
+    
+    ############################################################################
+    # 
+    #    Misc functions
+    # 
+    ############################################################################
+    
+    def get_idc_for_fpc( self, ntype, fpc ):
+        idc = None
+        
+        fields = {
+            4: 4,
+            13: 13,
+            14: 13,
+            15: 13,
+        }
+        
+        if ntype not in fields.keys():
+            raise notImplemented
+        
+        else:
+            idcs = self.data[ ntype ].keys()
+            
+            for idc in idcs:
+                if int( self.get_field( ( ntype, fields[ ntype ] ), idc ) ) == int( fpc ):
+                    return idc
+            
+            else:
+                raise idcNotFound
         
     ############################################################################
     #
@@ -1660,7 +1689,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def get_print( self, format = 'PIL', idc = -1 ):
+    def get_print( self, format = 'PIL', idc = -1, fpc = None ):
         """
             Return the print image, WSQ or PIL format.
             
@@ -1685,10 +1714,16 @@ class NISTf( NIST_traditional ):
         ntypes = self.get_ntype()
         
         if 4 in ntypes:
+            if fpc != None:
+                idc = self.get_idc_for_fpc( 4, fpc )
+            
             imgdata = self.get_field( "4.999", idc )
             gca = decode_gca( self.get_field( "4.008", idc ) )
             
         elif 14 in ntypes:
+            if fpc != None:
+                idc = self.get_idc_for_fpc( 14, fpc )
+            
             imgdata = self.get_field( "14.999", idc )
             gca = decode_gca( self.get_field( "14.011", idc ) )
         
@@ -2202,9 +2237,9 @@ class NISTf( NIST_traditional ):
             10: ( 165.6842, 169.3164, 200.533, 208.5594 )
         }
         
-        for idc in xrange( 1, 11 ):
+        for fpc in xrange( 1, 11 ):
             try:
-                p = self.get_image( "PIL", idc )
+                p = self.get_print( "PIL", fpc = fpc )
                 
                 res, _ = p.info[ 'dpi' ]
                 w, h = p.size
@@ -2212,7 +2247,7 @@ class NISTf( NIST_traditional ):
                 if fac != 1:
                     p = p.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
                 
-                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ idc ] ]
+                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ fpc ] ]
                 
                 alpha = x1 + int( ( x2 - x1 - ( w * fac ) ) / 2 )
                 beta = y1 + int( ( y2 - y1 - ( h * fac ) ) / 2 )
