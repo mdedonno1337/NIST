@@ -2562,7 +2562,8 @@ class NISTf( NIST_traditional ):
             self.set_field( "14.009", res, idc )
             self.set_field( "14.010", res, idc )
             
-            self.set_field( "14.013", idc, idc )
+            fingerposition = options.get( "fingerposition", idc )
+            self.set_field( "14.013", fingerposition, idc )
     
     def add_Type15( self, idc = 1, **options ):
         """
