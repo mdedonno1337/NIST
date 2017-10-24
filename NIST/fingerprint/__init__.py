@@ -2224,7 +2224,7 @@ class NISTf( NIST_traditional ):
         
         return ret
     
-    def get_tenprintcard( self, outres = 1000 ):
+    def get_tenprintcard_front( self, outres = 1000 ):
         """
             Return the tenprint card for the rolled fingers 1 to 10 (no slaps
             for the moment). This function return an ISO-A4 European tenprint
@@ -2243,7 +2243,7 @@ class NISTf( NIST_traditional ):
         """
         Image.MAX_IMAGE_PIXELS = 1000000000
         
-        card = Image.open( self.imgdir + "/tenprint.png" )
+        card = Image.open( self.imgdir + "/tenprint_front.png" )
         card = card.convert( "L" )
         
         cardres, _ = card.info[ 'dpi' ]
@@ -2276,12 +2276,58 @@ class NISTf( NIST_traditional ):
                 if fac != 1:
                     p = p.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
                 
+                ink = Image.new( "L", ( int( w * fac ), int( h * fac ) ), 0 )
+                
                 x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ fpc ] ]
                 
                 alpha = x1 + int( ( x2 - x1 - ( w * fac ) ) / 2 )
                 beta = y1 + int( ( y2 - y1 - ( h * fac ) ) / 2 )
                 
-                card.paste( p, ( alpha, beta ), ImageOps.invert( p ) )
+                card.paste( ink, ( alpha, beta ), ImageOps.invert( p ) )
+            
+            except idcNotFound:
+                continue
+            
+        return card
+    
+    def get_tenprintcard_back( self, outres = 1000 ):
+        Image.MAX_IMAGE_PIXELS = 1000000000
+        
+        card = Image.open( self.imgdir + "/tenprint_back.png" )
+        card = card.convert( "L" )
+        
+        cardres, _ = card.info[ 'dpi' ]
+        
+        fac = outres / cardres
+        if fac != 1:
+            w, h = card.size
+            card = card.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
+        
+        fingerpos = {
+            22: ( 150.4, 31.4, 200.6, 157.9 ),
+            24: ( 8.8, 158.2, 57.7, 287.9 ),
+            25: ( 58.2, 158.3, 200.6, 287.9 ),
+            27: ( 8.9, 31.4, 150.0, 157.8 ),
+        }
+        
+        for fpc in [ 22, 24, 25, 27 ]:
+            try:
+                p = self.get_palmar( "PIL", fpc = fpc )
+                
+                res, _ = p.info[ 'dpi' ]
+                w, h = p.size
+                fac = outres / res
+                if fac != 1:
+                    p = p.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
+                
+                ink = Image.new( "L", ( int( w * fac ), int( h * fac ) ), 0 )
+                
+                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ fpc ] ]
+                
+                alpha = x1 + int( ( x2 - x1 - ( w * fac ) ) / 2 )
+                beta = y1 + int( ( y2 - y1 - ( h * fac ) ) / 2 )
+                
+                card.paste( ink, ( alpha, beta ), ImageOps.invert( p ) )
             
             except idcNotFound:
                 continue
