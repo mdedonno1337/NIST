@@ -1740,6 +1740,35 @@ class NISTf( NIST_traditional ):
             res = self.get_resolution( idc )
         )
         
+    def get_palmar( self, format = 'PIL', idc = -1, fpc = None ):
+        format = upper( format )
+        ntypes = self.get_ntype()
+        
+        if 15 in ntypes:
+            if fpc != None:
+                idc = self.get_idc_for_fpc( 15, fpc )
+            
+            imgdata = self.get_field( "15.999", idc )
+            gca = decode_gca( self.get_field( "15.011", idc ) )
+            
+        else:
+            raise notImplemented
+        
+        if gca == "WSQ":
+            imgdata = WSQ().decode( imgdata )
+        
+        h = int( self.get_field( "15.006", idc ) )
+        w = int( self.get_field( "15.007", idc ) )
+        size = ( h, w )
+        res = int( self.get_field( "15.009", idc ) )
+        
+        return changeFormatImage( 
+            imgdata,
+            format,
+            size = size,
+            res = res
+        )
+        
     def export_print( self, f, idc = -1 ):
         """
             Export the print image to the file 'f' passed in parameter.
