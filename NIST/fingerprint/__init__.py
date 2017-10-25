@@ -2263,10 +2263,14 @@ class NISTf( NIST_traditional ):
             7: ( 51.8922, 169.3164, 89.408, 208.5594 ),
             8: ( 89.8144, 169.3164, 126.9746, 208.5594 ),
             9: ( 127.381, 169.3164, 165.2524, 208.5594 ),
-            10: ( 165.6842, 169.3164, 200.533, 208.5594 )
+            10: ( 165.6842, 169.3164, 200.533, 208.5594 ),
+            11: ( 105, 227, 135, 279 ),
+            12: ( 75, 227, 105, 279 ),
+            13: ( 135, 221, 208, 279 ),
+            14: ( 2, 221, 75, 279 ),
         }
         
-        for fpc in xrange( 1, 11 ):
+        for fpc in xrange( 1, 15 ):
             try:
                 p = self.get_print( "PIL", fpc = fpc )
                 
@@ -2303,11 +2307,11 @@ class NISTf( NIST_traditional ):
             w, h = card.size
             card = card.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
         
-        fingerpos = {
+        palmpos = {
             22: ( 150.4, 31.4, 200.6, 157.9 ),
             24: ( 8.8, 158.2, 57.7, 287.9 ),
-            25: ( 58.2, 158.3, 200.6, 287.9 ),
-            27: ( 8.9, 31.4, 150.0, 157.8 ),
+            27: ( 58.2, 158.3, 200.6, 287.9 ),
+            25: ( 8.9, 31.4, 150.0, 157.8 ),
         }
         
         for fpc in [ 22, 24, 25, 27 ]:
@@ -2322,7 +2326,7 @@ class NISTf( NIST_traditional ):
                 
                 ink = Image.new( "L", ( int( w * fac ), int( h * fac ) ), 0 )
                 
-                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ fpc ] ]
+                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in palmpos[ fpc ] ]
                 
                 alpha = x1 + int( ( x2 - x1 - ( w * fac ) ) / 2 )
                 beta = y1 + int( ( y2 - y1 - ( h * fac ) ) / 2 )
