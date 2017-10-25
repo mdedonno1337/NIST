@@ -2303,7 +2303,7 @@ class NISTf( NIST_traditional ):
             w, h = card.size
             card = card.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
         
-        fingerpos = {
+        palmpos = {
             22: ( 150.4, 31.4, 200.6, 157.9 ),
             24: ( 8.8, 158.2, 57.7, 287.9 ),
             27: ( 58.2, 158.3, 200.6, 287.9 ),
@@ -2322,7 +2322,7 @@ class NISTf( NIST_traditional ):
                 
                 ink = Image.new( "L", ( int( w * fac ), int( h * fac ) ), 0 )
                 
-                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in fingerpos[ fpc ] ]
+                x1, y1, x2, y2 = [ int( mm2px( v, outres ) ) for v in palmpos[ fpc ] ]
                 
                 alpha = x1 + int( ( x2 - x1 - ( w * fac ) ) / 2 )
                 beta = y1 + int( ( y2 - y1 - ( h * fac ) ) / 2 )
