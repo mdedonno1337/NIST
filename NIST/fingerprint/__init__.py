@@ -8,6 +8,7 @@ from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 from scipy.spatial.qhull import ConvexHull
 
+import base64
 import os
 import numpy as np
 
@@ -26,8 +27,9 @@ from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatI
 from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
-from ..core.functions import decode_gca
+from ..core.functions import decode_gca, encode_gca
 from ..traditional import NIST as NIST_traditional
+from ..XML import NIST as NIST_XML
 
 try:
     from WSQ import WSQ
@@ -2778,6 +2780,47 @@ class NISTf( NIST_traditional ):
         """
         return px2mm( data, self.get_resolution( idc ) )
 
+################################################################################
+# 
+#    XML fingerprint file parser
+# 
+################################################################################
+
+class NISTfxml( NIST_XML, NISTf ):
+    def __init__( self, *args, **kwargs ):
+        super( NISTfxml, self ).__init__( *args, **kwargs )
+        
+        ############################################################################
+        #   Type14 parser
+        
+        fingerimgs = self.xmldata[ "itl:PackageFingerprintImageRecord" ]
+        for e in fingerimgs:
+            imgdata = e[ "biom:FingerImpressionImage" ][ "nc:BinaryBase64Object" ]
+            imgdata = base64.decodestring( imgdata )
+            gca = e[ "biom:FingerImpressionImage" ].get( "biom:ImageCompressionAlgorithmText", None )
+            
+            fpc = int( e[ "biom:FingerImpressionImage" ][ "biom:FingerPositionCode" ] )
+            idc = int( e[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
+            
+            try:
+                res = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalPixelDensityValue" ] )
+                h = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageVerticalLineLengthPixelQuantity" ] )
+                w = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalLineLengthPixelQuantity" ] )
+                size = ( w, h )
+                
+            except:
+                res = None
+                size = ( None, None )
+            
+            self.add_Type14( 
+                size = size,
+                res = res,
+                idc = idc,
+                fpc = fpc,
+                gca = gca,
+                img = imgdata
+            )
+            
 ################################################################################
 # 
 #    Overload of the NISTf class to use the 'int INCITS 378' standard developed
