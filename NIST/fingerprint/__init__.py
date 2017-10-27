@@ -2240,7 +2240,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> pr.get_tenprintcard() # doctest: +ELLIPSIS
+                >>> pr.get_tenprintcard_front() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=L size=8268x11692 at ...>
         """
         Image.MAX_IMAGE_PIXELS = 1000000000
@@ -2297,6 +2297,16 @@ class NISTf( NIST_traditional ):
         return card
     
     def get_tenprintcard_back( self, outres = 1000 ):
+        """
+            Return the tenprint card for the palmar print. This function return
+            an ISO-A4 European tenprint card (Swiss).
+            
+            :param outres: Output resolution of the tenprint card, in DPI.
+            :type outres: int
+            
+            :return: Tenprint card.
+            :rtype: PIL.Image
+        """
         Image.MAX_IMAGE_PIXELS = 1000000000
         
         card = Image.open( self.imgdir + "/tenprint_back.png" )
@@ -2670,13 +2680,16 @@ class NISTf( NIST_traditional ):
             
             self.set_field( "14.005", self.date, idc )
             
-            w, h = size
-            self.set_field( "14.006", w, idc )
-            self.set_field( "14.007", h, idc )
-            self.set_field( "14.999", chr( 255 ) * h * w, idc )
-            
-            self.set_field( "14.009", res, idc )
-            self.set_field( "14.010", res, idc )
+            with fuckit:
+                w, h = size
+                self.set_field( "14.006", w, idc )
+                self.set_field( "14.007", h, idc )
+                
+                self.set_field( "14.009", res, idc )
+                self.set_field( "14.010", res, idc )
+                
+                imgdata = options.get( "img" )
+                self.set_field( "14.999", imgdata, idc )
             
             with fuckit:
                 fpc = options.get( "fpc" )
@@ -2685,10 +2698,6 @@ class NISTf( NIST_traditional ):
             with fuckit:
                 gca = options.get( "gca" )
                 self.set_field( "14.011", gca, idc )
-            
-            with fuckit:
-                imgdata = options.get( "img" )
-                self.set_field( "14.999", imgdata, idc )
             
     def add_Type15( self, idc = 1, **options ):
         """
