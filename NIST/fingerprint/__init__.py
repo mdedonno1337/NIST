@@ -2802,34 +2802,35 @@ class NISTfxml( NIST_XML, NISTf ):
         ############################################################################
         #   Type14 parser
         
-        fingerimgs = self.xmldata[ "itl:PackageFingerprintImageRecord" ]
-        for e in fingerimgs:
-            imgdata = e[ "biom:FingerImpressionImage" ][ "nc:BinaryBase64Object" ]
-            imgdata = base64.decodestring( imgdata )
-            gca = e[ "biom:FingerImpressionImage" ].get( "biom:ImageCompressionAlgorithmText", None )
-            
-            fpc = int( e[ "biom:FingerImpressionImage" ][ "biom:FingerPositionCode" ] )
-            idc = int( e[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
-            
-            try:
-                res = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalPixelDensityValue" ] )
-                h = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageVerticalLineLengthPixelQuantity" ] )
-                w = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalLineLengthPixelQuantity" ] )
-                size = ( w, h )
+        if "itl:PackageFingerprintImageRecord" in self.xmldata:
+            fingerimgs = self.xmldata[ "itl:PackageFingerprintImageRecord" ]
+            for e in fingerimgs:
+                imgdata = e[ "biom:FingerImpressionImage" ][ "nc:BinaryBase64Object" ]
+                imgdata = base64.decodestring( imgdata )
+                gca = e[ "biom:FingerImpressionImage" ].get( "biom:ImageCompressionAlgorithmText", None )
                 
-            except:
-                res = None
-                size = ( None, None )
-            
-            self.add_Type14( 
-                size = size,
-                res = res,
-                idc = idc,
-                fpc = fpc,
-                gca = gca,
-                img = imgdata
-            )
-            
+                fpc = int( e[ "biom:FingerImpressionImage" ][ "biom:FingerPositionCode" ] )
+                idc = int( e[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
+                
+                try:
+                    res = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalPixelDensityValue" ] )
+                    h = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageVerticalLineLengthPixelQuantity" ] )
+                    w = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalLineLengthPixelQuantity" ] )
+                    size = ( w, h )
+                    
+                except:
+                    res = None
+                    size = ( None, None )
+                
+                self.add_Type14( 
+                    size = size,
+                    res = res,
+                    idc = idc,
+                    fpc = fpc,
+                    gca = gca,
+                    img = imgdata
+                )
+        
 ################################################################################
 # 
 #    Overload of the NISTf class to use the 'int INCITS 378' standard developed
