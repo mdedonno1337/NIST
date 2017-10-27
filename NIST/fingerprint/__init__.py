@@ -2668,13 +2668,16 @@ class NISTf( NIST_traditional ):
             
             self.set_field( "14.005", self.date, idc )
             
-            w, h = size
-            self.set_field( "14.006", w, idc )
-            self.set_field( "14.007", h, idc )
-            self.set_field( "14.999", chr( 255 ) * h * w, idc )
-            
-            self.set_field( "14.009", res, idc )
-            self.set_field( "14.010", res, idc )
+            with fuckit:
+                w, h = size
+                self.set_field( "14.006", w, idc )
+                self.set_field( "14.007", h, idc )
+                
+                self.set_field( "14.009", res, idc )
+                self.set_field( "14.010", res, idc )
+                
+                imgdata = options.get( "img" )
+                self.set_field( "14.999", imgdata, idc )
             
             with fuckit:
                 fpc = options.get( "fpc" )
@@ -2683,10 +2686,6 @@ class NISTf( NIST_traditional ):
             with fuckit:
                 gca = options.get( "gca" )
                 self.set_field( "14.011", gca, idc )
-            
-            with fuckit:
-                imgdata = options.get( "img" )
-                self.set_field( "14.999", imgdata, idc )
             
     def add_Type15( self, idc = 1, **options ):
         """
