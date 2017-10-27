@@ -29,7 +29,7 @@ class NIST( NISTcore ):
                 self.read( p )
     
     def load( self, data ):
-        data = xmltodict.parse( data )[ "itl:NISTBiometricInformationExchangePackage" ]
+        self.xmldata = xmltodict.parse( data )[ "itl:NISTBiometricInformationExchangePackage" ]
         
         #    NIST Type01
         debug.debug( "Type-01 parsing", 1 )
@@ -37,7 +37,7 @@ class NIST( NISTcore ):
         self.add_ntype( 1 )
         self.add_idc( 1, 0 )
         
-        t01 = data[ "itl:PackageInformationRecord" ][ "biom:Transaction" ]
+        t01 = self.xmldata[ "itl:PackageInformationRecord" ][ "biom:Transaction" ]
         
         major = t01[ "biom:TransactionMajorVersionValue" ]
         minor = t01[ "biom:TransactionMinorVersionValue" ]
@@ -91,7 +91,7 @@ class NIST( NISTcore ):
         self.add_ntype( 2 )
         self.add_idc( 2, 0 )
         
-        t02 = data.get( "itl:PackageDescriptiveTextRecord", None )
+        t02 = self.xmldata.get( "itl:PackageDescriptiveTextRecord", None )
         if t02 != None:
             self.set_field( "2.002", t02[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
         
