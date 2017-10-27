@@ -2238,7 +2238,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> pr.get_tenprintcard() # doctest: +ELLIPSIS
+                >>> pr.get_tenprintcard_front() # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=L size=8268x11692 at ...>
         """
         Image.MAX_IMAGE_PIXELS = 1000000000
@@ -2295,6 +2295,16 @@ class NISTf( NIST_traditional ):
         return card
     
     def get_tenprintcard_back( self, outres = 1000 ):
+        """
+            Return the tenprint card for the palmar print. This function return
+            an ISO-A4 European tenprint card (Swiss).
+            
+            :param outres: Output resolution of the tenprint card, in DPI.
+            :type outres: int
+            
+            :return: Tenprint card.
+            :rtype: PIL.Image
+        """
         Image.MAX_IMAGE_PIXELS = 1000000000
         
         card = Image.open( self.imgdir + "/tenprint_back.png" )
