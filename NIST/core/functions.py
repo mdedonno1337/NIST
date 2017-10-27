@@ -29,6 +29,17 @@ GCA = {
     '6': "PNG"
 }
 
+rGCA = {
+    'RAW': 0,
+    'WSQ': 1,
+    'WSQ20': 1,
+    'JPEGB': 2,
+    'JPEGL': 3,
+    'JP2': 4,
+    'JP2L': 5,
+    'PNG': 6
+}
+
 def decode_gca( code ):
     """
         Function to decode the 'Grayscale Compression Algorithm' value passed in
@@ -65,6 +76,15 @@ def decode_gca( code ):
     
     else:
         raise KeyError
+
+def encode_gca( code ):
+    code = str( code ).upper()
+    
+    if code in rGCA:
+        return rGCA[ code ]
+    
+    else:
+        raise KeyError 
 
 def hexformat( x ):
     """
