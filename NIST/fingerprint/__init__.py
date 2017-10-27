@@ -2676,9 +2676,18 @@ class NISTf( NIST_traditional ):
             self.set_field( "14.009", res, idc )
             self.set_field( "14.010", res, idc )
             
-            fingerposition = options.get( "fingerposition", idc )
-            self.set_field( "14.013", fingerposition, idc )
-    
+            with fuckit:
+                fpc = options.get( "fpc" )
+                self.set_field( "14.013", fpc, idc )
+            
+            with fuckit:
+                gca = options.get( "gca" )
+                self.set_field( "14.011", gca, idc )
+            
+            with fuckit:
+                imgdata = options.get( "img" )
+                self.set_field( "14.999", imgdata, idc )
+            
     def add_Type15( self, idc = 1, **options ):
         """
             Add the Type-15 record to the NIST object.
