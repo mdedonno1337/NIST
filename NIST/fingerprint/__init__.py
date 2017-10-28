@@ -2831,6 +2831,69 @@ class NISTfxml( NIST_XML, NISTf ):
                     img = imgdata
                 )
         
+        ############################################################################
+        #   Type15 parser
+        
+        if "itl:PackagePalmprintImageRecord" in self.xmldata:
+            palmimgs = self.xmldata[ "itl:PackagePalmprintImageRecord" ]
+            for e in palmimgs:
+                idc = int( e[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
+                
+                try:
+                    imp = int( e[ "biom:PalmprintImage" ][ "biom:FrictionRidgeImageImpressionCaptureCategoryCode" ] )
+                except:
+                    imp = 11
+                
+                try:
+                    src = e[ "biom:PalmprintImage" ][ "biom:ImageCaptureDetail" ][ "biom:CaptureOrganization" ]["nc:OrganizationIdentification" ][ "nc:IdentificationID"]
+                except:
+                    src = None
+                
+                try:
+                    pcd = e[ "biom:PalmprintImage" ][ "biom:ImageCaptureDetail" ][ "biom:CaptureDate" ][ "nc:Date" ]
+                except:
+                    pcd = None
+                
+                self.add_Type15( idc )
+                self.set_field( "15.002", idc, idc )
+                self.set_field( "15.003", imp, idc )
+                self.set_field( "15.004", src, idc )
+                self.set_field( "15.005", pcd, idc )
+                
+                with fuckit:
+                    res = int( e[ "biom:PalmprintImage" ][ "biom:ImageHorizontalPixelDensityValue" ] )
+                    h = int( e[ "biom:PalmprintImage" ][ "biom:ImageVerticalLineLengthPixelQuantity" ] )
+                    w = int( e[ "biom:PalmprintImage" ][ "biom:ImageHorizontalLineLengthPixelQuantity" ] )
+                    size = ( h, w )
+                    self.set_field( "15.006", w, idc )
+                    self.set_field( "15.007", h, idc )
+                    self.set_field( "15.008", 1, idc )
+                    self.set_field( "15.009", res, idc )
+                    self.set_field( "15.010", res, idc )
+                
+                    gca = e[ "biom:PalmprintImage" ][ "biom:ImageCompressionAlgorithmText" ]
+                    self.set_field( "15.011", gca, idc )
+                    
+                    try:
+                        bpx = e[ "itl:PackagePalmprintImageRecord" ][ "biom:PalmprintImage" ][ "biom:ImageBitsPerPixelQuantity" ]
+                    except:
+                        bpx = 8
+                    
+                    self.set_field( "15.012", bpx, idc )
+                    
+                    palmposition = int( e[ "biom:PalmprintImage" ][ "biom:PalmPositionCode" ] )
+                    self.set_field( "15.013", palmposition, idc )
+                    
+                    try:
+                        com = e[ "itl:PackagePalmprintImageRecord" ][ "biom:PalmprintImage" ][ "biom:ImageCommentText" ]
+                    except:
+                        com = None
+                    self.set_field( "15.020", com, idc )
+                    
+                    imgdata = e[ "biom:PalmprintImage" ][ "nc:BinaryBase64Object" ]
+                    imgdata = base64.decodestring( imgdata )
+                    self.set_field( "15.999", imgdata, idc )
+        
 ################################################################################
 # 
 #    Overload of the NISTf class to use the 'int INCITS 378' standard developed
