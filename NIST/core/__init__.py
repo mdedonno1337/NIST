@@ -26,6 +26,7 @@ from .exceptions import *
 from .functions import bindump, default_origin, get_label
 from .voidType import voidType
 from ..core.functions import leveler, printableFieldSeparator, split, tagSplitter
+import fuckit
 
 ################################################################################
 # 
@@ -745,7 +746,8 @@ class NIST( object ):
     
     def set_field( self, tag, value, idc = -1 ):
         """
-            Set the value of a specific tag in the NIST object.
+            Set the value of a specific tag in the NIST object. If the value is
+            None, the function does not set the field.
             
             :param tag: Tag to set.
             :type tag: int
@@ -760,31 +762,38 @@ class NIST( object ):
             
                 >>> n.set_field( "1.002", "0300" )
         """
-        ntype, tagid = tagSplitter( tag )
-        
-        try:
-            idc = self.checkIDC( ntype, idc )
-        
-        except recordNotFound:
-            try:
-                self.add_ntype( ntype )
-                self.add_idc( ntype, idc )
-            except:
-                raise recordNotFound
-        
-        except idcNotFound:
-            try:
-                self.add_idc( ntype, idc )
-            except:
-                raise idcNotFound
-        
-        if not isinstance( value, str ):
-            value = str( value )
-        
-        if len( value ) == 0:
+        if value == None:
+            with fuckit:
+                self.delete_tag( tag, idc )
+            
             return
+        
         else:
-            self.data[ ntype ][ idc ][ tagid ] = value
+            ntype, tagid = tagSplitter( tag )
+            
+            try:
+                idc = self.checkIDC( ntype, idc )
+            
+            except recordNotFound:
+                try:
+                    self.add_ntype( ntype )
+                    self.add_idc( ntype, idc )
+                except:
+                    raise recordNotFound
+            
+            except idcNotFound:
+                try:
+                    self.add_idc( ntype, idc )
+                except:
+                    raise idcNotFound
+            
+            if not isinstance( value, str ):
+                value = str( value )
+            
+            if len( value ) == 0:
+                return
+            else:
+                self.data[ ntype ][ idc ][ tagid ] = value
     
     def get_fields( self, tags, idc = -1 ):
         """
