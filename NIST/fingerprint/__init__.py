@@ -2803,24 +2803,19 @@ class NISTfxml( NIST_XML, NISTf ):
         #   Type14 parser
         
         if "itl:PackageFingerprintImageRecord" in self.xmldata:
-            fingerimgs = self.xmldata[ "itl:PackageFingerprintImageRecord" ]
+            fingerimgs = self.xmldata.get( "itl:PackageFingerprintImageRecord", [] )
             for e in fingerimgs:
-                imgdata = e[ "biom:FingerImpressionImage" ][ "nc:BinaryBase64Object" ]
+                imgdata = e.get_r( "biom:FingerImpressionImage/nc:BinaryBase64Object" )
                 imgdata = base64.decodestring( imgdata )
-                gca = e[ "biom:FingerImpressionImage" ].get( "biom:ImageCompressionAlgorithmText", None )
+                gca = e.get_r( "biom:FingerImpressionImage/biom:ImageCompressionAlgorithmText" )
                 
-                fpc = int( e[ "biom:FingerImpressionImage" ][ "biom:FingerPositionCode" ] )
-                idc = int( e[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
+                fpc = int( e.get_r( "biom:FingerImpressionImage/biom:FingerPositionCode", 0 ) )
+                idc = int( e.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
                 
-                try:
-                    res = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalPixelDensityValue" ] )
-                    h = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageVerticalLineLengthPixelQuantity" ] )
-                    w = int( e[ "biom:FingerImpressionImage" ][ "biom:ImageHorizontalLineLengthPixelQuantity" ] )
-                    size = ( w, h )
-                    
-                except:
-                    res = None
-                    size = ( None, None )
+                res = e.get_r( "biom:FingerImpressionImage/biom:ImageHorizontalPixelDensityValue" )
+                h = e.get_r( "biom:FingerImpressionImage/biom:ImageVerticalLineLengthPixelQuantity" )
+                w = e.get_r( "biom:FingerImpressionImage/biom:ImageHorizontalLineLengthPixelQuantity" )
+                size = ( w, h )
                 
                 self.add_Type14( 
                     size = size,
@@ -2835,24 +2830,15 @@ class NISTfxml( NIST_XML, NISTf ):
         #   Type15 parser
         
         if "itl:PackagePalmprintImageRecord" in self.xmldata:
-            palmimgs = self.xmldata[ "itl:PackagePalmprintImageRecord" ]
+            palmimgs = self.xmldata.get( "itl:PackagePalmprintImageRecord", [] )
             for e in palmimgs:
-                idc = int( e[ "biom:ImageReferenceIdentification" ][ "nc:IdentificationID" ] )
+                idc = int( e.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
                 
-                try:
-                    imp = int( e[ "biom:PalmprintImage" ][ "biom:FrictionRidgeImageImpressionCaptureCategoryCode" ] )
-                except:
-                    imp = 11
+                imp = e.get_r( "biom:PalmprintImage/biom:FrictionRidgeImageImpressionCaptureCategoryCode", 11 )
                 
-                try:
-                    src = e[ "biom:PalmprintImage" ][ "biom:ImageCaptureDetail" ][ "biom:CaptureOrganization" ]["nc:OrganizationIdentification" ][ "nc:IdentificationID"]
-                except:
-                    src = None
+                src = e.get_r( "biom:PalmprintImage/biom:ImageCaptureDetail/biom:CaptureOrganization/nc:OrganizationIdentification/nc:IdentificationID" )
                 
-                try:
-                    pcd = e[ "biom:PalmprintImage" ][ "biom:ImageCaptureDetail" ][ "biom:CaptureDate" ][ "nc:Date" ]
-                except:
-                    pcd = None
+                pcd = e.get_r( "biom:PalmprintImage/biom:ImageCaptureDetail/biom:CaptureDate/nc:Date" )
                 
                 self.add_Type15( idc )
                 self.set_field( "15.002", idc, idc )
@@ -2860,37 +2846,33 @@ class NISTfxml( NIST_XML, NISTf ):
                 self.set_field( "15.004", src, idc )
                 self.set_field( "15.005", pcd, idc )
                 
-                with fuckit:
-                    res = int( e[ "biom:PalmprintImage" ][ "biom:ImageHorizontalPixelDensityValue" ] )
-                    h = int( e[ "biom:PalmprintImage" ][ "biom:ImageVerticalLineLengthPixelQuantity" ] )
-                    w = int( e[ "biom:PalmprintImage" ][ "biom:ImageHorizontalLineLengthPixelQuantity" ] )
-                    size = ( h, w )
+                resh = e.get_r( "biom:PalmprintImage/biom:ImageHorizontalPixelDensityValue" )
+                if resh != None:
+                    resh = int( resh )
+                    resv = int( e.get_r( "biom:PalmprintImage/biom:ImageVerticalPixelDensityValue" ) )
+                    self.set_field( "15.009", resh, idc )
+                    self.set_field( "15.010", resv, idc )
+                    
+                    h = int( e.get_r( "biom:PalmprintImage/biom:ImageVerticalLineLengthPixelQuantity" ) )
+                    w = int( e.get_r( "biom:PalmprintImage/biom:ImageHorizontalLineLengthPixelQuantity" ) )
                     self.set_field( "15.006", w, idc )
                     self.set_field( "15.007", h, idc )
-                    self.set_field( "15.008", 1, idc )
-                    self.set_field( "15.009", res, idc )
-                    self.set_field( "15.010", res, idc )
-                
-                    gca = e[ "biom:PalmprintImage" ][ "biom:ImageCompressionAlgorithmText" ]
+                    
+                    suc = e.get_r( "biom:PalmprintImage/biom:ImageScaleUnitsCode" )
+                    self.set_field( "15.008", suc, idc )
+                    gca = e.get_r( "biom:PalmprintImage/biom:ImageCompressionAlgorithmText" )
                     self.set_field( "15.011", gca, idc )
                     
-                    try:
-                        bpx = e[ "itl:PackagePalmprintImageRecord" ][ "biom:PalmprintImage" ][ "biom:ImageBitsPerPixelQuantity" ]
-                    except:
-                        bpx = 8
-                    
+                    bpx = e.get_r( "itl:PackagePalmprintImageRecord/biom:PalmprintImage/biom:ImageBitsPerPixelQuantity", 8 )
                     self.set_field( "15.012", bpx, idc )
                     
-                    palmposition = int( e[ "biom:PalmprintImage" ][ "biom:PalmPositionCode" ] )
+                    palmposition = int( e.get_r( "biom:PalmprintImage/biom:PalmPositionCode" ) )
                     self.set_field( "15.013", palmposition, idc )
                     
-                    try:
-                        com = e[ "itl:PackagePalmprintImageRecord" ][ "biom:PalmprintImage" ][ "biom:ImageCommentText" ]
-                    except:
-                        com = None
+                    com = e.get_r( "itl:PackagePalmprintImageRecord/biom:PalmprintImage/biom:ImageCommentText" )
                     self.set_field( "15.020", com, idc )
                     
-                    imgdata = e[ "biom:PalmprintImage" ][ "nc:BinaryBase64Object" ]
+                    imgdata = e.get_r( "biom:PalmprintImage/nc:BinaryBase64Object" )
                     imgdata = base64.decodestring( imgdata )
                     self.set_field( "15.999", imgdata, idc )
         
