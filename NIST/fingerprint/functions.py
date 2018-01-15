@@ -8,6 +8,8 @@ from itertools import izip
 from math import sqrt
 from PIL import Image
 
+import json
+
 from MDmisc.binary import string_to_hex
 from MDmisc.elist import flatten
 from MDmisc.eobject import eobject
@@ -475,6 +477,22 @@ class Annotation( object ):
             
         return [ self._data[ key ] for key in format ]
     
+    def as_json( self ):
+        """
+            Return the current object as a json string.
+            
+            :return: Json representation of the current Annotation
+            :rtype: str
+            
+            Usage:
+                
+                >>> from NIST.fingerprint.functions import Annotation
+                >>> a = Annotation( [ 1.0, 2.1, 3.18 ], format = "abc" )
+                >>> a.as_json()
+                '{"a": 1.0, "b": 2.1, "c": 3.18}'
+        """
+        return json.dumps( self._data )
+    
     ############################################################################
     
     def __str__( self ):
@@ -852,6 +870,21 @@ class AnnotationList( eobject ):
 
         """
         return [ a.as_list() for a in self._data ]
+    
+    def as_json( self ):
+        """
+            Return the current object as a json string.
+            
+            :return: Json representation of the current AnnotationList
+            :rtype: str
+            
+            Usage:
+                
+                >>> minutiae.as_json()
+                '[ {"i": 1, "x": 7.85, "y": 7.05, "t": 290, "q": 0, "d": "A"}, {"i": 2, "x": 13.8, "y": 15.3, "t": 155, "q": 0, "d": "A"}, {"i": 3, "x": 11.46, "y": 22.32, "t": 224, "q": 0, "d": "B"}, {"i": 4, "x": 22.61, "y": 25.17, "t": 194, "q": 0, "d": "A"}, {"i": 5, "x": 6.97, "y": 8.48, "t": 153, "q": 0, "d": "B"}, {"i": 6, "x": 12.58, "y": 19.88, "t": 346, "q": 0, "d": "A"}, {"i": 7, "x": 19.69, "y": 19.8, "t": 111, "q": 0, "d": "C"}, {"i": 8, "x": 12.31, "y": 3.87, "t": 147, "q": 0, "d": "A"}, {"i": 9, "x": 13.88, "y": 14.29, "t": 330, "q": 0, "d": "D"}, {"i": 10, "x": 15.47, "y": 22.49, "t": 271, "q": 0, "d": "D"} ]'
+        """
+        data = ", ".join( [ a.as_json() for a in self._data ] )
+        return "[ %s ]" % data
     
     def get( self, format = None ):
         """
