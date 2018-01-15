@@ -449,7 +449,7 @@ class Annotation( object ):
         if format == None:
             format = self.defaultformat
         
-        self._format = format 
+        self._format = list( format )
     
     def as_list( self, format = None ):
         """
@@ -812,7 +812,7 @@ class AnnotationList( eobject ):
             :rtype: list
         """
         try:
-            return self._data[ 0 ]._format
+            return list( self._data[ 0 ]._format )
         except:
             return None
     
