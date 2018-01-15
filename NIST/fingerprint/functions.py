@@ -1196,6 +1196,35 @@ class Minutia( Annotation ):
             'q': '00',
             'd': 'A'
         }[ field ]
+    
+    def __sub__( self, b ):
+        if isinstance( b, Minutia ):
+            ret = dMinutia()
+            for v in [ 'x', 'y', 't' ]:
+                ret.__setattr__( 'd' + v, b.__getattr__( v ) - self.__getattr__( v ) )
+            
+            return ret
+        
+        else:
+            raise NotImplemented
+    
+    def __add__( self, b ):
+        if isinstance( b, dMinutia ):
+            ret = Minutia( format = "xyt" )
+            ret.x = b.x - self.x
+            ret.y = b.y - self.y
+            ret.t = b.t - self.t
+            
+            return ret
+        
+        else:
+            raise NotImplemented
+    
+class dMinutia( Annotation ):
+    defaultformat = [ "dx", "dy", "dt" ]
+
+    def default_values( self, field ):
+        return 0
 
 class Core( Annotation ):
     """
@@ -1221,5 +1250,6 @@ class Point( Annotation ):
 AnnotationTypes = {
     'Annotation': Annotation,
     'Minutia': Minutia,
-    'Core': Core
+    'Core': Core,
+    'dMinutia': dMinutia
 }
