@@ -5,7 +5,7 @@ from __future__ import absolute_import, division
 
 from cStringIO import StringIO
 from math import cos, pi, sin
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageColor
 from scipy.spatial.qhull import ConvexHull
 
 import os
@@ -1077,9 +1077,33 @@ class NISTf( NIST_traditional ):
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
         if data != None and len( data ) != 0:
-            image = image.convert( "RGB" )
+            # Input image
+            image = image.convert( "RGBA" )
             width, height = image.size
             
+            # Annotation layer
+            annotationLayer = Image.new( 'RGBA', ( width, height ), ( 255, 255, 255, 0 ) )
+            annotationLayerDraw = ImageDraw.Draw( annotationLayer )
+            
+            # Colors
+            colour = options.get( "colour", "red" )
+            if isinstance( colour, str ):
+                colour = ImageColor.getrgb( colour )
+            
+            alpha = options.get( "alpha", 255 )
+            if alpha != 255:
+                if isinstance( alpha, float ):
+                    if alpha < 1.0:
+                        alpha *= 255
+                    
+                    alpha = int( alpha )
+                
+                colour += ( alpha, )
+            
+            yellow = ( 255, 255, 50, alpha )
+            black = ( 0, 0, 0, alpha )
+            
+            # Resolution determination
             if res == None:
                 try:
                     res, _ = image.info[ 'dpi' ]
@@ -1088,11 +1112,6 @@ class NISTf( NIST_traditional ):
             
             # Resize factor for the minutiae
             fac = res / 2000
-            
-            # Colors
-            red = ( 250, 0, 0 )
-            yellow = ( 255, 255, 50 )
-            black = ( 0, 0, 0 )
             
             # Markers
             markers = {}
@@ -1121,15 +1140,13 @@ class NISTf( NIST_traditional ):
                     offsetx = markerminutia.size[ 0 ] / 2
                     offsety = markerminutia.size[ 1 ] / 2
                     
-                    endcolor = Image.new( 'RGBA', markerminutia.size, red )
+                    endcolor = Image.new( 'RGBA', markerminutia.size, colour )
                     
-                    image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
+                    annotationLayer.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
             elif type == "minutiadata" or "variable" in options.keys():
-                imagedraw = ImageDraw.Draw( image )
                 fontfactor = options.get( "size", 1 )
                 font = ImageFont.truetype( "./fonts/arial.ttf", size = int( fontfactor * self.get_resolution( idc ) * 15 / 500 ) )
-                colour = options.get( "colour", red )
                 
                 dx, dy = options.get( "offset", ( 0, 0 ) )
                 variable = options.get( "variable", "i" )
@@ -1139,13 +1156,13 @@ class NISTf( NIST_traditional ):
                     cy = m.y / 25.4 * res
                     cy = height - cy
                     
-                    imagedraw.text( 
+                    annotationLayerDraw.text( 
                         ( cx + dx, cy + dy ),
                         str( m.get( variable, "" ) ),
                         colour,
                         font = font
                     )
-            
+                
             elif type == "center":
                 for m in data:
                     cx = m.x / 25.4 * res
@@ -1157,7 +1174,7 @@ class NISTf( NIST_traditional ):
                     
                     centercolor = Image.new( 'RGBA', markers[ 'center' ].size, yellow )
                     
-                    image.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markers[ 'center' ] )
+                    annotationLayer.paste( centercolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markers[ 'center' ] )
             
             elif type == "delta":
                 for m in data:
@@ -1172,7 +1189,7 @@ class NISTf( NIST_traditional ):
                         
                         endcolor = Image.new( 'RGBA', end2.size, yellow )
                         
-                        image.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
+                        annotationLayer.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = end2 )
             
             elif type == "title":
                 imagedraw = ImageDraw.Draw( image )
@@ -1192,6 +1209,9 @@ class NISTf( NIST_traditional ):
             else:
                 raise notImplemented
             
+            image = Image.alpha_composite( image, annotationLayer )
+            image = image.convert( "RGB" )
+        
         return image
     
     ############################################################################
