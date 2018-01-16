@@ -9,9 +9,10 @@ from math import sqrt
 from PIL import Image
 
 import json
+import numpy as np
 
 from MDmisc.binary import string_to_hex
-from MDmisc.elist import flatten
+from MDmisc.elist import flatten, ifall
 from MDmisc.eobject import eobject
 from MDmisc.imageprocessing import PILToRAW, RAWToPIL
 from MDmisc.map_r import map_r
@@ -1210,10 +1211,21 @@ class Minutia( Annotation ):
     
     def __add__( self, b ):
         if isinstance( b, dMinutia ):
-            ret = Minutia( format = "xyt" )
-            ret.x = b.x - self.x
-            ret.y = b.y - self.y
-            ret.t = b.t - self.t
+            if ifall( [ 'dx', 'dy', 'dt' ], b._format ):
+                ret = Minutia( format = "xyt" )
+                
+                ret.x = b.x - self.x
+                ret.y = b.y - self.y
+                ret.t = b.t - self.t
+            
+            elif ifall( [ 't', 'dist' ], b._format ):
+                ret = Minutia( format = "xy" )
+                
+                ret.x = self.x + b.dist * np.cos( b.t / 180.0 * np.pi )
+                ret.y = self.y + b.dist * np.sin( b.t / 180.0 * np.pi )
+            
+            else:
+                raise NotImplemented
             
             return ret
         
