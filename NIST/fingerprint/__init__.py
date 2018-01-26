@@ -2298,7 +2298,11 @@ class NISTf( NIST_traditional ):
             try:
                 p = self.get_print( "PIL", fpc = fpc )
                 
-                res, _ = p.info[ 'dpi' ]
+                try:
+                    res, _ = p.info[ 'dpi' ]
+                except:
+                    res = self.get_resolution( self.get_idc_for_fpc( 14, fpc ) )
+                
                 w, h = p.size
                 fac = outres / res
                 if fac != 1:
