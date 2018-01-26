@@ -23,7 +23,7 @@ from MDmisc.string import upper, split_r, join
 from PMlib.misc import minmaxXY, shift_list
 
 from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage, Minutia, Core, Delta, AnnotationList
+from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage, Minutia, Core, Delta, AnnotationList, Annotation
 from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
@@ -1078,6 +1078,9 @@ class NISTf( NIST_traditional ):
                 >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae(), "minutiae" ) # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=RGB size=500x500 at ...>
         """
+        if isinstance( data, Annotation ):
+            data = AnnotationList( [ data ] )
+        
         if data != None and len( data ) != 0:
             # Input image
             image = image.convert( "RGBA" )
@@ -2297,7 +2300,11 @@ class NISTf( NIST_traditional ):
             try:
                 p = self.get_print( "PIL", fpc = fpc )
                 
-                res, _ = p.info[ 'dpi' ]
+                try:
+                    res, _ = p.info[ 'dpi' ]
+                except:
+                    res = self.get_resolution( self.get_idc_for_fpc( 14, fpc ) )
+                
                 w, h = p.size
                 fac = outres / res
                 if fac != 1:
