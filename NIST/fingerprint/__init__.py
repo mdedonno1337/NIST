@@ -972,20 +972,26 @@ class NISTf( NIST_traditional ):
         """
         ntypes = self.get_ntype()
         
-        if 4 in ntypes:
+        if 4 in ntypes and self.has_idc( 4, idc ):
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
         
-        elif 13 in ntypes:
+        elif 13 in ntypes and self.has_idc( 13, idc ):
             if self.get_field( "13.008", idc ) == '1':
                 return int( self.get_field( "13.009", idc ) )
             elif self.get_field( "13.008", idc ) == '2':
                 return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
             
-        elif 14 in ntypes:
+        elif 14 in ntypes and self.has_idc( 14, idc ):
             if self.get_field( "14.008", idc ) == '1':
                 return int( self.get_field( "14.009", idc ) )
             elif self.get_field( "14.008", idc ) == '2':
                 return int( round( float( self.get_field( "14.009", idc ) ) / 10 * 25.4 ) )
+        
+        elif 15 in ntypes and self.has_idc( 15, idc ):
+            if self.get_field( "15.008", idc ) == '1':
+                return int( self.get_field( "15.009", idc ) )
+            elif self.get_field( "15.008", idc ) == '2':
+                return int( round( float( self.get_field( "15.009", idc ) ) / 10 * 25.4 ) )
         
         else:
             raise notImplemented
@@ -2361,7 +2367,7 @@ class NISTf( NIST_traditional ):
                 try:
                     res, _ = p.info[ 'dpi' ]
                 except:
-                    res = self.get_resolution( self.get_idc_for_fpc( 14, fpc ) )
+                    res = self.get_resolution( self.get_idc_for_fpc( 15, fpc ) )
                 
                 w, h = p.size
                 fac = outres / res
