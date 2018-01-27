@@ -2365,7 +2365,7 @@ class NISTf( NIST_traditional ):
                 try:
                     res, _ = p.info[ 'dpi' ]
                 except:
-                    res = self.get_resolution( self.get_idc_for_fpc( 14, fpc ) )
+                    res = self.get_resolution( self.get_idc_for_fpc( 15, fpc ) )
                 
                 w, h = p.size
                 fac = outres / res
