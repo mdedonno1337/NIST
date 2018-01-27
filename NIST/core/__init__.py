@@ -1081,6 +1081,9 @@ class NIST( object ):
         
         return idc
     
+    def has_idc( self, ntype, idc ):
+        return idc in self.data[ ntype ]
+    
     def __str__( self ):
         """
             Return the printable version of the NIST object.
