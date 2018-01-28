@@ -1082,7 +1082,14 @@ class NIST( object ):
         return idc
     
     def has_idc( self, ntype, idc ):
-        return idc in self.data[ ntype ]
+        """
+            Check if the particular ntype has the IDC passed in parameter. If
+            the IDC value is '-1', i.e. not defined, the function return True.
+        """
+        if idc == -1:
+            return True
+        else:
+            return idc in self.data[ ntype ]
     
     def __str__( self ):
         """
