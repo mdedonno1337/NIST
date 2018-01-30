@@ -973,26 +973,18 @@ class NISTf( NIST_traditional ):
         if 4 in ntypes and self.has_idc( 4, idc ):
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
         
-        elif 13 in ntypes and self.has_idc( 13, idc ):
-            if self.get_field( "13.008", idc ) == '1':
-                return int( self.get_field( "13.009", idc ) )
-            elif self.get_field( "13.008", idc ) == '2':
-                return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
-            
-        elif 14 in ntypes and self.has_idc( 14, idc ):
-            if self.get_field( "14.008", idc ) == '1':
-                return int( self.get_field( "14.009", idc ) )
-            elif self.get_field( "14.008", idc ) == '2':
-                return int( round( float( self.get_field( "14.009", idc ) ) / 10 * 25.4 ) )
-        
-        elif 15 in ntypes and self.has_idc( 15, idc ):
-            if self.get_field( "15.008", idc ) == '1':
-                return int( self.get_field( "15.009", idc ) )
-            elif self.get_field( "15.008", idc ) == '2':
-                return int( round( float( self.get_field( "15.009", idc ) ) / 10 * 25.4 ) )
-        
         else:
-            raise notImplemented
+            for ntype in [ 13, 14, 15 ]:
+                c = self.get_field( ( ntype, 8 ), idc )
+                d = self.get_field( ( ntype, 9 ), idc )
+                
+                if c == '1':
+                    return int( d )
+                else:
+                    return int( round( float( d / 10 * 25.4 ) ) )
+        
+            else:
+                raise notImplemented
     
     def set_resolution( self, res, idc = -1 ):
         """
