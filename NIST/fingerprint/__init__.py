@@ -23,7 +23,7 @@ from MDmisc.string import upper, split_r, join
 from PMlib.misc import minmaxXY, shift_list
 
 from .exceptions import minutiaeFormatNotSupported
-from .functions import lstTo012, lstTo137, PILToRAW, mm2px, px2mm, changeFormatImage, Minutia, Core, Delta, AnnotationList, Annotation
+from .functions import *
 from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
@@ -939,18 +939,13 @@ class NISTf( NIST_traditional ):
         """
         ntypes = self.get_ntype()
         
-        if 13 in ntypes: 
-            return int( self.get_field( "13.007", idc ) )
-        
-        elif 4 in ntypes: 
-            return int( self.get_field( "4.007", idc ) )
-        
-        elif 14 in ntypes: 
-            return int( self.get_field( "14.007", idc ) )
-        
-        elif 16 in ntypes:
-            return int( self.get_field( "16.007", idc ) )
-        
+        for ntype in [ 13, 4, 14, 16 ]:
+            if ntype not in ntypes:
+                continue
+            else:
+                with fuckit:
+                    return int( self.get_field( ( ntype, 7 ), idc ) )
+            
         else:
             raise notImplemented
     
@@ -975,26 +970,18 @@ class NISTf( NIST_traditional ):
         if 4 in ntypes and self.has_idc( 4, idc ):
             return int( round( float( self.get_field( "1.011" ) ) * 25.4 ) )
         
-        elif 13 in ntypes and self.has_idc( 13, idc ):
-            if self.get_field( "13.008", idc ) == '1':
-                return int( self.get_field( "13.009", idc ) )
-            elif self.get_field( "13.008", idc ) == '2':
-                return int( round( float( self.get_field( "13.009", idc ) ) / 10 * 25.4 ) )
-            
-        elif 14 in ntypes and self.has_idc( 14, idc ):
-            if self.get_field( "14.008", idc ) == '1':
-                return int( self.get_field( "14.009", idc ) )
-            elif self.get_field( "14.008", idc ) == '2':
-                return int( round( float( self.get_field( "14.009", idc ) ) / 10 * 25.4 ) )
-        
-        elif 15 in ntypes and self.has_idc( 15, idc ):
-            if self.get_field( "15.008", idc ) == '1':
-                return int( self.get_field( "15.009", idc ) )
-            elif self.get_field( "15.008", idc ) == '2':
-                return int( round( float( self.get_field( "15.009", idc ) ) / 10 * 25.4 ) )
-        
         else:
-            raise notImplemented
+            for ntype in [ 13, 14, 15 ]:
+                c = self.get_field( ( ntype, 8 ), idc )
+                d = self.get_field( ( ntype, 9 ), idc )
+                
+                if c == '1':
+                    return int( d )
+                else:
+                    return int( round( float( d / 10 * 25.4 ) ) )
+        
+            else:
+                raise notImplemented
     
     def set_resolution( self, res, idc = -1 ):
         """
