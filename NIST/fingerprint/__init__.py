@@ -907,8 +907,10 @@ class NISTf( NIST_traditional ):
         
         for ntype in [ 13, 4, 14, 16 ]:
             if ntype in ntypes:
-                with fuckit:
+                try:
                     return int( self.get_field( ( ntype, 6 ), idc ) )
+                except:
+                    continue
         
         else:
             raise notImplemented
@@ -932,8 +934,10 @@ class NISTf( NIST_traditional ):
         
         for ntype in [ 13, 4, 14, 16 ]:
             if ntype in ntypes:
-                with fuckit:
+                try:
                     return int( self.get_field( ( ntype, 7 ), idc ) )
+                except:
+                    continue
             
         else:
             raise notImplemented
@@ -2305,7 +2309,7 @@ class NISTf( NIST_traditional ):
                 
                 card.paste( ink, ( alpha, beta ), ImageOps.invert( p ) )
             
-            except idcNotFound:
+            except:
                 continue
             
         return card
@@ -2363,7 +2367,7 @@ class NISTf( NIST_traditional ):
                 
                 card.paste( ink, ( alpha, beta ), ImageOps.invert( p ) )
             
-            except idcNotFound:
+            except:
                 continue
             
         return card
