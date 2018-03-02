@@ -970,13 +970,17 @@ class NISTf( NIST_traditional ):
         
         else:
             for ntype in [ 13, 14, 15 ]:
-                c = self.get_field( ( ntype, 8 ), idc )
-                d = self.get_field( ( ntype, 9 ), idc )
+                try:
+                    c = self.get_field( ( ntype, 8 ), idc )
+                    d = self.get_field( ( ntype, 9 ), idc )
+                    
+                    if c == '1':
+                        return int( d )
+                    else:
+                        return int( round( float( d / 10 * 25.4 ) ) )
                 
-                if c == '1':
-                    return int( d )
-                else:
-                    return int( round( float( d / 10 * 25.4 ) ) )
+                except:
+                    continue
         
             else:
                 raise notImplemented
