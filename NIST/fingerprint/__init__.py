@@ -907,17 +907,12 @@ class NISTf( NIST_traditional ):
         """
         ntypes = self.get_ntype()
         
-        if 13 in ntypes:
-            return int( self.get_field( "13.006", idc ) )
-        
-        elif 4 in ntypes: 
-            return int( self.get_field( "4.006", idc ) )
-        
-        elif 14 in ntypes: 
-            return int( self.get_field( "14.006", idc ) )
-        
-        elif 16 in ntypes:
-            return int( self.get_field( "16.006", idc ) )
+        for ntype in [ 13, 4, 14, 16 ]:
+            if ntype in ntypes:
+                try:
+                    return int( self.get_field( ( ntype, 6 ), idc ) )
+                except:
+                    continue
         
         else:
             raise notImplemented
@@ -940,11 +935,11 @@ class NISTf( NIST_traditional ):
         ntypes = self.get_ntype()
         
         for ntype in [ 13, 4, 14, 16 ]:
-            if ntype not in ntypes:
-                continue
-            else:
-                with fuckit:
+            if ntype in ntypes:
+                try:
                     return int( self.get_field( ( ntype, 7 ), idc ) )
+                except:
+                    continue
             
         else:
             raise notImplemented
@@ -972,13 +967,17 @@ class NISTf( NIST_traditional ):
         
         else:
             for ntype in [ 13, 14, 15 ]:
-                c = self.get_field( ( ntype, 8 ), idc )
-                d = self.get_field( ( ntype, 9 ), idc )
+                try:
+                    c = self.get_field( ( ntype, 8 ), idc )
+                    d = self.get_field( ( ntype, 9 ), idc )
+                    
+                    if c == '1':
+                        return int( d )
+                    else:
+                        return int( round( float( d / 10 * 25.4 ) ) )
                 
-                if c == '1':
-                    return int( d )
-                else:
-                    return int( round( float( d / 10 * 25.4 ) ) )
+                except:
+                    continue
         
             else:
                 raise notImplemented
@@ -2312,7 +2311,7 @@ class NISTf( NIST_traditional ):
                 
                 card.paste( ink, ( alpha, beta ), ImageOps.invert( p ) )
             
-            except idcNotFound:
+            except:
                 continue
             
         return card
@@ -2370,7 +2369,7 @@ class NISTf( NIST_traditional ):
                 
                 card.paste( ink, ( alpha, beta ), ImageOps.invert( p ) )
             
-            except idcNotFound:
+            except:
                 continue
             
         return card
