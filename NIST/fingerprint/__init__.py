@@ -905,17 +905,10 @@ class NISTf( NIST_traditional ):
         """
         ntypes = self.get_ntype()
         
-        if 13 in ntypes:
-            return int( self.get_field( "13.006", idc ) )
-        
-        elif 4 in ntypes: 
-            return int( self.get_field( "4.006", idc ) )
-        
-        elif 14 in ntypes: 
-            return int( self.get_field( "14.006", idc ) )
-        
-        elif 16 in ntypes:
-            return int( self.get_field( "16.006", idc ) )
+        for ntype in [ 13, 4, 14, 16 ]:
+            if ntype in ntypes:
+                with fuckit:
+                    return int( self.get_field( ( ntype, 6 ), idc ) )
         
         else:
             raise notImplemented
@@ -938,9 +931,7 @@ class NISTf( NIST_traditional ):
         ntypes = self.get_ntype()
         
         for ntype in [ 13, 4, 14, 16 ]:
-            if ntype not in ntypes:
-                continue
-            else:
+            if ntype in ntypes:
                 with fuckit:
                     return int( self.get_field( ( ntype, 7 ), idc ) )
             
