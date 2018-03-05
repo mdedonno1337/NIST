@@ -909,7 +909,7 @@ class NISTf( NIST_traditional ):
             if ntype in ntypes:
                 try:
                     return int( self.get_field( ( ntype, 6 ), idc ) )
-                except:
+                except Exception:
                     continue
         
         else:
