@@ -1558,6 +1558,7 @@ class NISTf( NIST_traditional ):
             
             if 4 in ntypes:
                 self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
+                self.set_field( "1.012", round( 100 * res / 25.4 ) / 100.0 )
                 self.set_field( "4.999", PILToRAW( img ), idc )
                 
             elif 13 in ntypes:
