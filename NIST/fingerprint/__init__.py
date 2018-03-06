@@ -1550,6 +1550,7 @@ class NISTf( NIST_traditional ):
             
             if 4 in ntypes:
                 self.set_field( "1.011", round( 100 * res / 25.4 ) / 100.0 )
+                self.set_field( "1.012", round( 100 * res / 25.4 ) / 100.0 )
                 self.set_field( "4.999", PILToRAW( img ), idc )
                 
             elif 13 in ntypes:
@@ -1918,7 +1919,7 @@ class NISTf( NIST_traditional ):
         """
         self.get_print_diptych( idc ).save( f )
     
-    def set_print( self, image = None, res = 500, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
+    def set_print( self, image = None, res = None, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
         """
             Function to set an print image to the 4.999 field, and set the size.
             
@@ -1944,22 +1945,27 @@ class NISTf( NIST_traditional ):
                 >>> pr.set_print( image, format = "RAW", idc = 1 )
             
         """
+        resold = res
+        
+        if res == None:
+            res = 500
+        
         if image == None:
             image = Image.new( "L", ( res, res ), 255 )
         
         if isinstance( image, Image.Image ):
-            try:
-                res, _ = image.info[ 'dpi' ]
-            
-            except:
-                pass
-            
-            finally:
-                width, height = image.size
-                if format == "WSQ":
-                    image = WSQ().encode( image, image.size, res )
-                elif format == "RAW":
-                    image = PILToRAW( image )
+            if resold == None:
+                try:
+                    res, _ = image.info[ 'dpi' ]
+                
+                except:
+                    res = 500
+             
+            width, height = image.size
+            if format == "WSQ":
+                image = WSQ().encode( image, image.size, res )
+            elif format == "RAW":
+                image = PILToRAW( image )
         
         else:
             width, height = size
