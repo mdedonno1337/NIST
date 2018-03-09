@@ -933,7 +933,7 @@ class NISTf( NIST_traditional ):
             if ntype in ntypes:
                 try:
                     return int( self.get_field( ( ntype, 6 ), idc ) )
-                except Exception:
+                except:
                     continue
         
         else:
@@ -2241,7 +2241,7 @@ class NISTf( NIST_traditional ):
                 maxw = max( maxw, w )
                 maxh = max( maxh, h )
             
-            except idcNotFound:
+            except:
                 pass
             
         size = ( 5 * maxw, 2 * maxh )
