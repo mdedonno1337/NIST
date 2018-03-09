@@ -42,6 +42,28 @@ except:
 
 voidType.update( voidType )
 
+################################################################################
+# 
+#    Automatic detection of NIST format
+# 
+################################################################################
+
+def NISTf_auto( *args, **kwargs ):
+    for t in [ NISTf ]:
+        try:
+            return t( *args, **kwargs )
+        except:
+            continue
+    
+    else:
+        raise Exception( "NIST format not detected" )
+
+################################################################################
+# 
+#    Traditional fingerprint NIST object
+# 
+################################################################################
+
 class NISTf( NIST_traditional ):
     """
         Overload of the :class:`NIST.traditional.NIST` class. This class
