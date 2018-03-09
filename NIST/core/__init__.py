@@ -10,6 +10,7 @@ import time
 from collections import OrderedDict
 from copy import deepcopy
 
+from MDmisc import fuckit
 from MDmisc.binary import myhex, hex_to_int
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
@@ -26,7 +27,6 @@ from .exceptions import *
 from .functions import bindump, default_origin, get_label
 from .voidType import voidType
 from ..core.functions import leveler, printableFieldSeparator, split, tagSplitter
-import fuckit
 
 ################################################################################
 # 
