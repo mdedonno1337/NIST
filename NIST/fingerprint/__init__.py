@@ -51,7 +51,7 @@ voidType.update( voidType )
 ################################################################################
 
 def NISTf_auto( *args, **kwargs ):
-    for t in [ NISTf ]:
+    for t in [ NISTfxml, NISTf ]:
         try:
             return t( *args, **kwargs )
         except:
