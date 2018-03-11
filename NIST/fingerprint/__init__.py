@@ -929,7 +929,7 @@ class NISTf( NIST_traditional ):
         """
         ntypes = self.get_ntype()
         
-        for ntype in [ 13, 4, 14, 16 ]:
+        for ntype in [ 13, 4, 14, 15, 16 ]:
             if ntype in ntypes:
                 try:
                     return int( self.get_field( ( ntype, 6 ), idc ) )
@@ -956,7 +956,7 @@ class NISTf( NIST_traditional ):
         """
         ntypes = self.get_ntype()
         
-        for ntype in [ 13, 4, 14, 16 ]:
+        for ntype in [ 13, 4, 14, 15, 16 ]:
             if ntype in ntypes:
                 try:
                     return int( self.get_field( ( ntype, 7 ), idc ) )
