@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from collections import OrderedDict
+import hashlib
 import os
 
 from MDmisc.binary import binstring_to_int, int_to_binstring
@@ -239,7 +240,10 @@ class NIST( NIST_Core ):
         
         with open( outfile, "wb+" ) as fp:
             fp.write( self.dumpbin() )
-
+    
+    def hash( self ):
+        return hashlib.md5( self.dumpbin() ).hexdigest()
+    
     ############################################################################
     # 
     #    Cleaning and resetting functions
