@@ -267,7 +267,17 @@ class NISTf( NIST_traditional ):
             idc, format = format, self.minutiaeformat
         
         # Options processing
-        field = options.get( "field", None ) or "9.012"
+        field = options.get( "field", None )
+        
+        if field == None:
+            for tag in [ "9.012", "9.023", "9.311" ]:
+                if self.has_tag( tag, idc ):
+                    field = tag
+                    break
+                
+            else:
+                raise Exception( "No minutiae data found" )
+        
         asfield = options.get( "asfield", None ) or field
         
         # Minutiae data
@@ -376,6 +386,30 @@ class NISTf( NIST_traditional ):
                         y = int( xyt[ 4:8 ] ) / 100
                         t = int( xyt[ 8:11 ] )
             
+                        lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
+            
+            elif field == "9.023":
+                # Get the minutiae string, without the final <FS> character.
+                minutiae = minutiae.replace( FS, "" )
+                
+                h = self.get_height( idc ) * 25.4 / self.get_resolution( idc )
+                
+                for m in split_r( [ RS, US ], minutiae ):
+                    if m == [ '' ]:
+                        break
+                    
+                    else:
+                        id, xyt, q, d = m
+                        
+                        d = d.upper()
+                        
+                        x = int( xyt[ 0:4 ] ) / 100
+                        y = int( xyt[ 4:8 ] ) / 100
+                        t = int( xyt[ 8:11 ] )
+                        
+                        y = h - y
+                        t = ( t + 180 ) % 360
+                        
                         lst.append( Minutia( [ id, x, y, t, q, d ], format = "ixytqd" ) )
                 
             elif field == "9.331":
