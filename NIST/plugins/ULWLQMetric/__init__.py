@@ -5,7 +5,8 @@ from __future__ import division
 
 from PIL import Image
 
-from MDmisc import fuckit
+import fuckit
+
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r

@@ -8,10 +8,10 @@ from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageColor
 from scipy.spatial.qhull import ConvexHull
 
+import fuckit
 import os
 import numpy as np
 
-from MDmisc import fuckit
 from MDmisc.deprecated import deprecated
 from MDmisc.ebool import xor
 from MDmisc.eint import str_int_cmp
