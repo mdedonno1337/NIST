@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
+import fuckit
 import inspect
 import json
 import os
@@ -10,7 +11,6 @@ import time
 from collections import OrderedDict
 from copy import deepcopy
 
-from MDmisc import fuckit
 from MDmisc.binary import myhex, hex_to_int
 from MDmisc.boxer import boxer
 from MDmisc.deprecated import deprecated
@@ -1090,6 +1090,9 @@ class NIST( object ):
             return True
         else:
             return idc in self.data[ ntype ]
+    
+    def has_tag( self, tag, idc = -1 ):
+        return self.get_field( tag, idc ) != None
     
     def __str__( self ):
         """
