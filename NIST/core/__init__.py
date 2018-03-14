@@ -1091,6 +1091,9 @@ class NIST( object ):
         else:
             return idc in self.data[ ntype ]
     
+    def has_tag( self, tag, idc = -1 ):
+        return self.get_field( tag, idc ) != None
+    
     def __str__( self ):
         """
             Return the printable version of the NIST object.
