@@ -278,7 +278,7 @@ class NISTf( NIST_traditional ):
                     break
                 
             else:
-                raise Exception( "No minutiae data found" )
+                return AnnotationList()
         
         asfield = options.get( "asfield", None ) or field
         
