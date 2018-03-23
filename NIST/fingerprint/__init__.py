@@ -2890,6 +2890,10 @@ class NISTfxml( NIST_XML, NISTf ):
         
         if "itl:PackageFingerprintImageRecord" in self.xmldata:
             fingerimgs = self.xmldata.get( "itl:PackageFingerprintImageRecord", [] )
+            
+            if not isinstance( fingerimgs, list ):
+                fingerimgs = [ fingerimgs ]
+            
             for e in fingerimgs:
                 imgdata = e.get_r( "biom:FingerImpressionImage/nc:BinaryBase64Object" )
                 imgdata = base64.decodestring( imgdata )
@@ -2917,6 +2921,10 @@ class NISTfxml( NIST_XML, NISTf ):
         
         if "itl:PackagePalmprintImageRecord" in self.xmldata:
             palmimgs = self.xmldata.get( "itl:PackagePalmprintImageRecord", [] )
+            
+            if not isinstance( palmimgs, list ):
+                palmimgs = [ palmimgs ]
+            
             for e in palmimgs:
                 idc = int( e.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
                 

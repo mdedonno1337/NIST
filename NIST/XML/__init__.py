@@ -88,16 +88,22 @@ class NIST( NISTcore ):
         self.add_idc( 2, 0 )
         
         t02 = self.xmldata.get( "itl:PackageDescriptiveTextRecord", None )
-        if t02 != None:
-            self.set_field( "2.002", t02.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
         
-        with fuckit:
-            i = 3
-            for key, values in t02.get( "itl:UserDefinedDescriptiveDetail" ).iteritems():
-                for detail, value in values.iteritems():
-                    self.set_field( ( 2, i ), detail + US + value )
-                    i += 1
-    
+        if not isinstance( t02, list ):
+            t02 = [ t02 ]
+        
+        for t02b in t02:
+            if t02b != None:
+                idc = int( t02b.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
+                self.set_field( "2.002", idc, idc )
+            
+            with fuckit:
+                i = 3
+                for key, values in t02b.get( "itl:UserDefinedDescriptiveDetail" ).iteritems():
+                    for detail, value in values.iteritems():
+                        self.set_field( ( 2, i ), detail + US + value )
+                        i += 1
+        
     ############################################################################
     # 
     #    Set fields
