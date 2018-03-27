@@ -75,10 +75,12 @@ try:
                     
                     h = self.get_height( idc )
                     res = self.get_resolution( idc )
+                    gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
+                    fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
                     
                     for m in lst:
                         coo = cooNIST2PIL( ( m.x, m.y ), h, res )
-                        x, y = map_r( lambda x: int( x / ( 4 * res / 500.0 ) ), coo )
+                        x, y = map_r( lambda x: int( x / fac ), coo )
                         try:
                             m.LQM = int( qmap[ y ][ x ] )
                         except:
@@ -143,7 +145,9 @@ try:
                 }
                 
                 data = [ list( s ) for s in data.split( RS ) ]
-                fac = int( self.get_resolution( idc ) * 4 / 500 )
+                
+                gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
+                fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
                 toplot = options.get( "q", [ '1', '2', '3', '4', '5' ] )
                 toplot = map( str, toplot )
                 
@@ -175,7 +179,10 @@ try:
                     qmap = super( NISTULWLQMetric, self ).ULWLQMetric_encode( "image" ) 
                     qmap = qmap.chroma( ( 0, 0, 0 ) )
                     qmap = qmap.transparency( 0.5 )
-                    qmap = qmap.scale( self.get_resolution( idc ) * 4 / 500.0 )
+                    
+                    gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
+                    fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
+                    qmap = qmap.scale( fac )
                 
                 latentqmap = self.get_latent( 'PIL', idc )
                 latentqmap = latentqmap.convert( "RGBA" )
