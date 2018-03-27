@@ -40,7 +40,13 @@ try:
                 filds in the NIST object.
             """
             idc = self.checkIDC( 9, idc )
-            self.data[ 9 ][ idc ].update( super( NISTULWLQMetric, self ).ULWLQMetric_encode( 'EFS' ) )
+            
+            options = {}
+            res = self.get_resolution( idc )
+            if res != None:
+                options[ 'res' ] = ( res, res )
+                
+            self.data[ 9 ][ idc ].update( super( NISTULWLQMetric, self ).ULWLQMetric_encode( 'EFS', **options ) )
         
         def get_LQMetric_map( self, idc = -1 ):
             """
