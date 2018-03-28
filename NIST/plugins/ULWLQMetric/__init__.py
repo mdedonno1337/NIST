@@ -12,7 +12,9 @@ from MDmisc.logger import debug
 from MDmisc.map_r import map_r
 from MDmisc.string import split_r, split
 from PMlib.formatConverter import cooNIST2PIL
-    
+
+from .functions import RLE_encode, RLE_decode
+
 from ...core import needNtype
 from ...fingerprint import NISTf
 from ...fingerprint import AnnotationList, Minutia
@@ -71,11 +73,16 @@ try:
                 qmap = self.get_field( "9.308" )
                 
                 if qmap != None:
-                    qmap = map( list, split( RS, qmap ) )
+                    gridSize, compression = self.get_field( "9.309", idc ).split( US )
+                    
+                    qmap = split( RS, qmap )
+                    if compression == 'RLE':
+                        qmap = RLE_decode( qmap )
+                    
+                    qmap = map( list, qmap )
                     
                     h = self.get_height( idc )
                     res = self.get_resolution( idc )
-                    gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
                     fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
                     
                     for m in lst:
@@ -108,7 +115,7 @@ try:
             
             lst.set_format( format )
             return lst
-            
+        
         def get_minutiae_by_LQM( self, criteria, higher = True, format = None, idc = -1, field = None ):
             """
                 Filter out the minutiae based on the LQMetric value
@@ -144,9 +151,14 @@ try:
                     '5': ( 0, 240, 240, alpha )
                 }
                 
-                data = [ list( s ) for s in data.split( RS ) ]
+                gridSize, compression = self.get_field( "9.309", idc ).split( US )
                 
-                gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
+                data = split( RS, data )
+                if compression == 'RLE':
+                    data = map( RLE_decode, data )
+                
+                data = [ list( s ) for s in data ]
+                
                 fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
                 toplot = options.get( "q", [ '1', '2', '3', '4', '5' ] )
                 toplot = map( str, toplot )
