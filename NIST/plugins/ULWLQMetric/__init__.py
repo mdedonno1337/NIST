@@ -73,7 +73,10 @@ try:
                 qmap = self.get_field( "9.308" )
                 
                 if qmap != None:
-                    gridSize, compression = self.get_field( "9.309", idc ).split( US )
+                    try:
+                        gridSize, compression = self.get_field( "9.309", idc ).split( US )
+                    except:
+                        gridSize, compression = 20, "UNC"
                     
                     qmap = split( RS, qmap )
                     if compression == 'RLE':
@@ -151,7 +154,10 @@ try:
                     '5': ( 0, 240, 240, alpha )
                 }
                 
-                gridSize, compression = self.get_field( "9.309", idc ).split( US )
+                try:
+                    gridSize, compression = self.get_field( "9.309", idc ).split( US )
+                except:
+                    gridSize, compression = 20, "UNC"
                 
                 data = split( RS, data )
                 if compression == 'RLE':
@@ -192,7 +198,11 @@ try:
                     qmap = qmap.chroma( ( 0, 0, 0 ) )
                     qmap = qmap.transparency( 0.5 )
                     
-                    gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
+                    try:
+                        gridSize = self.get_field( "9.309", idc ).split( US )[ 0 ]
+                    except:
+                        gridSize = 20
+                    
                     fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
                     qmap = qmap.scale( fac )
                 
