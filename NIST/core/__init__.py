@@ -6,6 +6,7 @@ import fuckit
 import inspect
 import json
 import os
+import textwrap
 import time
 
 from collections import OrderedDict
@@ -443,7 +444,7 @@ class NIST( object ):
         else:
             return value
     
-    def dump_record( self, ntype, idc = 0, fullname = False ):
+    def dump_record( self, ntype, idc = 0, fullname = False, maxwidth = None ):
         """
             Dump a specific ntype - IDC record.
             
@@ -490,13 +491,16 @@ class NIST( object ):
             header = "%02d.%03d %s" % ( ntype, tagid, lab )
             
             field = self.format_field( ntype, tagid, idc )
+            if maxwidth != None:
+                field = printableFieldSeparator( field )
+                field = "\n                ".join( textwrap.wrap( field, int( maxwidth ) ) )
             
             debug.debug( "%s: %s" % ( header, field ), 2 )
             ret.append( leveler( "%s: %s" % ( header, field ), 1 ) )
         
         return printableFieldSeparator( join( "\n", ret ) )
     
-    def dump( self, fullname = False ):
+    def dump( self, fullname = False, maxwidth = None ):
         """
             Return a readable version of the NIST object. Printable on screen.
             
@@ -556,7 +560,7 @@ class NIST( object ):
             debug.debug( "NIST Type-%02d" % ntype, 1 )
             
             for idc in self.get_idc( ntype ):
-                ret.append( self.dump_record( ntype, idc, fullname ) )
+                ret.append( self.dump_record( ntype, idc, fullname, maxwidth ) )
         
         return join( "\n", ret )
     
