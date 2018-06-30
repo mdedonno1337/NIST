@@ -1536,7 +1536,13 @@ class NISTf( NIST_traditional ):
         """
         if image == None:
             image = Image.new( "L", ( res, res ), 255 )
-            
+        
+        try:
+            if isinstance( image, str ) and os.path.isfile( image ):
+                image = Image.open( image )
+        except:
+            pass
+        
         if isinstance( image, str ):
             self.set_field( "13.999", image, idc )
         
