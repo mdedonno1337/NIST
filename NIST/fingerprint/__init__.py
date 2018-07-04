@@ -1719,6 +1719,15 @@ class NISTf( NIST_traditional ):
         """
         idc = self.checkIDC( ntype, idc )
         
+        unit = options.get( "unit", None )
+        if unit == "mm":
+            size = map( lambda x: int( x / 25.4 * self.get_resolution( idc ) ), size )
+        
+        if len( size ) == 4:
+            a, b, c, d = size
+            size = ( abs( c - a ), abs( d - b ) )
+            center = ( px2mm( 0.5 * ( a + c ), self.get_resolution( idc ) ) , px2mm( 0.5 * ( b + d ), self.get_resolution( idc ) ) )
+        
         if center in [ None, [] ]:
             center = self.get_size( idc )
             center = map( lambda x: int( 0.5 * x ), center )
