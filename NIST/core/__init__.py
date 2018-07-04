@@ -112,7 +112,7 @@ class NIST( object ):
         try:
             return self.id
         except:
-            return None
+            return self.hash()
     
     ############################################################################
     # 
