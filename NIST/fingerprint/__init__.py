@@ -1717,6 +1717,10 @@ class NISTf( NIST_traditional ):
         """
         idc = self.checkIDC( ntype, idc )
         
+        unit = options.get( "unit", None )
+        if unit == "mm":
+            size = map( lambda x: int( x / 25.4 * self.get_resolution( idc ) ), size )
+        
         if len( size ) == 4:
             a, b, c, d = size
             size = ( abs( c - a ), abs( d - b ) )
