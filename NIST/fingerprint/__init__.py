@@ -1748,7 +1748,8 @@ class NISTf( NIST_traditional ):
         offsetmin = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
         
         # Image cropping
-        new = Image.new( 'L', size, 255 )
+        bg = options.get( "bg", 255 )
+        new = Image.new( 'L', size, bg )
         new.paste( img, offset )
         
         self.set_size( new.size, idc )
