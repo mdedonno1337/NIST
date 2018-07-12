@@ -1719,7 +1719,7 @@ class NISTf( NIST_traditional ):
         
         unit = options.get( "unit", None )
         if unit == "mm":
-            size = map( lambda x: int( x / 25.4 * self.get_resolution( idc ) ), size )
+            size = map( lambda x: int( round( x / 25.4 * self.get_resolution( idc ) ) ), size )
         
         if len( size ) == 4:
             a, b, c, d = size
