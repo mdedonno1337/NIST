@@ -1024,9 +1024,10 @@ class NISTf( NIST_traditional ):
                 try:
                     c = self.get_field( ( ntype, 8 ), idc )
                     d = self.get_field( ( ntype, 9 ), idc )
+                    d = int( d )
                     
                     if c == '1':
-                        return int( d )
+                        return d
                     else:
                         return int( round( float( d / 10 * 25.4 ) ) )
                 
