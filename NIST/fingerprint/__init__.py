@@ -1891,7 +1891,9 @@ class NISTf( NIST_traditional ):
             raise notImplemented
         
         idc = self.checkIDC( ntype, idc )
-        self.get_print( "PIL", idc ).save( f )
+        res = self.get_resolution( idc )
+        
+        self.get_print( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
     def export_print_annotated( self, f, idc = -1 ):
