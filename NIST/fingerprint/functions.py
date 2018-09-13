@@ -248,6 +248,9 @@ def changeFormatImage( input, outformat, **options ):
     elif outformat == "RAW":
         return PILToRAW( img )
     
+    elif outformat == "WSQ":
+        return WSQ().encode( img, **options )
+    
     else:
         try:
             buff = StringIO()
