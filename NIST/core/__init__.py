@@ -905,9 +905,9 @@ class NIST( object ):
             :raise needIDC: if an IDC value have to be provided.
         """
         if not ntype in self.get_ntype():
-            raise idcNotFound
+            self.add_ntype( ntype )
         
-        elif idc in self.get_idc( ntype ):
+        if idc in self.get_idc( ntype ):
             raise idcAlreadyExisting
         
         elif idc < 0:
