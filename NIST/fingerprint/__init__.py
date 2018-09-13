@@ -1026,9 +1026,10 @@ class NISTf( NIST_traditional ):
                 try:
                     c = self.get_field( ( ntype, 8 ), idc )
                     d = self.get_field( ( ntype, 9 ), idc )
+                    d = int( d )
                     
                     if c == '1':
-                        return int( d )
+                        return d
                     else:
                         return int( round( float( d / 10 * 25.4 ) ) )
                 
@@ -1892,7 +1893,9 @@ class NISTf( NIST_traditional ):
             raise notImplemented
         
         idc = self.checkIDC( ntype, idc )
-        self.get_print( "PIL", idc ).save( f )
+        res = self.get_resolution( idc )
+        
+        self.get_print( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
     
     def export_print_annotated( self, f, idc = -1 ):
@@ -2843,10 +2846,14 @@ class NISTf( NIST_traditional ):
         for idc in self.get_idc( 4 ):
             size = self.get_size( idc )
             res = self.get_resolution( idc )
-            image = self.get_print( "RAW", idc )
+            image = self.get_field( "4.999", idc )
+            cga = self.get_field( "4.011", idc )
+            fgp = self.get_field( "4.004", idc )
             
             self.add_Type14( size, res, idc )
             self.set_field( "14.999", image, idc )
+            self.set_field( "14.011", cga, idc )
+            self.set_field( "14.013", fgp, idc )
             
             self.delete_idc( 4, idc )
         
