@@ -1013,7 +1013,13 @@ class NIST( object ):
                 >>> n.get_ntype()
                 [1, 2]
         """
-        return sorted( self.data.keys() )
+        lst = []
+        
+        for ntype in sorted( self.data.keys() ):
+            if( len( self.data[ ntype ] ) ):
+                lst.append( ntype )
+        
+        return lst
     
     def get_idc( self, ntype ):
         """
