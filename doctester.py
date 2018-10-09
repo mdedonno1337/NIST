@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import doctest
+import sys
 import unittest
 
 from MDmisc.string import join_r
@@ -120,7 +121,8 @@ def NISTtests():
     return tests
 
 if __name__ == "__main__":
-    unittest.TextTestRunner( verbosity = 2 ).run( NISTtests() )
+    ret = not unittest.TextTestRunner( verbosity = 2 ).run( NISTtests() ).wasSuccessful()
+    sys.exit( ret )
 else:
     def load_tests( loader, tests, ignore ):
         return NISTtests()
