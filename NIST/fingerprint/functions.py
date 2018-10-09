@@ -209,10 +209,9 @@ def changeFormatImage( input, outformat, **options ):
             ...
             notImplemented: Input format not supported
             
-            >>> changeFormatImage( imgPIL, "WSQ" )
-            Traceback (most recent call last):
-            ...
-            notImplemented: Output format not supported by PIL
+            >>> d = changeFormatImage( imgPIL, "WSQ" )
+            >>> d.startswith( "\\xff\\xa0\\xff\\xa8\\x00" )
+            True
     """
     outformat = outformat.upper()
     
