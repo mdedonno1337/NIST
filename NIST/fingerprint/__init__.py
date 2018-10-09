@@ -2571,6 +2571,7 @@ class NISTf( NIST_traditional ):
                 >>> mark = NISTf().init_latent( **params )
                 >>> print( mark ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
+                    Obj ID:  ...
                     Records: Type-01, Type-02, Type-09, Type-13
                     Class:   NISTf
                 <BLANKLINE>
@@ -2627,6 +2628,7 @@ class NISTf( NIST_traditional ):
                 >>> pr = NISTf().init_print( **params )
                 >>> print( pr ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
+                    Obj ID:  ...
                     Records: Type-01, Type-02, Type-04, Type-09
                     Class:   NISTf
                 <BLANKLINE>
@@ -2651,7 +2653,7 @@ class NISTf( NIST_traditional ):
                     04.002 IDC: 1
                     04.003 IMP: 3
                     04.004 FGP: 0
-                    04.005 ISR: 1
+                    04.005 ISR: 0
                     04.006 HLL: 500
                     04.007 VLL: 500
                     04.008 CGA: 1
