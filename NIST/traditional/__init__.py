@@ -58,7 +58,7 @@ class NIST( NIST_Core ):
             :param data: Raw data read from file.
             :type data: str
         """
-        debug.info( "Loading object" )
+        debug.debug( "Loading object" )
         
         records = data.split( FS )
         
@@ -200,7 +200,7 @@ class NIST( NIST_Core ):
             :return: Binary representation of the NIST object.
             :rtype: str
         """
-        debug.info( "Dumping NIST in binary" )
+        debug.debug( "Dumping NIST in binary" )
         
         self.clean()
         self.patch_to_standard()
@@ -233,7 +233,7 @@ class NIST( NIST_Core ):
             :param outfile: URI of the file to write to.
             :type outfile: str
         """
-        debug.info( "Write the NIST object to '%s'" % outfile )
+        debug.debug( "Write the NIST object to '%s'" % outfile )
         
         if not os.path.isdir( os.path.dirname( os.path.realpath( outfile ) ) ):
             os.makedirs( os.path.dirname( os.path.realpath( outfile ) ) )

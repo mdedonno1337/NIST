@@ -108,7 +108,7 @@ class NISTf( NIST_traditional ):
                 >>> mark2 = mark.get()
                 >>> mark2.clean()
         """
-        debug.info( "Cleaning the NIST object" )
+        debug.debug( "Cleaning the NIST object" )
         
         #    Check the minutiae
         if 9 in self.get_ntype():
