@@ -2094,7 +2094,7 @@ class NISTf( NIST_traditional ):
     
     def get_image( self, **kwargs ):
         """
-            Get the appropriate image (latent fingermark, of fingerprint).
+            Get the appropriate image (latent fingermark, fingerprint or palmair image).
             
             :param format: Format of the returened image.
             :type format: str
@@ -2125,13 +2125,11 @@ class NISTf( NIST_traditional ):
                 notImplemented
                 
         """
-        ntypes = self.get_ntype()
-        
-        if 13 in ntypes:
-            return self.get_latent( **kwargs )
-        
-        elif ifany( [ 4, 14 ], ntypes ):
-            return self.get_print( **kwargs )
+        for f in [ self.get_latent, self.get_print, self.get_palmar ]:
+            try:
+                return f( **kwargs )
+            except:
+                pass
         
         else:
             raise notImplemented
