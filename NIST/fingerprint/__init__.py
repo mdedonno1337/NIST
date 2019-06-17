@@ -2092,7 +2092,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def get_image( self, format = "PIL", idc = -1 ):
+    def get_image( self, **kwargs ):
         """
             Get the appropriate image (latent fingermark, of fingerprint).
             
@@ -2101,6 +2101,9 @@ class NISTf( NIST_traditional ):
             
             :param idc: IDC value.
             :type idc: int
+            
+            :param fpc: FPC (Finger Position Code) value.
+            :type fpc: int
             
             :return: Fingermark of fingerprint Image
             :rtype: PIL.Image or str
@@ -2125,10 +2128,10 @@ class NISTf( NIST_traditional ):
         ntypes = self.get_ntype()
         
         if 13 in ntypes:
-            return self.get_latent( format, idc )
+            return self.get_latent( **kwargs )
         
         elif ifany( [ 4, 14 ], ntypes ):
-            return self.get_print( format, idc )
+            return self.get_print( **kwargs )
         
         else:
             raise notImplemented
