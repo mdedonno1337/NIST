@@ -2092,7 +2092,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def get_image( self, **kwargs ):
+    def get_image( self, *args, **kwargs ):
         """
             Get the appropriate image (latent fingermark, fingerprint or palmair image).
             
@@ -2127,7 +2127,7 @@ class NISTf( NIST_traditional ):
         """
         for f in [ self.get_latent, self.get_print, self.get_palmar ]:
             try:
-                return f( **kwargs )
+                return f( *args, **kwargs )
             except:
                 pass
         
