@@ -1272,7 +1272,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def get_latent( self, format = 'RAW', idc = -1 ):
+    def get_latent( self, format = 'PIL', idc = -1 ):
         """
             Return the image in the format passed in parameter (RAW or PIL).
             
