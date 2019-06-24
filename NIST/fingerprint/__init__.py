@@ -1994,7 +1994,7 @@ class NISTf( NIST_traditional ):
         """
         self.get_print_diptych( idc ).save( f )
     
-    def set_print( self, image = None, res = None, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
+    def set_print( self, image = None, res = None, size = ( 512, 512 ), format = "RAW", idc = -1, **options ):
         """
             Function to set an print image to the 4.999 field, and set the size.
             
@@ -2650,15 +2650,15 @@ class NISTf( NIST_traditional ):
                     02.002 IDC: 0
                     02.004    : ...
                 NIST Type-04 (IDC 1)
-                    04.001 LEN: 673
+                    04.001 LEN: 250018
                     04.002 IDC: 1
                     04.003 IMP: 3
                     04.004 FGP: 0
                     04.005 ISR: 0
                     04.006 HLL: 500
                     04.007 VLL: 500
-                    04.008 CGA: 1
-                    04.999    : FFA0FFA8 ... 0301FFA1 (655 bytes)
+                    04.008 CGA: 0
+                    04.999    : FFFFFFFF ... FFFFFFFF (250000 bytes)
                 NIST Type-09 (IDC 0)
                     09.001 LEN: 00000266
                     09.002 IDC: 0
