@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
-import fuckit
 import inspect
 import json
 import os
@@ -767,8 +766,10 @@ class NIST( object ):
                 >>> n.set_field( "1.002", "0300" )
         """
         if value == None:
-            with fuckit:
+            try:
                 self.delete_tag( tag, idc )
+            except:
+                pass
             
             return
         

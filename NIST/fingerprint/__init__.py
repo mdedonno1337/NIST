@@ -8,7 +8,6 @@ from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageColor
 from scipy.spatial.qhull import ConvexHull
 
-import fuckit
 import os
 import numpy as np
 
@@ -743,10 +742,12 @@ class NISTf( NIST_traditional ):
             data = lstTo012( data )
         
         if data == "":
-            with fuckit:
+            try:
                 self.delete( "9.012", idc )
                 self.delete( "9.010", idc )
-                
+            except:
+                pass
+
             return 0
         
         if isinstance( data, str ):
@@ -1333,8 +1334,10 @@ class NISTf( NIST_traditional ):
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             os.makedirs( os.path.dirname( f ) )
+        except:
+            pass
         
         self.get_latent( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
@@ -1360,8 +1363,10 @@ class NISTf( NIST_traditional ):
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             os.makedirs( os.path.dirname( f ) )
+        except:
+            pass
         
         self.get_latent_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
@@ -1393,14 +1398,20 @@ class NISTf( NIST_traditional ):
         img = options.get( "img", self.get_latent( 'PIL', idc ) )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_minutiae( idc = idc, **options ), "minutiae", res, idc, **options )
+        except:
+            pass
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc, **options )
+        except:
+            pass
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc, **options )
+        except:
+            pass
         
         return img
     
@@ -1951,14 +1962,20 @@ class NISTf( NIST_traditional ):
         img = self.get_print( 'PIL', idc )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
+        except:
+            pass
 
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
+        except:
+            pass
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
+        except:
+            pass
         
         return img
     
@@ -2786,7 +2803,7 @@ class NISTf( NIST_traditional ):
             
             self.set_field( "14.005", self.date, idc )
             
-            with fuckit:
+            try:
                 w, h = size
                 self.set_field( "14.006", w, idc )
                 self.set_field( "14.007", h, idc )
@@ -2796,14 +2813,20 @@ class NISTf( NIST_traditional ):
                 
                 imgdata = options.get( "img" )
                 self.set_field( "14.999", imgdata, idc )
+            except:
+                pass
             
-            with fuckit:
+            try:
                 fpc = options.get( "fpc" )
                 self.set_field( "14.013", fpc, idc )
+            except:
+                pass
             
-            with fuckit:
+            try:
                 gca = options.get( "gca" )
                 self.set_field( "14.011", gca, idc )
+            except:
+                pass
             
     def add_Type15( self, idc = 1, **options ):
         """
