@@ -2,6 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 from collections import OrderedDict
+import cStringIO
 import hashlib
 import os
 
@@ -31,7 +32,10 @@ class NIST( NIST_Core ):
                 
             else:
                 self.read( p )
-            
+        
+        if isinstance( p, ( cStringIO.OutputType ) ):
+            self.load( p.getvalue() )
+        
         elif isinstance( p, ( NIST, dict ) ):
             if isinstance( p, NIST ):
                 p = p.data
