@@ -33,8 +33,11 @@ class NIST( NIST_Core ):
             else:
                 self.read( p )
         
-        if isinstance( p, ( cStringIO.OutputType ) ):
+        elif isinstance( p, ( cStringIO.OutputType ) ):
             self.load( p.getvalue() )
+        
+        elif isinstance( p, ( file ) ):
+            self.load( p.read() )
         
         elif isinstance( p, ( NIST, dict ) ):
             if isinstance( p, NIST ):
