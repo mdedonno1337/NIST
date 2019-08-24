@@ -2933,7 +2933,7 @@ class NISTf( NIST_traditional ):
 class NIST_M1( NISTf ):
     def get_minutiae( self, format = "ixytdq", idc = -1, unit = "mm" ):
         """
-            Get the minutiae information from the field 9.012 for the IDC passed
+            Get the minutiae information from the field 9.137 for the IDC passed
             in argument.
             
             :param format: Format of the minutiae to return.
