@@ -3,7 +3,7 @@
 
 from re import sub
 
-reps = [ ( str( i ), chr( i + 65 ) ) for i in xrange( 0, 6 ) ]
+reps = [ ( str( i ), chr( i + 65 ) ) for i in range( 0, 6 ) ]
 
 
 def RLE_encode( data ):

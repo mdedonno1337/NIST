@@ -1,9 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from __future__ import absolute_import, division
-
-from cStringIO import StringIO
+from io import StringIO
 from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageColor
 from scipy.spatial.qhull import ConvexHull
@@ -166,7 +164,7 @@ class NISTf( NIST_traditional ):
                 #        Type-9 logical record field descriptions. This field
                 #        shall contain a "U" to indicate that the minutiae are
                 #        formatted in vendor-specific or M1-378 terms
-                if any( x in [ 5, 6, 7, 8, 9, 10, 11, 12 ] for x in self.data[ 9 ][ idc ].keys() ):
+                if any( x in [ 5, 6, 7, 8, 9, 10, 11, 12 ] for x in list(self.data[ 9 ][ idc ].keys()) ):
                     debug.debug( "minutiae are formatted as specified by the standard Type-9 logical record field descriptions", 1 )
                     self.set_field( "9.004", "S", idc )
                 else:
@@ -192,11 +190,11 @@ class NISTf( NIST_traditional ):
             15: 13,
         }
         
-        if ntype not in fields.keys():
+        if ntype not in list(fields.keys()):
             raise notImplemented
         
         else:
-            idcs = self.data[ ntype ].keys()
+            idcs = list(self.data[ ntype ].keys())
             
             for idc in idcs:
                 if int( self.get_field( ( ntype, fields[ ntype ] ), idc ) ) == int( fpc ):
@@ -348,7 +346,7 @@ class NISTf( NIST_traditional ):
                 
             ret = []
             
-            for idc in xrange( 1, 11 ):
+            for idc in range( 1, 11 ):
                 try:
                     ret.append( self.get_minutiae( format = format, idc = idc ) )
                 except idcNotFound:
@@ -663,7 +661,7 @@ class NISTf( NIST_traditional ):
                 >>> mark2.set_cores( "sample/cores.txt" )
                 Traceback (most recent call last):
                 ...
-                formatNotSupported
+                NIST.core.exceptions.formatNotSupported
         """
         idc = self.checkIDC( 9, idc )
         
@@ -684,7 +682,7 @@ class NISTf( NIST_traditional ):
             data = [ format( data ) ]
         
         elif isinstance( data[ 0 ], ( Core, list, tuple ) ):
-            data = map( format, data )
+            data = list(map( format, data ))
         
         else:
             raise formatNotSupported
@@ -734,7 +732,7 @@ class NISTf( NIST_traditional ):
                 >>> mark2.set_minutiae( [ 12, 13, 14 ], 1 )
                 Traceback (most recent call last):
                 ...
-                minutiaeFormatNotSupported
+                NIST.fingerprint.exceptions.minutiaeFormatNotSupported
         """
         idc = self.checkIDC( 9, idc )
         
@@ -750,7 +748,7 @@ class NISTf( NIST_traditional ):
 
             return 0
         
-        if isinstance( data, str ):
+        if isinstance( data, ( str, bytes ) ):
             self.set_field( "9.012", data, idc )
             
             minnum = len( data.split( RS ) )
@@ -904,7 +902,7 @@ class NISTf( NIST_traditional ):
                     Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
                 ]
         """
-        tofilter = [ ( key, value ) for key, value in kwargs.iteritems() ]
+        tofilter = [ ( key, value ) for key, value in list(kwargs.items()) ]
         if len( tofilter ) == 0:
             return self.get_minutiae( idc = idc )
         
@@ -1197,7 +1195,7 @@ class NISTf( NIST_traditional ):
                     
                     annotationLayer.paste( endcolor, ( int( cx - offsetx ), int( cy - offsety ) ), mask = markerminutia )
             
-            elif type == "minutiadata" or "variable" in options.keys():
+            elif type == "minutiadata" or "variable" in list(options.keys()):
                 fontfactor = options.get( "size", 1 )
                 font = ImageFont.truetype( "./fonts/arial.ttf", size = int( fontfactor * self.get_resolution( idc ) * 15 / 500 ) )
                 
@@ -1468,7 +1466,7 @@ class NISTf( NIST_traditional ):
                 b = height - b
                 d = height - d
                   
-                a, b, c, d = map( int, ( a, b, c, d ) )
+                a, b, c, d = list(map( int, ( a, b, c, d ) ))
                   
                 draw.line( ( a, b, c, d ), fill = ( 255, 0, 0 ), width = linewidth )
         except:
@@ -1558,12 +1556,17 @@ class NISTf( NIST_traditional ):
         if isinstance( image, str ):
             self.set_field( "13.999", image, idc )
         
+        elif isinstance( image, bytes ):
+            self.set_field( "13.999", image.hex().upper(), idc )
+        
         elif isinstance( image, Image.Image ):
             self.set_latent( PILToRAW( image ), res, idc )
             self.set_size( image.size, idc )
         
         else:
-            raise formatNotSupported
+            print( type( image ) )
+            raise Exception( type( image ) )
+            #raise formatNotSupported
         
         self.set_field( "13.011", "0", idc )
         self.set_resolution( res, idc )
@@ -1731,7 +1734,7 @@ class NISTf( NIST_traditional ):
         
         unit = options.get( "unit", None )
         if unit == "mm":
-            size = map( lambda x: int( round( x / 25.4 * self.get_resolution( idc ) ) ), size )
+            size = [int( round( x / 25.4 * self.get_resolution( idc ) ) ) for x in size]
         
         if len( size ) == 4:
             a, b, c, d = size
@@ -1740,8 +1743,8 @@ class NISTf( NIST_traditional ):
         
         if center in [ None, [] ]:
             center = self.get_size( idc )
-            center = map( lambda x: int( 0.5 * x ), center )
-            center = map( int, center )
+            center = [int( 0.5 * x ) for x in center]
+            center = list(map( int, center ))
         else:
             if isinstance( center[ 0 ], list ):
                 center = center[ 0 ]
@@ -1749,7 +1752,7 @@ class NISTf( NIST_traditional ):
             cx, cy = mm2px( center, self.get_resolution( idc ) )
             cy = self.get_height( idc ) - cy
             center = ( cx, cy )
-            center = map( int, center )
+            center = list(map( int, center ))
         
         img = self.get_image( "PIL", idc )
         
@@ -1757,7 +1760,7 @@ class NISTf( NIST_traditional ):
         offset = tuple( map( int, offset ) )
         
         offsetmin = ( ( size[ 0 ] / 2 ) - center[ 0 ], ( -( self.get_height( idc ) + ( size[ 1 ] / 2 ) - center[ 1 ] - size[ 1 ] ) ) )
-        offsetmin = map( lambda x: x * 25.4 / self.get_resolution( idc ), offsetmin )
+        offsetmin = [x * 25.4 / self.get_resolution( idc ) for x in offsetmin]
         
         # Image cropping
         bg = options.get( "bg", 255 )
@@ -2139,7 +2142,7 @@ class NISTf( NIST_traditional ):
                 >>> mark2.get_image()
                 Traceback (most recent call last):
                 ...
-                notImplemented
+                NIST.core.exceptions.notImplemented
                 
         """
         for f in [ self.get_latent, self.get_print, self.get_palmar ]:
@@ -2304,7 +2307,7 @@ class NISTf( NIST_traditional ):
                 <PIL.Image.Image image mode=L size=2500x1000 at ...>
         """
         maxh, maxw = ( 0, 0 )
-        for idc in xrange( 1, 11 ):
+        for idc in range( 1, 11 ):
             try:
                 w, h = self.get_size( idc )
                 maxw = max( maxw, w )
@@ -2324,7 +2327,7 @@ class NISTf( NIST_traditional ):
             
         ret = Image.new( mode, size, col )
         
-        for idc in xrange( 1, 11 ):
+        for idc in range( 1, 11 ):
             try:
                 if annotated:
                     img = self.get_print_annotated( idc )
@@ -2385,7 +2388,7 @@ class NISTf( NIST_traditional ):
             14: ( 2, 221, 75, 279 ),
         }
         
-        for fpc in xrange( 1, 15 ):
+        for fpc in range( 1, 15 ):
             try:
                 p = self.get_print( "PIL", fpc = fpc )
                 
@@ -2644,7 +2647,8 @@ class NISTf( NIST_traditional ):
                 ...     'cores': [ [ 12.5, 18.7 ] ]
                 ... }
                 >>> pr = NISTf().init_print( **params )
-                >>> print( pr ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
+                
+                print( pr ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
                     Obj ID:  ...
                     Records: Type-01, Type-02, Type-04, Type-09

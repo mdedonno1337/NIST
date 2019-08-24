@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-from __future__ import division
+
 
 from _collections import defaultdict
 from PIL import Image

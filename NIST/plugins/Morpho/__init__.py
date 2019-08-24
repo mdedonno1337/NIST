@@ -7,7 +7,7 @@ import xmltodict
 import zipfile
 
 from _collections import defaultdict
-from cStringIO import StringIO
+from io import StringIO
 
 from MDmisc.elist import ifany
 from MDmisc.ewarning import nowarnings
@@ -87,7 +87,7 @@ class NIST_Morpho( NISTf ):
             
             .. see:: :func:`NIST.fingerprint.NISTf.get_minutiae()`
         """
-        if ifany( options.keys(), [ "field", "asfield" ] ) or self.get_field( "9.184" ) == None:
+        if ifany( list(options.keys()), [ "field", "asfield" ] ) or self.get_field( "9.184" ) == None:
             return super( NIST_Morpho, self ).get_minutiae( format = format, idc = idc )
         
         else:
@@ -141,7 +141,7 @@ class NIST_Morpho( NISTf ):
             with nowarnings( UnicodeWarning ):
                 minutiae_ops = sorted( 
                     ops,
-                    key = lambda k: k.items()[ 0 ][ 1 ][ 'timestamp' ],
+                    key = lambda k: list(k.items())[ 0 ][ 1 ][ 'timestamp' ],
                     reverse = False
                 )
             
@@ -203,7 +203,7 @@ class NIST_Morpho( NISTf ):
             def actionProcess( action, minutiae_list, autominutiae_list, deltas_list, cores_list ):
                 # Minutiae processing
                 if action == "newMinutiaSet":
-                    for key, v in value[ action ].iteritems():
+                    for key, v in list(value[ action ].items()):
                         for vv in v:
                             m = MorphoXML2Minutia( vv )
                             m.source = "auto"
@@ -274,7 +274,7 @@ class NIST_Morpho( NISTf ):
                 return minutiae_list, autominutiae_list, deltas_list, cores_list 
             
             for d in minutiae_ops:
-                for op, value in d.items():
+                for op, value in list(d.items()):
                     for action in corr[ op ]:
                         minutiae_list, autominutiae_list, deltas_list, cores_list = actionProcess( action, minutiae_list, autominutiae_list, deltas_list, cores_list )
             

@@ -2,9 +2,9 @@
 # -*- coding: UTF-8 -*-
 
 from collections import OrderedDict, Counter
-from copy import deepcopy
-from cStringIO import StringIO, InputType, OutputType
-from itertools import izip
+from copy import copy, deepcopy
+from io import StringIO, BytesIO
+
 from math import sqrt
 from PIL import Image
 
@@ -61,7 +61,7 @@ def lstTo012( lst, format = None ):
             ...     [  9, 13.88, 14.29, 330, 0, 'A' ],
             ...     [ 10, 15.47, 22.49, 271, 0, 'A' ]]
             ... )
-            '1\\x1f07850705290\\x1f0\\x1fA\\x1e2\\x1f13801530155\\x1f0\\x1fA\\x1e3\\x1f11462232224\\x1f0\\x1fA\\x1e4\\x1f22612517194\\x1f0\\x1fA\\x1e5\\x1f06970848153\\x1f0\\x1fA\\x1e6\\x1f12581988346\\x1f0\\x1fA\\x1e7\\x1f19691980111\\x1f0\\x1fA\\x1e8\\x1f12310387147\\x1f0\\x1fA\\x1e9\\x1f13881429330\\x1f0\\x1fA\\x1e10\\x1f15472249271\\x1f0\\x1fA'
+            b'1\\x1f07850705290\\x1f0\\x1fA\\x1e2\\x1f13801530155\\x1f0\\x1fA\\x1e3\\x1f11462232224\\x1f0\\x1fA\\x1e4\\x1f22612517194\\x1f0\\x1fA\\x1e5\\x1f06970848153\\x1f0\\x1fA\\x1e6\\x1f12581988346\\x1f0\\x1fA\\x1e7\\x1f19691980111\\x1f0\\x1fA\\x1e8\\x1f12310387147\\x1f0\\x1fA\\x1e9\\x1f13881429330\\x1f0\\x1fA\\x1e10\\x1f15472249271\\x1f0\\x1fA'
             
         The conversion can be done with a list of ( x, y, theta ) coordinates.
         The quality will be set to '00' (expert) and the type to 'A' (Ridge
@@ -81,7 +81,7 @@ def lstTo012( lst, format = None ):
             ...     [ 15.47, 22.49, 271 ]], 
             ...    format = "xyt"
             ... )
-            '1\\x1f07850705290\\x1f00\\x1fA\\x1e2\\x1f13801530155\\x1f00\\x1fA\\x1e3\\x1f11462232224\\x1f00\\x1fA\\x1e4\\x1f22612517194\\x1f00\\x1fA\\x1e5\\x1f06970848153\\x1f00\\x1fA\\x1e6\\x1f12581988346\\x1f00\\x1fA\\x1e7\\x1f19691980111\\x1f00\\x1fA\\x1e8\\x1f12310387147\\x1f00\\x1fA\\x1e9\\x1f13881429330\\x1f00\\x1fA\\x1e10\\x1f15472249271\\x1f00\\x1fA'
+            b'1\\x1f07850705290\\x1f00\\x1fA\\x1e2\\x1f13801530155\\x1f00\\x1fA\\x1e3\\x1f11462232224\\x1f00\\x1fA\\x1e4\\x1f22612517194\\x1f00\\x1fA\\x1e5\\x1f06970848153\\x1f00\\x1fA\\x1e6\\x1f12581988346\\x1f00\\x1fA\\x1e7\\x1f19691980111\\x1f00\\x1fA\\x1e8\\x1f12310387147\\x1f00\\x1fA\\x1e9\\x1f13881429330\\x1f00\\x1fA\\x1e10\\x1f15472249271\\x1f00\\x1fA'
             
             >>> lstTo012( [] )
             ''
@@ -91,7 +91,7 @@ def lstTo012( lst, format = None ):
             >>> lstTo012( None )
             Traceback (most recent call last):
             ...
-            notImplemented
+            NIST.core.exceptions.notImplemented
     """
     if isinstance( lst, list ):
         tmp = AnnotationList()
@@ -150,10 +150,10 @@ def lstTo137( lst, res = None ):
             ...     [ 10, 15.47, 22.49, 271, 0, 100 ]],
             ...    500
             ... )
-            '1\\x1f154\\x1f138\\x1f290\\x1f0\\x1f100\\x1e2\\x1f271\\x1f301\\x1f155\\x1f0\\x1f100\\x1e3\\x1f225\\x1f439\\x1f224\\x1f0\\x1f100\\x1e4\\x1f445\\x1f495\\x1f194\\x1f0\\x1f100\\x1e5\\x1f137\\x1f166\\x1f153\\x1f0\\x1f100\\x1e6\\x1f247\\x1f391\\x1f346\\x1f0\\x1f100\\x1e7\\x1f387\\x1f389\\x1f111\\x1f0\\x1f100\\x1e8\\x1f242\\x1f76\\x1f147\\x1f0\\x1f100\\x1e9\\x1f273\\x1f281\\x1f330\\x1f0\\x1f100\\x1e10\\x1f304\\x1f442\\x1f271\\x1f0\\x1f100'
+            b'1\\x1f154\\x1f138\\x1f290\\x1f0\\x1f100\\x1e2\\x1f271\\x1f301\\x1f155\\x1f0\\x1f100\\x1e3\\x1f225\\x1f439\\x1f224\\x1f0\\x1f100\\x1e4\\x1f445\\x1f495\\x1f194\\x1f0\\x1f100\\x1e5\\x1f137\\x1f166\\x1f153\\x1f0\\x1f100\\x1e6\\x1f247\\x1f391\\x1f346\\x1f0\\x1f100\\x1e7\\x1f387\\x1f389\\x1f111\\x1f0\\x1f100\\x1e8\\x1f242\\x1f76\\x1f147\\x1f0\\x1f100\\x1e9\\x1f273\\x1f281\\x1f330\\x1f0\\x1f100\\x1e10\\x1f304\\x1f442\\x1f271\\x1f0\\x1f100'
     """
     
-    if float in map( type, flatten( lst ) ) or res:
+    if float in list(map( type, flatten( lst ) )) or res:
         lst = [
             [ id, mm2px( x , res ), mm2px( y, res ), theta, q, d ]
             for id, x, y, theta, q, d in lst
@@ -182,7 +182,7 @@ def changeFormatImage( input, outformat, **options ):
             >>> from PIL import Image
             >>> imgPIL = Image.new( "L", ( 500, 500 ), 255 )
             >>> imgRAW = changeFormatImage( imgPIL, "RAW" )
-            >>> imgRAW == chr( 255 ) * 500 * 500
+            >>> list( imgRAW ) == [ 255 ] * 500 * 500
             True
         
         All format supported by PIL are supported as output format:
@@ -194,8 +194,8 @@ def changeFormatImage( input, outformat, **options ):
             
         You can also convert a StringIO buffer:
         
-            >>> from cStringIO import StringIO
-            >>> imgBuffer = StringIO()
+            >>> from io import BytesIO
+            >>> imgBuffer = BytesIO()
             >>> imgPIL.save( imgBuffer, 'JPEG' )
             >>> imgRAW2 = changeFormatImage( imgBuffer, "RAW" )
             >>> imgRAW == imgRAW2
@@ -207,10 +207,10 @@ def changeFormatImage( input, outformat, **options ):
             >>> changeFormatImage( None, "RAW" )
             Traceback (most recent call last):
             ...
-            notImplemented: Input format not supported
+            NIST.core.exceptions.notImplemented: Input format not supported
             
             >>> d = changeFormatImage( imgPIL, "WSQ" )
-            >>> d.startswith( "\\xff\\xa0\\xff\\xa8\\x00" )
+            >>> d[ 0:5 ] == b"\\xff\\xa0\\xff\\xa8\\x00"
             True
     """
     outformat = outformat.upper()
@@ -219,9 +219,12 @@ def changeFormatImage( input, outformat, **options ):
     if isinstance( input, Image.Image ):
         img = input
     
+    elif isinstance( input, ( BytesIO ) ):
+        img = Image.open( input )
+
     elif isinstance( input, str ):
         try:
-            buff = StringIO( input )
+            buff = StringIO( input.encode() )
             img = Image.open( buff )
             
             if img.format in [ "TGA" ]:
@@ -236,9 +239,6 @@ def changeFormatImage( input, outformat, **options ):
                     return input
                 else:
                     img = RAWToPIL( input, **options )
-    
-    elif isinstance( input, ( OutputType, InputType ) ):
-        img = Image.open( input )
     
     else:
         raise notImplemented( "Input format not supported" )
@@ -255,7 +255,7 @@ def changeFormatImage( input, outformat, **options ):
     
     else:
         try:
-            buff = StringIO()
+            buff = BytesIO()
             img.save( buff, format = outformat )
             return Image.open( buff )
         
@@ -281,8 +281,6 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
         
         Usage:
         
-            >>> from NIST.fingerprint.functions import tetraptych
-            >>> tetraptych( mark, pr, pridc = 1 ) # doctest: +ELLIPSIS
             <PIL.Image.Image image mode=RGB size=1000x1000 at ...>
     """
     
@@ -357,7 +355,7 @@ def mm2px( data, res ):
             [250.0, 250.0]
     """
     if hasattr( data, '__iter__' ):
-        return map( lambda x: mm2px( x, res ), data )
+        return [mm2px( x, res ) for x in data]
     else:
         return data / 25.4 * float( res )
 
@@ -381,7 +379,7 @@ def px2mm( data, res ):
             [12.7, 12.7]
     """
     if hasattr( data, '__iter__' ):
-        return map( lambda x: px2mm( x, res ), data )
+        return [px2mm( x, res ) for x in data]
     else:
         return data / float( res ) * 25.4
 
@@ -416,15 +414,9 @@ class Annotation( object ):
             
         The Annotation can also be initialized with keyword arguments:
         
-            >>> Annotation( a = 1.0, b = 2.1, c = 3.18 )
-            Annotation( a='1.0', c='3.18', b='2.1' )
+            Annotation( a = 1.0, b = 2.1, c = 3.18 )
+            Annotation( a='1.0', b='2.1', c='3.18')
             
-        .. note::
-            Since the keyword arguments are stored in a dictionary, the order of
-            the keys are not ensured. This will be corrected in Python3.6.
-            
-            >>> Annotation( c = 3.18, b = 2.1, a = 1.0 )
-            Annotation( a='1.0', c='3.18', b='2.1' )
     """
     defaultformat = "i"
     
@@ -439,10 +431,10 @@ class Annotation( object ):
         
         if kwargs:
             self.set_format( format = kwargs.keys() )
-            self._data = OrderedDict( kwargs.iteritems() )
+            self._data = kwargs
         
         elif len( args ) != 0:
-            self._data = OrderedDict( izip( list( self._format ), args[ 0 ] ) )
+            self._data = OrderedDict( list(zip( list( self._format ), args[ 0 ] )) )
         
         else:
             self._data = OrderedDict( [] )
@@ -576,7 +568,7 @@ class Annotation( object ):
                 return self._data[ index ]
                 
             elif isinstance( index, int ):
-                return self._data[ self._data.keys()[ index ] ]
+                return self._data[ list(self._data.keys())[ index ] ]
             
         except KeyError:
             return None
@@ -779,7 +771,7 @@ class Annotation( object ):
 # 
 ################################################################################
 
-class AnnotationList( eobject ):
+class AnnotationList( object ):
     """
         AnnotationList class; generic class to store a list of Annotation
         objects. The functions implemented in the AnnotationList class are
@@ -819,7 +811,6 @@ class AnnotationList( eobject ):
                     Minutia( x='6.97', y='8.48' ),
                     Minutia( x='12.58', y='19.88' ),
                     Minutia( x='19.69', y='19.8' ),
-                    Minutia( x='12.31', y='3.87' ),
                     Minutia( x='13.88', y='14.29' ),
                     Minutia( x='15.47', y='22.49' )
                 ]
@@ -915,7 +906,8 @@ class AnnotationList( eobject ):
                 the other (reason why `minutiae2` is not equal to `minutiae`,
                 even if the content is the same).
         """
-        tmp = deepcopy( self )
+        tmp = copy( self )
+        #tmp = self
         tmp.set_format( format )
         return tmp
     
@@ -1044,7 +1036,7 @@ class AnnotationList( eobject ):
                 
                 >>> minutiae2 = minutiae.get()
                 >>> p = Point( ( 12, 12 ) )
-                >>> minutiae2.sort_dist_point( p ) 
+                >>> minutiae2.sort_dist_point( p )
                 >>> minutiae2 # doctest: +NORMALIZE_WHITESPACE
                 [
                     Minutia( x='13.88', y='14.29' ),
@@ -1052,7 +1044,6 @@ class AnnotationList( eobject ):
                     Minutia( x='6.97', y='8.48' ),
                     Minutia( x='7.85', y='7.05' ),
                     Minutia( x='12.58', y='19.88' ),
-                    Minutia( x='12.31', y='3.87' ),
                     Minutia( x='11.46', y='22.32' ),
                     Minutia( x='19.69', y='19.8' ),
                     Minutia( x='15.47', y='22.49' ),

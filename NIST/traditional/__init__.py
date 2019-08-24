@@ -26,7 +26,7 @@ class NIST( NIST_Core ):
             :param p: Input data to parse to NIST object.
             :type p: NIST or str
         """
-        if isinstance( p, ( str, unicode ) ):
+        if isinstance( p, str ):
             if ifany( [ FS, GS, RS, US ], p ):
                 self.load( p )
                 
@@ -43,15 +43,15 @@ class NIST( NIST_Core ):
             if isinstance( p, NIST ):
                 p = p.data
             
-            for ntype, tmp in p.iteritems():
+            for ntype, tmp in list(p.items()):
                 ntype = int( ntype )
                 self.add_ntype( ntype )
                 
-                for idc, tmp2 in tmp.iteritems():
+                for idc, tmp2 in list(tmp.items()):
                     idc = int( idc )
                     self.add_idc( ntype, idc )
                     
-                    for tagid, value in tmp2.iteritems():
+                    for tagid, value in list(tmp2.items()):
                         tagid = int( tagid )
                         
                         self.set_field( ( ntype, tagid ), value, idc )
@@ -229,7 +229,7 @@ class NIST( NIST_Core ):
                     outnist.append( self.data[ ntype ][ idc ][ 999 ] )
                 else:
                     od = OrderedDict( sorted( self.data[ ntype ][ idc ].items() ) )
-                    outnist.append( join( GS, [ tagger( ntype, tagid ) + value for tagid, value in od.iteritems() ] ) + FS )
+                    outnist.append( join( GS, [ tagger( ntype, tagid ) + value for tagid, value in list(od.items()) ] ) + FS )
         
         return "".join( outnist )
 
@@ -249,7 +249,7 @@ class NIST( NIST_Core ):
             fp.write( self.dumpbin() )
     
     def hash( self ):
-        return hashlib.md5( self.dumpbin() ).hexdigest()
+        return hashlib.md5( self.dumpbin().encode() ).hexdigest()
     
     ############################################################################
     # 
@@ -291,8 +291,11 @@ class NIST( NIST_Core ):
         # Iteration over all IDC
         debug.debug( "Iterate over fields in the IDC-%d" % idc, 1 )
         recordsize = 0
-        for tagid, value in self.data[ ntype ][ idc ].iteritems():
-            recordsize += len( value ) + lentag
+        for tagid, value in list(self.data[ ntype ][ idc ].items()):
+            if tagid == 999:
+                recordsize += len( value ) // 2 + lentag
+            else:
+                recordsize += len( value ) + lentag
             debug.debug( "Field %d.%03d : added % 9d to the recordsize (now %d)" % ( ntype, tagid, len( value ) + lentag, recordsize ), 2 )
         
         self.set_field( "%d.001" % ntype, "%08d" % recordsize, idc )
@@ -313,7 +316,7 @@ class NIST( NIST_Core ):
         if ntype == 4:
             recordsize = 18
             
-            if self.data[ ntype ][ idc ].has_key( 999 ):
+            if 999 in self.data[ ntype ][ idc ]:
                 recordsize += len( self.data[ ntype ][ idc ][ 999 ] )
                 
         self.set_field( "%d.001" % ntype, "%d" % recordsize, idc )

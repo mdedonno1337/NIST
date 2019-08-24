@@ -75,6 +75,8 @@ class NIST( object ):
         
         self.stdver = ""
         
+        self.id = None
+        
         self.fileuri = None
         self.filename = None
         self.data = defDict()
@@ -108,9 +110,9 @@ class NIST( object ):
             :return: NIST Object identifier.
             :rtype: anything
         """
-        try:
+        if self.id != None:
             return self.id
-        except:
+        else:
             return self.hash()
     
     ############################################################################
@@ -191,7 +193,7 @@ class NIST( object ):
                 [2]
         """
         try:
-            data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
+            data = [list(map( int, x.split( US ) )) for x in data.split( RS )]
         except:
             data = replace_r( split_r( [ RS, US ], data ), '', '1' )
             data = map_r( int, data )
@@ -217,7 +219,7 @@ class NIST( object ):
         """
         for ntype in b.get_ntype():
             for idc in b.get_idc( ntype ):
-                for tagid, value in b.data[ ntype ][ idc ].iteritems():
+                for tagid, value in list(b.data[ ntype ][ idc ].items()):
                     self.data[ ntype ][ idc ][ tagid ] = value
         
         self.clean()
@@ -243,7 +245,7 @@ class NIST( object ):
         for ntype in other.get_ntype():
             if ntype != 1:
                 for idc in other.get_idc( ntype ):
-                    if ret.data[ ntype ].has_key( idc ) and not update:
+                    if idc in ret.data[ ntype ] and not update:
                         if ignore:
                             continue
                         else:
@@ -256,7 +258,7 @@ class NIST( object ):
                         if not idc in self.get_idc( ntype ):
                             ret.add_idc( ntype, idc )
                         
-                        for tagid, value in other.data[ ntype ][ idc ].iteritems():
+                        for tagid, value in list(other.data[ ntype ][ idc ].items()):
                             ret.set_field( ( ntype, tagid ), value, idc )
         
         return ret
@@ -319,7 +321,7 @@ class NIST( object ):
             
             :raise ntypeNotFound: if the ntype is not present in the NIST object
         """
-        if self.data.has_key( ntype ):
+        if ntype in self.data:
             del( self.data[ ntype ] )
         else:
             raise ntypeNotFound
@@ -336,7 +338,7 @@ class NIST( object ):
             
             :raise idcNotFound: if the IDC for the ntype is not present in the NIST object
         """
-        if self.data.has_key( ntype ) and self.data[ ntype ].has_key( idc ):
+        if ntype in self.data and idc in self.data[ ntype ]:
             del( self.data[ ntype ][ idc ] )
         else:
             raise idcNotFound
@@ -357,7 +359,7 @@ class NIST( object ):
         
         idc = self.checkIDC( ntype, idc )
         
-        if self.data.has_key( ntype ) and self.data[ ntype ].has_key( idc ):
+        if ntype in self.data and idc in self.data[ ntype ]:
             del( self.data[ ntype ][ idc ][ tagid ] )
         else:
             raise tagNotFound
@@ -485,7 +487,7 @@ class NIST( object ):
         else:
             ret.append( "NIST Type-%02d" % ntype )
                 
-        for tagid, value in iter( sorted( d.iteritems() ) ):
+        for tagid, value in iter( sorted( d.items() ) ):
             lab = get_label( ntype, tagid, fullname )
             header = "%02d.%03d %s" % ( ntype, tagid, lab )
             
@@ -633,15 +635,15 @@ class NIST( object ):
         
         self.data = defDict()
         
-        for ntype, idcs in data.iteritems():
+        for ntype, idcs in list(data.items()):
             ntype = int( ntype )
             self.add_ntype( ntype )
              
-            for idc, tagids in idcs.iteritems():
+            for idc, tagids in list(idcs.items()):
                 idc = int( idc )
                 self.add_idc( ntype, idc )
                  
-                for tagid, value in tagids.iteritems():
+                for tagid, value in list(tagids.items()):
                     tagid = int( tagid )
                     
                     if self.is_binary( ntype, tagid ):
@@ -674,10 +676,10 @@ class NIST( object ):
         
         #     Delete all empty data.
         for ntype in self.get_ntype():
-            for idc in self.data[ ntype ].keys():
+            for idc in list(self.data[ ntype ].keys()):
                 
                 #    Fields
-                for tagid in self.data[ ntype ][ idc ].keys():
+                for tagid in list(self.data[ ntype ][ idc ].keys()):
                     value = self.get_field( "%d.%03d" % ( ntype, tagid ), idc )
                     if value == "" or value == None:
                         debug.debug( "Field %02d.%03d IDC %d deleted" % ( ntype, tagid, idc ), 1 )
@@ -1047,9 +1049,9 @@ class NIST( object ):
                 [(1, 0, 1), (1, 0, 2), (1, 0, 3), (1, 0, 4), (1, 0, 5), (1, 0, 6), (1, 0, 7), (1, 0, 8), (1, 0, 9), (1, 0, 11), (1, 0, 12), (2, 0, 1), (2, 0, 2), (2, 0, 4)]
         """
         lst = []
-        for ntype, idcs in self.data.iteritems():
-            for idc, tagids in idcs.iteritems():
-                for tagid in tagids.keys():
+        for ntype, idcs in list(self.data.items()):
+            for idc, tagids in list(idcs.items()):
+                for tagid in list(tagids.keys()):
                     lst.append( ( ntype, idc, tagid ) )
         
         return lst

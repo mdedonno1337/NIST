@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
-from __future__ import division
+
 
 from PIL import Image
 
@@ -80,7 +80,7 @@ try:
                     if compression == 'RLE':
                         qmap = RLE_decode( qmap )
                     
-                    qmap = map( list, qmap )
+                    qmap = list(map( list, qmap ))
                     
                     h = self.get_height( idc )
                     res = self.get_resolution( idc )
@@ -161,19 +161,19 @@ try:
                 
                 data = split( RS, data )
                 if compression == 'RLE':
-                    data = map( RLE_decode, data )
+                    data = list(map( RLE_decode, data ))
                 
                 data = [ list( s ) for s in data ]
                 
                 fac = int( round( int( gridSize ) / 100 * self.get_resolution( idc ) / 25.4 ) )
                 toplot = options.get( "q", [ '1', '2', '3', '4', '5' ] )
-                toplot = map( str, toplot )
+                toplot = list(map( str, toplot ))
                 
                 for y, v in enumerate( data ):
                     for x, vv in enumerate( v ):
                         if vv in toplot:
-                            for a in xrange( 0, fac ):
-                                for b in xrange( 0, fac ):
+                            for a in range( 0, fac ):
+                                for b in range( 0, fac ):
                                     pixels[ fac * x + a, fac * y + b ] = ULWcolour[ vv ]
                 
                 latent = options.get( "img", self.get_latent( "PIL", idc ) )

@@ -71,7 +71,7 @@ def decode_gca( code ):
     if code in GCA:
         return GCA[ code ]
     
-    elif code in GCA.values():
+    elif code in list(GCA.values()):
         return code
     
     else:
@@ -126,15 +126,17 @@ def bindump( data, n = 8 ):
             >>> bindump( data, 16 )
             '0001020304050607 ... F8F9FAFBFCFDFEFF (256 bytes)'
     """
-    pre = [ data[ i ] for i in xrange( n / 2 ) ]
-    post = [ data[ -( i + 1 ) ] for i in xrange( n / 2 ) ]
-    
-    pre = multimap( [ ord, hexformat ], pre )
-    post = multimap( [ ord, hexformat ], post )
-    
+    pre = [ data[ i ] for i in range( n ) ]
+    post = [ data[ -( i + 1 ) ] for i in range( n ) ]
     post = reversed( post )
     
-    return "%s ... %s (%d bytes)" % ( join( "", pre ), join( "", post ), len( data ) )
+    if isinstance( data, str ):
+        lendata = len( data ) // 2
+    else:
+        lendata = len( data )
+
+    # return type( data[ 0 ] )
+    return "%s ... %s (%d bytes)" % ( join( "", pre ), join( "", post ), lendata )
 
 #    Field split
 def fieldSplitter( data ):
@@ -285,4 +287,4 @@ def printableFieldSeparator( data ):
     return data
 
 def split( str, num ):
-    return [ str[ start : start + num ] for start in xrange( 0, len( str ), num ) ]
+    return [ str[ start : start + num ] for start in range( 0, len( str ), num ) ]

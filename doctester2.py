@@ -5,7 +5,7 @@ import doctest
 import unittest
 
 from MDmisc.string import join_r
-from NIST.core.config import US, RS
+from .NIST.core.config import US, RS
 
 ################################################################################
 #
@@ -13,14 +13,14 @@ from NIST.core.config import US, RS
 #
 ################################################################################
 
-import NIST.core.functions
-import NIST.traditional.__init__
+from . import NIST.core.functions
+from . import NIST.traditional.__init__
 
-import NIST.fingerprint.__init__
-import NIST.fingerprint.functions
+from . import NIST.fingerprint.__init__
+from . import NIST.fingerprint.functions
 
-import NIST.plugins.MDD.__init__
-from NIST.fingerprint.functions import AnnotationList
+from . import NIST.plugins.MDD.__init__
+from .NIST.fingerprint.functions import AnnotationList
 
 ################################################################################
 # 

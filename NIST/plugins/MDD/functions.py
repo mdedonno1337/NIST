@@ -27,7 +27,7 @@ def get_minutiae_in_pairing_order( mark, ref ):
     r_p = edict( ref.get_pairing() ).reverse()
     m_p = edict( mark.get_pairing() ).reverse()
     
-    keys = [ key for key in r_p.keys() if key != "None" ]
+    keys = [ key for key in list(r_p.keys()) if key != "None" ]
     
     src = [ ref.get_minutia_by_id( r_p[ key ], "xy" ) for key in keys ]
     dst = [ mark.get_minutia_by_id( m_p[ key ], "xy" ) for key in keys ]
