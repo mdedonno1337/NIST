@@ -1171,7 +1171,7 @@ class NIST( object ):
     
     def is_initialized( self ):
         try:
-            self.get( "1.003" )
+            self.get_field( "1.003" )
             return True
         
         except:
