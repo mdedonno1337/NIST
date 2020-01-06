@@ -5,8 +5,6 @@ from __future__ import division
 
 from PIL import Image
 
-import fuckit
-
 from MDmisc.boxer import boxer
 from MDmisc.logger import debug
 from MDmisc.map_r import map_r
@@ -113,8 +111,10 @@ try:
             """
             lst = super( NISTULWLQMetric, self ).get_minutiae( format = format, idc = idc, **options )
             
-            with fuckit:
+            try:
                 lst = self.add_LQMetric_data( lst )
+            except:
+                pass
             
             lst.set_format( format )
             return lst

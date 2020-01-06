@@ -209,10 +209,9 @@ def changeFormatImage( input, outformat, **options ):
             ...
             notImplemented: Input format not supported
             
-            >>> changeFormatImage( imgPIL, "WSQ" )
-            Traceback (most recent call last):
-            ...
-            notImplemented: Output format not supported by PIL
+            >>> d = changeFormatImage( imgPIL, "WSQ" )
+            >>> d.startswith( "\\xff\\xa0\\xff\\xa8\\x00" )
+            True
     """
     outformat = outformat.upper()
     
@@ -225,6 +224,9 @@ def changeFormatImage( input, outformat, **options ):
             buff = StringIO( input )
             img = Image.open( buff )
             
+            if img.format in [ "TGA" ]:
+                raise Exception
+        
         except:
             if string_to_hex( input[ 0 : 4 ] ) in [ "FFA0FFA4", "FFA0FFA5", "FFA0FFA6", "FFA0FFA2", "FFA0FFA8" ]:
                 img = RAWToPIL( WSQ().decode( input ), **options )

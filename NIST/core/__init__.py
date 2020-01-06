@@ -2,7 +2,6 @@
 # -*- coding: UTF-8 -*-
 
 import datetime
-import fuckit
 import inspect
 import json
 import os
@@ -72,7 +71,7 @@ class NIST( object ):
             To get and set data, use the :func:`~NIST.traditional.NIST.get_field`
             and :func:`~NIST.traditional.NIST.set_field()` functions.
         """
-        debug.info( "Initialization of the NIST object" )
+        debug.debug( "Initialization of the NIST object" )
         
         self.stdver = ""
         
@@ -161,7 +160,7 @@ class NIST( object ):
                 >>> n
                 NIST object, Type-01, Type-02, Type-09, Type-13
         """
-        debug.info( "Reading from file : %s" % infile )
+        debug.debug( "Reading from file : %s" % infile )
         
         self.fileuri = infile
         self.filename = os.path.splitext( os.path.basename( infile ) )[ 0 ]
@@ -536,7 +535,7 @@ class NIST( object ):
                     02.002 IDC: 0
                     02.004    : ...
         """
-        debug.info( "Dumping NIST" )
+        debug.debug( "Dumping NIST" )
         
         self.clean()
         
@@ -671,7 +670,7 @@ class NIST( object ):
                 * Check the IDC field for every ntype (fields x.002)
                 * Reset all lengths (fields x.001)
         """
-        debug.info( "Cleaning the NIST object" )
+        debug.debug( "Cleaning the NIST object" )
         
         #     Delete all empty data.
         for ntype in self.get_ntype():
@@ -767,8 +766,10 @@ class NIST( object ):
                 >>> n.set_field( "1.002", "0300" )
         """
         if value == None:
-            with fuckit:
+            try:
                 self.delete_tag( tag, idc )
+            except:
+                pass
             
             return
         
@@ -1167,3 +1168,11 @@ class NIST( object ):
                 content is the same).
         """
         return deepcopy( self )
+    
+    def is_initialized( self ):
+        try:
+            self.get_field( "1.003" )
+            return True
+        
+        except:
+            return False

@@ -8,8 +8,6 @@ from math import cos, pi, sin
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageColor
 from scipy.spatial.qhull import ConvexHull
 
-import base64
-import fuckit
 import os
 import numpy as np
 
@@ -110,7 +108,7 @@ class NISTf( NIST_traditional ):
                 >>> mark2 = mark.get()
                 >>> mark2.clean()
         """
-        debug.info( "Cleaning the NIST object" )
+        debug.debug( "Cleaning the NIST object" )
         
         #    Check the minutiae
         if 9 in self.get_ntype():
@@ -745,10 +743,12 @@ class NISTf( NIST_traditional ):
             data = lstTo012( data )
         
         if data == "":
-            with fuckit:
+            try:
                 self.delete( "9.012", idc )
                 self.delete( "9.010", idc )
-                
+            except:
+                pass
+
             return 0
         
         if isinstance( data, str ):
@@ -1274,7 +1274,7 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def get_latent( self, format = 'RAW', idc = -1 ):
+    def get_latent( self, format = 'PIL', idc = -1 ):
         """
             Return the image in the format passed in parameter (RAW or PIL).
             
@@ -1335,8 +1335,10 @@ class NISTf( NIST_traditional ):
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             os.makedirs( os.path.dirname( f ) )
+        except:
+            pass
         
         self.get_latent( "PIL", idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
@@ -1362,8 +1364,10 @@ class NISTf( NIST_traditional ):
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             os.makedirs( os.path.dirname( f ) )
+        except:
+            pass
         
         self.get_latent_annotated( idc ).save( f, dpi = ( res, res ) )
         return os.path.isfile( f )
@@ -1395,14 +1399,20 @@ class NISTf( NIST_traditional ):
         img = options.get( "img", self.get_latent( 'PIL', idc ) )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_minutiae( idc = idc, **options ), "minutiae", res, idc, **options )
+        except:
+            pass
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc, **options )
+        except:
+            pass
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc, **options )
+        except:
+            pass
         
         return img
     
@@ -1953,14 +1963,20 @@ class NISTf( NIST_traditional ):
         img = self.get_print( 'PIL', idc )
         res = self.get_resolution( idc )
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
+        except:
+            pass
 
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_cores( idc ), "center", res, idc )
+        except:
+            pass
         
-        with fuckit:
+        try:
             img = self.annotate( img, self.get_delta( idc ), "delta", res, idc )
+        except:
+            pass
         
         return img
     
@@ -1996,7 +2012,7 @@ class NISTf( NIST_traditional ):
         """
         self.get_print_diptych( idc ).save( f )
     
-    def set_print( self, image = None, res = None, size = ( 512, 512 ), format = "WSQ", idc = -1, **options ):
+    def set_print( self, image = None, res = None, size = ( 512, 512 ), format = "RAW", idc = -1, **options ):
         """
             Function to set an print image to the 4.999 field, and set the size.
             
@@ -2094,15 +2110,18 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
-    def get_image( self, format = "PIL", idc = -1 ):
+    def get_image( self, *args, **kwargs ):
         """
-            Get the appropriate image (latent fingermark, of fingerprint).
+            Get the appropriate image (latent fingermark, fingerprint or palmair image).
             
             :param format: Format of the returened image.
             :type format: str
             
             :param idc: IDC value.
             :type idc: int
+            
+            :param fpc: FPC (Finger Position Code) value.
+            :type fpc: int
             
             :return: Fingermark of fingerprint Image
             :rtype: PIL.Image or str
@@ -2124,13 +2143,11 @@ class NISTf( NIST_traditional ):
                 notImplemented
                 
         """
-        ntypes = self.get_ntype()
-        
-        if 13 in ntypes:
-            return self.get_latent( format, idc )
-        
-        elif ifany( [ 4, 14 ], ntypes ):
-            return self.get_print( format, idc )
+        for f in [ self.get_latent, self.get_print, self.get_palmar ]:
+            try:
+                return f( *args, **kwargs )
+            except:
+                pass
         
         else:
             raise notImplemented
@@ -2421,10 +2438,10 @@ class NISTf( NIST_traditional ):
             card = card.resize( ( int( w * fac ), int( h * fac ) ), Image.BICUBIC )
         
         palmpos = {
-            22: ( 150.4, 31.4, 200.6, 157.9 ),
-            24: ( 8.8, 158.2, 57.7, 287.9 ),
-            27: ( 58.2, 158.3, 200.6, 287.9 ),
-            25: ( 8.9, 31.4, 150.0, 157.8 ),
+            22: ( 150.4, 31.4, 200.6, 157.9 ), # Right writer's
+            24: ( 8.8, 158.2, 57.7, 287.9 ), # Left writer's
+            25: ( 8.9, 31.4, 150.0, 157.8 ), # Right palm
+            27: ( 58.2, 158.3, 200.6, 287.9 ), # Left palm
         }
         
         for fpc in [ 22, 24, 25, 27 ]:
@@ -2573,6 +2590,7 @@ class NISTf( NIST_traditional ):
                 >>> mark = NISTf().init_latent( **params )
                 >>> print( mark ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
+                    Obj ID:  ...
                     Records: Type-01, Type-02, Type-09, Type-13
                     Class:   NISTf
                 <BLANKLINE>
@@ -2629,6 +2647,7 @@ class NISTf( NIST_traditional ):
                 >>> pr = NISTf().init_print( **params )
                 >>> print( pr ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
+                    Obj ID:  ...
                     Records: Type-01, Type-02, Type-04, Type-09
                     Class:   NISTf
                 <BLANKLINE>
@@ -2649,15 +2668,15 @@ class NISTf( NIST_traditional ):
                     02.002 IDC: 0
                     02.004    : ...
                 NIST Type-04 (IDC 1)
-                    04.001 LEN: 673
+                    04.001 LEN: 250018
                     04.002 IDC: 1
                     04.003 IMP: 3
                     04.004 FGP: 0
-                    04.005 ISR: 1
+                    04.005 ISR: 0
                     04.006 HLL: 500
                     04.007 VLL: 500
-                    04.008 CGA: 1
-                    04.999    : FFA0FFA8 ... 0301FFA1 (655 bytes)
+                    04.008 CGA: 0
+                    04.999    : FFFFFFFF ... FFFFFFFF (250000 bytes)
                 NIST Type-09 (IDC 0)
                     09.001 LEN: 00000266
                     09.002 IDC: 0
@@ -2785,7 +2804,7 @@ class NISTf( NIST_traditional ):
             
             self.set_field( "14.005", self.date, idc )
             
-            with fuckit:
+            try:
                 w, h = size
                 self.set_field( "14.006", w, idc )
                 self.set_field( "14.007", h, idc )
@@ -2795,14 +2814,20 @@ class NISTf( NIST_traditional ):
                 
                 imgdata = options.get( "img" )
                 self.set_field( "14.999", imgdata, idc )
+            except:
+                pass
             
-            with fuckit:
+            try:
                 fpc = options.get( "fpc" )
                 self.set_field( "14.013", fpc, idc )
+            except:
+                pass
             
-            with fuckit:
+            try:
                 gca = options.get( "gca" )
                 self.set_field( "14.011", gca, idc )
+            except:
+                pass
             
     def add_Type15( self, idc = 1, **options ):
         """
