@@ -66,7 +66,7 @@
 # 
 ################################################################################
 
-from .fingerprint import NISTf
+from .fingerprint import NISTf, NISTfxml
 from .traditional import NIST
 
 
