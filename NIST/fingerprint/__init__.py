@@ -10,6 +10,7 @@ from scipy.spatial.qhull import ConvexHull
 
 import os
 import numpy as np
+import base64
 
 from MDmisc.deprecated import deprecated
 from MDmisc.ebool import xor
