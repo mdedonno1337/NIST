@@ -1170,3 +1170,11 @@ class NIST( object ):
                 content is the same).
         """
         return deepcopy( self )
+    
+    def is_initialized( self ):
+        try:
+            self.get_field( "1.003" )
+            return True
+        
+        except:
+            return False
