@@ -7,13 +7,14 @@ from _collections import defaultdict
 from PIL import Image
 
 from MDmisc.eint import str_int_cmp
-from MDmisc.elist import ifall
+from MDmisc.elist import ifall, ifany
 from MDmisc.string import split_r, join_r
 
 from .exceptions import pairingNameNotFound
 from .functions import add_pairing
 
 from ...core.config import RS, US
+from ...core.exceptions import idcNotFound
 from ...fingerprint import NISTf
 from ...fingerprint.functions import AnnotationList as _AnnotationList
 from ...fingerprint.functions import Annotation, AnnotationTypes
@@ -350,6 +351,32 @@ class NIST_MDD( NISTf ):
         lst.set_format( format )
         
         return lst
+    
+    def get_minutiae_paired_all( self, format = None, idc = -1, **options ):
+        """
+            Return only the paired minutiae for all fingers, similair to the get_minutiae_all() function
+        """
+        if ifany( [ 4, 14 ], self.get_ntype() ):
+            if format == None:
+                format = self.minutiaeformat
+                
+            ret = []
+            
+            for idc in xrange( 1, 11 ):
+                try:
+                    ret.append( self.get_minutiae_paired( format = format, idc = idc ) )
+                except idcNotFound:
+                    ret.append( [] )
+            
+            return ret
+        
+        elif 13 in self.get_ntype():
+            ret = [ [] ] * 10
+            ret[ 0 ] = self.get_minutiae( format = format )
+            return ret
+        
+        else:
+            raise notImplemented
     
     def get_minutiae_paired_count( self, idc = -1 ):
         """
