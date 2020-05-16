@@ -352,7 +352,7 @@ class NIST_MDD( NISTf ):
         
         return lst
     
-    def get_minutiae_paired_all( self, format = None, idc = -1, **options ):
+    def get_minutiae_paired_all( self, format = None, **options ):
         """
             Return only the paired minutiae for all fingers, similair to the get_minutiae_all() function
         """
