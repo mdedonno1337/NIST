@@ -1,5 +1,6 @@
 future
+numpy
 pillow
 scipy
-xmltodict
 sphinx_git
+xmltodict
