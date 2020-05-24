@@ -2871,7 +2871,7 @@ class NISTf( NIST_traditional ):
             size = self.get_size( idc )
             res = self.get_resolution( idc )
             image = self.get_field( "4.999", idc )
-            cga = self.get_field( "4.011", idc )
+            cga = self.get_field( "4.008", idc )
             fgp = self.get_field( "4.004", idc )
             
             self.add_Type14( size, res, idc )
