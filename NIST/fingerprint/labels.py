@@ -51,3 +51,6 @@ PALM_POSITION_CODE = {
     85: "right wrist bracelet",
     86: "left wrist bracelet"
 }
+
+SEGMENTS_POSITION_CODE = dict( FINGER_POSITION_CODE, **PALM_POSITION_CODE )
+
