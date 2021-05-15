@@ -3,6 +3,7 @@
 
 from collections import OrderedDict
 
+import cStringIO
 import datetime
 import os
 import time
@@ -28,6 +29,12 @@ class NIST( NISTcore ):
             
             else:
                 self.read( p )
+        
+        elif isinstance( p, ( cStringIO.OutputType ) ):
+            self.load( p.getvalue() )
+        
+        elif isinstance( p, ( file ) ):
+            self.load( p.read() )
     
     def load( self, data ):
         self.xmldata = xmltodict.parse( data )[ "itl:NISTBiometricInformationExchangePackage" ]
