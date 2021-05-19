@@ -204,7 +204,30 @@ class NISTf( NIST_traditional ):
             
             else:
                 raise idcNotFound
+    
+    def get_fpc_list( self ):
+        """
+            Returns a list of unique fpc present in the NIST file, without the idc information.
+            This function will scan all the idc for Type-04, Type-13, Type-14 and Type-15.
+        """
+        fpc_list = []
         
+        fields = {
+            4: 4,
+            13: 13,
+            14: 13,
+            15: 13,
+        }
+        
+        for ntype, fieldid in fields.iteritems():
+            idcs = self.data[ ntype ].keys()
+            for idc in idcs:
+                fpc = self.get_field( ( ntype, fieldid ), idc )
+                if fpc != None:
+                    fpc_list.append( int( fpc ) )
+        
+        return sorted( set( fpc_list ) )
+
     ############################################################################
     #
     #    Minutia functions
