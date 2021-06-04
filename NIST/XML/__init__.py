@@ -19,7 +19,7 @@ from MDmisc.RecursiveDefaultDict import defDict
 from ..core import NIST as NISTcore
 from ..core.config import RS, US
 from ..core.exceptions import needStringValue
-from ..core.functions import tagSplitter
+from ..core.functions import tagSplitter, get_xml_tag
 
 class NIST( NISTcore ):
     def load_auto( self, p ):
@@ -46,45 +46,45 @@ class NIST( NISTcore ):
         self.add_ntype( 1 )
         self.add_idc( 1, 0 )
         
-        t01 = self.xmldata.get_r( "itl:PackageInformationRecord/biom:Transaction" )
+        t01 = get_xml_tag( self.xmldata, [ "PackageInformationRecord", "Transaction" ] )
         
-        major = t01.get( "biom:TransactionMajorVersionValue" )
-        minor = t01.get( "biom:TransactionMinorVersionValue" )
+        major = get_xml_tag( t01, "TransactionMajorVersionValue" )
+        minor = get_xml_tag( t01, "TransactionMinorVersionValue" )
         self.set_field( "1.002", "%s%s" % ( major, minor ) )
         
-        self.set_field( "1.004", t01.get( "biom:TransactionCategoryCode" ), 0 )
-        self.set_field( "1.005", t01.get_r( "biom:TransactionDate/nc:Date" ), 0 )
+        self.set_field( "1.004", get_xml_tag( t01, "TransactionCategoryCode" ), 0 )
+        self.set_field( "1.005", get_xml_tag( t01, [ "TransactionDate", "Date" ] ), 0 )
         
-        self.set_field( "1.006", t01.get( "biom:TransactionPriorityValue" ), 0 )
+        self.set_field( "1.006", get_xml_tag( t01, "TransactionPriorityValue" ), 0 )
             
-        self.set_field( "1.007", t01.get_r( "biom:TransactionDestinationOrganization/nc:OrganizationIdentification/nc:IdentificationID" ), 0 )
-        self.set_field( "1.008", t01.get_r( "biom:TransactionOriginatingOrganization/nc:OrganizationIdentification/nc:IdentificationID" ), 0 )
+        self.set_field( "1.007", get_xml_tag( t01, [ "TransactionDestinationOrganization", "OrganizationIdentification", "IdentificationID" ] ), 0 )
+        self.set_field( "1.008", get_xml_tag( t01, [ "TransactionOriginatingOrganization", "OrganizationIdentification", "IdentificationID" ] ), 0 )
         
-        DAN = t01.get_r( "biom:TransactionDestinationOrganization/nc:OrganizationName", "" )
-        OAN = t01.get_r( "biom:TransactionOriginatingOrganization/nc:OrganizationName", "" )
+        DAN = get_xml_tag( t01, [ "TransactionDestinationOrganization", "OrganizationName" ], "" )
+        OAN = get_xml_tag( t01, [ "TransactionOriginatingOrganization", "OrganizationName" ], "" )
         if DAN != "" or OAN != "":
             self.set_field( "1.017", join( US, [ DAN, OAN ] ), 0 )
         
-        self.set_field( "1.009", t01.get_r( "biom:TransactionControlIdentification/nc:IdentificationID" ), 0 )
+        self.set_field( "1.009", get_xml_tag( t01, [ "TransactionControlIdentification", "IdentificationID" ] ), 0 )
         
-        self.set_field( "1.010", t01.get_r( "biom:TransactionControlReferenceIdentification/nc:IdentificationID" ), 0 )
+        self.set_field( "1.010", get_xml_tag( t01, [ "TransactionControlReferenceIdentification", "IdentificationID" ] ), 0 )
         
-        self.set_field( "1.011", t01.get_r( "biom:TransactionImageResolutionDetails/biom:NativeScanningResolutionValue" ), 0 )
-        self.set_field( "1.012", t01.get_r( "biom:TransactionImageResolutionDetails/biom:NominalTransmittingResolutionValue" ), 0 )
+        self.set_field( "1.011", get_xml_tag( t01, [ "TransactionImageResolutionDetails", "NativeScanningResolutionValue" ] ), 0 )
+        self.set_field( "1.012", get_xml_tag( t01, [ "TransactionImageResolutionDetails", "NominalTransmittingResolutionValue" ] ), 0 )
         
         with fuckit:
-            DNM = t01.get_r( "biom:TransactionDomain/nc:OrganizationName" )
-            DVN = t01.get_r( "biom:TransactionDomain/biom:DomainVersionNumberIdentification/nc:IdentificationID" )
+            DNM = get_xml_tag( t01, [ "TransactionDomain", "OrganizationName" ] )
+            DVN = get_xml_tag( t01, [ "TransactionDomain", "DomainVersionNumberIdentification", "IdentificationID" ] )
             
             self.set_field( "1.013", DNM + US + DVN, 0 )
         
-        self.set_field( "1.014", t01.get_r( "biom:TransactionUTCDate/nc:DateTime" ), 0 )
+        self.set_field( "1.014", get_xml_tag( t01, [ "TransactionUTCDate/DateTime" ] ), 0 )
         
         with fuckit:
-            CSD = t01.get( "biom:TransactionCharacterSetDirectory", "" )
-            CSN = CSD.get( "biom:CharacterSetCommonNameCode", "" )
-            CSI = CSD.get( "biom:CharacterSetIndexCode", "" )
-            CSV = CSD.get_r( "biom:CharacterSetVersionIdentification/nc:IdentificationID", "" )
+            CSD = get_xml_tag( t01, "TransactionCharacterSetDirectory" )
+            CSN = get_xml_tag( CSD, "CharacterSetCommonNameCode" )
+            CSI = get_xml_tag( CSD, "CharacterSetIndexCode" )
+            CSV = get_xml_tag( CSD, [ "CharacterSetVersionIdentification", "IdentificationID" ] )
             
             self.set_field( "1.015", CSI + US + CSN + US + CSV, 0 )
         
@@ -94,23 +94,39 @@ class NIST( NISTcore ):
         self.add_ntype( 2 )
         self.add_idc( 2, 0 )
         
-        t02 = self.xmldata.get( "itl:PackageDescriptiveTextRecord", None )
+        t02 = get_xml_tag( self.xmldata, "PackageDescriptiveTextRecord" )
         
         if not isinstance( t02, list ):
             t02 = [ t02 ]
         
         for t02b in t02:
             if t02b != None:
-                idc = int( t02b.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
+                idc = int( get_xml_tag( t02b, [ "ImageReferenceIdentification", "IdentificationID" ] ) )
                 self.set_field( "2.002", idc, idc )
             
             with fuckit:
                 i = 3
-                for key, values in t02b.get( "itl:UserDefinedDescriptiveDetail" ).iteritems():
+                for key, values in get_xml_tag( t02b, "UserDefinedDescriptiveDetail" ).iteritems():
                     for detail, value in values.iteritems():
                         self.set_field( ( 2, i ), detail + US + value )
                         i += 1
+    
+    def get_namespaces_list( self ):
+        """
+            Get the list of namespaces available in the NIST object. The list
+            of namespaces should only contain one used an usefull namespaces,
+            but since we dont know it, this function will return the entire
+            list, so the NIST.function.get_xml_tag() function can iterate over
+            it.
+        """
+        ret = []
         
+        for ns in self.xmldata.keys():
+            if ns.startswith( "@xmlns" ):
+                ret.append( ns.split( ":" )[ 1 ] )
+        
+        return ret
+    
     ############################################################################
     # 
     #    Set fields

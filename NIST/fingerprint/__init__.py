@@ -26,7 +26,7 @@ from .functions import *
 from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
-from ..core.functions import decode_gca, encode_gca
+from ..core.functions import decode_gca, encode_gca, get_xml_tag
 from ..traditional import NIST as NIST_traditional
 from ..XML import NIST as NIST_XML
 
@@ -2961,84 +2961,88 @@ class NISTfxml( NIST_XML, NISTf ):
         #   Type14 parser
         
         if "itl:PackageFingerprintImageRecord" in self.xmldata:
-            fingerimgs = self.xmldata.get( "itl:PackageFingerprintImageRecord", [] )
+            fingerimgs = get_xml_tag( self.xmldata, "PackageFingerprintImageRecord" )
             
-            if not isinstance( fingerimgs, list ):
-                fingerimgs = [ fingerimgs ]
-            
-            for e in fingerimgs:
-                imgdata = e.get_r( "biom:FingerImpressionImage/nc:BinaryBase64Object" )
-                imgdata = base64.decodestring( imgdata )
-                gca = e.get_r( "biom:FingerImpressionImage/biom:ImageCompressionAlgorithmText" )
-                
-                fpc = int( e.get_r( "biom:FingerImpressionImage/biom:FingerPositionCode", 0 ) )
-                idc = int( e.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
-                
-                res = e.get_r( "biom:FingerImpressionImage/biom:ImageHorizontalPixelDensityValue" )
-                h = e.get_r( "biom:FingerImpressionImage/biom:ImageVerticalLineLengthPixelQuantity" )
-                w = e.get_r( "biom:FingerImpressionImage/biom:ImageHorizontalLineLengthPixelQuantity" )
-                size = ( w, h )
-                
-                self.add_Type14( 
-                    size = size,
-                    res = res,
-                    idc = idc,
-                    fpc = fpc,
-                    gca = gca,
-                    img = imgdata
-                )
+            if fingerimgs != None:
+                if not isinstance( fingerimgs, list ):
+                    fingerimgs = [ fingerimgs ]
+
+                for e in fingerimgs:
+                    imgdata = get_xml_tag( e, [ "FingerImpressionImage", "BinaryBase64Object" ] )
+                    if imgdata == None:
+                        continue
+                    
+                    imgdata = base64.decodestring( imgdata )
+                    gca = get_xml_tag( e, [ "FingerImpressionImage", "ImageCompressionAlgorithmText" ] )
+                    
+                    fpc = int( get_xml_tag( e, [ "FingerImpressionImage", "FingerPositionCode" ], 0 ) )
+                    idc = int( get_xml_tag( e, [ "ImageReferenceIdentification", "IdentificationID" ] ) )
+                    
+                    res = get_xml_tag( e, [ "FingerImpressionImage", "ImageHorizontalPixelDensityValue" ] )
+                    h = get_xml_tag( e, [ "FingerImpressionImage", "ImageVerticalLineLengthPixelQuantity" ] )
+                    w = get_xml_tag( e, [ "FingerImpressionImage", "ImageHorizontalLineLengthPixelQuantity" ] )
+                    size = ( w, h )
+                    
+                    self.add_Type14(
+                        size = size,
+                        res = res,
+                        idc = idc,
+                        fpc = fpc,
+                        gca = gca,
+                        img = imgdata
+                    )
         
         ############################################################################
         #   Type15 parser
         
         if "itl:PackagePalmprintImageRecord" in self.xmldata:
-            palmimgs = self.xmldata.get( "itl:PackagePalmprintImageRecord", [] )
+            palmimgs = get_xml_tag( self.xmldata, "PackagePalmprintImageRecord" )
             
-            if not isinstance( palmimgs, list ):
-                palmimgs = [ palmimgs ]
-            
-            for e in palmimgs:
-                idc = int( e.get_r( "biom:ImageReferenceIdentification/nc:IdentificationID" ) )
-                
-                imp = e.get_r( "biom:PalmprintImage/biom:FrictionRidgeImageImpressionCaptureCategoryCode", 11 )
-                
-                src = e.get_r( "biom:PalmprintImage/biom:ImageCaptureDetail/biom:CaptureOrganization/nc:OrganizationIdentification/nc:IdentificationID" )
-                
-                pcd = e.get_r( "biom:PalmprintImage/biom:ImageCaptureDetail/biom:CaptureDate/nc:Date" )
-                
-                self.add_Type15( idc )
-                self.set_field( "15.002", idc, idc )
-                self.set_field( "15.003", imp, idc )
-                self.set_field( "15.004", src, idc )
-                self.set_field( "15.005", pcd, idc )
-                
-                resh = e.get_r( "biom:PalmprintImage/biom:ImageHorizontalPixelDensityValue" )
-                if resh != None:
-                    resh = int( resh )
-                    resv = int( e.get_r( "biom:PalmprintImage/biom:ImageVerticalPixelDensityValue" ) )
+            if palmimgs != None:
+                if not isinstance( palmimgs, list ):
+                    palmimgs = [ palmimgs ]
+
+                for e in palmimgs:
+                    idc = get_xml_tag( e, [ "ImageReferenceIdentification", "IdentificationID" ] )
+                    if idc == None:
+                        continue
+                    idc = int( idc )
+                    
+                    imp = get_xml_tag( e, [ "PalmprintImage", "FrictionRidgeImageImpressionCaptureCategoryCode" ], 11 )
+                    src = get_xml_tag( e, [ "PalmprintImage", "ImageCaptureDetail", "CaptureOrganization", "OrganizationIdentification", "IdentificationID" ] )
+                    pcd = get_xml_tag( e, [ "PalmprintImage", "ImageCaptureDetail", "CaptureDate", "Date" ] )
+                    
+                    self.add_Type15( idc )
+                    self.set_field( "15.002", idc, idc )
+                    self.set_field( "15.003", imp, idc )
+                    self.set_field( "15.004", src, idc )
+                    self.set_field( "15.005", pcd, idc )
+                    
+                    resh = get_xml_tag( e, [ "PalmprintImage", "ImageHorizontalPixelDensityValue" ] )
+                    resv = get_xml_tag( e, [ "PalmprintImage", "ImageVerticalPixelDensityValue" ] )
                     self.set_field( "15.009", resh, idc )
                     self.set_field( "15.010", resv, idc )
                     
-                    h = int( e.get_r( "biom:PalmprintImage/biom:ImageVerticalLineLengthPixelQuantity" ) )
-                    w = int( e.get_r( "biom:PalmprintImage/biom:ImageHorizontalLineLengthPixelQuantity" ) )
+                    h = get_xml_tag( e, [ "PalmprintImage", "ImageVerticalLineLengthPixelQuantity" ] )
+                    w = get_xml_tag( e, [ "PalmprintImage", "ImageHorizontalLineLengthPixelQuantity" ] )
                     self.set_field( "15.006", w, idc )
                     self.set_field( "15.007", h, idc )
                     
-                    suc = e.get_r( "biom:PalmprintImage/biom:ImageScaleUnitsCode" )
+                    suc = get_xml_tag( e, [ "PalmprintImage", "ImageScaleUnitsCode" ] )
                     self.set_field( "15.008", suc, idc )
-                    gca = e.get_r( "biom:PalmprintImage/biom:ImageCompressionAlgorithmText" )
+                    gca = get_xml_tag( e, [ "PalmprintImage", "ImageCompressionAlgorithmText" ] )
                     self.set_field( "15.011", gca, idc )
                     
-                    bpx = e.get_r( "itl:PackagePalmprintImageRecord/biom:PalmprintImage/biom:ImageBitsPerPixelQuantity", 8 )
+                    bpx = get_xml_tag( e, [ "PackagePalmprintImageRecord", "PalmprintImage", "ImageBitsPerPixelQuantity" ], 8 )
                     self.set_field( "15.012", bpx, idc )
                     
-                    palmposition = int( e.get_r( "biom:PalmprintImage/biom:PalmPositionCode" ) )
+                    palmposition = get_xml_tag( e, [ "PalmprintImage", "PalmPositionCode" ] )
                     self.set_field( "15.013", palmposition, idc )
                     
-                    com = e.get_r( "itl:PackagePalmprintImageRecord/biom:PalmprintImage/biom:ImageCommentText" )
+                    com = get_xml_tag( e, [ "itl:PackagePalmprintImageRecord", "PalmprintImage", "ImageCommentText" ] )
                     self.set_field( "15.020", com, idc )
                     
-                    imgdata = e.get_r( "biom:PalmprintImage/nc:BinaryBase64Object" )
+                    imgdata = get_xml_tag( e, [ "PalmprintImage", "BinaryBase64Object" ] )
                     imgdata = base64.decodestring( imgdata )
                     self.set_field( "15.999", imgdata, idc )
         

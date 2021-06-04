@@ -286,3 +286,38 @@ def printableFieldSeparator( data ):
 
 def split( str, num ):
     return [ str[ start : start + num ] for start in xrange( 0, len( str ), num ) ]
+
+def get_xml_tag( data, tag_name, default = None, name_space = None ):
+    if isinstance( tag_name, ( list ) ):
+        for tag in tag_name:
+            data = get_xml_tag( data, tag, default, name_space )
+        
+        return data
+    
+    else:
+        if isinstance( name_space, ( list ) ):
+            for ns in name_space:
+                ret = get_xml_tag( data, tag_name, default, ns )
+                if ret != None:
+                    return ret
+        
+        else:
+            if name_space == None:
+                if data == None:
+                    return default
+                
+                try:
+                    for key, value in data.iteritems():
+                        ns, tn = key.split( ":" )
+                        if tn == tag_name:
+                            return value
+
+                    else:
+                        return default
+                    
+                except:
+                    return default
+            
+            else:
+                return data.get( ":".join( [ name_space, tag_name ] ), default )
+
