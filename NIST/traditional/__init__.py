@@ -169,7 +169,8 @@ class NIST( NIST_Core ):
                 debug.debug( "ISR: %s" % ISR, 3 )
                 debug.debug( "HLL: %s" % HLL, 3 )
                 debug.debug( "VLL: %s" % VLL, 3 )
-                debug.debug( "GCA: %s (%s)" % ( GCA, decode_gca( GCA ) ), 3 )
+                debug.debug( "GCA: %s" % ( GCA ), 3 )
+                debug.debug( "GCA decoded: %s" % ( decode_gca( GCA ) ), 3 )
                 debug.debug( "DAT: %s" % bindump( DAT ), 3 )
                 
                 nist04 = {
