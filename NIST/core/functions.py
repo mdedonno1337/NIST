@@ -5,6 +5,7 @@ from PIL import Image
 
 from MDmisc.multimap import multimap
 from MDmisc.string import join
+from MDmisc.binary import int_to_bin, bin_to_int
 
 from .config import *
 from .exceptions import *
@@ -87,6 +88,83 @@ def encode_gca( code ):
     
     else:
         raise KeyError 
+
+def decode_fgp( code ):
+    """
+        Decode the integer value storing the Finger Position to a readable list
+        of positions codes. This function implements the standard for the
+        fields 3.004, 4.004, 5.004 and 6.004.
+        
+        Usage:
+        
+            >>> from NIST.core.functions import decode_fgp
+            >>> decode_fgp( 16492674416639 )
+            '14'
+            >>> decode_fgp( 1099511627775 )
+            '0'
+            >>> decode_fgp( 15423378554879 )
+            '14/7/8'
+    """
+    code = int( code )
+    
+    # Get the binary representation, padded to 6 bytes
+    code = int_to_bin( code, 6 * 8 )
+    
+    # Split in chunks of 8 bites
+    code = [ code[ i:i + 8 ] for i in xrange( 0, len( code ), 8 ) ]
+    
+    # Convert each chunk to decimal
+    code = [ bin_to_int( c ) for c in code ]
+    
+    # Remove the right padding
+    code = [ str( c ) for c in code if c != 255 ]
+    
+    return "/".join( code )
+
+def encode_fgp( code ):
+    """
+        Encode the string value storing the Finger Position to the correct
+        integer value. This function implements the standard for the fields
+        3.004, 4.004, 5.004 and 6.004.
+        
+        Usage:
+        
+            >>> from NIST.core.functions import encode_fgp
+            >>> encode_fgp( "14" )
+            16492674416639
+            >>> encode_fgp( "0" )
+            1099511627775
+            >>> encode_fgp( '14/7/8' )
+            15423378554879
+    """
+    # Convert to string as needed, if not a iterable
+    if not isinstance( code, ( str, list, tuple, ) ):
+        code = str( code )
+    
+    # Split the string to a list, as needed
+    if not isinstance( code, ( list, tuple, ) ):
+        code = code.split( "/" )
+        
+    # Cast all values to integer
+    code = [ int( c ) for c in code ]
+    
+    # Check for the max value (14)
+    for v in code:
+        if v > 14:
+            raise Exception( "Value can not be greater than 14" )
+    
+    # Expand the list with placeholders (255), and keep only the 6 first elements
+    code.extend( [ 255 ] * 6 )
+    code = code[ 0:6 ]
+    
+    # Convert the values to binary
+    code = [ int_to_bin( c, 8 ) for c in code ]
+    
+    # Convert back the value to integer
+    code = "".join( code )
+    code = bin_to_int( code )
+    
+    return code
 
 def hexformat( x ):
     """
