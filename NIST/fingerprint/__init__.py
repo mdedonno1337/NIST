@@ -25,7 +25,7 @@ from .functions import *
 from .voidType import voidType
 from ..core.config import RS, US, FS, default_origin
 from ..core.exceptions import *
-from ..core.functions import decode_gca
+from ..core.functions import decode_gca, decode_fgp
 from ..traditional import NIST as NIST_traditional
 
 try:
@@ -199,8 +199,19 @@ class NISTf( NIST_traditional ):
             idcs = self.data[ ntype ].keys()
             
             for idc in idcs:
-                if int( self.get_field( ( ntype, fields[ ntype ] ), idc ) ) == int( fpc ):
-                    return idc
+                fpc_candidate = self.get_field( ( ntype, fields[ ntype ] ), idc )
+                
+                if ntype == 4:
+                    fpc_candidate = decode_fgp( fpc_candidate )
+                    fpc_candidate = fpc_candidate.split( "/" )
+                    fpc_candidate = map( int, fpc_candidate )
+                    
+                    if int( fpc ) in fpc_candidate:
+                        return idc
+                    
+                else:
+                    if int( fpc_candidate ) == int( fpc ):
+                        return idc
             
             else:
                 raise idcNotFound
