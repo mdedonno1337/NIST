@@ -234,6 +234,10 @@ class NISTf( NIST_traditional ):
             idcs = self.data[ ntype ].keys()
             for idc in idcs:
                 fpc = self.get_field( ( ntype, fieldid ), idc )
+                
+                if ntype == 4:
+                    fpc = decode_fgp( fpc, True )
+                    
                 if fpc != None:
                     fpc_list.append( int( fpc ) )
         
