@@ -55,6 +55,8 @@ def decode_gca( code ):
         
         Usage:
             
+            >>> from NIST.core.functions import decode_gca
+            
             >>> decode_gca( 'NONE' )
             'RAW'
             
@@ -98,6 +100,7 @@ def hexformat( x ):
         
         Usage:
         
+            >>> from NIST.core.functions import hexformat
             >>> hexformat( 255 )
             'FF'
     """
@@ -114,12 +117,10 @@ def bindump( data, n = 8 ):
         :return: Stripped hex representation
         :rtype: str
         
-        Let `data` be a list of all hex values between `00` and `FF`:
-            
+        Usage:
+        
+            >>> from NIST.core.functions import bindump
             >>> data = "".join( [ chr( x ) for x in xrange( 256 ) ] )
-        
-        The truncated representation will be:
-        
             >>> bindump( data )
             '00010203 ... FCFDFEFF (256 bytes)'
             
@@ -149,6 +150,7 @@ def fieldSplitter( data ):
         
         Usage:
         
+            >>> from NIST.core.functions import fieldSplitter
             >>> fieldSplitter( "1.002:0300" )
             ('1.002', 1, 2, '0300')
     """
@@ -178,9 +180,9 @@ def get_label( ntype, tagid, fullname = False ):
         
         Usage:
         
+            >>> from NIST.core.functions import get_label
             >>> get_label( 1, 2 )
             'VER'
-            
             >>> get_label( 1, 2, fullname = True )
             'Version number'
     """
@@ -210,6 +212,7 @@ def leveler( msg, level = 1 ):
         
         Usage:
         
+            >>> from NIST.core.functions import leveler
             >>> leveler( "1.002", 1 )
             '    1.002'
     """
@@ -231,6 +234,7 @@ def tagger( ntype, tagid ):
         
         Usage:
         
+            >>> from NIST.core.functions import tagger
             >>> tagger( 1, 2 )
             '1.002:'
     """
@@ -246,10 +250,13 @@ def tagSplitter( tag ):
         :return: Splitted tag
         :rtype: tuple
         
-        >>> tagSplitter( "1.002" )
-        (1, 2)
-        >>> tagSplitter( ( 1, 2 ) )
-        (1, 2)
+        Usage:
+        
+            >>> from NIST.core.functions import tagSplitter
+            >>> tagSplitter( "1.002" )
+            (1, 2)
+            >>> tagSplitter( ( 1, 2 ) )
+            (1, 2)
     """
     if isinstance( tag, str ):
         tag = tag.split( DO )
@@ -273,6 +280,8 @@ def printableFieldSeparator( data ):
         
         Usage:
         
+            >>> from NIST.core.config import FS, GS, RS, US
+            >>> from NIST.core.functions import printableFieldSeparator
             >>> data = " / ".join( [ FS, GS, RS, US ] )
             >>> printableFieldSeparator( data )
             '<FS> / <GS> / <RS> / <US>'
