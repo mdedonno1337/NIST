@@ -14,7 +14,7 @@ from MDmisc.string import stringIterator, join
 
 from ..core import NIST as NIST_Core
 from ..core.config import FS, GS, RS, US
-from ..core.functions import fieldSplitter, bindump, decode_gca, tagger
+from ..core.functions import fieldSplitter, bindump, decode_gca, tagger, decode_fgp
 
 class NIST( NIST_Core ):
     def load_auto( self, p ):
@@ -144,8 +144,7 @@ class NIST( NIST_Core ):
                 LEN = binstring_to_int( iter.take( 4 ) )
                 IDC = binstring_to_int( iter.take( 1 ) )
                 IMP = binstring_to_int( iter.take( 1 ) )
-                FGP = binstring_to_int( iter.take( 1 ) )
-                iter.take( 5 )
+                FGP = binstring_to_int( iter.take( 6 ) )
                 ISR = binstring_to_int( iter.take( 1 ) )
                 HLL = binstring_to_int( iter.take( 2 ) )
                 VLL = binstring_to_int( iter.take( 2 ) )
@@ -169,7 +168,8 @@ class NIST( NIST_Core ):
                 debug.debug( "ISR: %s" % ISR, 3 )
                 debug.debug( "HLL: %s" % HLL, 3 )
                 debug.debug( "VLL: %s" % VLL, 3 )
-                debug.debug( "GCA: %s (%s)" % ( GCA, decode_gca( GCA ) ), 3 )
+                debug.debug( "GCA: %s" % ( GCA ), 3 )
+                debug.debug( "GCA decoded: %s" % ( decode_gca( GCA ) ), 3 )
                 debug.debug( "DAT: %s" % bindump( DAT ), 3 )
                 
                 nist04 = {
@@ -220,8 +220,7 @@ class NIST( NIST_Core ):
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 1 ] ), 4 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 2 ] ), 1 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 3 ] ), 1 * 8 ) )
-                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 4 ] ), 1 * 8 ) )
-                    outnist.append( ( chr( 0xFF ) * 5 ) )
+                    outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 4 ] ), 6 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 5 ] ), 1 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 6 ] ), 2 * 8 ) )
                     outnist.append( int_to_binstring( int( self.data[ ntype ][ idc ][ 7 ] ), 2 * 8 ) )

@@ -24,7 +24,7 @@ from MDmisc.string import join, upper, stringIterator, split_r
 from .binary import binary_fields
 from .config import RS, US
 from .exceptions import *
-from .functions import bindump, default_origin, get_label
+from .functions import bindump, default_origin, get_label, decode_fgp, encode_fgp
 from .voidType import voidType
 from ..core.functions import leveler, printableFieldSeparator, split, tagSplitter
 
@@ -440,6 +440,9 @@ class NIST( object ):
         if self.is_binary( ntype, tagid ):
             return bindump( value )
         
+        if ntype in [ 3, 4, 5, 6 ] and tagid == 4:
+            return decode_fgp( value )
+        
         else:
             return value
     
@@ -792,6 +795,9 @@ class NIST( object ):
                 except:
                     raise idcNotFound
             
+            if ntype in [ 3, 4, 5, 6 ] and tagid == 4:
+                value = encode_fgp( value )
+                
             if not isinstance( value, str ):
                 value = str( value )
             
