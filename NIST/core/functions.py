@@ -89,7 +89,7 @@ def encode_gca( code ):
     else:
         raise KeyError 
 
-def decode_fgp( code ):
+def decode_fgp( code, only_first = False ):
     """
         Decode the integer value storing the Finger Position to a readable list
         of positions codes. This function implements the standard for the
@@ -119,7 +119,11 @@ def decode_fgp( code ):
     # Remove the right padding
     code = [ str( c ) for c in code if c != 255 ]
     
-    return "/".join( code )
+    if only_first:
+        return code[ 0 ]
+    
+    else:
+        return "/".join( code )
 
 def encode_fgp( code ):
     """
