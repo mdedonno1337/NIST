@@ -2008,6 +2008,7 @@ class NISTf( NIST_traditional ):
         """
         img = self.get_print( 'PIL', idc )
         res = self.get_resolution( idc )
+        img = img.convert( "RGB" )
         
         try:
             img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
