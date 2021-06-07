@@ -84,6 +84,7 @@ class NIST( object ):
         
         if init != None:
             self.load_auto( init )
+            self.clean()
     
     ############################################################################
     # 
