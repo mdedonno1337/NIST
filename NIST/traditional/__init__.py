@@ -190,8 +190,6 @@ class NIST( NIST_Core ):
                 LEN = int( LEN )
             
             else:
-                debug.critical( boxer( "Unknown Type-%02d" % ntype, "The Type-%02d is not supported. It will be skipped in the pasing process. Contact the developer for more information." % ntype ) )
-                
                 if data.startswith( str( ntype ) ):
                     _, _, _, LEN = fieldSplitter( data[ 0 : data.find( GS ) ] )
                     LEN = int( LEN )
