@@ -128,14 +128,14 @@ class NIST( object ):
             
             Let `n` be a NIST object as follow:
             
-                >>> type( n )
-                <class 'NIST.core.__init__.NIST'>
+                >>> type( sample_all_supported_types )
+                <class 'NIST.traditional.__init__.NIST'>
             
             To change the type to `NISTf` type, use the following commands:
                 
                 >>> from NIST import NISTf
-                >>> n.changeClassTo( NISTf )
-                >>> type( n )
+                >>> sample_all_supported_types.changeClassTo( NISTf )
+                >>> type( sample_all_supported_types )
                 <class 'NIST.fingerprint.NISTf'>
         """
         self.__class__ = newclass
@@ -157,9 +157,9 @@ class NIST( object ):
                 
                 >>> from NIST import NIST
                 >>> n = NIST()
-                >>> n.read( "./sample/pass-type-9-13-m1.an2" )
+                >>> n.read( "./sample/all-supported-types.an2" )
                 >>> n
-                NIST object, Type-01, Type-02, Type-09, Type-13
+                NIST object, Type-01, Type-02, Type-04, Type-09, Type-10, Type-13, Type-14, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98, Type-99
         """
         debug.debug( "Reading from file : %s" % infile )
         
@@ -187,9 +187,12 @@ class NIST( object ):
             
             Usage:
             
+                >>> from NIST import NIST
+                >>> n = NIST()
+                >>> n.read( "./sample/all-supported-types.an2" )
                 >>> fileContent = n.get_field( "1.003" )
                 >>> n.process_fileContent( fileContent )
-                [2]
+                [2, 4, 7, 8, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 20, 21, 21, 98, 99]
         """
         try:
             data = map( lambda x: map( int, x.split( US ) ), data.split( RS ) )
@@ -403,9 +406,9 @@ class NIST( object ):
             
             Usage:
             
-                >>> n.is_binary( 13, 999 )
+                >>> sample_type_13.is_binary( 13, 999 )
                 True
-                >>> n.is_binary( 1, 3 ) 
+                >>> sample_type_13.is_binary( 1, 3 )
                 False
         """
         if tagid == 999:
@@ -433,8 +436,8 @@ class NIST( object ):
             
             Usage:
             
-                >>> n.format_field( 1, 8 )
-                'UNIL'
+                >>> sample_all_supported_types.format_field( 1, 8 )
+                'ORI'
         """
         value = self.get_field( ( ntype, tagid ), idc )
         
@@ -465,20 +468,26 @@ class NIST( object ):
             
             Usage:
             
-                >>> dump = n.dump_record( 1, 0 )
+                >>> dump = sample_all_supported_types.dump_record( 1 )
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
                 NIST Type-01
-                    01.001 LEN: 00000136
-                    01.002 VER: 0300
-                    01.003 CNT: 1<US>1<RS>2<US>0
-                    01.004 TOT: USA
-                    01.005 DAT: ...
-                    01.006 PRY: 1
-                    01.007 DAI: FILE
-                    01.008 ORI: UNIL
-                    01.009 TCN: ...
-                    01.011 NSR: 00.00
-                    01.012 NTR: 00.00
+                    01.001 LEN: 00000349
+                    01.002 VER: 0500
+                    01.003 CNT: 1<US>17<RS>2<US>0<RS>4<US>1<RS>9<US>10<RS>10<US>2<RS>13<US>1<RS>14<US>3<RS>15<US>4<RS>16<US>17<RS>17<US>5<RS>18<US>13<RS>19<US>16<RS>20<US>6<RS>20<US>7<RS>21<US>8<RS>21<US>9<RS>98<US>11<RS>99<US>12
+                    01.004 TOT: A
+                    01.005 DAT: 20120726
+                    01.006 PRY: 9
+                    01.007 DAI: DAI
+                    01.008 ORI: ORI
+                    01.009 TCN: TCN
+                    01.010 TCR: t15
+                    01.011 NSR: 19.30
+                    01.012 NTR: 19.30
+                    01.013 DOM: DOM<US>1.00
+                    01.014 GMT: 20120726111545Z
+                    01.015 DCS: 0<US>ASCII<US>1
+                    01.016 APS: ORG<US>APSNAME<US>1.0.0<RS>ORG2<US>APS2NAME<US>version three
+                    01.017 ANM: DAI Name<US>ORI Name
         """
         d = self.data[ ntype ][ idc ]
         
@@ -515,29 +524,41 @@ class NIST( object ):
             
             Usage:
             
-                >>> dump = n.dump()
+                >>> dump = sample_all_supported_types.dump()
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
                 Informations about the NIST object:
-                    Obj ID:  Doctester NIST object
-                    Records: Type-01, Type-02
-                    Class:   NISTf
+                    File:    ...
+                    Obj ID:  45300b86cc63923a015d9d99588953c5
+                    Records: Type-01, Type-02, Type-04, Type-09, Type-10, Type-13, Type-14, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98, Type-99
+                    Class:   NIST
                 <BLANKLINE>
                 NIST Type-01
-                    01.001 LEN: 00000136
-                    01.002 VER: 0300
-                    01.003 CNT: 1<US>1<RS>2<US>0
-                    01.004 TOT: USA
-                    01.005 DAT: ...
-                    01.006 PRY: 1
-                    01.007 DAI: FILE
-                    01.008 ORI: UNIL
-                    01.009 TCN: ...
-                    01.011 NSR: 00.00
-                    01.012 NTR: 00.00
+                    01.001 LEN: 00000349
+                    01.002 VER: 0500
+                    01.003 CNT: 1<US>17<RS>2<US>0<RS>4<US>1<RS>9<US>10<RS>10<US>2<RS>13<US>1<RS>14<US>3<RS>15<US>4<RS>16<US>17<RS>17<US>5<RS>18<US>13<RS>19<US>16<RS>20<US>6<RS>20<US>7<RS>21<US>8<RS>21<US>9<RS>98<US>11<RS>99<US>12
+                    01.004 TOT: A
+                    ...
                 NIST Type-02 (IDC 0)
-                    02.001 LEN: 00000038
+                    02.001 LEN: 00000023
                     02.002 IDC: 0
-                    02.004    : ...
+                NIST Type-04 (IDC 1)
+                    04.001 LEN: 104277
+                    04.002 IDC: 1
+                    04.003 IMP: 8
+                    04.004 FGP: 0/1/2/3/4/5
+                    ...
+                NIST Type-09 (IDC 10)
+                    09.001 LEN: 00000548
+                    09.002 IDC: 10
+                    09.003 IMP: 20
+                    09.004 FMT: S
+                    ...
+                NIST Type-10 (IDC 2)
+                    10.001 LEN: 00069624
+                    10.002 IDC: 2
+                    10.003 IMT: FACE
+                    10.004 SRC: SRC
+                ...
         """
         debug.debug( "Dumping NIST" )
         
@@ -619,15 +640,9 @@ class NIST( object ):
             
             :return: NIST object.
             :rtype: NIST object
-            
-            Usage:
-            
-                >>> from NIST import NIST
-                >>> n = NIST()
-                >>> n.from_json( "sample/mark-pairing-nobinary.json" )
-                >>> n
-                NIST object, Type-01, Type-02, Type-09, Type-13
         """
+        #TODO: Add documentation
+        
         if isinstance( data, str ) and os.path.isfile( data ):
             with open( data ) as fp:
                 data = json.load( fp )
@@ -739,8 +754,8 @@ class NIST( object ):
             
             Usage:
             
-                >>> n.get_field( "1.002" )
-                '0300'
+                >>> sample_all_supported_types.get_field( "1.002" )
+                '0500'
         """
         ntype, tagid = tagSplitter( tag )
         
@@ -767,7 +782,15 @@ class NIST( object ):
             
             Usage:
             
-                >>> n.set_field( "1.002", "0300" )
+                >>> sample_all_supported_types.set_field( "1.002", "0300" )
+                >>> dump = sample_all_supported_types.dump_record( 1 )
+                >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+                NIST Type-01
+                    01.001 LEN: 00000349
+                    01.002 VER: 0300
+                    01.003 CNT: 1<US>17<RS>2<US>0<RS>4<US>1<RS>9<US>10<RS>10<US>2<RS>13<US>1<RS>14<US>3<RS>15<US>4<RS>16<US>17<RS>17<US>5<RS>18<US>13<RS>19<US>16<RS>20<US>6<RS>20<US>7<RS>21<US>8<RS>21<US>9<RS>98<US>11<RS>99<US>12
+                    01.004 TOT: A
+                    ...
         """
         if value == None:
             try:
@@ -822,8 +845,8 @@ class NIST( object ):
             
             Usage:
             
-                >>> n.get_fields( [ "1.002", "1.004" ] )
-                ['0300', 'USA']
+                >>> sample_all_supported_types.get_fields( [ "1.002", "1.004" ] )
+                ['0500', 'A']
         """
         return [ self.get_field( tag, idc ) for tag in tags ]
     
@@ -883,17 +906,16 @@ class NIST( object ):
     
     def add_ntype( self, ntype ):
         """
-           Add an empty ntype to the NIST object.
+            Add an empty ntype to the NIST object.
+            
+            :param ntype: ntype to add.
+            :type ntype: int
+            
+            Usage:
            
-           :param ntype: ntype to add.
-           :type ntype: int
-           
-           Usage:
-           
-               >>> tmp = n.get()
-               >>> tmp.add_ntype( 18 )
-               >>> tmp
-               NIST object, Type-01, Type-02, Type-18
+                >>> sample_type_1.add_ntype( 18 )
+                >>> sample_type_1.data.keys()
+                [1, 2, 18]
         """
         if not ntype in self.get_ntype():
             self.data[ ntype ] = {}
@@ -1018,8 +1040,8 @@ class NIST( object ):
         """
             Return all ntype presents in the NIST object.
             
-                >>> n.get_ntype()
-                [1, 2]
+                >>> sample_all_supported_types.get_ntype()
+                [1, 2, 4, 9, 10, 13, 14, 15, 16, 17, 18, 19, 20, 21, 98, 99]
         """
         lst = []
         
@@ -1033,8 +1055,8 @@ class NIST( object ):
         """
             Return all IDC for a specific ntype.
             
-                >>> n.get_idc( 2 ) # doctest: +NORMALIZE_WHITESPACE
-                [0]
+                >>> sample_all_supported_types.get_idc( 4 )
+                [1]
         """
         return sorted( self.data[ ntype ].keys() )
     
@@ -1050,8 +1072,8 @@ class NIST( object ):
             
             Usage:
             
-                >>> n.get_all_tagid()
-                [(1, 0, 1), (1, 0, 2), (1, 0, 3), (1, 0, 4), (1, 0, 5), (1, 0, 6), (1, 0, 7), (1, 0, 8), (1, 0, 9), (1, 0, 11), (1, 0, 12), (2, 0, 1), (2, 0, 2), (2, 0, 4)]
+                >>> sample_type_1.get_all_tagid()
+                [(1, 0, 1), (1, 0, 2), (1, 0, 3), (1, 0, 4), (1, 0, 5), (1, 0, 6), (1, 0, 7), (1, 0, 8), (1, 0, 9), (1, 0, 10), (1, 0, 11), (1, 0, 12), (1, 0, 13), (1, 0, 14), (1, 0, 15), (1, 0, 16), (1, 0, 17), (2, 0, 1), (2, 0, 2)]
         """
         lst = []
         for ntype, idcs in self.data.iteritems():
@@ -1069,13 +1091,13 @@ class NIST( object ):
             unique; if multiple IDC are stored for the specific ntype, an
             exception is raised.
             
-                >>> n.checkIDC( 1, 0 )
+                >>> sample_type_1.checkIDC( 1, 0 )
                 0
                 
-                >>> n.checkIDC( 1, -1 )
+                >>> sample_type_1.checkIDC( 1, -1 )
                 0
                 
-                >>> n.checkIDC( 1, 1 ) # doctest: +IGNORE_EXCEPTION_DETAIL
+                >>> sample_type_1.checkIDC( 1, 1 ) # doctest: +IGNORE_EXCEPTION_DETAIL
                 Traceback (most recent call last):
                 idcNotFound
         """
@@ -1116,28 +1138,34 @@ class NIST( object ):
         """
             Return the printable version of the NIST object.
             
-                >>> print n # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
+                >>> print( sample_type_1 ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
                 Informations about the NIST object:
-                    Obj ID:  Doctester NIST object
+                    File:    ...
+                    Obj ID:  d42ad80daed390c357667d1e85164298
                     Records: Type-01, Type-02
-                    Class:   NIST
+                    Class:   NISTf
                 <BLANKLINE>
                 NIST Type-01
-                    01.001 LEN: 00000136
-                    01.002 VER: 0300
+                    01.001 LEN: 00000264
+                    01.002 VER: 0500
                     01.003 CNT: 1<US>1<RS>2<US>0
-                    01.004 TOT: USA
-                    01.005 DAT: ...
-                    01.006 PRY: 1
-                    01.007 DAI: FILE
-                    01.008 ORI: UNIL
-                    01.009 TCN: ...
+                    01.004 TOT: A
+                    01.005 DAT: 20120726
+                    01.006 PRY: 9
+                    01.007 DAI: DAI
+                    01.008 ORI: ORI
+                    01.009 TCN: TCN
+                    01.010 TCR: t15
                     01.011 NSR: 00.00
                     01.012 NTR: 00.00
+                    01.013 DOM: DOM<US>1.00
+                    01.014 GMT: 20120726111545Z
+                    01.015 DCS: 0<US>ASCII<US>1
+                    01.016 APS: ORG<US>APSNAME<US>1.0.0<RS>ORG2<US>APS2NAME<US>version three
+                    01.017 ANM: DAI Name<US>ORI Name
                 NIST Type-02 (IDC 0)
-                    02.001 LEN: 00000038
+                    02.001 LEN: 00000023
                     02.002 IDC: 0
-                    02.004    : ...
         """
         try:
             return self.dump()
@@ -1149,7 +1177,7 @@ class NIST( object ):
         """
             Return unambiguous description.
             
-                >>> n
+                >>> sample_type_1
                 NIST object, Type-01, Type-02
         """
         return "NIST object, " + ", ".join( [ "Type-%02d" % x for x in self.get_ntype() ] )
@@ -1163,8 +1191,8 @@ class NIST( object ):
             
             Usage:
             
-                >>> tmp = n.get()
-                >>> tmp == n
+                >>> tmp = sample_type_1.get()
+                >>> tmp == sample_type_1
                 False
             
             .. note::
