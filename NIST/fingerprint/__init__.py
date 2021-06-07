@@ -1814,21 +1814,22 @@ class NISTf( NIST_traditional ):
         
         self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
         
-        # Minutia cropping
-        minu = self.get_minutiae( self.minutiaeformat, idc, **options )
-        
-        for i, _ in enumerate( minu ):
-            minu[ i ] += offsetmin
-        
-        self.set_minutiae( minu, idc )
-        
-        # Core cropping
-        cores = self.get_cores( idc )
-        if cores != None:
-            for i, _ in enumerate( cores ):
-                cores[ i ] += offsetmin
+        if 9 in self.get_ntype():
+            # Minutia cropping
+            minu = self.get_minutiae( self.minutiaeformat, idc, **options )
             
-            self.set_cores( cores, idc )
+            for i, _ in enumerate( minu ):
+                minu[ i ] += offsetmin
+            
+            self.set_minutiae( minu, idc )
+            
+            # Core cropping
+            cores = self.get_cores( idc )
+            if cores != None:
+                for i, _ in enumerate( cores ):
+                    cores[ i ] += offsetmin
+                
+                self.set_cores( cores, idc )
         
     ############################################################################
     # 
