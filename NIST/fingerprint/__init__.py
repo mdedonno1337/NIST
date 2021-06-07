@@ -415,7 +415,11 @@ class NISTf( NIST_traditional ):
                         break
                     
                     else:
-                        id, xyt, q, d = m
+                        id = m[ 0 ]
+                        xyt = m[ 1 ]
+                        q = m[ 2 ]
+                        d = m[ 3 ]
+                        rc = m[ 4: ]
                         
                         d = d.upper()
                         
@@ -436,7 +440,11 @@ class NISTf( NIST_traditional ):
                         break
                     
                     else:
-                        id, xyt, q, d = m
+                        id = m[ 0 ]
+                        xyt = m[ 1 ]
+                        q = m[ 2 ]
+                        d = m[ 3 ]
+                        rc = m[ 4: ]
                         
                         d = d.upper()
                         
