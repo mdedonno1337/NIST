@@ -2911,6 +2911,7 @@ class NISTf( NIST_traditional ):
             image = self.get_field( "4.999", idc )
             cga = self.get_field( "4.008", idc )
             fgp = self.get_field( "4.004", idc )
+            fgp = decode_fgp( fgp, separator = RS )
             
             self.add_Type14( size, res, idc )
             self.set_field( "14.999", image, idc )
