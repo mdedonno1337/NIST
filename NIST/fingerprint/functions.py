@@ -69,16 +69,16 @@ def lstTo012( lst, format = None ):
         undetermined) is not always well supported).
             
             >>> lstTo012(
-            ...    [[  7.85,  7.05, 290 ], 
-            ...     [ 13.80, 15.30, 155 ], 
-            ...     [ 11.46, 22.32, 224 ], 
-            ...     [ 22.61, 25.17, 194 ], 
-            ...     [  6.97,  8.48, 153 ], 
-            ...     [ 12.58, 19.88, 346 ], 
-            ...     [ 19.69, 19.80, 111 ], 
-            ...     [ 12.31,  3.87, 147 ], 
-            ...     [ 13.88, 14.29, 330 ], 
-            ...     [ 15.47, 22.49, 271 ]], 
+            ...    [[  7.85,  7.05, 290 ],
+            ...     [ 13.80, 15.30, 155 ],
+            ...     [ 11.46, 22.32, 224 ],
+            ...     [ 22.61, 25.17, 194 ],
+            ...     [  6.97,  8.48, 153 ],
+            ...     [ 12.58, 19.88, 346 ],
+            ...     [ 19.69, 19.80, 111 ],
+            ...     [ 12.31,  3.87, 147 ],
+            ...     [ 13.88, 14.29, 330 ],
+            ...     [ 15.47, 22.49, 271 ]],
             ...    format = "xyt"
             ... )
             '1\\x1f07850705290\\x1f00\\x1fA\\x1e2\\x1f13801530155\\x1f00\\x1fA\\x1e3\\x1f11462232224\\x1f00\\x1fA\\x1e4\\x1f22612517194\\x1f00\\x1fA\\x1e5\\x1f06970848153\\x1f00\\x1fA\\x1e6\\x1f12581988346\\x1f00\\x1fA\\x1e7\\x1f19691980111\\x1f00\\x1fA\\x1e8\\x1f12310387147\\x1f00\\x1fA\\x1e9\\x1f13881429330\\x1f00\\x1fA\\x1e10\\x1f15472249271\\x1f00\\x1fA'
@@ -138,15 +138,15 @@ def lstTo137( lst, res = None ):
             
             >>> from NIST.fingerprint.functions import lstTo137
             >>> lstTo137(
-            ...    [[  1,  7.85,  7.05, 290, 0, 100 ], 
-            ...     [  2, 13.80, 15.30, 155, 0, 100 ], 
-            ...     [  3, 11.46, 22.32, 224, 0, 100 ], 
-            ...     [  4, 22.61, 25.17, 194, 0, 100 ], 
-            ...     [  5,  6.97,  8.48, 153, 0, 100 ], 
-            ...     [  6, 12.58, 19.88, 346, 0, 100 ], 
-            ...     [  7, 19.69, 19.80, 111, 0, 100 ], 
-            ...     [  8, 12.31,  3.87, 147, 0, 100 ], 
-            ...     [  9, 13.88, 14.29, 330, 0, 100 ], 
+            ...    [[  1,  7.85,  7.05, 290, 0, 100 ],
+            ...     [  2, 13.80, 15.30, 155, 0, 100 ],
+            ...     [  3, 11.46, 22.32, 224, 0, 100 ],
+            ...     [  4, 22.61, 25.17, 194, 0, 100 ],
+            ...     [  5,  6.97,  8.48, 153, 0, 100 ],
+            ...     [  6, 12.58, 19.88, 346, 0, 100 ],
+            ...     [  7, 19.69, 19.80, 111, 0, 100 ],
+            ...     [  8, 12.31,  3.87, 147, 0, 100 ],
+            ...     [  9, 13.88, 14.29, 330, 0, 100 ],
             ...     [ 10, 15.47, 22.49, 271, 0, 100 ]],
             ...    500
             ... )
@@ -282,8 +282,13 @@ def tetraptych( mark, pr, markidc = -1, pridc = -1 ):
         Usage:
         
             >>> from NIST.fingerprint.functions import tetraptych
-            >>> tetraptych( mark, pr, pridc = 1 ) # doctest: +ELLIPSIS
-            <PIL.Image.Image image mode=RGB size=1000x1000 at ...>
+            >>> img = tetraptych( sample_type_13, sample_type_4_tpcard, pridc = 1 )
+            >>> img# doctest: +ELLIPSIS
+            <PIL.Image.Image image mode=RGB size=1604x1536 at ...>
+            
+            >>> from hashlib import md5
+            >>> md5( img.tobytes() ).hexdigest()
+            '3779a044e5a56b56380a895a9a5297ea'
     """
     
     markidc = mark.checkIDC( 13, markidc )
@@ -809,6 +814,10 @@ class AnnotationList( eobject ):
             
             Usage :
             
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> minutiae.set_format( 'xy' )
                 >>> minutiae # doctest: +NORMALIZE_WHITESPACE
                 [
@@ -852,6 +861,10 @@ class AnnotationList( eobject ):
             
             Usage:
             
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> minutiae.get_by_type( 'D' ) # doctest: +NORMALIZE_WHITESPACE
                 [
                     Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
@@ -871,6 +884,10 @@ class AnnotationList( eobject ):
             
             Usage:
             
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> minutiae.as_list()
                 [[1, 7.85, 7.05, 290, 0, 'A'], [2, 13.8, 15.3, 155, 0, 'A'], [3, 11.46, 22.32, 224, 0, 'B'], [4, 22.61, 25.17, 194, 0, 'A'], [5, 6.97, 8.48, 153, 0, 'B'], [6, 12.58, 19.88, 346, 0, 'A'], [7, 19.69, 19.8, 111, 0, 'C'], [8, 12.31, 3.87, 147, 0, 'A'], [9, 13.88, 14.29, 330, 0, 'D'], [10, 15.47, 22.49, 271, 0, 'D']]
 
@@ -885,6 +902,10 @@ class AnnotationList( eobject ):
             :rtype: str
             
             Usage:
+                
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
                 
                 >>> minutiae.as_json()
                 '[ {"i": 1, "x": 7.85, "y": 7.05, "t": 290, "q": 0, "d": "A"}, {"i": 2, "x": 13.8, "y": 15.3, "t": 155, "q": 0, "d": "A"}, {"i": 3, "x": 11.46, "y": 22.32, "t": 224, "q": 0, "d": "B"}, {"i": 4, "x": 22.61, "y": 25.17, "t": 194, "q": 0, "d": "A"}, {"i": 5, "x": 6.97, "y": 8.48, "t": 153, "q": 0, "d": "B"}, {"i": 6, "x": 12.58, "y": 19.88, "t": 346, "q": 0, "d": "A"}, {"i": 7, "x": 19.69, "y": 19.8, "t": 111, "q": 0, "d": "C"}, {"i": 8, "x": 12.31, "y": 3.87, "t": 147, "q": 0, "d": "A"}, {"i": 9, "x": 13.88, "y": 14.29, "t": 330, "q": 0, "d": "D"}, {"i": 10, "x": 15.47, "y": 22.49, "t": 271, "q": 0, "d": "D"} ]'
@@ -904,7 +925,11 @@ class AnnotationList( eobject ):
             
             Usage:
             
-                >>> tmp = minutiae.get( 'ixytqd' )
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
+                >>> tmp = minutiae.get()
                 >>> tmp == minutiae
                 False
             
@@ -928,7 +953,13 @@ class AnnotationList( eobject ):
             
             Let a the objects `a` and `tmp` be defined as follow:
             
+                >>> from NIST.fingerprint.functions import AnnotationList
+                
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> from NIST.fingerprint.functions import Minutia
+                
                 >>> a = Minutia( [ 11, 22.67, 1.49, 325, 0, 'A' ], format = 'ixytqd' )
                 >>> tmp = minutiae.get_by_type( 'A' )
             
@@ -952,6 +983,10 @@ class AnnotationList( eobject ):
             Function to remove a particular Annotation (by value).
             
             Usage:
+                
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
                 
                 >>> from NIST.fingerprint.functions import Minutia
                 >>> r = Minutia( [ 8, 12.31, 3.87, 147, 0, 'A' ], format = "ixytqd" )
@@ -1040,12 +1075,15 @@ class AnnotationList( eobject ):
             
             Usage:
                 
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> from NIST.fingerprint.functions import Point
                 
-                >>> minutiae2 = minutiae.get()
                 >>> p = Point( ( 12, 12 ) )
-                >>> minutiae2.sort_dist_point( p ) 
-                >>> minutiae2 # doctest: +NORMALIZE_WHITESPACE
+                >>> minutiae.sort_dist_point( p )
+                >>> minutiae.get( "xy" ) # doctest: +NORMALIZE_WHITESPACE
                 [
                     Minutia( x='13.88', y='14.29' ),
                     Minutia( x='13.8', y='15.3' ),
@@ -1096,6 +1134,10 @@ class AnnotationList( eobject ):
         Function to generate a string representation of the AnnotationList
         object. This string is similar to the `pprint.pprint` function:
         
+            >>> from NIST.fingerprint.functions import AnnotationList
+            >>> minutiae = AnnotationList()
+            >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+            
             >>> minutiae # doctest: +NORMALIZE_WHITESPACE
             [
                 Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
@@ -1160,6 +1202,11 @@ class AnnotationList( eobject ):
             
             Usage:
             
+            
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> len( minutiae )
                 10
         """

@@ -104,8 +104,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> mark2 = mark.get()
-                >>> mark2.clean()
+                >>> sample_type_9_10_14.clean()
         """
         debug.debug( "Cleaning the NIST object" )
         
@@ -278,22 +277,60 @@ class NISTf( NIST_traditional ):
             
             To get all information, dont speficy any format:
             
-                >>> mark2 = mark.get()
-                >>> mark2.get_minutiae() # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_minutiae() # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                    Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' ),
+                    Minutia( i='2', x='21.49', y='20.3', t='96', q='00', d='D' ),
+                    Minutia( i='3', x='18.59', y='24.0', t='96', q='00', d='D' ),
+                    Minutia( i='4', x='20.83', y='23.55', t='98', q='00', d='D' ),
+                    Minutia( i='5', x='21.44', y='23.19', t='104', q='00', d='D' ),
+                    Minutia( i='6', x='21.29', y='25.32', t='112', q='00', d='D' ),
+                    Minutia( i='7', x='19.56', y='25.53', t='112', q='00', d='D' ),
+                    Minutia( i='8', x='20.57', y='25.58', t='111', q='00', d='D' ),
+                    Minutia( i='9', x='23.32', y='23.45', t='107', q='00', d='D' ),
+                    Minutia( i='10', x='21.23', y='15.06', t='193', q='00', d='D' ),
+                    Minutia( i='11', x='17.98', y='12.22', t='201', q='00', d='D' ),
+                    Minutia( i='12', x='16.76', y='12.52', t='203', q='00', d='D' ),
+                    Minutia( i='13', x='14.78', y='13.34', t='203', q='00', d='D' ),
+                    Minutia( i='14', x='11.48', y='15.01', t='210', q='00', d='D' ),
+                    Minutia( i='15', x='19.61', y='14.0', t='210', q='00', d='D' ),
+                    Minutia( i='16', x='17.73', y='12.93', t='211', q='00', d='D' ),
+                    Minutia( i='17', x='13.61', y='13.49', t='211', q='00', d='D' ),
+                    Minutia( i='18', x='14.88', y='24.21', t='218', q='00', d='D' ),
+                    Minutia( i='19', x='20.22', y='14.4', t='215', q='00', d='D' ),
+                    Minutia( i='20', x='13.61', y='14.61', t='224', q='00', d='D' ),
+                    Minutia( i='21', x='15.65', y='23.85', t='220', q='00', d='D' ),
+                    Minutia( i='22', x='18.59', y='14.81', t='224', q='00', d='D' ),
+                    Minutia( i='23', x='20.32', y='16.03', t='235', q='00', d='D' ),
+                    Minutia( i='24', x='15.09', y='17.4', t='239', q='00', d='D' ),
+                    Minutia( i='25', x='14.88', y='22.63', t='244', q='00', d='D' ),
+                    Minutia( i='26', x='15.29', y='21.82', t='243', q='00', d='D' ),
+                    Minutia( i='27', x='16.46', y='20.55', t='249', q='00', d='D' ),
+                    Minutia( i='28', x='18.29', y='20.45', t='250', q='00', d='D' ),
+                    Minutia( i='29', x='19.2', y='19.23', t='256', q='00', d='D' ),
+                    Minutia( i='30', x='18.14', y='21.36', t='262', q='00', d='D' ),
+                    Minutia( i='31', x='21.34', y='24.05', t='290', q='00', d='D' ),
+                    Minutia( i='32', x='17.53', y='22.48', t='290', q='00', d='D' ),
+                    Minutia( i='33', x='23.32', y='15.62', t='329', q='00', d='D' ),
+                    Minutia( i='34', x='23.27', y='15.16', t='350', q='00', d='D' ),
+                    Minutia( i='35', x='21.79', y='14.61', t='16', q='00', d='D' ),
+                    Minutia( i='36', x='19.2', y='13.39', t='30', q='00', d='D' ),
+                    Minutia( i='37', x='15.44', y='23.75', t='45', q='00', d='D' ),
+                    Minutia( i='38', x='16.66', y='22.68', t='56', q='00', d='D' ),
+                    Minutia( i='39', x='14.63', y='22.43', t='52', q='00', d='D' ),
+                    Minutia( i='40', x='16.1', y='19.79', t='58', q='00', d='D' ),
+                    Minutia( i='41', x='16.36', y='22.23', t='59', q='00', d='D' ),
+                    Minutia( i='42', x='15.95', y='17.96', t='57', q='00', d='D' ),
+                    Minutia( i='43', x='16.97', y='21.87', t='72', q='00', d='D' ),
+                    Minutia( i='44', x='18.9', y='20.55', t='71', q='00', d='D' ),
+                    Minutia( i='45', x='21.44', y='17.81', t='77', q='00', d='D' ),
+                    Minutia( i='46', x='20.22', y='21.41', t='85', q='00', d='D' ),
+                    Minutia( i='47', x='21.13', y='21.06', t='89', q='00', d='D' ),
+                    Minutia( i='48', x='19.71', y='22.23', t='85', q='00', d='D' )
                 ]
-                >>> [ m.as_list() for m in mark.get_minutiae() ]
-                [['1', 7.85, 7.05, 290, '0', 'A'], ['2', 13.8, 15.3, 155, '0', 'A'], ['3', 11.46, 22.32, 224, '0', 'B'], ['4', 22.61, 25.17, 194, '0', 'A'], ['5', 6.97, 8.48, 153, '0', 'B'], ['6', 12.58, 19.88, 346, '0', 'A'], ['7', 19.69, 19.8, 111, '0', 'C'], ['8', 12.31, 3.87, 147, '0', 'A'], ['9', 13.88, 14.29, 330, '0', 'D'], ['10', 15.47, 22.49, 271, '0', 'D']]
+                
+                >>> [ m.as_list() for m in sample_type_9_10_14.get_minutiae() ]
+                [['1', 21.95, 20.3, 101, '00', 'D'], ['2', 21.49, 20.3, 96, '00', 'D'], ['3', 18.59, 24.0, 96, '00', 'D'], ['4', 20.83, 23.55, 98, '00', 'D'], ['5', 21.44, 23.19, 104, '00', 'D'], ['6', 21.29, 25.32, 112, '00', 'D'], ['7', 19.56, 25.53, 112, '00', 'D'], ['8', 20.57, 25.58, 111, '00', 'D'], ['9', 23.32, 23.45, 107, '00', 'D'], ['10', 21.23, 15.06, 193, '00', 'D'], ['11', 17.98, 12.22, 201, '00', 'D'], ['12', 16.76, 12.52, 203, '00', 'D'], ['13', 14.78, 13.34, 203, '00', 'D'], ['14', 11.48, 15.01, 210, '00', 'D'], ['15', 19.61, 14.0, 210, '00', 'D'], ['16', 17.73, 12.93, 211, '00', 'D'], ['17', 13.61, 13.49, 211, '00', 'D'], ['18', 14.88, 24.21, 218, '00', 'D'], ['19', 20.22, 14.4, 215, '00', 'D'], ['20', 13.61, 14.61, 224, '00', 'D'], ['21', 15.65, 23.85, 220, '00', 'D'], ['22', 18.59, 14.81, 224, '00', 'D'], ['23', 20.32, 16.03, 235, '00', 'D'], ['24', 15.09, 17.4, 239, '00', 'D'], ['25', 14.88, 22.63, 244, '00', 'D'], ['26', 15.29, 21.82, 243, '00', 'D'], ['27', 16.46, 20.55, 249, '00', 'D'], ['28', 18.29, 20.45, 250, '00', 'D'], ['29', 19.2, 19.23, 256, '00', 'D'], ['30', 18.14, 21.36, 262, '00', 'D'], ['31', 21.34, 24.05, 290, '00', 'D'], ['32', 17.53, 22.48, 290, '00', 'D'], ['33', 23.32, 15.62, 329, '00', 'D'], ['34', 23.27, 15.16, 350, '00', 'D'], ['35', 21.79, 14.61, 16, '00', 'D'], ['36', 19.2, 13.39, 30, '00', 'D'], ['37', 15.44, 23.75, 45, '00', 'D'], ['38', 16.66, 22.68, 56, '00', 'D'], ['39', 14.63, 22.43, 52, '00', 'D'], ['40', 16.1, 19.79, 58, '00', 'D'], ['41', 16.36, 22.23, 59, '00', 'D'], ['42', 15.95, 17.96, 57, '00', 'D'], ['43', 16.97, 21.87, 72, '00', 'D'], ['44', 18.9, 20.55, 71, '00', 'D'], ['45', 21.44, 17.81, 77, '00', 'D'], ['46', 20.22, 21.41, 85, '00', 'D'], ['47', 21.13, 21.06, 89, '00', 'D'], ['48', 19.71, 22.23, 85, '00', 'D']]
             
             The format parameter is used by the :func:`~NIST.fingerprint.functions.AnnotationsList`
             object to sort the fields returned.
@@ -337,48 +374,65 @@ class NISTf( NIST_traditional ):
             
             To get all minutiae for all finger stored in a NIST object:
             
-                >>> pr.get_minutiae_all() # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_minutiae_all() # doctest: +NORMALIZE_WHITESPACE
                 [[
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-                ], [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-                ], [], [], [], [], [], [], [], []]
+                    Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' ),
+                    Minutia( i='2', x='21.49', y='20.3', t='96', q='00', d='D' ),
+                    Minutia( i='3', x='18.59', y='24.0', t='96', q='00', d='D' ),
+                    Minutia( i='4', x='20.83', y='23.55', t='98', q='00', d='D' ),
+                    Minutia( i='5', x='21.44', y='23.19', t='104', q='00', d='D' ),
+                    Minutia( i='6', x='21.29', y='25.32', t='112', q='00', d='D' ),
+                    Minutia( i='7', x='19.56', y='25.53', t='112', q='00', d='D' ),
+                    Minutia( i='8', x='20.57', y='25.58', t='111', q='00', d='D' ),
+                    Minutia( i='9', x='23.32', y='23.45', t='107', q='00', d='D' ),
+                    Minutia( i='10', x='21.23', y='15.06', t='193', q='00', d='D' ),
+                    Minutia( i='11', x='17.98', y='12.22', t='201', q='00', d='D' ),
+                    Minutia( i='12', x='16.76', y='12.52', t='203', q='00', d='D' ),
+                    Minutia( i='13', x='14.78', y='13.34', t='203', q='00', d='D' ),
+                    Minutia( i='14', x='11.48', y='15.01', t='210', q='00', d='D' ),
+                    Minutia( i='15', x='19.61', y='14.0', t='210', q='00', d='D' ),
+                    Minutia( i='16', x='17.73', y='12.93', t='211', q='00', d='D' ),
+                    Minutia( i='17', x='13.61', y='13.49', t='211', q='00', d='D' ),
+                    Minutia( i='18', x='14.88', y='24.21', t='218', q='00', d='D' ),
+                    Minutia( i='19', x='20.22', y='14.4', t='215', q='00', d='D' ),
+                    Minutia( i='20', x='13.61', y='14.61', t='224', q='00', d='D' ),
+                    Minutia( i='21', x='15.65', y='23.85', t='220', q='00', d='D' ),
+                    Minutia( i='22', x='18.59', y='14.81', t='224', q='00', d='D' ),
+                    Minutia( i='23', x='20.32', y='16.03', t='235', q='00', d='D' ),
+                    Minutia( i='24', x='15.09', y='17.4', t='239', q='00', d='D' ),
+                    Minutia( i='25', x='14.88', y='22.63', t='244', q='00', d='D' ),
+                    Minutia( i='26', x='15.29', y='21.82', t='243', q='00', d='D' ),
+                    Minutia( i='27', x='16.46', y='20.55', t='249', q='00', d='D' ),
+                    Minutia( i='28', x='18.29', y='20.45', t='250', q='00', d='D' ),
+                    Minutia( i='29', x='19.2', y='19.23', t='256', q='00', d='D' ),
+                    Minutia( i='30', x='18.14', y='21.36', t='262', q='00', d='D' ),
+                    Minutia( i='31', x='21.34', y='24.05', t='290', q='00', d='D' ),
+                    Minutia( i='32', x='17.53', y='22.48', t='290', q='00', d='D' ),
+                    Minutia( i='33', x='23.32', y='15.62', t='329', q='00', d='D' ),
+                    Minutia( i='34', x='23.27', y='15.16', t='350', q='00', d='D' ),
+                    Minutia( i='35', x='21.79', y='14.61', t='16', q='00', d='D' ),
+                    Minutia( i='36', x='19.2', y='13.39', t='30', q='00', d='D' ),
+                    Minutia( i='37', x='15.44', y='23.75', t='45', q='00', d='D' ),
+                    Minutia( i='38', x='16.66', y='22.68', t='56', q='00', d='D' ),
+                    Minutia( i='39', x='14.63', y='22.43', t='52', q='00', d='D' ),
+                    Minutia( i='40', x='16.1', y='19.79', t='58', q='00', d='D' ),
+                    Minutia( i='41', x='16.36', y='22.23', t='59', q='00', d='D' ),
+                    Minutia( i='42', x='15.95', y='17.96', t='57', q='00', d='D' ),
+                    Minutia( i='43', x='16.97', y='21.87', t='72', q='00', d='D' ),
+                    Minutia( i='44', x='18.9', y='20.55', t='71', q='00', d='D' ),
+                    Minutia( i='45', x='21.44', y='17.81', t='77', q='00', d='D' ),
+                    Minutia( i='46', x='20.22', y='21.41', t='85', q='00', d='D' ),
+                    Minutia( i='47', x='21.13', y='21.06', t='89', q='00', d='D' ),
+                    Minutia( i='48', x='19.71', y='22.23', t='85', q='00', d='D' )
+                ], [], [], [], [], [], [], [], [], []]
             
             If the NIST object does not contain a Type04, Type14 or Type13
             record, the function will rise an notImplemented exception:
             
-                >>> mark2 = mark.get()
-                >>> mark2.get_minutiae_all() # doctest: +NORMALIZE_WHITESPACE
-                [[
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-                ], [], [], [], [], [], [], [], [], []]
+                >>> sample_type_17_iris.get_minutiae_all()
+                Traceback (most recent call last):
+                ...
+                notImplemented
         """
         if ifany( [ 4, 14 ], self.get_ntype() ):
             if format == None:
@@ -415,7 +469,11 @@ class NISTf( NIST_traditional ):
                         break
                     
                     else:
-                        id, xyt, q, d = m
+                        id = m[ 0 ]
+                        xyt = m[ 1 ]
+                        q = m[ 2 ]
+                        d = m[ 3 ]
+                        rc = m[ 4: ]
                         
                         d = d.upper()
                         
@@ -436,7 +494,11 @@ class NISTf( NIST_traditional ):
                         break
                     
                     else:
-                        id, xyt, q, d = m
+                        id = m[ 0 ]
+                        xyt = m[ 1 ]
+                        q = m[ 2 ]
+                        d = m[ 3 ]
+                        rc = m[ 4: ]
                         
                         d = d.upper()
                         
@@ -487,24 +549,23 @@ class NISTf( NIST_traditional ):
             
             To get the minutiae '1':
             
-                >>> mark2 = mark.get()
-                >>> mark2.get_minutia_by_id( "1" )
-                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' )
+                >>> sample_type_9_10_14.get_minutia_by_id( "1" )
+                Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
             
             The format can also be specified as follow:
             
-                >>> mark2.get_minutia_by_id( "1", "xy" )
-                Minutia( x='7.85', y='7.05' )
+                >>> sample_type_9_10_14.get_minutia_by_id( "1", "xy" )
+                Minutia( x='21.95', y='20.3' )
             
             If the IDC value is specified instead of the 'format' parameter, the
             format is set to the defalut value:
             
-                >>> mark2.get_minutia_by_id( "1", 1 )
-                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' )
+                >>> sample_type_9_10_14.get_minutia_by_id( "1", 1 )
+                Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
                 
             If the id is not found in the NIST object, the value 'None' is returned:
             
-                >>> mark2.get_minutia_by_id( "1337" ) == None
+                >>> sample_type_9_10_14.get_minutia_by_id( "1337" ) == None
                 True
         """
         if isinstance( format, int ):
@@ -540,10 +601,56 @@ class NISTf( NIST_traditional ):
             
             To get only the minutiae with the type designation set as 'D' (unknown):
             
-                >>> mark.get_minutiae_by_type( "D" ) # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_minutiae_by_type( "D" ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
+                    Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' ),
+                    Minutia( i='2', x='21.49', y='20.3', t='96', q='00', d='D' ),
+                    Minutia( i='3', x='18.59', y='24.0', t='96', q='00', d='D' ),
+                    Minutia( i='4', x='20.83', y='23.55', t='98', q='00', d='D' ),
+                    Minutia( i='5', x='21.44', y='23.19', t='104', q='00', d='D' ),
+                    Minutia( i='6', x='21.29', y='25.32', t='112', q='00', d='D' ),
+                    Minutia( i='7', x='19.56', y='25.53', t='112', q='00', d='D' ),
+                    Minutia( i='8', x='20.57', y='25.58', t='111', q='00', d='D' ),
+                    Minutia( i='9', x='23.32', y='23.45', t='107', q='00', d='D' ),
+                    Minutia( i='10', x='21.23', y='15.06', t='193', q='00', d='D' ),
+                    Minutia( i='11', x='17.98', y='12.22', t='201', q='00', d='D' ),
+                    Minutia( i='12', x='16.76', y='12.52', t='203', q='00', d='D' ),
+                    Minutia( i='13', x='14.78', y='13.34', t='203', q='00', d='D' ),
+                    Minutia( i='14', x='11.48', y='15.01', t='210', q='00', d='D' ),
+                    Minutia( i='15', x='19.61', y='14.0', t='210', q='00', d='D' ),
+                    Minutia( i='16', x='17.73', y='12.93', t='211', q='00', d='D' ),
+                    Minutia( i='17', x='13.61', y='13.49', t='211', q='00', d='D' ),
+                    Minutia( i='18', x='14.88', y='24.21', t='218', q='00', d='D' ),
+                    Minutia( i='19', x='20.22', y='14.4', t='215', q='00', d='D' ),
+                    Minutia( i='20', x='13.61', y='14.61', t='224', q='00', d='D' ),
+                    Minutia( i='21', x='15.65', y='23.85', t='220', q='00', d='D' ),
+                    Minutia( i='22', x='18.59', y='14.81', t='224', q='00', d='D' ),
+                    Minutia( i='23', x='20.32', y='16.03', t='235', q='00', d='D' ),
+                    Minutia( i='24', x='15.09', y='17.4', t='239', q='00', d='D' ),
+                    Minutia( i='25', x='14.88', y='22.63', t='244', q='00', d='D' ),
+                    Minutia( i='26', x='15.29', y='21.82', t='243', q='00', d='D' ),
+                    Minutia( i='27', x='16.46', y='20.55', t='249', q='00', d='D' ),
+                    Minutia( i='28', x='18.29', y='20.45', t='250', q='00', d='D' ),
+                    Minutia( i='29', x='19.2', y='19.23', t='256', q='00', d='D' ),
+                    Minutia( i='30', x='18.14', y='21.36', t='262', q='00', d='D' ),
+                    Minutia( i='31', x='21.34', y='24.05', t='290', q='00', d='D' ),
+                    Minutia( i='32', x='17.53', y='22.48', t='290', q='00', d='D' ),
+                    Minutia( i='33', x='23.32', y='15.62', t='329', q='00', d='D' ),
+                    Minutia( i='34', x='23.27', y='15.16', t='350', q='00', d='D' ),
+                    Minutia( i='35', x='21.79', y='14.61', t='16', q='00', d='D' ),
+                    Minutia( i='36', x='19.2', y='13.39', t='30', q='00', d='D' ),
+                    Minutia( i='37', x='15.44', y='23.75', t='45', q='00', d='D' ),
+                    Minutia( i='38', x='16.66', y='22.68', t='56', q='00', d='D' ),
+                    Minutia( i='39', x='14.63', y='22.43', t='52', q='00', d='D' ),
+                    Minutia( i='40', x='16.1', y='19.79', t='58', q='00', d='D' ),
+                    Minutia( i='41', x='16.36', y='22.23', t='59', q='00', d='D' ),
+                    Minutia( i='42', x='15.95', y='17.96', t='57', q='00', d='D' ),
+                    Minutia( i='43', x='16.97', y='21.87', t='72', q='00', d='D' ),
+                    Minutia( i='44', x='18.9', y='20.55', t='71', q='00', d='D' ),
+                    Minutia( i='45', x='21.44', y='17.81', t='77', q='00', d='D' ),
+                    Minutia( i='46', x='20.22', y='21.41', t='85', q='00', d='D' ),
+                    Minutia( i='47', x='21.13', y='21.06', t='89', q='00', d='D' ),
+                    Minutia( i='48', x='19.71', y='22.23', t='85', q='00', d='D' )
                 ]
         """
         return self.get_minutiae( idc = idc ).get_by_type( designation, format )
@@ -559,12 +666,11 @@ class NISTf( NIST_traditional ):
             :rtype: int
             
             Usage:
-                >>> mark2 = mark.get()
-                >>> mark2.get_minutiaeCount()
-                10
-            
-                >>> mark2.delete_ntype( 9 )
-                >>> mark2.get_minutiaeCount() == None
+                >>> sample_type_9_10_14.get_minutiaeCount()
+                48
+                >>> sample_type_9_10_14.get_minutiaeCount( idc = 1 )
+                48
+                >>> sample_type_17_iris.get_minutiaeCount() == None
                 True
         """
         try:
@@ -584,14 +690,14 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_cores() # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_cores() # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Core( x='12.5', y='18.7' )
+                    Core( x='16.66', y='22.78' )
                 ]
             
             The function returns 'None' if no cores are stored in the NIST object.
             
-                >>> pr.get_cores() == None
+                >>> sample_type_4_tpcard.get_cores() == None
                 True
         """
         try:
@@ -649,25 +755,20 @@ class NISTf( NIST_traditional ):
             :return: If the value have been set (without double check).
             :rtype: boolean
             
-            Usage:
-            
-                >>> mark2 = mark.get()
-                >>> pr2 = pr.get()
-            
             The cores can be set with a simple list (or tuple):
             
-                >>> mark2.set_cores( [ 10.0, 12.7 ], 1 )
+                >>> sample_type_9_10_14.set_cores( [ 10.0, 12.7 ] )
                 True
-                >>> mark2.get_cores() # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_cores() # doctest: +NORMALIZE_WHITESPACE
                 [
                     Core( x='10.0', y='12.7' )
                 ]
             
             A list of lists (for multiples cores):
             
-                >>> mark2.set_cores( [ [ 12.5, 18.7 ], [ 10.0, 12.7 ] ], 1 )
+                >>> sample_type_9_10_14.set_cores( [ [ 12.5, 18.7 ], [ 10.0, 12.7 ] ], 1 )
                 True
-                >>> mark2.get_cores() # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_cores( 1 ) # doctest: +NORMALIZE_WHITESPACE
                 [
                     Core( x='12.5', y='18.7' ),
                     Core( x='10.0', y='12.7' )
@@ -675,14 +776,17 @@ class NISTf( NIST_traditional ):
             
             With an AnnotationList object:
             
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> cores = AnnotationList()
+                >>> cores.from_list( [ [ 12.5, 18.7 ], [ 10.0, 12.7 ] ], format = "xy", type = 'Core' )
                 >>> cores # doctest: +NORMALIZE_WHITESPACE
                 [
                     Core( x='12.5', y='18.7' ),
                     Core( x='10.0', y='12.7' )
-                ]                
-                >>> pr2.set_cores( cores, 1 )
+                ]
+                >>> sample_type_9_10_14.set_cores( cores, 1 )
                 True
-                >>> pr2.get_cores( 1 ) # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.get_cores( 1 ) # doctest: +NORMALIZE_WHITESPACE
                 [
                     Core( x='12.5', y='18.7' ),
                     Core( x='10.0', y='12.7' )
@@ -690,15 +794,15 @@ class NISTf( NIST_traditional ):
             
             If no data is passed to the function, 'False' is returned:
                 
-                >>> mark2.set_cores( None )
+                >>> sample_type_9_10_14.set_cores( None, 1 )
                 False
-                >>> mark2.set_cores( [] )
+                >>> sample_type_9_10_14.set_cores( [], 1 )
                 False
             
             If the format is not supported, the functions raises an
             formatNotSupported Exception:
             
-                >>> mark2.set_cores( "sample/cores.txt" )
+                >>> sample_type_9_10_14.set_cores( "sample/cores.txt", 1 )
                 Traceback (most recent call last):
                 ...
                 formatNotSupported
@@ -749,27 +853,17 @@ class NISTf( NIST_traditional ):
             :raise minutiaeFormatNotSupported: if the format is not supported
             
             Usage:
-                >>> minutiae # doctest: +NORMALIZE_WHITESPACE
-                [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                    Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                    Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-                ]
-                >>> mark2 = mark.get()
-                >>> mark2.set_minutiae( minutiae, 1 )
+            
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                >>> sample_type_9_10_14.set_minutiae( minutiae, 1 )
                 10
             
             The parameter 'data' can be a list or an AnnotationList. Otherwise,
             the function will raise a minutiaeFormatNotSupported Exception.
             
-                >>> mark2.set_minutiae( [ 12, 13, 14 ], 1 )
+                >>> sample_type_9_10_14.set_minutiae( [ 12, 13, 14 ], 1 )
                 Traceback (most recent call last):
                 ...
                 minutiaeFormatNotSupported
@@ -810,46 +904,48 @@ class NISTf( NIST_traditional ):
             :return: List of minutiae after clean-up
             :rtype: AnnotationList
             
+                >>> from NIST.fingerprint.functions import AnnotationList
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 52.58, 19.88, 346, 0, 'A' ], [ 7, 59.69, 19.80, 111, 0, 'C' ], [ 8, 52.31, 3.87, 147, 0, 'A' ], [ 9, 53.88, 14.29, 330, 0, 'D' ], [ 10, 55.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                >>> # Note that the minutiae 5-10 are outisde of the image
+                >>> sample_type_4_tpcard.add_Type09( idc = 1 )
+                >>> sample_type_4_tpcard.add_Type09( idc = 2 )
+                >>> sample_type_4_tpcard.add_Type09( idc = 3 )
+                >>> sample_type_4_tpcard.add_Type09( idc = 4 )
+                >>> sample_type_4_tpcard.set_minutiae( minutiae, 1 )
+                10
+                >>> sample_type_4_tpcard.set_minutiae( minutiae, 2 )
+                10
+                >>> sample_type_4_tpcard.checkMinutiae( 1 ) # doctest: +NORMALIZE_WHITESPACE
+                [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
+                ]
+                
+            If not idc is passesd in the function call as argument, all the idc
+            are checked and returned as a list:
             
-            >>> mark2 = mark.get()
-            >>> mark2.checkMinutiae() # doctest: +NORMALIZE_WHITESPACE
-            [
-                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-            ]
-            >>> pr2 = pr.get()
-            >>> pr2.checkMinutiae() # doctest: +NORMALIZE_WHITESPACE
-            [[
-                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-            ], [
-                Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' ),
-                Minutia( i='9', x='13.88', y='14.29', t='330', q='0', d='D' ),
-                Minutia( i='10', x='15.47', y='22.49', t='271', q='0', d='D' )
-            ]]
+                >>> sample_type_4_tpcard.checkMinutiae() # doctest: +NORMALIZE_WHITESPACE
+                [[
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
+                ], [
+                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
+                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
+                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
+                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
+                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
+                ], [
+                <BLANKLINE>
+                ], [
+                <BLANKLINE>
+                ]]
         """
         try:
             idc = self.checkIDC( 9, idc )
@@ -905,41 +1001,50 @@ class NISTf( NIST_traditional ):
             :param args: Positional arguments
             :param kwargs: Keyword arguments
             
-            To get the list filtered by designation, retriving only Ridge ending (A)
-            and Bifurcation (B):
+            Usage:
             
-                >>> mark2 = mark.get()
-                >>> mark2.filter_minutiae( d = "AB" ) # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.filter_minutiae( d = "AB" ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' )
+                <BLANKLINE>
+                ]
+                >>> sample_type_9_10_14.filter_minutiae( d = "CD" ) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+                [
+                    Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' ),
+                    Minutia( i='2', x='21.49', y='20.3', t='96', q='00', d='D' ),
+                    Minutia( i='3', x='18.59', y='24.0', t='96', q='00', d='D' ),
+                    Minutia( i='4', x='20.83', y='23.55', t='98', q='00', d='D' ),
+                    ...
+                    Minutia( i='45', x='21.44', y='17.81', t='77', q='00', d='D' ),
+                    Minutia( i='46', x='20.22', y='21.41', t='85', q='00', d='D' ),
+                    Minutia( i='47', x='21.13', y='21.06', t='89', q='00', d='D' ),
+                    Minutia( i='48', x='19.71', y='22.23', t='85', q='00', d='D' )
                 ]
             
             To get the list filtered by designation, removing Type undetermined (D):
             
-                >>> mark2.filter_minutiae( d = "D", invert = True ) # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.filter_minutiae( d = "CD", invert = True ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='2', x='13.8', y='15.3', t='155', q='0', d='A' ),
-                    Minutia( i='3', x='11.46', y='22.32', t='224', q='0', d='B' ),
-                    Minutia( i='4', x='22.61', y='25.17', t='194', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' ),
-                    Minutia( i='6', x='12.58', y='19.88', t='346', q='0', d='A' ),
-                    Minutia( i='7', x='19.69', y='19.8', t='111', q='0', d='C' ),
-                    Minutia( i='8', x='12.31', y='3.87', t='147', q='0', d='A' )
+                <BLANKLINE>
+                ]
+                >>> sample_type_9_10_14.filter_minutiae( d = "AB", invert = True ) # doctest: +NORMALIZE_WHITESPACE +ELLIPSIS
+                [
+                    Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' ),
+                    Minutia( i='2', x='21.49', y='20.3', t='96', q='00', d='D' ),
+                    Minutia( i='3', x='18.59', y='24.0', t='96', q='00', d='D' ),
+                    Minutia( i='4', x='20.83', y='23.55', t='98', q='00', d='D' ),
+                    ...
+                    Minutia( i='45', x='21.44', y='17.81', t='77', q='00', d='D' ),
+                    Minutia( i='46', x='20.22', y='21.41', t='85', q='00', d='D' ),
+                    Minutia( i='47', x='21.13', y='21.06', t='89', q='00', d='D' ),
+                    Minutia( i='48', x='19.71', y='22.23', t='85', q='00', d='D' )
                 ]
                 
             To get only the Minutiae id 1 and 5:
             
-                >>> mark2.filter_minutiae( i = [ "1", "5" ] ) # doctest: +NORMALIZE_WHITESPACE
+                >>> sample_type_9_10_14.filter_minutiae( i = [ "1", "3" ] ) # doctest: +NORMALIZE_WHITESPACE
                 [
-                    Minutia( i='1', x='7.85', y='7.05', t='290', q='0', d='A' ),
-                    Minutia( i='5', x='6.97', y='8.48', t='153', q='0', d='B' )
+                    Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' ),
+                    Minutia( i='3', x='18.59', y='24.0', t='96', q='00', d='D' )
                 ]
         """
         tofilter = [ ( key, value ) for key, value in kwargs.iteritems() ]
@@ -978,8 +1083,8 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_size()
-                (500, 500)
+                >>> sample_type_9_10_14.get_size( 1 )
+                (800, 768)
         """
         return ( self.get_width( idc ), self.get_height( idc ) )
     
@@ -995,8 +1100,8 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_width()
-                500
+                >>> sample_type_9_10_14.get_width()
+                800
         """
         ntypes = self.get_ntype()
         
@@ -1022,8 +1127,8 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_height()
-                500
+                >>> sample_type_9_10_14.get_height()
+                768
         """
         ntypes = self.get_ntype()
         
@@ -1050,7 +1155,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_resolution()
+                >>> sample_type_9_10_14.get_resolution()
                 500
         """
         ntypes = self.get_ntype()
@@ -1085,9 +1190,9 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> mark2 = mark.get()
-                >>> mark2.set_resolution( 500 )
-                
+                >>> sample_type_9_10_14.set_resolution( 500 )
+                >>> sample_type_9_10_14.get_resolution()
+                500
         """
         ntypes = self.get_ntype()
         res = int( res )
@@ -1111,7 +1216,7 @@ class NISTf( NIST_traditional ):
     #    Compression
     def get_compression( self, idc = -1 ):
         """
-            Get the compression used in the latent image.
+            Get the compression used for a particular image.
             
             :param idc: IDC value.
             :type idc: int
@@ -1121,8 +1226,12 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_compression()
-                'RAW'
+                >>> sample_type_4_tpcard.get_compression( 1 )
+                'WSQ'
+                >>> sample_type_17_iris.get_compression( 1 )
+                Traceback (most recent call last):
+                ...
+                notImplemented
         """
         ntypes = self.get_ntype()
         
@@ -1159,10 +1268,21 @@ class NISTf( NIST_traditional ):
             :param res: Resolution in DPI.
             :type res: int
             
+            Internal use; not interessting to use directly.
+            
             Usage:
             
-                >>> mark.annotate( mark.get_latent( 'PIL' ), mark.get_minutiae(), "minutiae" ) # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=500x500 at ...>
+                >>> img_input = sample_type_9_10_14.get_print( 'PIL', 1 )
+                >>> data = sample_type_9_10_14.get_minutiae( 1 )
+                >>> data_type = "minutiae"
+                
+                >>> img = sample_type_9_10_14.annotate( img_input, data, data_type )
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=800x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                'a816e558611786592fa5bdcb67e018c5'
         """
         if isinstance( data, Annotation ):
             data = AnnotationList( [ data ] )
@@ -1326,12 +1446,19 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_latent( 'PIL' ) # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=L size=500x500 at ...>
+                >>> img = sample_type_13.get_latent( 'PIL' )
+                >>> img# doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=800x768 at ...>
                 
-                >>> raw = mark.get_latent( 'RAW' )
-                >>> raw == '\\xFF' * 250000
-                True
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                'bd5641d4006e395c4e5d7459d2485891'
+                
+            The format of the python object returned can be specified as parameter:
+
+                >>> raw = sample_type_13.get_latent( 'RAW' )
+                >>> type( raw )
+                <type 'str'>
         """
         format = upper( format )
         
@@ -1363,12 +1490,9 @@ class NISTf( NIST_traditional ):
             
             :return: File correctly written on disk
             :rtype: boolean
-            
-            Usage:
-            
-                >>> mark.export_latent( "./tmp/mark.jpeg" )
-                True
         """
+        #TODO: Add documentation
+        
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
@@ -1392,12 +1516,9 @@ class NISTf( NIST_traditional ):
             
             :return: File correctly written on disk
             :rtype: boolean
-            
-            Usage:
-            
-                >>> mark.export_latent( "./tmp/mark-annotated.jpeg" )
-                True
         """
+        #TODO: Add documentation
+        
         idc = self.checkIDC( 13, idc )
         res = self.get_resolution( idc )
         
@@ -1429,10 +1550,16 @@ class NISTf( NIST_traditional ):
             :rtype: PIL.Image
             
             Usage:
-            
-                >>> mark.get_latent_annotated() # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=500x500 at ...>
+                >>> img = sample_type_13.get_latent_annotated()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=800x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                'bd5641d4006e395c4e5d7459d2485891'
         """
+        #TODO: Patch the doctest to use a real latent image with annotations.
+        
         img = options.get( "img", self.get_latent( 'PIL', idc ) )
         res = self.get_resolution( idc )
         
@@ -1469,9 +1596,17 @@ class NISTf( NIST_traditional ):
              
             Usage:
                  
-                >>> mark.get_latent_hull() # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=500x500 at ...>
+                
+                >>> img = sample_type_13.get_latent_hull()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=800x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '4310f5bbe5987c485b91586f96d949f4'
         """
+        #TODO: Patch the doctest to use a real latent image with annotations.
+        
         img = options.get( "img", self.get_latent( "PIL", idc ) )
         img = img.convert( "RGB" )
         draw = ImageDraw.Draw( img )
@@ -1527,9 +1662,16 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_latent_diptych() # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+                >>> img = sample_type_13.get_latent_diptych()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=1600x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '366a3937ace2204c9c99ae06609ed178'
         """
+        #TODO: Patch the doctest to use a real latent image with annotations.
+        
         img = self.get_latent( 'PIL', idc )
         anno = self.get_latent_annotated( idc, **options )
         
@@ -1575,14 +1717,25 @@ class NISTf( NIST_traditional ):
             Set an PIL.Image image:
                 
                 >>> from PIL import Image
-                >>> image = Image.new( "L", ( 500, 500 ), 255 )
-                >>> mark2 = mark.get()
-                >>> mark2.set_latent( image )
+                >>> image = Image.new( "L", ( 800, 768 ), 255 )
+                >>> sample_type_13.set_latent( image )
+                
+                >>> img = sample_type_13.get_latent()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=800x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '23f9d5b5ad8e962ed093fe287e8e5276'
             
             Set an string image (RAW format):
             
-                >>> mark2 = mark.get()
-                >>> mark2.set_latent( chr( 255 ) * 500 * 500 )
+                >>> w, h = sample_type_13.get_size()
+                >>> sample_type_13.set_latent( chr( 255 ) * w * h )
+                
+                >>> img = sample_type_13.get_latent()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=800x768 at ...>
         """
         if image == None:
             image = Image.new( "L", ( res, res ), 255 )
@@ -1618,8 +1771,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> mark2 = mark.get()
-                >>> mark2.set_latent_size( ( 500, 500 ) )
+                >>> sample_type_13.set_latent_size( ( 500, 500 ) )
         """
         width, height = value
         
@@ -1641,9 +1793,10 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> mark2 = mark.get()
-                >>> mark2.changeResolution( 500 )
+                >>> sample_type_13.changeResolution( 500 )
         """
+        #TODO: Check or specify the target ntype; here the behaviour with multi-ntype objects is not clear.
+        
         res = float( res )
         ntypes = self.get_ntype()
         
@@ -1693,8 +1846,15 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark2 = mark.get()
-                >>> mark2.crop_latent( ( 500, 500 ), ( 12.7, 12.7 ) )
+                >>> sample_type_13.crop_latent( ( 500, 500 ), ( 12.7, 12.7 ) )
+                >>> img = sample_type_13.get_latent()
+
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=500x500 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '9a23b71585867d11d6a5929a9e004072'
         """
         if 13 in self.get_ntype():
             return self.crop( size, center, 13, idc )
@@ -1719,8 +1879,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr2 = pr.get()
-                >>> pr2.crop_print( ( 500, 500 ), ( 12.7, 12.7 ), 1 )
+                >>> sample_type_4_tpcard.crop_print( ( 500, 500 ), ( 12.7, 12.7 ), 1 )
         """
         ntypes = self.get_ntype()
         if 4 in ntypes:
@@ -1760,10 +1919,9 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark2 = mark.get()
-                >>> mark2.crop( ( 500, 500 ), ( 12.7, 12.7 ), 13 )
-                >>> pr2 = pr.get()
-                >>> pr2.crop( ( 500, 500 ), ( 12.7, 12.7 ), 4, 1 )
+                >>> sample_type_13.crop( ( 500, 500 ), ( 12.7, 12.7 ), 13 )
+                >>> sample_type_4_tpcard.crop( ( 500, 500 ), ( 12.7, 12.7 ), 4, 1 )
+                >>> sample_type_9_10_14.crop( ( 500, 500 ), ( 12.7, 12.7 ), 14, 1 )
         """
         idc = self.checkIDC( ntype, idc )
         
@@ -1806,21 +1964,22 @@ class NISTf( NIST_traditional ):
         
         self.set_field( ( ntype, 999 ), PILToRAW( new ), idc )
         
-        # Minutia cropping
-        minu = self.get_minutiae( self.minutiaeformat, idc, **options )
-        
-        for i, _ in enumerate( minu ):
-            minu[ i ] += offsetmin
-        
-        self.set_minutiae( minu, idc )
-        
-        # Core cropping
-        cores = self.get_cores( idc )
-        if cores != None:
-            for i, _ in enumerate( cores ):
-                cores[ i ] += offsetmin
+        if 9 in self.get_ntype():
+            # Minutia cropping
+            minu = self.get_minutiae( self.minutiaeformat, idc, **options )
             
-            self.set_cores( cores, idc )
+            for i, _ in enumerate( minu ):
+                minu[ i ] += offsetmin
+            
+            self.set_minutiae( minu, idc )
+            
+            # Core cropping
+            cores = self.get_cores( idc )
+            if cores != None:
+                for i, _ in enumerate( cores ):
+                    cores[ i ] += offsetmin
+                
+                self.set_cores( cores, idc )
         
     ############################################################################
     # 
@@ -1846,8 +2005,13 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr.get_print( "PIL", 1 ) # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=L size=500x500 at ...>
+                >>> img = sample_type_4_tpcard.get_print( "PIL", 1 )
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=804x752 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                'e9ed876ab9de5ccc5b647eafd37b9162'
         """
         format = upper( format )
         ntypes = self.get_ntype()
@@ -1925,7 +2089,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> pr.export_print( "./tmp/print.jpeg", 1 )
+                >>> sample_type_4_tpcard.export_print( "/tmp/print.jpeg", 1 )
                 True
         """
         ntypes = self.get_ntype()
@@ -1962,7 +2126,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> pr.export_print_annotated( "./tmp/print_annotated.jpeg", 1 )
+                >>> sample_type_4_tpcard.export_print_annotated( "/tmp/print_annotated.jpeg", 1 )
                 True
         """
         ntypes = self.get_ntype()
@@ -1994,11 +2158,13 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr.get_print_annotated( 1 ) # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=500x500 at ...>
+                >>> img = sample_type_4_tpcard.get_print_annotated( 1 )
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=804x752 at ...>
         """
         img = self.get_print( 'PIL', idc )
         res = self.get_resolution( idc )
+        img = img.convert( "RGB" )
         
         try:
             img = self.annotate( img, self.get_minutiae( idc = idc ), "minutiae", res, idc )
@@ -2030,8 +2196,13 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr.get_print_diptych( 1 ) # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+                >>> img = sample_type_9_10_14.get_print_diptych( 1 )
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=1600x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '1c7c69848bf554759733c8f71eeb58d9'
         """
         img = self.get_print( 'PIL', idc )
         anno = self.get_print_annotated( idc )
@@ -2072,8 +2243,14 @@ class NISTf( NIST_traditional ):
                 
                 >>> from PIL import Image
                 >>> image = Image.new( "L", ( 500, 500 ), 255 )
-                >>> pr.set_print( image, format = "RAW", idc = 1 )
+                >>> sample_type_4_tpcard.set_print( image, format = "RAW", idc = 1 )
+                >>> img = sample_type_4_tpcard.get_print( idc = 1 )
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=500x500 at ...>
             
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '7157c3d901362236afbdd84de3f61007'
         """
         resold = res
         
@@ -2124,8 +2301,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr2 = pr.get()
-                >>> pr2.set_print_size( ( 500, 500 ), 1 )
+                >>> sample_type_4_tpcard.set_print_size( ( 500, 500 ), 1 )
         """
         width, height = value
         ntypes = self.get_ntype()
@@ -2167,18 +2343,21 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_image() # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=L size=500x500 at ...>
+                >>> img = sample_type_13.get_image()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=800x768 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                'bd5641d4006e395c4e5d7459d2485891'
             
             If no image is available, the function will raise an notImplemented Exception.
             
-                >>> mark2 = mark.get()
-                >>> mark2.delete_ntype( 13 )
-                >>> mark2.get_image()
+                >>> sample_type_13.delete_ntype( 13 )
+                >>> sample_type_13.get_image()
                 Traceback (most recent call last):
                 ...
                 notImplemented
-                
         """
         for f in [ self.get_latent, self.get_print, self.get_palmar ]:
             try:
@@ -2218,8 +2397,9 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark2 = mark.get()
-                >>> mark2.set_width( 13, 500 )
+                >>> sample_type_13.set_width( 13, 500 )
+                >>> sample_type_13.get_field( "13.006" )
+                '500'
         """
         if ntype in [ 4, 13, 14 ]:
             self.set_field( ( ntype, "006" ), value, idc )
@@ -2244,8 +2424,9 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark2 = mark.get()
-                >>> mark2.set_height( 13, 500 )
+                >>> sample_type_13.set_height( 13, 500 )
+                >>> sample_type_13.get_field( "13.007" )
+                '500'
         """
         if ntype in [ 4, 13, 14 ]:
             self.set_field( ( ntype, "007" ), value, idc )
@@ -2270,8 +2451,11 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark2 = mark.get()
-                >>> mark2.set_size( ( 500, 500 ) )
+                >>> sample_type_13.set_size( ( 500, 500 ) )
+                >>> sample_type_13.get_height()
+                500
+                >>> sample_type_13.get_width()
+                500
         """
         ntypes = self.get_ntype()
         
@@ -2295,8 +2479,9 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.get_diptych() # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=RGB size=1000x500 at ...>
+                >>> img = sample_type_13.get_diptych()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=RGB size=1600x768 at ...>
             
             .. seealso::
             
@@ -2338,8 +2523,13 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr.get_tenprint() # doctest: +ELLIPSIS
-                <PIL.Image.Image image mode=L size=2500x1000 at ...>
+                >>> img = sample_type_4_tpcard.get_tenprint()
+                >>> img # doctest: +ELLIPSIS
+                <PIL.Image.Image image mode=L size=4020x1504 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '8da4bdb447bfd07380e382e14d90453c'
         """
         maxh, maxw = ( 0, 0 )
         for idc in xrange( 1, 11 ):
@@ -2391,8 +2581,13 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> pr.get_tenprintcard_front() # doctest: +ELLIPSIS
+                >>> img = sample_type_4_tpcard.get_tenprintcard_front()
+                >>> img # doctest: +ELLIPSIS
                 <PIL.Image.Image image mode=L size=8268x11692 at ...>
+                
+                >>> from hashlib import md5
+                >>> md5( img.tobytes() ).hexdigest()
+                '0eed7645e6ca37b3c8ee4106dee3f225'
         """
         Image.MAX_IMAGE_PIXELS = 1000000000
         
@@ -2548,11 +2743,16 @@ class NISTf( NIST_traditional ):
             Usage:
             
                 >>> from NIST import NISTf
+                >>> from NIST.fingerprint.functions import AnnotationList
+                
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> params = {
                 ...     'minutiae': minutiae,
                 ...     'cores': [ [ 12.5, 18.7 ] ]
                 ... }
-                >>> mark = NISTf().init_latent( **params )
+                >>> mark_nist = NISTf().init_latent( **params )
             
             .. seealso ::
             
@@ -2583,11 +2783,16 @@ class NISTf( NIST_traditional ):
             Usage:
                 
                 >>> from NIST import NISTf
+                >>> from NIST.fingerprint.functions import AnnotationList
+                
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> params = {
                 ...     'minutiae': minutiae,
                 ...     'cores': [ [ 12.5, 18.7 ] ]
                 ... }
-                >>> pr = NISTf().init_print( **params )
+                >>> print_nist = NISTf().init_print( **params )
             
             .. seealso ::
             
@@ -2619,13 +2824,18 @@ class NISTf( NIST_traditional ):
             New latent fingermark:
             
                 >>> from NIST import NISTf
+                >>> from NIST.fingerprint.functions import AnnotationList
+                
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+                
                 >>> params = {
                 ...     'type': 'latent',
                 ...     'minutiae': minutiae,
                 ...     'cores': [ [ 12.5, 18.7 ] ]
                 ... }
-                >>> mark = NISTf().init_latent( **params )
-                >>> print( mark ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
+                >>> mark_nist = NISTf().init_latent( **params )
+                >>> print( mark_nist ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
                     Obj ID:  ...
                     Records: Type-01, Type-02, Type-09, Type-13
@@ -2675,14 +2885,20 @@ class NISTf( NIST_traditional ):
             
             New fingerprint:
                
+            
                 >>> from NIST import NISTf
+                >>> from NIST.fingerprint.functions import AnnotationList
+                
+                >>> minutiae = AnnotationList()
+                >>> minutiae.from_list( [[ 1, 7.85, 7.05, 290, 0, 'A' ], [ 2, 13.80, 15.30, 155, 0, 'A' ], [ 3, 11.46, 22.32, 224, 0, 'B' ], [ 4, 22.61, 25.17, 194, 0, 'A' ], [ 5, 6.97, 8.48, 153, 0, 'B' ], [ 6, 12.58, 19.88, 346, 0, 'A' ], [ 7, 19.69, 19.80, 111, 0, 'C' ], [ 8, 12.31, 3.87, 147, 0, 'A' ], [ 9, 13.88, 14.29, 330, 0, 'D' ], [ 10, 15.47, 22.49, 271, 0, 'D' ]], format = "ixytqd", type = 'Minutia' )
+            
                 >>> params = {
                 ...     'type': 'print',
                 ...     'minutiae': minutiae,
                 ...     'cores': [ [ 12.5, 18.7 ] ]
                 ... }
-                >>> pr = NISTf().init_print( **params )
-                >>> print( pr ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
+                >>> print_nist = NISTf().init_print( **params )
+                >>> print( print_nist ) # doctest: +NORMALIZE_WHITESPACE, +ELLIPSIS
                 Informations about the NIST object:
                     Obj ID:  ...
                     Records: Type-01, Type-02, Type-04, Type-09
@@ -2900,10 +3116,10 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> pr2 = pr.get()
-                >>> pr2.migrate_Type04_to_Type14()
-                >>> pr2
-                NIST object, Type-01, Type-02, Type-09, Type-14
+                >>> sample_type_4_tpcard.migrate_Type04_to_Type14()
+                
+                >>> sample_type_4_tpcard.hash()
+                '6ef09a994a4ebcdbd4810bddc1fd22d8'
         """
         for idc in self.get_idc( 4 ):
             size = self.get_size( idc )
@@ -2939,7 +3155,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.mm2px( ( 12.7, 12.7 ) )
+                >>> sample_type_13.mm2px( ( 12.7, 12.7 ) )
                 [250.0, 250.0]
         """
         return mm2px( data, self.get_resolution( idc ) )
@@ -2956,7 +3172,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
             
-                >>> mark.px2mm( ( 250.0, 250.0 ) )
+                >>> sample_type_13.px2mm( ( 250.0, 250.0 ) )
                 [12.7, 12.7]
         """
         return px2mm( data, self.get_resolution( idc ) )
