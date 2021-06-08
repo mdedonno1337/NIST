@@ -2089,7 +2089,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> sample_type_4_tpcard.export_print( "./tmp/print.jpeg", 1 )
+                >>> sample_type_4_tpcard.export_print( "/tmp/print.jpeg", 1 )
                 True
         """
         ntypes = self.get_ntype()
@@ -2126,7 +2126,7 @@ class NISTf( NIST_traditional ):
             
             Usage:
                 
-                >>> sample_type_4_tpcard.export_print_annotated( "./tmp/print_annotated.jpeg", 1 )
+                >>> sample_type_4_tpcard.export_print_annotated( "/tmp/print_annotated.jpeg", 1 )
                 True
         """
         ntypes = self.get_ntype()
