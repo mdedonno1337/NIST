@@ -95,6 +95,18 @@ def decode_fgp( code, only_first = False, separator = "/" ):
         of positions codes. This function implements the standard for the
         fields 3.004, 4.004, 5.004 and 6.004.
         
+        The storage of the data is done in a binary format. A total of 6 bytes
+        is used to store the possible 6 potentiels fingers. Each byte encode
+        one possible finger using the code described in the Table 12 of the
+        standard (only using the numbes 0 to 14 for fingers). The non-used
+        fields shall be set to 255.
+
+        Example:
+        
+            14:     00001110 11111111 11111111 11111111 11111111 11111111 (16492674416639)
+            0:      00000000 11111111 11111111 11111111 11111111 11111111 (1099511627775)
+            14/7/8: 00001110 00000111 00001000 11111111 11111111 11111111 (15423378554879)
+        
         Usage:
         
             >>> from NIST.core.functions import decode_fgp
@@ -130,6 +142,9 @@ def encode_fgp( code ):
         Encode the string value storing the Finger Position to the correct
         integer value. This function implements the standard for the fields
         3.004, 4.004, 5.004 and 6.004.
+        
+        Reverse function of the `decode_fgp` function; check the corresponding
+        documentation.
         
         Usage:
         

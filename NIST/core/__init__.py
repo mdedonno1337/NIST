@@ -304,6 +304,20 @@ class NIST( object ):
             
                 n.delete( "9.012", 0 )
             
+            
+            Doctest:
+            
+                >>> sample_type_9_10_14.delete( "9.012", 1 )
+                >>> sample_type_9_10_14.hash()
+                'ebf6d02d53abe91d1e6decdc5d0abae8'
+                
+                >>> sample_type_9_10_14.delete( "9.010" )
+                >>> sample_type_9_10_14.hash()
+                '1140b62ca4a59e9e821855a75953c74b'
+                
+                >>> sample_type_9_10_14.delete( 9, 1 )
+                >>> sample_type_9_10_14.hash()
+                '2077d129437f74ed151dbb793b014447'
         """
         if isinstance( ntype, str ):
             tag = ntype
@@ -913,6 +927,8 @@ class NIST( object ):
             
             Usage:
            
+                >>> sample_type_1.data.keys()
+                [1, 2]
                 >>> sample_type_1.add_ntype( 18 )
                 >>> sample_type_1.data.keys()
                 [1, 2, 18]
