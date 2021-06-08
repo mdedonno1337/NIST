@@ -3119,7 +3119,7 @@ class NISTf( NIST_traditional ):
                 >>> sample_type_4_tpcard.migrate_Type04_to_Type14()
                 
                 >>> sample_type_4_tpcard.hash()
-                '84ecbf6ff92616d4912dab9eff81146d'
+                '6ef09a994a4ebcdbd4810bddc1fd22d8'
         """
         for idc in self.get_idc( 4 ):
             size = self.get_size( idc )
