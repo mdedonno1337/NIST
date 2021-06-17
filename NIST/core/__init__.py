@@ -108,6 +108,9 @@ class NIST( object ):
             
             :return: NIST Object identifier.
             :rtype: anything
+            
+                >>> sample_all_supported_types.get_identifier()
+                '45300b86cc63923a015d9d99588953c5'
         """
         try:
             return self.id
