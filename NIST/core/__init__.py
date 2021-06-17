@@ -108,6 +108,9 @@ class NIST( object ):
             
             :return: NIST Object identifier.
             :rtype: anything
+            
+                >>> sample_all_supported_types.get_identifier()
+                '45300b86cc63923a015d9d99588953c5'
         """
         try:
             return self.id
@@ -1077,6 +1080,12 @@ class NIST( object ):
         return sorted( self.data[ ntype ].keys() )
     
     def get_tagsid( self, ntype, idc ):
+        """
+            Get the list of tags for a particular ntype and idc.
+            
+                >>> sample_all_supported_types.get_tagsid( 1, 0 )
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+        """
         return sorted( self.data[ ntype ][ idc ].keys() )
     
     def get_all_tagid( self ):
