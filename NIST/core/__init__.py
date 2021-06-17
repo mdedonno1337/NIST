@@ -1077,6 +1077,9 @@ class NIST( object ):
                 >>> sample_all_supported_types.get_idc( 4 )
                 [1]
                 
+                >>> sample_type_4_tpcard.get_idc( 4 )
+                [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+                
                 >>> sample_all_supported_types.get_idc( 0 ) +IGNORE_EXCEPTION_DETAIL
                 Traceback (most recent call last):
                 ntypeNotFound
@@ -1095,6 +1098,17 @@ class NIST( object ):
                 
                 >>> sample_all_supported_types.get_tagsid( 1 )
                 [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]
+                
+                >>> sample_type_4_tpcard.get_tagsid( 4 ) +IGNORE_EXCEPTION_DETAIL
+                Traceback (most recent call last):
+                needIDC
+                
+                >>> sample_type_4_tpcard.get_tagsid( 4, 1 )
+                [1, 2, 3, 4, 5, 6, 7, 8, 999]
+                
+                >>> sample_all_supported_types.get_tagsid( 0 ) +IGNORE_EXCEPTION_DETAIL
+                Traceback (most recent call last):
+                ntypeNotFound
         """
         idc = self.checkIDC( ntype, idc )
         return sorted( self.data[ ntype ][ idc ].keys() )
