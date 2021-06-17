@@ -1076,8 +1076,15 @@ class NIST( object ):
             
                 >>> sample_all_supported_types.get_idc( 4 )
                 [1]
+                
+                >>> sample_all_supported_types.get_idc( 0 ) +IGNORE_EXCEPTION_DETAIL
+                Traceback (most recent call last):
+                ntypeNotFound
         """
-        return sorted( self.data[ ntype ].keys() )
+        if ntype not in self.data.keys():
+            raise ntypeNotFound
+        else:
+            return sorted( self.data[ ntype ].keys() )
     
     def get_tagsid( self, ntype, idc = -1 ):
         """
