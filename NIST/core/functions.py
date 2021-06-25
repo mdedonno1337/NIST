@@ -249,11 +249,16 @@ def fieldSplitter( data ):
         
         Usage:
         
-            >>> from NIST.core.functions import fieldSplitter
+            >>> from NIST.core.functions import fieldSplitter, printableFieldSeparator
             >>> fieldSplitter( "1.002:0300" )
             ('1.002', 1, 2, '0300')
+            >>> s = fieldSplitter( "20.019:00:00:00.000\x1f00:00:00.001\x1e00:20:05.000\x1f01:00:00.500" )
+            >>> s[ :-1 ]
+            ('20.019', 20, 19)
+            >>> printableFieldSeparator( s[ -1 ] )
+            '00:00:00.000<US>00:00:00.001<RS>00:20:05.000<US>01:00:00.500'
     """
-    tag, value = data.split( CO )
+    tag, value = data.split( CO, 1 )
     ntype, tagid = tag.split( DO )
     ntype = int( ntype )
     tagid = int( tagid )

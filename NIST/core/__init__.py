@@ -110,7 +110,7 @@ class NIST( object ):
             :rtype: anything
             
                 >>> sample_all_supported_types.get_identifier()
-                '45300b86cc63923a015d9d99588953c5'
+                'be2ca2c9a173dc456afc2bbb0cbb6cf8'
         """
         try:
             return self.id
@@ -545,7 +545,7 @@ class NIST( object ):
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
                 Informations about the NIST object:
                     File:    ...
-                    Obj ID:  45300b86cc63923a015d9d99588953c5
+                    Obj ID:  be2ca2c9a173dc456afc2bbb0cbb6cf8
                     Records: Type-01, Type-02, Type-04, Type-09, Type-10, Type-13, Type-14, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98, Type-99
                     Class:   NIST
                 <BLANKLINE>
@@ -554,7 +554,19 @@ class NIST( object ):
                     01.002 VER: 0500
                     01.003 CNT: 1<US>17<RS>2<US>0<RS>4<US>1<RS>9<US>10<RS>10<US>2<RS>13<US>1<RS>14<US>3<RS>15<US>4<RS>16<US>17<RS>17<US>5<RS>18<US>13<RS>19<US>16<RS>20<US>6<RS>20<US>7<RS>21<US>8<RS>21<US>9<RS>98<US>11<RS>99<US>12
                     01.004 TOT: A
-                    ...
+                    01.005 DAT: 20120726
+                    01.006 PRY: 9
+                    01.007 DAI: DAI
+                    01.008 ORI: ORI
+                    01.009 TCN: TCN
+                    01.010 TCR: t15
+                    01.011 NSR: 19.30
+                    01.012 NTR: 19.30
+                    01.013 DOM: DOM<US>1.00
+                    01.014 GMT: 20120726111545Z
+                    01.015 DCS: 0<US>ASCII<US>1
+                    01.016 APS: ORG<US>APSNAME<US>1.0.0<RS>ORG2<US>APS2NAME<US>version three
+                    01.017 ANM: DAI Name<US>ORI Name
                 NIST Type-02 (IDC 0)
                     02.001 LEN: 00000023
                     02.002 IDC: 0
@@ -563,19 +575,297 @@ class NIST( object ):
                     04.002 IDC: 1
                     04.003 IMP: 8
                     04.004 FGP: 0/1/2/3/4/5
-                    ...
+                    04.005 ISR: 1
+                    04.006 HLL: 1608
+                    04.007 VLL: 1000
+                    04.008 CGA: 1
+                    04.999    : FFA0FFA8 ... 01DFFFA1 (104259 bytes)
                 NIST Type-09 (IDC 10)
                     09.001 LEN: 00000548
                     09.002 IDC: 10
                     09.003 IMP: 20
                     09.004 FMT: S
-                    ...
+                    09.005    : Originator's Name<US>E<US>@N
+                    09.006    : 0<RS>20
+                    09.007    : T<US>PW<RS>T<US>WN<RS>U<US>UWHRL
+                    09.008    : 22221000<RS>10002222
+                    09.009    : 10003000<RS>10003000
+                    09.010    : 3
+                    09.011    : 1
+                    09.012    : 1<US>09880910180<US>2<US>A<US>2,3<US>3,5<RS>2<US>59781010100<US>0<US>B<US>1,3<US>3,4<RS>3<US>54016007359<US>1<US>D<US>1,5<US>2,4
+                    09.300 ROI: 983<US>983<US>75<US>100<US>0,0-0,1-0,12
+                    09.302 FPP: 0<US>UNK<US><US><RS>1<US>DST<US><US>
+                    09.308 RQM: 000000000000000000000000
+                    09.309 RQF: 41<US>UNC
+                    09.310 RFM: 000102030405060708090A0B0C0D0E0F1011121314151617
+                    09.311 RFF: 41<US>UNC
+                    09.312 RWM: 010203040506070809XX1011121314010203040506070809XX
+                    09.313 RWF: 40<US>UNC
+                    09.314 TRV: N
+                    09.322 CDR: 1<US>2<US>10<US>50<RS>L<US>R<US>5<US>
+                    09.323 CPR: 0<US>-70<US>100<US><RS>0<US>200<US>0<US>
                 NIST Type-10 (IDC 2)
                     10.001 LEN: 00069624
                     10.002 IDC: 2
                     10.003 IMT: FACE
                     10.004 SRC: SRC
-                ...
+                    10.005 PHD: 20120730
+                    10.006 HLL: 480
+                    10.007 VLL: 640
+                    10.008 SLC: 2
+                    10.009 THPS: 299
+                    10.010 TVPS: 299
+                    10.011 CGA: JPEGB
+                    10.012 CSP: RGB
+                    10.013 SAP: 20
+                    10.014 FIP: 1<US>480<US>1<US>480<US>H
+                    10.015 FPFI: C<US>2<US>0<US>0<US>1<US>1
+                    10.016 SHPS: 72
+                    10.017 SVPS: 72
+                    10.018 DIST: Pincushion<US>E<US>Mild
+                    10.019 LAF: F<RS>H<RS>R
+                    10.020 POS: A
+                    10.021 POA: 180
+                    10.023 PAS: VENDOR<US>Vendor Description
+                    10.024 SQS: 0<US>0000<US>1<RS>254<US>FFFF<US>65535
+                    10.025 SPA: -180<US>0<US>180<US>0<US>45<US>90
+                    10.026 SXS: MOUTH OPEN<RS>EYES AWAY<RS>SQUINTING<RS>BEARD
+                    10.027 SEC : MUL
+                    10.028 SHC: STR<RS>RED
+                    10.029 FFP: 1<US>2.1<US>5<US>9<RS>2<US>obs<US>1<US>1
+                    10.030 DMM: OBSERVED
+                    10.031 TMC: 5
+                    10.032 3DF: 1<US>2.1<US>5<US>9<US>9<RS>2<US>obs<US>1<US>1<US>1
+                    10.033 FEC: eyetop<US>3<US>0<US>0<US>1<US>1<US>0<US>4<RS>chin<US>3<US>5<US>5<US>10<US>24<US>3<US>5
+                    10.038 COM: This transaction represents test data used to test the ANSI/NIST 1-2011 Conformace Test Suite Developed by NIST for the BioCTS
+                    10.044 ITX: AGE<RS>ILLUM
+                    10.045 OCC: T<US>H<US>3<US>0<US>0<US>1<US>1<US>100<US>100<RS>S<US>O<US>3<US>0<US>0<US>1<US>1<US>100<US>100
+                    10.200    : USER DEFINED
+                    10.902 ANN: 20120731000000Z<US>NAV<US>OWN<US>PRO<RS>20120801000000Z<US>NAV2<US>OWN2<US>PRO2
+                    10.903 DUI: M213456789012
+                    10.904 MMS: Make<US>Model<US>Serial Number
+                    10.993 SAN: Source Agency Name
+                    10.995 ASC: 1<US>1<RS>2<US>99
+                    10.996 HAS: 6A92879FDAAFBAC0F554A8992C5E3DCD351CFF2BC3F9ADAFF355F97FB4ADB388
+                    10.997 SOR: 1<US>1<RS>2<US>
+                    10.998 GEO: 20120725120000Z<US>39<US>37<US>45.8394<US>79<US>57<US>21.96<US>380<US>WGS84<US>17S<US>589588<US>4387146<US>211 Walnut Street<US>UTM-MGRS<US>UTM with MGRS latitude band
+                    10.999 DATA: FFD8FFE0 ... 94D8FFD9 (68453 bytes)
+                NIST Type-13 (IDC 1)
+                    13.001 LEN: 00876647
+                    13.002 IDC: 1
+                    13.003 IMP: 4
+                    13.004 SRC: SRC
+                    13.005 LCD: 20120730
+                    13.006 HLL: 1608
+                    13.007 VLL: 1000
+                    13.008 SLC: 0
+                    13.009 THPS: 72
+                    13.010 TVPS: 72
+                    13.011 CGA: PNG
+                    13.012 BPX: 8
+                    13.013 FGP: 0<RS>19
+                    13.014 SPD: 0<US>FV1
+                    13.015 PPC: FV1<US>NA<US>100<US>100<US>100<US>100
+                    13.016 SHPS: 990
+                    13.017 SVPS: 990
+                    13.020 COM: Comment
+                    13.024 LQM: 0<US>90<US>0000<US>1<RS>19<US>95<US>FFFF<US>65535
+                    13.999 DATA: 89504E47 ... AE426082 (876377 bytes)
+                NIST Type-14 (IDC 3)
+                    14.001 LEN: 00050620
+                    14.002 IDC: 3
+                    14.003 IMP: 0
+                    14.004 SRC: SRC
+                    14.005 FCD: 20120730
+                    14.006 HLL: 804
+                    14.007 VLL: 1000
+                    14.008 SLC: 2
+                    14.009 THPS: 193
+                    14.010 TVPS: 193
+                    14.011 CGA: WSQ20
+                    14.012 BPX: 8
+                    14.013 FGP: 19
+                    14.014 PPD: 1<US>EJI
+                    14.015 PPC: FV1<US>NA<US>100<US>105<US>100<US>105
+                    14.016 SHPS: 197
+                    14.017 SVPS: 197
+                    14.018 AMP: 1<US>XX
+                    14.020 COM: Comment
+                    14.022 NQM: 1<US>2
+                    14.023 SQM: 1<US>0<US>0000<US>1
+                    14.024 FQM: 1<US>0<US>0000<US>1
+                    14.025 ASEG: 1<US>3<US>0<US>0<US>35<US>55<US>12<US>85
+                    14.026 SCF: 1
+                    14.027 SIF: Y
+                    14.030 DMM: UNKNOWN
+                    14.031 FAP: 10
+                    14.999 DATA: FFA0FFA8 ... 917FFFA1 (50256 bytes)
+                NIST Type-15 (IDC 4)
+                    15.001 LEN: 00050629
+                    15.002 IDC: 4
+                    15.003 IMP: 10
+                    15.004 SRC: SRC
+                    15.005 PCD: 20120730
+                    15.006 HLL: 804
+                    15.007 VLL: 1000
+                    15.008 SLC: 2
+                    15.009 THPS: 197
+                    15.010 TVPS: 197
+                    15.011 CGA: WSQ20
+                    15.012 BPX: 8
+                    15.013 FGP: 20
+                    15.016 SHPS: 197
+                    15.017 SVPS: 197
+                    15.018 AMP: 21<US>XX
+                    15.020 COM: Comment
+                    15.024 PQM: 84<US>0<US>0000<US>1
+                    15.030 DMM: UNKNOWN
+                    15.998 GEO: 20120725120000Z<US>39<US>37<US>45.8394<US>79<US>57<US>21.96<US>380<US>WGS84<US>19C<US>589588<US>4387146<US>211 Walnut Street<US>UTM-MGRS<US>UTM with MGRS latitude band
+                    15.999 DATA: FFA0FFA8 ... 917FFFA1 (50256 bytes)
+                NIST Type-16 (IDC 17)
+                    16.001 LEN: 00051455
+                    16.002 IDC: 17
+                    16.003 UDI: ear
+                    16.004 SRC: NIST
+                    16.005 UTD: 20150101
+                    16.006 HLL: 302
+                    16.007 VLL: 568
+                    16.008 SLC: 1
+                    16.009 THPS: 500
+                    16.010 TVPS: 500
+                    16.011 CGA: JPEGB
+                    16.012 BPX: 8
+                    16.013 CSP: UNK
+                    16.999 DATA: FFD8FFE0 ... E47FFFD9 (51296 bytes)
+                NIST Type-17 (IDC 5)
+                    17.001 LEN: 00107497
+                    17.002 IDC: 5
+                    17.003 ELR: 0
+                    17.004 SRC: SRC
+                    17.005 ICD: 20120730
+                    17.006 HLL: 449
+                    17.007 VLL: 312
+                    17.008 SLC: 2
+                    17.009 THPS: 29
+                    17.010 TVPS: 29
+                    17.011 CGA: PNG
+                    17.012 BPX: 8
+                    17.013 CSP: UNK
+                    17.014 RAE: 0000
+                    17.015 RAU: 0000
+                    17.016 IPC: 0<US>0<US>0
+                    17.017 DUI: MABCDEF123456
+                    17.019 MMS: MAK<US>MOD<US>SER
+                    17.020 ECL: XXX
+                    17.021 COM: COM
+                    17.022 SHPS: 29
+                    17.023 SVPS: 29
+                    17.024 IQS: 0<US>0000<US>1
+                    17.025 EAS: DEFINED
+                    17.026 IRD: 100
+                    17.027 SSV: 500<US>510
+                    17.028 DME: MA
+                    17.030 DMM: UNKNOWN
+                    17.031 IAP: 20
+                    17.032 ISF: 1
+                    17.033 IPB: C<US>2<US>50<US>50<US>30<US>40
+                    17.034 ISB: C<US>2<US>50<US>50<US>30<US>40
+                    17.035 UEB: P<US>3<US>50<US>50<US>30<US>40<US>10<US>15
+                    17.036 LEB: P<US>3<US>50<US>50<US>30<US>40<US>10<US>15
+                    17.037 NEO: T<US>L<US>3<US>50<US>30<US>40<US>10<US>45<US>15
+                    17.040 RAN: 150
+                    17.041 GAZ: 5
+                    17.999 DATA: 89504E47 ... AE426082 (106971 bytes)
+                NIST Type-18 (IDC 13)
+                    18.001 LEN: 00278745
+                    18.002 IDC: 13
+                    18.003 DLS: 1<US>G<US>0<US>NIST<US>Joseph Konczal, 301-975-3285, joe.konczal@nist.gov<US>USA<US>NONE
+                    18.004 SRC: MDNISTIMG
+                    18.005 NAL: 1
+                    18.006 SDI: 1<US>F<US>20000101<US>20000101<US>Caucasian<US><US><US>
+                    18.007 COPR: 1
+                    18.008 VRS: 1
+                    18.009 PED: Pedigree ID<US>Member<US>K<US>Sample ID<US>0<US>1<US>Pedigree Comment
+                    18.010 STY: 0<US>NS
+                    18.011 STI: 0<RS>1<RS>2<RS>3<RS>4
+                    18.012 SCM: blood donation
+                    18.013 SCD: 20000101120000Z
+                    18.014 PSD: 20010101120000Z
+                    18.015 DPD: 0<US><US>NIST_SRM2391b_9947A<US><US>This is an anonymous sample used to populate these examples of DNA records.
+                    18.016 STR: 0<US>48<US>1<US>1<US>1<US>13<US>13<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>24<US>1<US>1<US>1<US>30<US>30<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>45<US>1<US>1<US>1<US>10<US>11<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>3<US>1<US>1<US>1<US>10<US>12<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>31<US>1<US>1<US>1<US>14<US>15<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>62<US>1<US>1<US>1<US>8<US>9.3<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>10<US>1<US>1<US>1<US>11<US>11<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>12<US>1<US>1<US>1<US>11<US>12<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>27<US>1<US>1<US>1<US>19<US>23<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>17<US>1<US>1<US>1<US>14<US>15<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>64<US>1<US>1<US>1<US>17<US>18<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>63<US>1<US>1<US>1<US>8<US>8<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>15<US>1<US>1<US>1<US>15<US>19<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>1<US>1<US>1<US>1<US>1.1<US>99.9<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>40<US>1<US>1<US>1<US>11<US>11<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US><RS>0<US>54<US>1<US>1<US>1<US>23<US>24<US><US><US><US>?<US>8<US>Identifiler<US>Life Technologies<US>
+                    18.017 DMD: AGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCT<US>AGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCTAGCTRYMKSWHBVDN-AGCT<US>1<US>2<US>10<US>20<US>3<US>7
+                    18.018 UDP: <US><RS><US>
+                    18.019 EPD: 3939391F ... 67673D3D (276036 bytes)
+                    18.020 DGD: 1
+                    18.021 GAP: 1<US>1.1,20<US>0
+                    18.022 COM: Comments
+                    18.023 EPL: Ref<US>Stor<US>Desc<US>BASE64VALUE<US>BASE64VALUE<RS>Ref2<US>Str2<US>Desc2<US>BASE64VALUE<US>BASE64VALUE
+                NIST Type-19 (IDC 16)
+                    19.001 LEN: 00000102
+                    19.002 IDC: 16
+                    19.003 IMP: 29
+                    19.004 SRC: Source Agency
+                    19.005 PCD: 20150625
+                    19.013 FGP: 60
+                    19.018 AMP: 61<US>UP<RS>62<US>UP
+                NIST Type-20 (IDC 6)
+                    20.001 LEN: 00000243
+                    20.002 IDC: 6
+                    20.003 CAR: S
+                    20.004 SRC: Source Agency
+                    20.014 AQS: 13<US>description of analog to digital equipment and sample rate<US><US>
+                    20.015 SFT: png<US>
+                    20.016 SEG: 1<US>Reference<US>
+                    20.019 TIX: 00:00:00.000<US>00:00:00.001<RS>00:20:05.000<US>01:00:00.500
+                    20.021 SRN: 1
+                    20.994 EFR: Reference
+                NIST Type-20 (IDC 7)
+                    20.001 LEN: 00000157
+                    20.002 IDC: 7
+                    20.003 CAR: S
+                    20.004 SRC: Source Agency
+                    20.014 AQS: 23<US><US>format description<US>
+                    20.015 SFT: png<US>
+                    20.019 TIX: 00:00:00.000<US>02:30:57.000
+                    20.021 SRN: 2
+                    20.994 EFR: Reference
+                NIST Type-21 (IDC 8)
+                    21.001 LEN: 00000125
+                    21.002 IDC: 8
+                    21.004 SRC: Source Agency
+                    21.015 AFT: DAT<US>Decoding Instructions
+                    21.016 SEG: 1<US>Reference<US>
+                    21.021 ACN: 1
+                    21.994 EFR: Reference
+                NIST Type-21 (IDC 9)
+                    21.001 LEN: 00000126
+                    21.002 IDC: 9
+                    21.004 SRC: Source Agency
+                    21.015 AFT: DAT<US>Decoding Instructions
+                    21.016 SEG: 99<US>Reference<US>
+                    21.021 ACN: 2
+                    21.994 EFR: Reference
+                NIST Type-98 (IDC 11)
+                    98.001 LEN: 00000229
+                    98.002 IDC: 11
+                    98.003 DFO: 0000
+                    98.004 SRC: Source Agency
+                    98.005 DFT: Data Format Type
+                    98.006 DCD: 20150520000000Z
+                    98.900 ALF: Added<US><US>8,21.016,NA,NA<US>BioCTS Testing<US><RS>Deleted<US><US>6,20.016,NA,-NOP<US>BioCTS Testing<US>2
+                    98.901 ARN: 1
+                    98.993 SAN: Source Agency Name
+                NIST Type-99 (IDC 12)
+                    99.001 LEN: 00000166
+                    99.002 IDC: 12
+                    99.004 SRC: Source Agency
+                    99.005 BCD: 20150101
+                    99.100 HDV: 0101
+                    99.101 BTY: 00000000
+                    99.102 BDQ: 100<US>FF00<US>65000<RS>255<US>000A<US>1024
+                    99.103 BFO: 0000
+                    99.104 BFT: 0000
+                    99.999 DATA: 42444244 ... 44415441 (7 bytes)
         """
         debug.debug( "Dumping NIST" )
         
