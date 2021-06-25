@@ -109,6 +109,9 @@ class NIST( NIST_Core ):
                 idc = -1
                 
                 for t in tx:
+                    if len( t ) == 0:
+                        continue
+                    
                     try:
                         tag, ntype, tagid, value = fieldSplitter( t )
                     except:
