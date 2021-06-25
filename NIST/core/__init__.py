@@ -110,7 +110,7 @@ class NIST( object ):
             :rtype: anything
             
                 >>> sample_all_supported_types.get_identifier()
-                '45300b86cc63923a015d9d99588953c5'
+                'be2ca2c9a173dc456afc2bbb0cbb6cf8'
         """
         try:
             return self.id
@@ -545,7 +545,7 @@ class NIST( object ):
                 >>> print( dump ) # doctest: +ELLIPSIS, +NORMALIZE_WHITESPACE
                 Informations about the NIST object:
                     File:    ...
-                    Obj ID:  45300b86cc63923a015d9d99588953c5
+                    Obj ID:  be2ca2c9a173dc456afc2bbb0cbb6cf8
                     Records: Type-01, Type-02, Type-04, Type-09, Type-10, Type-13, Type-14, Type-15, Type-16, Type-17, Type-18, Type-19, Type-20, Type-21, Type-98, Type-99
                     Class:   NIST
                 <BLANKLINE>
@@ -816,7 +816,9 @@ class NIST( object ):
                     20.014 AQS: 13<US>description of analog to digital equipment and sample rate<US><US>
                     20.015 SFT: png<US>
                     20.016 SEG: 1<US>Reference<US>
-                    20.999 DATA: 30303A30 ... 656E6365 (77 bytes)
+                    20.019 TIX: 00:00:00.000<US>00:00:00.001<RS>00:20:05.000<US>01:00:00.500
+                    20.021 SRN: 1
+                    20.994 EFR: Reference
                 NIST Type-20 (IDC 7)
                     20.001 LEN: 00000157
                     20.002 IDC: 7
@@ -824,7 +826,9 @@ class NIST( object ):
                     20.004 SRC: Source Agency
                     20.014 AQS: 23<US><US>format description<US>
                     20.015 SFT: png<US>
-                    20.999 DATA: 30303A30 ... 656E6365 (51 bytes)
+                    20.019 TIX: 00:00:00.000<US>02:30:57.000
+                    20.021 SRN: 2
+                    20.994 EFR: Reference
                 NIST Type-21 (IDC 8)
                     21.001 LEN: 00000125
                     21.002 IDC: 8
