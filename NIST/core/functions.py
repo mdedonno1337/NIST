@@ -27,7 +27,8 @@ GCA = {
     '3': "JPEGL",
     '4': "JP2",
     '5': "JP2L",
-    '6': "PNG"
+    '6': "PNG",
+    'JPEG2KC': "JP2",
 }
 
 rGCA = {
@@ -38,7 +39,8 @@ rGCA = {
     'JPEGL': 3,
     'JP2': 4,
     'JP2L': 5,
-    'PNG': 6
+    'PNG': 6,
+    'JPEG2KC': 4,
 }
 
 def decode_gca( code ):
