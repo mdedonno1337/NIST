@@ -266,9 +266,13 @@ class NISTf( NIST_traditional ):
                 fpc = self.get_field( ( ntype, fieldid ), idc )
                 
                 if ntype == 4:
-                    fpc = decode_fgp( fpc, True )
+                    fpc = decode_fgp( fpc ).split( "/" )
                     
-                if fpc != None:
+                if isinstance( fpc, ( list, ) ):
+                    for f in fpc:
+                        fpc_list.append( int( f ) )
+                
+                elif fpc != None:
                     fpc_list.append( int( fpc ) )
         
         return sorted( set( fpc_list ) )
