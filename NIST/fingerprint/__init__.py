@@ -182,6 +182,37 @@ class NISTf( NIST_traditional ):
     ############################################################################
     
     def get_idc_for_fpc( self, ntype, fpc ):
+        """
+            The the first matching IDC for a particular FPC, idcNotFound if the
+            FPC is not available for that ntype.
+            
+            :param ntype: ntype to search ni
+            :type ntype: int
+            
+            :param fpc: FPC to search
+            :type fpc: int
+            
+            :return: first IDC for that FPC
+            :rtype: int
+            
+            :raise idcNotFound: if the FPC is not in present in that ntype
+            :raise notImplemented: if the requested ntype is not 4, 13, 14 or 15
+            
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 4, 1 )
+            1
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 4, 14 )
+            11
+            
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 4, 25 )
+            Traceback (most recent call last):
+                ...
+            idcNotFound
+            
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 14, 1 )
+            Traceback (most recent call last):
+                ...
+            idcNotFound
+        """
         idc = None
         
         fields = {
