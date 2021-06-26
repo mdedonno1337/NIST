@@ -248,8 +248,18 @@ class NISTf( NIST_traditional ):
     
     def get_fpc_list( self ):
         """
-            Returns a list of unique fpc present in the NIST file, without the idc information.
-            This function will scan all the idc for Type-04, Type-13, Type-14 and Type-15.
+            Returns a list of unique fpc present in the NIST file, without the
+            idc information. This function will scan all the idc for Type-04,
+            Type-13, Type-14 and Type-15; if no fingerprint data is present or
+            if the NIST transaction file does not contain any fingerprint data,
+            an empty list will be returned. If a Type-04 records has multiple
+            possible FPC, all the values are returned and flattened
+            
+            >>> sample_type_4_tpcard.get_fpc_list()
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+            
+            >>> sample_type_17_iris.get_fpc_list()
+            []
         """
         fpc_list = []
         
