@@ -199,10 +199,12 @@ def encode_fgp( code, separator = "/" ):
     # Cast all values to integer
     code = map( int, code )
     
-    # Check for the max value (14)
+    # Check for the min (0) and max value (14)
     for v in code:
+        if v < 0:
+            raise Exception( "Value can not be smaller than 0" )
         if v > 14:
-            raise Exception( "Value can not be greater than 14" )
+            raise Exception( "Value can not be bigger than 14" )
     
     # Expand the list with placeholders (255), and keep only the 6 first elements
     code.extend( [ 255 ] * 6 )
