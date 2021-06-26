@@ -178,6 +178,14 @@ def encode_fgp( code, separator = "/" ):
         Reverse function of the `decode_fgp` function; check the corresponding
         documentation.
         
+        :param code: FGP code to encode
+        :type code: str, int, list, tuple
+        
+        :return: Encoded FGP value.
+        :rtype: int
+        
+        :raise Exception: if the FGP is not in the interval [ 0 , 14 ]
+        
         Usage:
         
             >>> from NIST.core.functions import encode_fgp
@@ -185,8 +193,24 @@ def encode_fgp( code, separator = "/" ):
             16492674416639
             >>> encode_fgp( "0" )
             1099511627775
+            >>> encode_fgp( 0 )
+            1099511627775
             >>> encode_fgp( '14/7/8' )
             15423378554879
+            >>> encode_fgp( [ 14, 7, 8 ] )
+            15423378554879
+            >>> encode_fgp( ( 14, 7, 8 ) )
+            15423378554879
+            >>> encode_fgp( '14:7:8', separator = ":" )
+            15423378554879
+            >>> encode_fgp( '-7' )
+            Traceback (most recent call last):
+                ...
+            Exception: Value can not be smaller than 0
+            >>> encode_fgp( '15' )
+            Traceback (most recent call last):
+                ...
+            Exception: Value can not be bigger than 14
     """
     # Convert to string as needed, if not a iterable
     if not isinstance( code, ( str, list, tuple, ) ):
