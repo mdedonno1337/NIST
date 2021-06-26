@@ -253,10 +253,8 @@ def fieldSplitter( data ):
             >>> fieldSplitter( "1.002:0300" )
             ('1.002', 1, 2, '0300')
             >>> s = fieldSplitter( "20.019:00:00:00.000\x1f00:00:00.001\x1e00:20:05.000\x1f01:00:00.500" )
-            >>> s[ :-1 ]
-            ('20.019', 20, 19)
-            >>> printableFieldSeparator( s[ -1 ] )
-            '00:00:00.000<US>00:00:00.001<RS>00:20:05.000<US>01:00:00.500'
+            >>> map( printableFieldSeparator, s )
+            ['20.019', 20, 19, '00:00:00.000<US>00:00:00.001<RS>00:20:05.000<US>01:00:00.500']
     """
     tag, value = data.split( CO, 1 )
     ntype, tagid = tag.split( DO )
@@ -389,11 +387,16 @@ def printableFieldSeparator( data ):
             >>> data = " / ".join( [ FS, GS, RS, US ] )
             >>> printableFieldSeparator( data )
             '<FS> / <GS> / <RS> / <US>'
+            >>> printableFieldSeparator( "String without any of the special characters" )
+            'String without any of the special characters'
+            >>> printableFieldSeparator( 1337 )
+            1337
     """
     rep = [ ( FS, '<FS>' ), ( GS, '<GS>' ), ( RS, '<RS>' ), ( US, '<US>' ) ]
     
-    for old, new in rep:
-        data = data.replace( old, new )
+    if isinstance( data, ( str, ) ):
+        for old, new in rep:
+            data = data.replace( old, new )
     
     return data
 
