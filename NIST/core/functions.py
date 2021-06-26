@@ -459,5 +459,16 @@ def printableFieldSeparator( data ):
     
     return data
 
-def split( str, num ):
-    return [ str[ start : start + num ] for start in xrange( 0, len( str ), num ) ]
+def split( data, chunks_size ):
+    """
+        Split the input `data` parameter in chunks of length `chunks_size`.
+
+        Usage:
+
+            >>> from NIST.core.functions import split
+            >>> split( "000102030405060708090A0B0C0D0E0F", 4 )
+            ['0001', '0203', '0405', '0607', '0809', '0A0B', '0C0D', '0E0F']
+            >>> split( "000102030405060708090A0B0C0D0E", 4 )
+            ['0001', '0203', '0405', '0607', '0809', '0A0B', '0C0D', '0E']
+    """
+    return [ data[ start : start + chunks_size ] for start in xrange( 0, len( data ), chunks_size ) ]
