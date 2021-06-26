@@ -372,18 +372,21 @@ def tagSplitter( tag ):
 def printableFieldSeparator( data ):
     """
         Replace non printable character (FS, GS, RS and US) to printables
-        characters (<FS>, <GS>, <RS> and <US>).
+        characters (<FS>, <GS>, <RS> and <US>) for string input. If the input
+        is not a string, then the value will be returned directly without any
+        changes.
         
         :param data: Data to format
-        :type data: str
+        :type data: any
         
         :return: Formatted string
-        :rtype: str
+        :rtype: same as input
         
         Usage:
         
             >>> from NIST.core.config import FS, GS, RS, US
             >>> from NIST.core.functions import printableFieldSeparator
+            
             >>> data = " / ".join( [ FS, GS, RS, US ] )
             >>> printableFieldSeparator( data )
             '<FS> / <GS> / <RS> / <US>'
