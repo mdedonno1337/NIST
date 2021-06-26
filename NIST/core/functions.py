@@ -169,7 +169,7 @@ def decode_fgp( code, only_first = False, separator = "/" ):
     else:
         return join( separator, code )
 
-def encode_fgp( code ):
+def encode_fgp( code, separator = "/" ):
     """
         Encode the string value storing the Finger Position to the correct
         integer value. This function implements the standard for the fields
@@ -194,10 +194,10 @@ def encode_fgp( code ):
     
     # Split the string to a list, as needed
     if not isinstance( code, ( list, tuple, ) ):
-        code = code.split( "/" )
+        code = code.split( separator )
         
     # Cast all values to integer
-    code = [ int( c ) for c in code ]
+    code = map( int, code )
     
     # Check for the max value (14)
     for v in code:
