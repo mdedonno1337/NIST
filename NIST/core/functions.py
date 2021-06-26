@@ -83,13 +83,31 @@ def decode_gca( code ):
         raise KeyError
 
 def encode_gca( code ):
+    """
+        Encodes the value of the 'Grayscale Compression Algorithm' passed in
+        parameter. This function does the reverse fo the `decode_gca` function.
+        
+            >>> from NIST.core.functions import encode_gca
+            >>> encode_gca( "RAW" )
+            0
+            >>> encode_gca( "WSQ" )
+            1
+            >>> encode_gca( "WSQ20" )
+            1
+            >>> encode_gca( "JP2" )
+            4
+            >>> encode_gca( "HighCompression" )
+            Traceback (most recent call last):
+                ...
+            KeyError
+    """
     code = str( code ).upper()
     
     if code in rGCA:
         return rGCA[ code ]
     
     else:
-        raise KeyError 
+        raise KeyError
 
 def decode_fgp( code, only_first = False, separator = "/" ):
     """
