@@ -22,6 +22,7 @@ def NISTtests():
     sample_type_4_tpcard = NIST.fingerprint.__init__.NISTf( "./sample/type-4-tpcard.an2" )
     sample_type_9_10_14 = NIST.fingerprint.__init__.NISTf( "./sample/type-9-10-14.an2" )
     sample_type_13 = NIST.fingerprint.__init__.NISTf( "./sample/type-13.an2" )
+    sample_type_15_palms = NIST.fingerprint.__init__.NISTf( "./sample/type-15-palms.an2" )
     sample_type_17_iris = NIST.fingerprint.__init__.NISTf( "./sample/type-17-iris.an2" )
     
     var = {
@@ -31,6 +32,7 @@ def NISTtests():
         "sample_type_9_10_14": sample_type_9_10_14,
         "sample_type_13": sample_type_13,
         "sample_type_17_iris": sample_type_17_iris,
+        "sample_type_15_palms": sample_type_15_palms,
     }
     
     def setUpfunction( test ):

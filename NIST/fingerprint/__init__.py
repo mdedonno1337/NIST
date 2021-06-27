@@ -2029,6 +2029,26 @@ class NISTf( NIST_traditional ):
         )
         
     def get_palmar( self, format = 'PIL', idc = -1, fpc = None ):
+        """
+            Return the palmar image, WSQ or PIL format.
+            
+            :param format: Format of the returned image.
+            :type format: str
+            
+            :param idc: IDC value.
+            :type idc: int
+            
+            :return: Palmar image
+            :rtype: PIL.Image or str
+            
+            :raise notImplemented: if the NIST object does not contain Type15
+            
+            >>> img = sample_type_15_palms.get_palmar( idc = 2 )
+            
+            >>> from hashlib import md5
+            >>> md5( img.tobytes() ).hexdigest()
+            'f2fa02016878ff1e3e23781855f9be6c'
+        """
         format = upper( format )
         ntypes = self.get_ntype()
         
