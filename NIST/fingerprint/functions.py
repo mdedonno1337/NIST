@@ -178,6 +178,7 @@ def changeFormatImage( input, outformat, **options ):
             >>> from NIST.fingerprint.functions import changeFormatImage
             >>> from hashlib import md5
             >>> from PIL import Image
+            >>> from MDmisc.binary import string_to_hex
         
         To convert an PIL image to a RAW string, use the following commands:
         
@@ -214,8 +215,8 @@ def changeFormatImage( input, outformat, **options ):
             notImplemented: Input format not supported
             
             >>> d = changeFormatImage( imgPIL, "WSQ" )
-            >>> d.startswith( "\\xff\\xa0\\xff\\xa8\\x00" )
-            True
+            >>> string_to_hex( d[ 0:4 ] )
+            'FFA0FFA8'
             
             >>> md5( d ).hexdigest()
             '8879e56b34aa878dd31f72b5e850d808'

@@ -184,6 +184,37 @@ class NISTf( NIST_traditional ):
     ############################################################################
     
     def get_idc_for_fpc( self, ntype, fpc ):
+        """
+            The the first matching IDC for a particular FPC, idcNotFound if the
+            FPC is not available for that ntype.
+            
+            :param ntype: ntype to search ni
+            :type ntype: int
+            
+            :param fpc: FPC to search
+            :type fpc: int
+            
+            :return: first IDC for that FPC
+            :rtype: int
+            
+            :raise idcNotFound: if the FPC is not in present in that ntype
+            :raise notImplemented: if the requested ntype is not 4, 13, 14 or 15
+            
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 4, 1 )
+            1
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 4, 14 )
+            11
+            
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 4, 25 )
+            Traceback (most recent call last):
+                ...
+            idcNotFound
+            
+            >>> sample_type_4_tpcard.get_idc_for_fpc( 14, 1 )
+            Traceback (most recent call last):
+                ...
+            idcNotFound
+        """
         idc = None
         
         fields = {
@@ -219,8 +250,18 @@ class NISTf( NIST_traditional ):
     
     def get_fpc_list( self ):
         """
-            Returns a list of unique fpc present in the NIST file, without the idc information.
-            This function will scan all the idc for Type-04, Type-13, Type-14 and Type-15.
+            Returns a list of unique fpc present in the NIST file, without the
+            idc information. This function will scan all the idc for Type-04,
+            Type-13, Type-14 and Type-15; if no fingerprint data is present or
+            if the NIST transaction file does not contain any fingerprint data,
+            an empty list will be returned. If a Type-04 records has multiple
+            possible FPC, all the values are returned and flattened
+            
+            >>> sample_type_4_tpcard.get_fpc_list()
+            [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+            
+            >>> sample_type_17_iris.get_fpc_list()
+            []
         """
         fpc_list = []
         
@@ -237,9 +278,13 @@ class NISTf( NIST_traditional ):
                 fpc = self.get_field( ( ntype, fieldid ), idc )
                 
                 if ntype == 4:
-                    fpc = decode_fgp( fpc, True )
+                    fpc = decode_fgp( fpc ).split( "/" )
                     
-                if fpc != None:
+                if isinstance( fpc, ( list, ) ):
+                    for f in fpc:
+                        fpc_list.append( int( f ) )
+                
+                elif fpc != None:
                     fpc_list.append( int( fpc ) )
         
         return sorted( set( fpc_list ) )
@@ -420,6 +465,13 @@ class NISTf( NIST_traditional ):
             raise notImplemented
     
     def process_minutiae_field( self, minutiae, field, idc = -1 ):
+        """
+            Internal function to convert the stored minutiae to a usable
+            format. This function should not be used directly (but can be if
+            you really want). The format of the minutiae is automatically
+            detected and process accordingly.
+        """
+        #TODO: Refactoring
         lst = AnnotationList()
         
         if minutiae != None:
@@ -514,6 +566,9 @@ class NISTf( NIST_traditional ):
             
                 >>> sample_type_9_10_14.get_minutia_by_id( "1" )
                 Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
+                
+                >>> sample_type_9_10_14.get_minutia_by_id( 1 )
+                Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
             
             The format can also be specified as follow:
             
@@ -521,7 +576,7 @@ class NISTf( NIST_traditional ):
                 Minutia( x='21.95', y='20.3' )
             
             If the IDC value is specified instead of the 'format' parameter, the
-            format is set to the defalut value:
+            format is set to the default value:
             
                 >>> sample_type_9_10_14.get_minutia_by_id( "1", 1 )
                 Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
@@ -582,6 +637,8 @@ class NISTf( NIST_traditional ):
     def get_minutiaeCount( self, idc = -1 ):
         """
             Return the number of minutiae stored in the current NIST object.
+            This function does not cross-check the count with the content of
+            the minutiae field; a difference can occur if manually modified.
             
             :param idc: IDC value.
             :type idc: int
@@ -594,9 +651,13 @@ class NISTf( NIST_traditional ):
                 48
                 >>> sample_type_9_10_14.get_minutiaeCount( idc = 1 )
                 48
-                >>> sample_type_17_iris.get_minutiaeCount() == None
-                True
+                >>> sample_type_17_iris.get_minutiaeCount()
+                Traceback (most recent call last):
+                    ...
+                ntypeNotFound
         """
+        idc = self.checkIDC( 9, idc )
+        
         try:
             return int( self.get_field( "9.010", idc ) )
         except:

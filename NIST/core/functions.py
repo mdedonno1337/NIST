@@ -83,13 +83,31 @@ def decode_gca( code ):
         raise KeyError
 
 def encode_gca( code ):
+    """
+        Encodes the value of the 'Grayscale Compression Algorithm' passed in
+        parameter. This function does the reverse fo the `decode_gca` function.
+        
+            >>> from NIST.core.functions import encode_gca
+            >>> encode_gca( "RAW" )
+            0
+            >>> encode_gca( "WSQ" )
+            1
+            >>> encode_gca( "WSQ20" )
+            1
+            >>> encode_gca( "JP2" )
+            4
+            >>> encode_gca( "HighCompression" )
+            Traceback (most recent call last):
+                ...
+            KeyError
+    """
     code = str( code ).upper()
     
     if code in rGCA:
         return rGCA[ code ]
     
     else:
-        raise KeyError 
+        raise KeyError
 
 def decode_fgp( code, only_first = False, separator = "/" ):
     """
@@ -105,9 +123,17 @@ def decode_fgp( code, only_first = False, separator = "/" ):
 
         Example:
         
-            14:     00001110 11111111 11111111 11111111 11111111 11111111 (16492674416639)
-            0:      00000000 11111111 11111111 11111111 11111111 11111111 (1099511627775)
-            14/7/8: 00001110 00000111 00001000 11111111 11111111 11111111 (15423378554879)
+            14:
+                bin:    00001110 11111111 11111111 11111111 11111111 11111111 (16492674416639)
+                dec:          14      255      255      255      255      255
+            
+            0:
+                bin:    00000000 11111111 11111111 11111111 11111111 11111111 (1099511627775)
+                dec:           0      255      255      255      255      255
+            
+            14/7/8:
+                bin:    00001110 00000111 00001000 11111111 11111111 11111111 (15423378554879)
+                dec:          14        7        8      255      255      255
         
         Usage:
         
@@ -118,6 +144,10 @@ def decode_fgp( code, only_first = False, separator = "/" ):
             '0'
             >>> decode_fgp( 15423378554879 )
             '14/7/8'
+            >>> decode_fgp( 15423378554879, only_first = True )
+            '14'
+            >>> decode_fgp( 15423378554879, separator = "_" )
+            '14_7_8'
     """
     code = int( code )
     
@@ -139,7 +169,7 @@ def decode_fgp( code, only_first = False, separator = "/" ):
     else:
         return join( separator, code )
 
-def encode_fgp( code ):
+def encode_fgp( code, separator = "/" ):
     """
         Encode the string value storing the Finger Position to the correct
         integer value. This function implements the standard for the fields
@@ -148,6 +178,14 @@ def encode_fgp( code ):
         Reverse function of the `decode_fgp` function; check the corresponding
         documentation.
         
+        :param code: FGP code to encode
+        :type code: str, int, list, tuple
+        
+        :return: Encoded FGP value.
+        :rtype: int
+        
+        :raise Exception: if the FGP is not in the interval [ 0 , 14 ]
+        
         Usage:
         
             >>> from NIST.core.functions import encode_fgp
@@ -155,8 +193,24 @@ def encode_fgp( code ):
             16492674416639
             >>> encode_fgp( "0" )
             1099511627775
+            >>> encode_fgp( 0 )
+            1099511627775
             >>> encode_fgp( '14/7/8' )
             15423378554879
+            >>> encode_fgp( [ 14, 7, 8 ] )
+            15423378554879
+            >>> encode_fgp( ( 14, 7, 8 ) )
+            15423378554879
+            >>> encode_fgp( '14:7:8', separator = ":" )
+            15423378554879
+            >>> encode_fgp( '-7' )
+            Traceback (most recent call last):
+                ...
+            Exception: Value can not be smaller than 0
+            >>> encode_fgp( '15' )
+            Traceback (most recent call last):
+                ...
+            Exception: Value can not be bigger than 14
     """
     # Convert to string as needed, if not a iterable
     if not isinstance( code, ( str, list, tuple, ) ):
@@ -164,15 +218,17 @@ def encode_fgp( code ):
     
     # Split the string to a list, as needed
     if not isinstance( code, ( list, tuple, ) ):
-        code = code.split( "/" )
+        code = code.split( separator )
         
     # Cast all values to integer
-    code = [ int( c ) for c in code ]
+    code = map( int, code )
     
-    # Check for the max value (14)
+    # Check for the min (0) and max value (14)
     for v in code:
+        if v < 0:
+            raise Exception( "Value can not be smaller than 0" )
         if v > 14:
-            raise Exception( "Value can not be greater than 14" )
+            raise Exception( "Value can not be bigger than 14" )
     
     # Expand the list with placeholders (255), and keep only the 6 first elements
     code.extend( [ 255 ] * 6 )
@@ -372,18 +428,21 @@ def tagSplitter( tag ):
 def printableFieldSeparator( data ):
     """
         Replace non printable character (FS, GS, RS and US) to printables
-        characters (<FS>, <GS>, <RS> and <US>).
+        characters (<FS>, <GS>, <RS> and <US>) for string input. If the input
+        is not a string, then the value will be returned directly without any
+        changes.
         
         :param data: Data to format
-        :type data: str
+        :type data: any
         
         :return: Formatted string
-        :rtype: str
+        :rtype: same as input
         
         Usage:
         
             >>> from NIST.core.config import FS, GS, RS, US
             >>> from NIST.core.functions import printableFieldSeparator
+            
             >>> data = " / ".join( [ FS, GS, RS, US ] )
             >>> printableFieldSeparator( data )
             '<FS> / <GS> / <RS> / <US>'
@@ -400,8 +459,19 @@ def printableFieldSeparator( data ):
     
     return data
 
-def split( str, num ):
-    return [ str[ start : start + num ] for start in xrange( 0, len( str ), num ) ]
+def split( data, chunks_size ):
+    """
+        Split the input `data` parameter in chunks of length `chunks_size`.
+
+        Usage:
+
+            >>> from NIST.core.functions import split
+            >>> split( "000102030405060708090A0B0C0D0E0F", 4 )
+            ['0001', '0203', '0405', '0607', '0809', '0A0B', '0C0D', '0E0F']
+            >>> split( "000102030405060708090A0B0C0D0E", 4 )
+            ['0001', '0203', '0405', '0607', '0809', '0A0B', '0C0D', '0E']
+    """
+    return [ data[ start : start + chunks_size ] for start in xrange( 0, len( data ), chunks_size ) ]
 
 def get_xml_tag( data, tag_name, default = None, name_space = None ):
     if isinstance( tag_name, ( list ) ):
