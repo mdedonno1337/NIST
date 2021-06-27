@@ -650,6 +650,8 @@ class NISTf( NIST_traditional ):
                 >>> sample_type_17_iris.get_minutiaeCount() == None
                 True
         """
+        idc = self.checkIDC( 9, idc )
+        
         try:
             return int( self.get_field( "9.010", idc ) )
         except:
