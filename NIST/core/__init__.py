@@ -1520,6 +1520,11 @@ class NIST( object ):
                 NIST Type-02 (IDC 0)
                     02.001 LEN: 00000023
                     02.002 IDC: 0
+                
+                >>> from NIST import NISTf
+                >>> n = NISTf()
+                >>> print n
+                NIST object not initialized...
         """
         try:
             return self.dump()
