@@ -463,6 +463,13 @@ class NISTf( NIST_traditional ):
             raise notImplemented
     
     def process_minutiae_field( self, minutiae, field, idc = -1 ):
+        """
+            Internal function to convert the stored minutiae to a usable
+            format. This function should not be used directly (but can be if
+            you really want). The format of the minutiae is automatically
+            detected and process accordingly.
+        """
+        #TODO: Refactoring
         lst = AnnotationList()
         
         if minutiae != None:
