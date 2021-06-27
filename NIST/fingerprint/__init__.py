@@ -2572,9 +2572,8 @@ class NISTf( NIST_traditional ):
     
     def get_tenprintcard_front( self, outres = 1000 ):
         """
-            Return the tenprint card for the rolled fingers 1 to 10 (no slaps
-            for the moment). This function return an ISO-A4 European tenprint
-            card (Swiss).
+            Return the tenprint card for the rolled fingers 1 to 10. This
+            function returns an ISO-A4 Swiss tenprint card.
             
             :param outres: Output resolution of the tenprint card, in DPI.
             :type outres: int
@@ -2651,8 +2650,8 @@ class NISTf( NIST_traditional ):
     
     def get_tenprintcard_back( self, outres = 1000 ):
         """
-            Return the tenprint card for the palmar print. This function return
-            an ISO-A4 European tenprint card (Swiss).
+            Return the tenprint card for the palmar print. This function returns
+            an ISO-A4 Swiss tenprint card.
             
             :param outres: Output resolution of the tenprint card, in DPI.
             :type outres: int
@@ -2660,6 +2659,7 @@ class NISTf( NIST_traditional ):
             :return: Tenprint card.
             :rtype: PIL.Image
         """
+        #TODO: Add support for full-palms if the lower-palms are not available in the file
         Image.MAX_IMAGE_PIXELS = 1000000000
         
         card = Image.open( self.imgdir + "/tenprint_back.png" )
