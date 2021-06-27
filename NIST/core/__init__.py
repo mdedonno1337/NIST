@@ -1524,7 +1524,7 @@ class NIST( object ):
         try:
             return self.dump()
         
-        except recordNotFound:
+        except ( recordNotFound, ntypeNotFound ):
             return "NIST object not initialized..."
     
     def __repr__( self ):
