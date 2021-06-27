@@ -635,6 +635,8 @@ class NISTf( NIST_traditional ):
     def get_minutiaeCount( self, idc = -1 ):
         """
             Return the number of minutiae stored in the current NIST object.
+            This function does not cross-check the count with the content of
+            the minutiae field; a difference can occur if manually modified.
             
             :param idc: IDC value.
             :type idc: int
@@ -647,8 +649,10 @@ class NISTf( NIST_traditional ):
                 48
                 >>> sample_type_9_10_14.get_minutiaeCount( idc = 1 )
                 48
-                >>> sample_type_17_iris.get_minutiaeCount() == None
-                True
+                >>> sample_type_17_iris.get_minutiaeCount()
+                Traceback (most recent call last):
+                    ...
+                ntypeNotFound
         """
         idc = self.checkIDC( 9, idc )
         
