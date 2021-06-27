@@ -1479,6 +1479,15 @@ class NIST( object ):
         """
             Check if the particular ntype has the IDC passed in parameter. If
             the IDC value is '-1', i.e. not defined, the function return True.
+            
+            :param ntype: ntype to serach in
+            :type ntype: int
+            
+            :param idc: IDC to search
+            :type idc: int
+            
+            :return: Is the IDC in the ntype record
+            :rtype: boolean
         """
         if idc == -1:
             return True
