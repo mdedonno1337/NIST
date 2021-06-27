@@ -1426,10 +1426,23 @@ class NIST( object ):
     def checkIDC( self, ntype, idc ):
         """
             Check if the IDC passed in parameter exists for the specific ntype,
-            and if the value is numeric. If the IDC is negative, then the value
-            is searched in the ntype field and returned only if the value is
+            and if the value is numeric. If the IDC is "-1", then the value is
+            searched in the ntype field and returned only if the value is
             unique; if multiple IDC are stored for the specific ntype, an
             exception is raised.
+            
+            :param ntype: ntype to search in
+            :type ntype: int
+            
+            :param idc: idc to check
+            :type idc: int
+            
+            :return: checked IDC
+            :rtype: int
+            
+            :raise recordNotFound: if the ntype is not found
+            :raise idcNotFound: if the IDC is not valid
+            :raise intIDC: if the IDC can not be casted to int
             
                 >>> sample_type_1.checkIDC( 1, 0 )
                 0
@@ -1437,8 +1450,9 @@ class NIST( object ):
                 >>> sample_type_1.checkIDC( 1, -1 )
                 0
                 
-                >>> sample_type_1.checkIDC( 1, 1 ) # doctest: +IGNORE_EXCEPTION_DETAIL
+                >>> sample_type_1.checkIDC( 1, 1 )
                 Traceback (most recent call last):
+                    ...
                 idcNotFound
         """
         try:
