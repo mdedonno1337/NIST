@@ -564,6 +564,9 @@ class NISTf( NIST_traditional ):
             
                 >>> sample_type_9_10_14.get_minutia_by_id( "1" )
                 Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
+                
+                >>> sample_type_9_10_14.get_minutia_by_id( 1 )
+                Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
             
             The format can also be specified as follow:
             
@@ -571,7 +574,7 @@ class NISTf( NIST_traditional ):
                 Minutia( x='21.95', y='20.3' )
             
             If the IDC value is specified instead of the 'format' parameter, the
-            format is set to the defalut value:
+            format is set to the default value:
             
                 >>> sample_type_9_10_14.get_minutia_by_id( "1", 1 )
                 Minutia( i='1', x='21.95', y='20.3', t='101', q='00', d='D' )
