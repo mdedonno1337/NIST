@@ -131,7 +131,12 @@ class NIST( NIST_Core ):
                         offset += len( tag ) + 1
                         
                         value = data[ offset : end ]
-                        debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, bindump( value ) ), 2 )
+                        if len( value ) == 0:
+                            value = None
+                            debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, None ), 2 )
+                        else:
+                            debug.debug( "%d.%03d:\t%s" % ( ntype, tagid, bindump( value ) ), 2 )
+                        
                         recordx[ tagid ] = value
                         break
                         
