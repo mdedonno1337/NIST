@@ -183,6 +183,38 @@ class NISTf( NIST_traditional ):
     # 
     ############################################################################
     
+    def search_fpc( self, fpc ):
+        """
+            Get the first matching fpc, and returns the tuple ( ntype, idc ).
+            
+            :param fpc: FPC to search in the current NIST file
+            :type fpc: int
+            
+            :return: First IDC matching the FPC searched
+            :rtype: tuple
+            
+            :raise idcNotFound: if the FPC is not fount in the entire NIST file
+            
+            >>> sample_type_4_tpcard.search_fpc( 4 )
+            (4, 4)
+            
+            >>> sample_type_4_tpcard.search_fpc( 19 )
+            Traceback (most recent call last):
+                ...
+            idcNotFound
+            
+        """
+        for ntype in self.get_ntype():
+            try:
+                tmp = self.get_idc_for_fpc( ntype, fpc )
+                return ( ntype, tmp )
+                
+            except ( idcNotFound, notImplemented ):
+                continue
+        
+        else:
+            raise idcNotFound
+    
     def get_idc_for_fpc( self, ntype, fpc ):
         """
             The the first matching IDC for a particular FPC, idcNotFound if the
